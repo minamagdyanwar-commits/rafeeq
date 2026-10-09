@@ -1,0 +1,74 @@
+{
+  "name": "الرفيق الروحي",
+  "short_name": "الرفيق الروحي",
+  "description": "الأجبية، الخلوة اليومية، القراءات القبطية، الكتاب المقدس ومحاسبة النفس — بدون إنترنت",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#4A1420",
+  "theme_color": "#4A1420",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "صلِّ الآن",
+      "short_name": "صلِّ الآن",
+      "description": "افتح صلاة الساعة الحالية",
+      "url": "./index.html?go=pray",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "رسالة اليوم",
+      "short_name": "رسالة اليوم",
+      "description": "رسالة من يسوع لهذا اليوم",
+      "url": "./index.html?go=msg",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "القراءات",
+      "short_name": "القراءات",
+      "description": "قراءات اليوم",
+      "url": "./index.html?go=read",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
