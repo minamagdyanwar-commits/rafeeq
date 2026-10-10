@@ -572,6 +572,7 @@ body.v14-khalwa #v14Strip{display:block}
 </div></section>
 
 <section class="u-page" id="page-trk" aria-label="رحلتي"><div class="u-wrap"><div id="trkTabs" class="u-tabs" role="tablist"></div><div id="trkBody"></div></div></section>
+<section class="u-page" id="page-fat" aria-label="أقوال الآباء"><div class="u-wrap"><div id="fatBody"></div></div></section>
 <section class="u-page" id="page-msg" aria-label="رسالة من يسوع"><div class="u-wrap"><div id="msgBody"></div></div></section>
 
 
@@ -580,6 +581,7 @@ body.v14-khalwa #v14Strip{display:block}
   <button type="button" data-go="pray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M6 8h12"/><circle cx="12" cy="12" r="10" stroke-width="1.2"/></svg><span>الصلاة</span></button>
   <button type="button" data-go="read"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 21V5"/><path d="M9 8h6M9 12h6"/></svg><span>القراءات</span></button>
   <button type="button" data-go="msg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span>رسالة</span></button>
+  <button type="button" data-go="fat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 7H6a2 2 0 00-2 2v4a2 2 0 002 2h2v2a2 2 0 01-2 2"/><path d="M20 7h-4a2 2 0 00-2 2v4a2 2 0 002 2h2v2a2 2 0 01-2 2"/></svg><span>الآباء</span></button>
   <button type="button" data-go="exam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M6 21h12"/><path d="M5 7h14"/><path d="M5 7l-3 7a3.2 3.2 0 006 0zM19 7l-3 7a3.2 3.2 0 006 0z"/></svg><span>المحاسبة</span></button>
   <button type="button" data-act="bible" id="uNavBible"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4a2 2 0 012-2h12v18H7a2 2 0 00-2 2z"/><path d="M5 4v18"/><path d="M12 6v8M9 9h6"/></svg><span>الكتاب</span></button>
   <button type="button" data-go="trk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c4 0 4-6 8-6s4 6 8 6"/><circle cx="6" cy="7" r="2"/><path d="M8 7h6a3 3 0 010 6"/></svg><span>رحلتي</span></button>
@@ -695,22 +697,136 @@ if(e&&e.auto) return rk(new Date());
 if(e&&/^\d{4}-\d\d-\d\d$/.test(e.date)) return e.date;
 var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_prefs_v1',JSON.stringify(p));return k}catch(x){return rk(new Date())}}})();
 </script>
-<script src="29-anon.475dbdbe91.js"></script>
+<script src="data-fathersData.7400e6846b.js"></script><script>(function(){var s=document.createElement('script');s.id="fathersData";s.type='text/plain';s.textContent=__RF_DATA["fathersData"];delete __RF_DATA["fathersData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script id="fathers">/* v75 — «أقوال الآباء»: صفحة بحث وتصفية + مصدر أقوال الخلوة اليومية. البيانات: <script id="fathersData"> (يولّدها tools/fathers-build.mjs). */
+(function(){
+  var el=document.getElementById('fathersData'), D=null;
+  try{ if(el&&el.textContent) D=JSON.parse(el.textContent); }catch(e){ D=null; }
+  var AR='٠١٢٣٤٥٦٧٨٩'; function ard(n){ return String(n).replace(/\d/g,function(d){return AR[d]}); }
+  function norm(s){ return String(s||'').replace(/[ً-ٰٟـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/\s+/g,' ').trim(); }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  var byId={}; if(D) D.items.forEach(function(x){ byId[x.i]=x; });
+  function cite(q){ return 'أقوال الآباء الشيوخ — ص '+ard(q.p); }
+  var st={tag:'',father:'',q:''}, built=false;
+  function fathers(){ var m={}; D.items.forEach(function(x){ m[x.f]=(m[x.f]||0)+1; }); return Object.keys(m); }
+  function list(){
+    var q=norm(st.q);
+    return D.items.filter(function(x){
+      if(st.tag&&x.g.indexOf(st.tag)<0) return false;
+      if(st.father&&x.f!==st.father) return false;
+      if(q&&norm(x.t+' '+x.f).indexOf(q)<0) return false;
+      return true;
+    });
+  }
+  function card(x){
+    return '<article class="fat-card" data-i="'+x.i+'">'+(x.c?'<div class="fat-c">'+esc(x.c)+'</div>':'')+'<p class="fat-q">«'+esc(x.t)+'»</p><div class="fat-meta"><b>'+esc(x.f)+'</b><span>'+cite(x)+'</span></div>'+
+      '<div class="fat-tags">'+x.g.map(function(g){return '<button type="button" data-tag="'+esc(g)+'">'+esc(g)+'</button>'}).join('')+'</div>'+
+      '<button type="button" class="fat-copy" data-copy="'+x.i+'">نسخ</button></article>';
+  }
+  var PAGE=40;
+  function render(more){
+    var body=document.getElementById('fatBody'); if(!body||!D) return;
+    var L=list(), n=more?(+body.dataset.n||PAGE)+PAGE:PAGE; body.dataset.n=n;
+    document.getElementById('fatCount').textContent=ard(L.length)+' قولًا';
+    var res=document.getElementById('fatList');
+    res.innerHTML=L.slice(0,n).map(card).join('')+(L.length>n?'<button type="button" class="fat-more" id="fatMore">عرض المزيد</button>':'')+(L.length?'':'<p class="fat-empty">لا توجد أقوال مطابقة.</p>');
+    var chips=document.getElementById('fatChips'); if(chips) Array.prototype.forEach.call(chips.querySelectorAll('button'),function(b){ b.classList.toggle('on',b.dataset.tag===st.tag); });
+  }
+  function build(){
+    var page=document.getElementById('page-fat'), body=document.getElementById('fatBody'); if(!page||!body) return;
+    if(!D){ body.innerHTML='<p class="fat-empty">بيانات الأقوال غير متاحة.</p>'; return; }
+    var fs=fathers().sort(function(a,b){return a.localeCompare(b,'ar')});
+    body.innerHTML='<h3 class="u-h3">أقوال الآباء</h3><p class="fat-src">من كتاب «'+esc(D.src.title)+'» — '+esc(D.src.series)+'، '+esc(D.src.pub)+'</p>'+
+      '<input type="search" id="fatQ" class="fat-q-in" placeholder="ابحث في الأقوال…" aria-label="بحث في أقوال الآباء">'+
+      '<select id="fatF" class="fat-sel" aria-label="الأب"><option value="">كل الآباء</option>'+fs.map(function(f){return '<option>'+esc(f)+'</option>'}).join('')+'</select>'+
+      '<div id="fatChips" class="fat-chips"><button type="button" data-tag="">الكل</button>'+D.tags.filter(function(t){return D.items.some(function(x){return x.g.indexOf(t)>=0})}).map(function(t){return '<button type="button" data-tag="'+esc(t)+'">'+esc(t)+'</button>'}).join('')+'</div>'+
+      '<div id="fatCount" class="fat-count"></div><div id="fatList"></div>';
+    var t=null;
+    document.getElementById('fatQ').addEventListener('input',function(e){ clearTimeout(t); var v=e.target.value; t=setTimeout(function(){ st.q=v; render(); },150); });
+    document.getElementById('fatF').addEventListener('change',function(e){ st.father=e.target.value; render(); });
+    body.addEventListener('click',function(e){
+      var g=e.target.closest('[data-tag]'); if(g){ st.tag=g.dataset.tag===st.tag?'':g.dataset.tag; render(); if(!e.target.closest('#fatChips')) window.scrollTo(0,0); return; }
+      if(e.target.closest('#fatMore')){ render(true); return; }
+      var c=e.target.closest('[data-copy]'); if(c){ var x=byId[c.dataset.copy]; var s='«'+x.t+'»\n— '+x.f+' ('+cite(x)+')'; try{ navigator.clipboard.writeText(s); c.textContent='تم النسخ'; setTimeout(function(){c.textContent='نسخ'},1400);}catch(er){} }
+    });
+    built=true; render();
+  }
+  window.__fatInit=function(){ if(!built) build(); };
+  window.__fathers={ready:!!D,items:D?D.items:[],byId:byId,cite:cite,src:D?D.src:null};
+  /* قول اليوم: من تأمل الخلوة إن كان له قول مُسنَد، وإلا بالتدوير حسب يوم السنة — يعمل دون إنترنت */
+  window.__fatherOfDay=function(date){
+    try{
+      var d=date||new Date(), A=window.__fathers; if(!A||!A.items||!A.items.length) return null;
+      var Y=window.__khalwaYear, e=Y&&Y.entry?Y.entry(d):null;
+      if(e&&e.m) for(var i=0;i<e.m.length;i++){ if(e.m[i].fq&&A.byId[e.m[i].fq]) return A.byId[e.m[i].fq]; }
+      var n=Math.floor((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-Date.UTC(d.getFullYear(),0,0))/864e5);
+      var L=A.items.filter(function(x){return x.t.split(/\s+/).length<=45});
+      return L[(n*7)%L.length];
+    }catch(er){ return null; }
+  };
+})();
+</script><script src="data-khalwaYear.e48cf2af84.js"></script><script>(function(){var s=document.createElement('script');s.id="khalwaYear";s.type='text/plain';s.textContent=__RF_DATA["khalwaYear"];delete __RF_DATA["khalwaYear"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+<script id="khalwa-year">/* v75 — الخلوة اليومية: سنة كاملة بالتاريخ الميلادي (٣٦٦ يومًا × ٣ تأملات) تعمل دون إنترنت.
+   البيانات: <script id="khalwaYear"> (يولّدها tools/khalwa-build.mjs من src/content/khalwa). المفتاح = (شهر ميلادي - يوم). */
+(function(){
+  var el=document.getElementById('khalwaYear'), raw=el?el.textContent:'', D=null;
+  try{ if(raw) D=JSON.parse(raw).days; }catch(e){ D=null; }
+  var COPT=['توت','بابه','هاتور','كيهك','طوبة','أمشير','برمهات','برمودة','بشنس','بؤونة','أبيب','مسرى','النسيء'];
+  /* نفس خوارزمية التاريخ القبطي المعتمدة في شاشة «الرئيسية» */
+  function copticOf(d){
+    var y=d.getFullYear(),m=d.getMonth()+1,dd=d.getDate();
+    var leap=(y%4===0&&y%100!==0)||y%400===0, corr=m<=2?0:(leap?-1:-2);
+    var rd=365*(y-1)+Math.floor((y-1)/4)-Math.floor((y-1)/100)+Math.floor((y-1)/400)+Math.floor((367*m-362)/12)+corr+dd;
+    var E=103605;
+    function fc(yy,mm,d2){return E-1+365*(yy-1)+Math.floor(yy/4)+30*(mm-1)+d2}
+    var yr=Math.floor((4*(rd-E)+1463)/1461);
+    var mo=Math.floor((rd-fc(yr,1,1))/30)+1;
+    return {y:yr,m:mo,d:rd-fc(yr,mo,1)+1};
+  }
+  function keyOf(date){ var d=date||new Date(); return (d.getMonth()+1)+'-'+d.getDate(); }
+  function entry(date){ return D?(D[keyOf(date)]||null):null; }
+  var KINDS=['تأمل','من الكتاب','تطبيق'];
+  /* يحوّل يومًا من البيانات إلى الشكل الذي تعرضه بطاقة الخلوة (نفس حقول التأملات المكتوبة سابقًا) */
+  function toVariants(e,dateStr,weekday,dayNo){
+    var out={}, FA=window.__fathers;
+    e.m.forEach(function(M,i){
+      var n=i+1, q=(M.fq&&FA&&FA.byId)?FA.byId[M.fq]:null;
+      var src='للاستزادة: تفسير القمص تادرس يعقوب ملطي على «'+M.bk+'» — st-takla.org';
+      var o={date:dateStr,weekday:weekday,day:dayNo,topic:e.th,title2:M.t,ref:M.ref,verse:M.v,
+        reflect:M.r,deep:M.x,prayer:M.p,
+        extraLabel:M.e?'مقطع للتأمل':'',extraText:M.e||'',extraRef:M.eref||'',kind:KINDS[i]};
+      if(q){
+        /* قول حقيقي من كتاب «أقوال الآباء الشيوخ» — النص حرفي */
+        o.fatherLabel='قول الآباء'; o.father=q.f; o.quote='«'+q.t+'»';
+        if(q.c&&q.c.split(/\s+/).length<=16) o.fatherCtx=q.c;
+        o.source=FA.cite(q)+' · '+src;
+      }else{
+        /* لا قول مناسب: نعرض خلاصة التعليم دون نسبتها إلى أحد */
+        o.fatherLabel='خلاصة التعليم'; o.father=''; o.quote=M.f;
+        o.source=src+' · التأمل مصوغ على تعليم الكنيسة';
+      }
+      out[n]=o;
+    });
+    return out;
+  }
+  window.__khalwaYear={ready:!!D,days:D?Object.keys(D).length:0,copticOf:copticOf,keyOf:keyOf,entry:entry,toVariants:toVariants,kinds:KINDS,months:COPT};
+})();
+</script>
+<script src="29-anon.fa10dfe193.js"></script>
 <script src="30-anon.4ef9de7a19.js"></script>
 <script src="31-anon.cdd5a50b71.js"></script>
 <script src="data-bibleData.e64361f795.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="data-bgData.fcf82ceaa4.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="34-anon.e47481277b.js"></script>
 <script src="35-anon.fb5e9f9a6c.js"></script>
-<script src="36-anon.7e388a1226.js"></script>
+<script src="36-anon.cf6a4fba85.js"></script>
 <script src="37-anon.c94ab4bc84.js"></script>
 <script src="38-anon.5ed3a3ba72.js"></script>
-<script src="39-anon.000150e219.js"></script>
-<script id="js-v14" src="40-js-v14.0242a0adbf.js"></script>
-<script id="v55m-js" src="41-v55m-js.6032ecfee5.js"></script>
+<script src="39-anon.cc634caa6e.js"></script>
+<script id="js-v14" src="40-js-v14.9d340e38dc.js"></script>
+<script id="v55m-js" src="41-v55m-js.e2e980c26b.js"></script>
 <script id="v57-inst" src="42-v57-inst.1cb8a1f579.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v74';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v75';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" id="v62nav" href="45-v62nav.16d6ade3ea.css">
@@ -829,6 +945,34 @@ html #mod-k .export-card .mini-divider{margin:10px auto 8px auto !important}
 html #mod-k .export-card .topic-underline{margin:6px auto 12px auto !important}
 html #mod-k .export-card .section-label{margin-bottom:5px !important}
 html #mod-k .export-card .daycount{margin-bottom:6px !important}
+</style>
+<style id="v75deep">/* v75 — «تعمّق»: قسم أطول للقراءة على الشاشة (لا يدخل صورة الحفظ) */
+#mod-k .deep-box{margin:14px 0 4px;padding:12px 14px;border-radius:10px;border:1px solid color-mix(in srgb,var(--gold,var(--tc-c9a44c,#c9a44c)) 40%,transparent);background:color-mix(in srgb,var(--gold,var(--tc-c9a44c,#c9a44c)) 7%,transparent);text-align:start}
+#mod-k .deep-label{font-family:'Tajawal',sans-serif;font-weight:700;color:var(--gold,var(--tc-c9a44c,#c9a44c));font-size:.95rem;margin-bottom:6px;text-align:center}
+#mod-k .deep-text{line-height:1.95;white-space:pre-line;font-size:1.02rem}
+html[data-design="2"] #mod-k .deep-text{color:var(--ink)}
+/* v75 — سياق قول الأب (سطر صغير تحت الاسم) */
+#mod-k .father-ctx{font-size:calc(var(--fs-sm,15px)*0.95);opacity:.78;margin:-2px 0 8px;line-height:1.5}
+#mod-k .export-card .father-ctx{font-size:24px;opacity:.8;margin:-2px 0 10px;line-height:1.5}
+</style><style id="v75fathers">#page-fat .fat-src{font:500 var(--fs-sm,13px) 'Cairo',sans-serif;opacity:.75;margin:0 4px 10px;color:var(--s-page-ink)}
+#page-fat .fat-q-in,#page-fat .fat-sel{width:100%;box-sizing:border-box;font:600 16px 'Cairo',sans-serif;padding:11px 13px;border-radius:12px;border:1px solid var(--s-card-border,#888);background:var(--s-card,transparent);color:var(--s-card-ink,inherit);margin:0 0 8px}
+#page-fat .fat-chips{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:none}
+#page-fat .fat-chips::-webkit-scrollbar{display:none}
+#page-fat .fat-chips button{flex:0 0 auto;font:700 var(--fs-sm,13px) 'Cairo',sans-serif;padding:7px 12px;border-radius:99px;border:1px solid var(--f-line,#888);background:var(--s-bar,transparent);color:var(--s-nav-ink,inherit);cursor:pointer}
+#page-fat .fat-chips button.on{background:var(--s-accent);color:var(--s-btn-ink);border-color:var(--s-accent)}
+html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,#D9AE4E);color:var(--tc-2c0c13,#2c0c13);border-color:var(--tc-d9ae4e,#D9AE4E)}
+#page-fat .fat-count{font:600 12px 'Cairo',sans-serif;opacity:.7;margin:0 4px 4px;color:var(--s-page-ink)}
+#page-fat .fat-card{background:var(--s-card);border:1px solid var(--s-card-border);color:var(--s-card-ink);border-radius:16px;padding:16px;margin:10px 0}
+#page-fat .fat-q{font:500 calc(var(--fs-lg,18px) + 1px)/1.95 'Amiri',serif;margin:0 0 10px}
+#page-fat .fat-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font:600 13px 'Cairo',sans-serif;opacity:.85;margin-bottom:8px}
+#page-fat .fat-tags{display:flex;gap:6px;flex-wrap:wrap}
+#page-fat .fat-tags button{font:600 11px 'Cairo',sans-serif;padding:3px 9px;border-radius:99px;border:1px solid var(--s-card-border,#888);background:transparent;color:inherit;opacity:.8;cursor:pointer}
+#page-fat .fat-copy,#page-fat .fat-more{margin-top:10px;font:700 13px 'Cairo',sans-serif;padding:8px 14px;border-radius:10px;border:1px solid var(--s-card-border,#888);background:transparent;color:inherit;cursor:pointer}
+#page-fat .fat-more{display:block;margin:14px auto}
+#page-fat .fat-empty{text-align:center;opacity:.7;padding:24px 8px;color:var(--s-page-ink)}
+#page-fat .fat-c{font:600 12px 'Cairo',sans-serif;opacity:.7;margin:0 0 6px}
+.u-card.fat-day{display:block;width:100%;text-align:inherit;font:inherit;color:inherit;cursor:pointer}
+.u-card.fat-day .vt{font-size:15px;line-height:1.9;margin:6px 0}
 </style>
 </body>
 </html>
