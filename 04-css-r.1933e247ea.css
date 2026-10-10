@@ -1,0 +1,513 @@
+
+
+  #mod-r *{box-sizing:border-box;}
+  
+  #mod-r{
+    margin:0;
+    color:var(--ink);
+    font-family:'Cairo', 'Tahoma', sans-serif;
+    padding-inline:16px;
+    direction:rtl;
+  }
+  #mod-r .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding-block: calc(env(safe-area-inset-top,0px) + 14px) calc(env(safe-area-inset-bottom,0px) + 40px);
+  }
+
+  /* ---------- ornament ---------- */
+  #mod-r .flourish{
+    display:flex; align-items:center; gap:10px;
+    justify-content:center;
+    margin-block: 6px 18px;
+    color:var(--gold);
+  }
+  #mod-r .flourish svg{width:120px; height:14px;}
+  #mod-r .flourish .cross{width:16px;height:16px;flex:none;}
+
+  /* ---------- header / title ---------- */
+  #mod-r .titleblock{ text-align:center; margin-bottom: 6px; }
+  #mod-r .eyebrow{
+    font-family:'Cairo',sans-serif; font-weight:600; font-size:var(--fs-xs);
+    letter-spacing:.06em; color:var(--wine); text-transform:none;
+  }
+  #mod-r h1{
+    font-family:'Aref Ruqaa', serif;
+    font-weight:700;
+    font-size: clamp(28px, 7vw, 38px);
+    margin: 4px 0 2px;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  #mod-r .subtitle{
+    color:var(--ink-soft); font-size:var(--fs-sm); margin:0 0 6px;
+  }
+
+  /* ---------- sample banner ---------- */
+  #mod-r .sample-banner{
+    display:flex; align-items:center; gap:8px;
+    justify-content:center;
+    margin-top:10px;
+    background: color-mix(in srgb, var(--wine) 10%, var(--surface));
+    border:1px dashed var(--wine-soft);
+    border-radius:10px;
+    padding:8px 12px;
+    font-size:var(--fs-xs);
+    color:var(--wine);
+    font-weight:600;
+  }
+  #mod-r .sample-banner svg{width:14px;height:14px;flex:none;}
+
+  /* ---------- date navigator ---------- */
+  #mod-r .datecard{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px 16px;
+    margin-top:14px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.03);
+  }
+  #mod-r .datecard-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  #mod-r .nav-btn{
+    appearance:none; border:1px solid var(--border); background:var(--surface-2);
+    color:var(--ink); width:38px; height:38px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center; flex:none;
+    cursor:pointer; transition: background .15s ease, transform .1s ease;
+  }
+  #mod-r .nav-btn:hover{ background:var(--border); }
+  #mod-r .nav-btn:active{ transform: scale(.94); }
+  #mod-r .nav-btn:focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+  #mod-r .nav-btn svg{width:18px;height:18px;}
+
+  #mod-r .date-center{ flex:1; min-width:0; text-align:center; }
+  #mod-r .greg-row{
+    display:flex; align-items:baseline; justify-content:center; gap:8px; flex-wrap:wrap;
+  }
+  #mod-r .greg-date{ font-weight:700; font-size:var(--fs-md); }
+  #mod-r .weekday{ color:var(--wine); font-weight:600; font-size:var(--fs-sm); }
+
+  #mod-r .coptic-date{
+    margin-top:6px;
+    font-family:'Aref Ruqaa', serif;
+    font-size: var(--fs-lg);
+    color: var(--gold-bright);
+    font-variant-numeric: tabular-nums;
+  }
+  #mod-r .coptic-note{
+    margin-top:2px; font-size:var(--fs-xs); color:var(--ink-soft);
+  }
+
+  #mod-r .datebar-controls{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    margin-top:12px; padding-top:12px; border-top:1px dashed var(--border);
+  }
+  #mod-r input[type="date"]{
+    font-family:'Cairo',sans-serif; font-size:var(--fs-sm);
+    background:var(--surface-2); color:var(--ink);
+    border:1px solid var(--border); border-radius:8px;
+    padding:7px 10px;
+  }
+  #mod-r .today-btn{
+    appearance:none; cursor:pointer;
+    background:var(--wine); color:#FBF3E7; border:none;
+    font-family:'Cairo',sans-serif; font-weight:600; font-size:var(--fs-sm);
+    padding:8px 14px; border-radius:8px;
+  }
+  #mod-r .today-btn:hover{ background:var(--wine-soft); }
+  #mod-r .today-btn:focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+
+  /* ---------- commemoration tag ---------- */
+  #mod-r .commem{
+    margin-top:12px;
+    display:flex; align-items:flex-start; gap:8px;
+    background: color-mix(in srgb, var(--gold) 12%, var(--surface));
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:var(--fs-sm);
+    color:var(--ink-soft);
+    line-height:1.7;
+  }
+  #mod-r .commem svg{width:15px;height:15px;flex:none;margin-top:2px;color:var(--gold-bright);}
+  #mod-r .commem b{ color:var(--ink); font-weight:700; }
+
+  /* ---------- reading tabs ---------- */
+  #mod-r .tabs{
+    display:flex; gap:6px; overflow-x:auto;
+    margin-top:22px; padding-bottom:2px;
+    scrollbar-width:none;
+  }
+  #mod-r .tabs::-webkit-scrollbar{ display:none; }
+  #mod-r .tab{
+    appearance:none; cursor:pointer; flex:none;
+    display:flex; align-items:center; gap:6px;
+    font-family:'Cairo',sans-serif; font-weight:600; font-size:var(--fs-sm);
+    color:var(--ink-soft);
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:8px 14px;
+  }
+  #mod-r .tab svg{width:14px;height:14px;}
+  #mod-r .tab[aria-selected="true"]{
+    background:var(--wine); border-color:var(--wine); color:#FBF3E7;
+  }
+  #mod-r .tab:focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+
+  #mod-r .readingcard{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px 18px 16px;
+    margin-top:12px;
+  }
+  #mod-r .subreading + .subreading{
+    margin-top:18px; padding-top:16px; border-top:1px dashed var(--border);
+  }
+  #mod-r .readingcard .kicker{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    margin-bottom:10px; flex-wrap:wrap;
+  }
+  #mod-r .kicker .name{ font-weight:700; font-size:var(--fs-sm); }
+  #mod-r .kicker .ref{
+    font-size:var(--fs-xs); color:var(--gold-bright); font-weight:600;
+    font-variant-numeric: tabular-nums;
+  }
+  #mod-r blockquote{
+    margin:0; padding-inline-start:16px;
+    border-inline-start: 3px solid var(--gold);
+    font-family:'Amiri', serif;
+    font-size:var(--fs-lg); line-height:1.95;
+    color:var(--ink);
+  }
+  #mod-r blockquote.psalm{ font-size:var(--fs-md); }
+  #mod-r blockquote em{ color:var(--ink-soft); font-style:normal; }
+  #mod-r .fn{
+    font-size:var(--fs-xs); vertical-align:super; color:var(--gold-bright); margin-inline-start:2px;
+  }
+  #mod-r .source-line{
+    margin-top:12px; padding-top:10px; border-top:1px dashed var(--border);
+    font-size:var(--fs-xs); color:var(--ink-soft);
+  }
+
+  /* ---------- meditation ---------- */
+  #mod-r .section-title{
+    display:flex; align-items:center; gap:10px;
+    margin: 30px 0 12px;
+  }
+  #mod-r .section-title svg{ width:20px; height:20px; color:var(--wine); flex:none; }
+  #mod-r .section-title h2{
+    font-family:'Aref Ruqaa', serif;
+    font-weight:700; font-size:var(--fs-xl); margin:0;
+    color:var(--ink);
+  }
+  #mod-r .section-title .line{
+    flex:1; height:1px; background:var(--border);
+  }
+
+  #mod-r .medcard{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  #mod-r .med-block{
+    padding:16px 18px;
+  }
+  #mod-r .med-block + .med-block{ border-top:1px solid var(--border); }
+  #mod-r .med-label{
+    font-family:'Cairo',sans-serif; font-weight:700; font-size:var(--fs-sm);
+    color:var(--wine); margin-bottom:8px;
+    display:flex; align-items:center; gap:6px;
+  }
+  #mod-r .med-label svg{width:14px;height:14px;}
+  #mod-r .med-text{
+    font-size:var(--fs-sm); line-height:1.9; color:var(--ink);
+  }
+  #mod-r .med-text + .med-text{ margin-top:10px; }
+
+  #mod-r .verse-list{ display:flex; flex-direction:column; gap:10px; margin-top:2px; }
+  #mod-r .verse-item{
+    font-family:'Amiri', serif; font-size:var(--fs-md); line-height:1.8;
+    padding-inline-start:14px; border-inline-start:3px solid var(--gold);
+    color:var(--ink);
+  }
+  #mod-r .verse-item .vref{
+    display:block; margin-top:4px; font-family:'Cairo',sans-serif;
+    font-size:var(--fs-xs); color:var(--gold-bright); font-weight:600;
+  }
+
+  #mod-r .applybox{
+    background: color-mix(in srgb, var(--gold) 10%, var(--surface));
+  }
+
+  /* ---------- references ---------- */
+  #mod-r .refs{
+    margin-top:32px;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px 18px;
+  }
+  #mod-r .refs h3{
+    font-family:'Cairo',sans-serif; font-size:var(--fs-sm); font-weight:700;
+    margin:0 0 10px; color:var(--ink-soft);
+    display:flex; align-items:center; gap:8px;
+  }
+  #mod-r .refs h3 svg{width:14px;height:14px;color:var(--gold-bright);}
+  #mod-r .refs ol{
+    margin:0; padding-inline-start:18px;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  #mod-r .refs li{ font-size:var(--fs-xs); color:var(--ink-soft); }
+  #mod-r .refs a{ color:var(--wine); text-decoration:none; }
+  #mod-r .refs a:hover{ text-decoration:underline; }
+
+  #mod-r .footer-note{
+    text-align:center; margin-top:18px; font-size:var(--fs-xs); color:var(--ink-soft);
+    line-height:1.7;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    #mod-r .tab,
+#mod-r .nav-btn,
+#mod-r .today-btn{ transition: background .15s ease; }
+  }
+
+  /* ================= v1.0 additions ================= */
+
+  #mod-r .version-tag{
+    display:inline-block; font-size:var(--fs-xs); font-weight:700; color:var(--gold-bright);
+    border:1px solid var(--border); border-radius:999px; padding:1px 8px; margin-inline-start:6px;
+    vertical-align:middle;
+  }
+
+  /* ---------- toolbar ---------- */
+  #mod-r .toolbar{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    margin-top:12px; flex-wrap:wrap;
+  }
+  #mod-r .icon-btn{
+    appearance:none; cursor:pointer; border:1px solid var(--border); background:var(--surface);
+    color:var(--ink-soft); display:flex; align-items:center; gap:6px;
+    font-family:'Cairo',sans-serif; font-weight:600; font-size:var(--fs-xs);
+    padding:7px 11px; border-radius:999px;
+  }
+  #mod-r .icon-btn svg{ width:15px; height:15px; flex:none; }
+  #mod-r .icon-btn:hover{ background:var(--surface-2); color:var(--ink); }
+  #mod-r .icon-btn.active{ background:var(--wine); border-color:var(--wine); color:#FBF3E7; }
+  #mod-r .icon-btn:focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+
+  /* ---------- week strip ---------- */
+  #mod-r .week-strip{
+    display:flex; gap:6px; overflow-x:auto; margin-top:10px; scrollbar-width:none;
+  }
+  #mod-r .week-strip::-webkit-scrollbar{ display:none; }
+  #mod-r .week-chip{
+    appearance:none; cursor:pointer; flex:1; min-width:44px;
+    display:flex; flex-direction:column; align-items:center; gap:2px;
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:6px 4px; font-family:'Cairo',sans-serif;
+  }
+  #mod-r .week-chip .wd{ font-size:var(--fs-xs); color:var(--ink-soft); font-weight:600; }
+  #mod-r .week-chip .dn{ font-size:var(--fs-sm); color:var(--ink); font-weight:700; font-variant-numeric: tabular-nums; }
+  #mod-r .week-chip .mk{ width:5px; height:5px; border-radius:50%; background:var(--gold); margin-top:1px; visibility:hidden; }
+  #mod-r .week-chip.has-content .mk{ visibility:visible; }
+  #mod-r .week-chip.is-current{ background:var(--wine); border-color:var(--wine); }
+  #mod-r .week-chip.is-current .wd,
+#mod-r .week-chip.is-current .dn{ color:#FBF3E7; }
+  #mod-r .week-chip.is-today:not(.is-current){ border-color:var(--gold-bright); }
+  #mod-r .week-chip:focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+
+  /* ---------- context line inside reading card ---------- */
+  #mod-r .context-line{
+    display:flex; align-items:flex-start; gap:7px;
+    font-size:var(--fs-xs); color:var(--ink-soft); line-height:1.75;
+    background: color-mix(in srgb, var(--wine) 6%, var(--surface));
+    border:1px dashed var(--border); border-radius:8px;
+    padding:8px 10px; margin-bottom:14px;
+  }
+  #mod-r .context-line svg{ width:13px; height:13px; flex:none; margin-top:2px; color:var(--wine-soft); }
+
+  /* ---------- expanded book-info block (author/date/place/purpose + summary) ---------- */
+  #mod-r .context-line.book-info{ align-items:flex-start; padding:12px 13px; }
+  #mod-r .context-line.book-info svg{ width:15px; height:15px; margin-top:3px; }
+  #mod-r .book-info-body{ flex:1; min-width:0; }
+  #mod-r .book-info-title{
+    font-size:var(--fs-xs); font-weight:700; color:var(--wine); margin-bottom:7px;
+    display:flex; align-items:center; gap:4px;
+  }
+  #mod-r .book-info-fields{ margin:0 0 8px; display:grid; gap:9px; }
+  #mod-r .book-info-fields > div{ display:flex; flex-direction:column; gap:2px; line-height:1.7; }
+  #mod-r .book-info-fields dt{
+    font-weight:700; color:var(--ink); font-size:var(--fs-xs);
+  }
+  #mod-r .book-info-fields dt::after{ content:"："; }
+  #mod-r .book-info-fields dd{ margin:0; color:var(--ink-soft); font-size:var(--fs-xs); }
+  #mod-r .book-info-summary{
+    margin:8px 0 0; padding-top:8px; border-top:1px dashed var(--border);
+    font-size:var(--fs-xs); color:var(--ink-soft); line-height:1.75;
+  }
+
+  /* ---------- streak badge ---------- */
+  #mod-r .streak-badge{
+    display:inline-flex; align-items:center; gap:4px; margin-top:8px;
+    font-size:var(--fs-xs); font-weight:700; color:var(--gold-bright);
+  }
+  #mod-r .streak-badge svg{ width:12px; height:12px; }
+
+  /* ---------- journal + discussion ---------- */
+  #mod-r .extra-block{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:16px 18px; margin-top:16px;
+  }
+  #mod-r .extra-title{
+    font-family:'Cairo',sans-serif; font-weight:700; font-size:var(--fs-sm);
+    color:var(--wine); margin-bottom:8px; display:flex; align-items:center; gap:6px;
+  }
+  #mod-r .extra-title svg{ width:14px; height:14px; }
+  #mod-r .extra-hint{ font-size:var(--fs-xs); color:var(--ink-soft); margin-bottom:8px; line-height:1.7; }
+  #mod-r .journal-textarea{
+    width:100%; min-height:80px; resize:vertical;
+    font-family:'Cairo',sans-serif; font-size:var(--fs-sm); color:var(--ink);
+    background:var(--surface-2); border:1px solid var(--border); border-radius:10px;
+    padding:10px 12px; direction:rtl;
+  }
+  #mod-r .journal-textarea:focus-visible{ outline:2px solid var(--focus); outline-offset:1px; }
+  #mod-r .journal-status{ font-size:var(--fs-xs); color:var(--ink-soft); margin-top:6px; min-height:14px; }
+  #mod-r .discussion-text{
+    font-size:var(--fs-sm); line-height:1.85; color:var(--ink);
+    background: color-mix(in srgb, var(--gold) 8%, var(--surface));
+    border-radius:10px; padding:10px 12px;
+  }
+  #mod-r .class-toggle-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:10px; }
+
+  /* ---------- side panel ---------- */
+  #mod-r .side-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:40;
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+  }
+  #mod-r .side-overlay.open{ opacity:1; pointer-events:auto; }
+  #mod-r .side-panel{
+    position:fixed; top:0; bottom:0; right:0; width:min(340px, 88vw); z-index:41;
+    background:var(--surface); border-inline-start:1px solid var(--border);
+    box-shadow:-6px 0 24px rgba(0,0,0,.2);
+    transform:translateX(100%); transition:transform .25s ease;
+    display:flex; flex-direction:column;
+  }
+  #mod-r .side-panel.open{ transform:translateX(0); }
+  #mod-r .side-panel-header{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:16px 18px; border-bottom:1px solid var(--border); flex:none;
+  }
+  #mod-r .side-panel-header h2{
+    font-family:'Aref Ruqaa', serif; font-size:var(--fs-lg); margin:0; color:var(--ink);
+  }
+  #mod-r .side-close{
+    appearance:none; cursor:pointer; border:none; background:transparent; color:var(--ink-soft);
+    width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px;
+  }
+  #mod-r .side-close:hover{ background:var(--surface-2); }
+  #mod-r .side-close svg{ width:18px; height:18px; }
+  #mod-r .side-panel-body{ overflow-y:auto; padding:14px 18px 30px; flex:1; }
+  #mod-r .side-section{ margin-bottom:24px; }
+  #mod-r .side-section-title{
+    font-family:'Cairo',sans-serif; font-weight:700; font-size:var(--fs-sm);
+    color:var(--wine); margin-bottom:10px; display:flex; align-items:center; gap:6px;
+  }
+  #mod-r .side-section-title svg{ width:14px; height:14px; }
+  #mod-r .side-list{ display:flex; flex-direction:column; gap:6px; }
+  #mod-r .side-item{
+    appearance:none; cursor:pointer; text-align:right; width:100%;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:9px;
+    padding:9px 11px; font-family:'Cairo',sans-serif; font-size:var(--fs-sm); color:var(--ink);
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+  }
+  #mod-r .side-item:hover{ background:var(--border); }
+  #mod-r .side-item .day-tag{
+    flex:none; font-size:var(--fs-xs); font-weight:700; color:var(--gold-bright);
+    font-variant-numeric: tabular-nums;
+  }
+  #mod-r .side-empty{ font-size:var(--fs-xs); color:var(--ink-soft); padding:6px 2px; }
+  #mod-r .search-input{
+    width:100%; font-family:'Cairo',sans-serif; font-size:var(--fs-sm);
+    background:var(--surface-2); border:1px solid var(--border); border-radius:9px;
+    padding:9px 12px; color:var(--ink); margin-bottom:10px;
+  }
+  #mod-r .seg-row{ display:flex; gap:6px; }
+  #mod-r .seg-btn{
+    flex:1; appearance:none; cursor:pointer; text-align:center;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:8px;
+    padding:8px 6px; font-family:'Cairo',sans-serif; font-size:var(--fs-xs); font-weight:600; color:var(--ink-soft);
+  }
+  #mod-r .seg-btn.active{ background:var(--wine); border-color:var(--wine); color:#FBF3E7; }
+  #mod-r .settings-row{ margin-bottom:14px; }
+  #mod-r .settings-row label{ display:block; font-size:var(--fs-xs); color:var(--ink-soft); margin-bottom:6px; }
+  #mod-r .side-remove{
+    flex:none; appearance:none; cursor:pointer; border:none; background:transparent;
+    color:var(--wine-soft); width:22px; height:22px; display:flex; align-items:center; justify-content:center;
+  }
+  #mod-r .side-remove svg{ width:14px; height:14px; }
+
+  /* ---------- font-size overrides ---------- */
+
+  /* ---------- class / group display mode ---------- */
+  body.class-mode #mod-r h1{ font-size: clamp(32px, 8vw, 46px); }
+  body.class-mode #mod-r blockquote{ font-size:1.562rem !important; line-height:2.15 !important; }
+  body.class-mode #mod-r blockquote.psalm{ font-size:var(--fs-xl) !important; }
+  body.class-mode #mod-r .med-text{ font-size:var(--fs-xl) !important; line-height:2.1 !important; }
+  body.class-mode #mod-r .verse-item{ font-size:var(--fs-xl) !important; }
+  body.class-mode #mod-r .discussion-text{ font-size:var(--fs-lg) !important; }
+  body.class-mode #mod-r .wrap{ max-width:880px; }
+
+
+/* ===== القراءات اليومية: ربط متغيراتها بنظام الألوان الموحّد ===== */
+html[data-design="2"] #mod-r{
+  --bg:transparent;
+  --surface:var(--u-surface,#FFFBF2);
+  --ink:var(--u-ink,#2E1D12);
+  --surface-2:color-mix(in srgb,var(--surface) 86%,var(--ink) 14%);
+  --ink-soft:color-mix(in srgb,var(--ink) 68%,var(--surface) 32%);
+  --border:color-mix(in srgb,var(--ink) 26%,var(--surface) 74%);
+  --gold:#9C7A2E; --gold-bright:#B8912F; --wine:#6E1B26; --wine-soft:#8C3240; --focus:#D9AE4E;
+}
+html[data-design="1"] #mod-r{
+  --bg:transparent;
+  --surface:#0f2346; --surface-2:#173563; --ink:#faf6ec; --ink-soft:#b9c4dc;
+  --border:rgba(201,164,76,.32);
+  --gold:#c9a44c; --gold-bright:#dfc07c; --wine:#dfc07c; --wine-soft:#f0dfae; --focus:#f0dfae;
+}
+/* نصوص على خلفية الصفحة مباشرة (تصميم فاتح: الصفحة بلون الخلفية المختار) */
+html[data-design="2"] #mod-r h1,
+html[data-design="2"] #mod-r .eyebrow,
+html[data-design="2"] #mod-r .section-title h2{color:var(--page-text)}
+html[data-design="2"] #mod-r .subtitle,
+html[data-design="2"] #mod-r .footer-note,
+html[data-design="2"] #mod-r .streak-badge,
+html[data-design="2"] #mod-r .journal-status{color:var(--page-text-soft)}
+html[data-design="2"] #mod-r .flourish,
+html[data-design="2"] #mod-r .section-title svg{color:#D9AE4E}
+html[data-design="2"] #mod-r .section-title .line{background:rgba(217,174,78,.4)}
+html[data-design="2"] #mod-r .version-tag{color:#D9AE4E;border-color:rgba(217,174,78,.5)}
+/* أزرار مفعّلة في الداكن: نص داكن فوق الذهبي */
+html[data-design="1"] #mod-r .today-btn,
+html[data-design="1"] #mod-r .tab[aria-selected="true"],
+html[data-design="1"] #mod-r .icon-btn.active,
+html[data-design="1"] #mod-r .seg-btn.active,
+html[data-design="1"] #mod-r .week-chip.is-current .wd,
+html[data-design="1"] #mod-r .week-chip.is-current .dn{color:#0a1e3f}
+html[data-design="1"] #mod-r .week-chip.is-current{background:#c9a44c;border-color:#c9a44c}
+html[data-design="1"] #mod-r .section-title .line{background:rgba(201,164,76,.35)}
+/* تكبير الخط والمسافة ونوع الخط الموحّدة */
+#mod-r blockquote{font-size:var(--fs-lg);line-height:calc(1.95 + var(--lh-d,0));font-family:var(--read-font,'Amiri',serif)}
+#mod-r blockquote.psalm{font-size:var(--fs-md)}
+#mod-r .med-text{font-size:var(--fs-sm);line-height:calc(1.9 + var(--lh-d,0));font-family:var(--read-font,inherit)}
+#mod-r .verse-item{font-size:var(--fs-md);line-height:calc(1.8 + var(--lh-d,0));font-family:var(--read-font,'Amiri',serif)}
+#mod-r .discussion-text{font-size:var(--fs-sm);line-height:calc(1.85 + var(--lh-d,0))}
+/* المظهر والخط تُدار من إعدادات التطبيق الموحّدة */
+#mod-r #themeBtn,#mod-r #fontSizeBtn{display:none}
+#mod-r .side-overlay{z-index:120}
+#mod-r .side-panel{z-index:121}
+

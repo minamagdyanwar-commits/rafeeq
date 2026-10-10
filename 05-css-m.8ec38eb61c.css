@@ -1,0 +1,90 @@
+
+
+#mod-m *{box-sizing:border-box}
+html[data-design="1"] #mod-m{--bg1:#060f24;--bg2:#0a1e3f;--card:rgba(255,255,255,.05);--border:rgba(201,164,76,.3);--ink:#faf6ec;--soft:#9fb0cc;--accent:#c9a44c;--accent2:#f0dfae;--btn-ink:#0a1e3f;--warn:#e7a0a0;--ok:#9fd6a8;--page-text:#faf6ec;--page-text-soft:#9fb0cc;
+ --p-bg:#0a1e3f;--p-bg2:rgba(255,255,255,.07);--p-ink:#faf6ec;--p-soft:#9fb0cc;--p-border:rgba(201,164,76,.3);--p-a1:#c9a44c;--p-a2:#f0dfae;--p-aink:#0a1e3f}
+html[data-design="2"] #mod-m{--bg1:color-mix(in srgb,var(--u-bg,#4A1420) 65%,black);--bg2:var(--u-bg,#4A1420);--card:var(--u-surface,#FFFBF2);--ink:var(--u-ink,#2E1D12);--soft:color-mix(in srgb,var(--ink) 68%,var(--card) 32%);--border:color-mix(in srgb,var(--ink) 26%,var(--card) 74%);--accent:#6E1B26;--accent2:#9C7A2E;--btn-ink:#FBF3E7;--warn:#8a1f2b;--ok:#2f6b3a;--page-text:#F6ECD6;--page-text-soft:#D9C6A3;
+ --p-bg:var(--card);--p-bg2:color-mix(in srgb,var(--card) 86%,var(--ink) 14%);--p-ink:var(--ink);--p-soft:var(--soft);--p-border:var(--border);--p-a1:#6E1B26;--p-a2:#8C3240;--p-aink:#FBF3E7}
+#mod-m{font-family:'Tajawal',sans-serif;color:var(--ink)}
+html[data-design="2"] #mod-m{color:var(--page-text)}
+html[data-design="2"][data-pt="light"] #mod-m{--page-text:#2E1D12;--page-text-soft:#7A6248}
+html[data-design="2"] #mod-m .card,
+html[data-design="2"] #mod-m .card *{color:var(--ink)}
+#mod-m .wrap{max-width:760px;margin:0 auto}
+#mod-m .top{display:flex;gap:8px;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;padding:8px 0;background:linear-gradient(var(--bg1),transparent)}
+#mod-m .pill{background:var(--card);border:1px solid var(--border);color:var(--ink);border-radius:20px;padding:8px 14px;font:700 var(--fs-sm) 'Tajawal';cursor:pointer}
+html[data-design="2"] #mod-m .top .pill{color:var(--ink)}
+#mod-m .pill.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--btn-ink)!important;border-color:transparent}
+#mod-m header{text-align:center;padding:10px 6px 14px}
+#mod-m header h1{font-family:'Aref Ruqaa','Amiri',serif;font-size:1.7rem;margin:4px 0;color:var(--accent2)}
+html[data-design="2"] #mod-m header h1{color:var(--page-text)}
+#mod-m header p{margin:0;color:var(--soft);font-size:var(--fs-sm);line-height:1.7}
+html[data-design="2"] #mod-m header p{color:var(--page-text-soft)}
+#mod-m .card{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden}
+#mod-m .intro{padding:12px 14px;font-size:var(--fs-sm);font-family:var(--read-font,'Tajawal',sans-serif);line-height:calc(1.85 + var(--lh-d))}
+#mod-m .datebar{display:flex;gap:8px;align-items:center;justify-content:center;margin:6px 0 12px;flex-wrap:wrap}
+#mod-m .datebar input{background:var(--card);border:1px solid var(--border);color:var(--ink);border-radius:10px;padding:8px 10px;font:600 var(--fs-sm) 'Tajawal'}
+html[data-design="2"] #mod-m .datebar input{color:var(--ink)}
+#mod-m details.cat>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:13px 14px;font-family:'Amiri',serif;font-size:var(--fs-lg);color:var(--accent2)}
+html[data-design="2"] #mod-m details.cat>summary{color:var(--accent)}
+#mod-m details.cat>summary::-webkit-details-marker{display:none}
+#mod-m .ico{font-size:var(--fs-xl)}
+#mod-m .badge{margin-inline-start:auto;background:var(--accent);color:var(--btn-ink)!important;border-radius:12px;padding:1px 9px;font:800 var(--fs-xs) 'Tajawal';min-width:24px;text-align:center}
+#mod-m .badge.zero{opacity:.35}
+#mod-m .catbody{padding:2px 12px 12px}
+#mod-m .verse{font-family:var(--read-font,'Amiri',serif);font-size:var(--fs-sm);line-height:calc(1.9 + var(--lh-d));border-right:3px solid var(--accent);padding:4px 10px;margin:4px 0 10px;color:var(--soft)}
+html[data-design="2"] #mod-m .verse{color:var(--soft)}
+#mod-m .sin{border:1px solid var(--border);border-radius:11px;margin-bottom:8px;overflow:hidden}
+#mod-m .sin.checked{border-color:var(--warn);box-shadow:0 0 0 1px var(--warn) inset}
+#mod-m .sinrow{display:flex;align-items:center;gap:10px;padding:10px 12px}
+#mod-m .sinrow input{width:21px;height:21px;accent-color:var(--accent);flex-shrink:0}
+#mod-m .sinrow label{flex:1;font-weight:700;font-size:var(--fs-sm);cursor:pointer}
+#mod-m .info{background:none;border:1px solid var(--border);color:var(--soft);border-radius:50%;width:28px;height:28px;cursor:pointer;font:700 var(--fs-sm) 'Tajawal'}
+#mod-m .desc{display:none;padding:2px 14px 12px 14px;font-size:var(--fs-sm);font-family:var(--read-font,'Amiri',serif);line-height:calc(1.9 + var(--lh-d));border-top:1px dashed var(--border)}
+#mod-m .desc.open{display:block}
+#mod-m .desc .q{margin-top:6px;font-weight:700;color:var(--accent2)}
+html[data-design="2"] #mod-m .desc .q{color:var(--accent)}
+#mod-m .fn{padding:8px 14px 10px;font-size:var(--fs-xs);line-height:1.7;color:var(--soft);border-top:1px solid var(--border)}
+#mod-m .fn a{color:var(--accent2);text-decoration:none;border-bottom:1px dotted}
+html[data-design="2"] #mod-m .fn a{color:var(--accent)}
+#mod-m .btn{display:block;width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:var(--btn-ink)!important;font:800 var(--fs-sm) 'Tajawal';cursor:pointer;margin-top:8px}
+#mod-m .btn.alt{background:transparent;border:1px solid var(--accent);color:var(--accent2)!important}
+#mod-m .sum{padding:14px}
+#mod-m .sum h2{font-family:'Aref Ruqaa',serif;color:var(--accent2);margin:0 0 8px;font-size:var(--fs-xl)}
+html[data-design="2"] #mod-m .sum h2{color:var(--accent)}
+#mod-m .sum li{margin-bottom:5px;font-size:var(--fs-sm)}
+#mod-m .prayer{font-family:var(--read-font,'Amiri',serif);font-size:var(--fs-md);line-height:calc(2 + var(--lh-d));margin-top:10px;white-space:pre-line}
+#mod-m .hist{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:var(--fs-sm)}
+#mod-m .hist small{color:var(--soft)}
+#mod-m .empty{text-align:center;padding:24px;color:var(--soft);font-size:var(--fs-sm)}
+#mod-m .note{font-size:var(--fs-xs);color:var(--soft);text-align:center;line-height:1.8;padding:6px 10px}
+html[data-design="2"] #mod-m .note{color:var(--page-text-soft)}
+#mod-m .other{padding:12px 14px}
+#mod-m .other h3{margin:0 0 4px;font-family:'Amiri',serif;font-size:var(--fs-lg);color:var(--accent2)}
+html[data-design="2"] #mod-m .other h3{color:var(--accent)}
+#mod-m .other p{margin:0 0 8px;font-size:var(--fs-xs);line-height:1.8;color:var(--soft)}
+#mod-m .other textarea{width:100%;min-height:96px;resize:vertical;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--ink);padding:10px 12px;font:500 var(--fs-sm)/1.9 var(--read-font,'Tajawal',sans-serif);direction:rtl}
+html[data-design="2"] #mod-m .other textarea{background:color-mix(in srgb,var(--card) 90%,var(--ink) 10%)}
+#mod-m .other textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+#mod-m .other .st{font-size:var(--fs-xs);color:var(--soft);min-height:16px;margin-top:4px}
+#mod-m .sinnote{display:none;padding:0 12px 12px}
+#mod-m .sin.checked .sinnote{display:block}
+#mod-m .sinnote label{display:block;font-size:var(--fs-xs);font-weight:700;color:var(--soft);margin-bottom:5px}
+#mod-m .sinnote textarea{width:100%;min-height:64px;resize:vertical;border-radius:9px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--ink);padding:8px 10px;font:500 var(--fs-sm)/1.8 var(--read-font,'Tajawal',sans-serif);direction:rtl}
+html[data-design="2"] #mod-m .sinnote textarea{background:color-mix(in srgb,var(--card) 90%,var(--ink) 10%)}
+#mod-m .sinnote textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+#mod-m .sumnote{display:block;font-size:var(--fs-sm);color:var(--soft);white-space:pre-line;margin:2px 0 4px;padding-inline-start:10px;border-inline-start:2px solid var(--accent2)}
+#mod-m .hist .chev{font-size:var(--fs-xs);color:var(--soft)}
+#mod-m .histdetail{margin-bottom:6px}
+#mod-m .sum{padding:0}
+#mod-m .sum>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:14px 14px 0}
+#mod-m .sum>summary::-webkit-details-marker{display:none}
+#mod-m .sum>summary h2{margin:0 0 8px}
+#mod-m .sum>summary .chev{font-size:var(--fs-xs);color:var(--soft);transition:transform .15s}
+#mod-m .sum:not([open])>summary{padding-bottom:6px}
+#mod-m .sum:not([open])>summary .chev{transform:rotate(90deg)}
+#mod-m .sum>*:not(summary){margin-inline:14px}
+#mod-m .sum>*:last-child{margin-bottom:14px}
+#mod-m .hidden{display:none}
+
+

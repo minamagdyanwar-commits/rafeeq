@@ -1,0 +1,22 @@
+
+#v30MergeBtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:48px;margin:10px 0;padding:8px 14px;border-radius:14px;border:1.5px dashed var(--s-accent,#c9a44c);background:color-mix(in srgb,var(--s-accent,#c9a44c) 12%,transparent);color:inherit;font:700 15px 'Cairo',sans-serif;cursor:pointer}
+.wrap:has(#mergedViewArea .merged-view) #v30MergeBtn{display:none}
+#v30Ov{position:fixed;inset:0;z-index:100001;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center}
+#v30Ov.on{display:flex}
+#v30Sh{width:100%;max-width:560px;max-height:88vh;overflow:auto;background:#FFFAF0!important;color:#2E1D12!important;border-radius:20px 20px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));font-family:'Cairo',sans-serif}
+#v30Sh h3{margin:0 0 4px;font-size:18px}
+#v30Sh p{margin:0 0 12px;font-size:14px;line-height:1.8;opacity:.85}
+#v30Hs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+#v30Hs button{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:48px;padding:6px 12px;border-radius:12px;border:1.5px solid var(--s-card-border,#d6c299);background:transparent;color:inherit;font:600 14px 'Cairo',sans-serif;text-align:start;cursor:pointer}
+#v30Hs button small{font-size:11px;opacity:.7;font-weight:400}
+#v30Hs button.on{background:var(--s-accent,#c9a44c);color:#1a1206;border-color:var(--s-accent,#c9a44c);font-weight:800}
+#v30Hs button:disabled{opacity:.35;cursor:not-allowed}
+#v30Hs button.on:disabled{opacity:1}
+html[data-design="1"] #v30Sh{background:#1D1813!important;color:#F3EAD8!important}
+html[data-design="1"][data-layout=horizon] #v30Sh,html[data-design="1"]:not([data-layout]) #v30Sh{background:#141C3F!important;color:#F3EBDD!important}
+html[data-design="1"] #v30Hs button{border-color:rgba(255,255,255,.25)}
+#v30Msg{min-height:24px;margin-bottom:10px;font-weight:700;font-size:14px}
+#v30Act{display:flex;gap:8px}
+#v30Act button{flex:1;min-height:48px;border-radius:12px;border:1.5px solid var(--s-accent,#c9a44c);background:transparent;color:inherit;font:700 15px 'Cairo',sans-serif;cursor:pointer}
+#v30Act #v30Go{background:var(--s-accent,#c9a44c);color:#1a1206}
+#v30Act #v30Go:disabled{opacity:.4;cursor:not-allowed}
