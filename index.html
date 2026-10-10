@@ -668,11 +668,11 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
 <script src="37-anon.c94ab4bc84.js"></script>
 <script src="38-anon.5ed3a3ba72.js"></script>
 <script src="39-anon.000150e219.js"></script>
-<script id="js-v14" src="40-js-v14.abcd182294.js"></script>
+<script id="js-v14" src="40-js-v14.8cb63117dc.js"></script>
 <script id="v55m-js" src="41-v55m-js.6032ecfee5.js"></script>
 <script id="v57-inst" src="42-v57-inst.1cb8a1f579.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v71';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v72';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" id="v62nav" href="45-v62nav.96c482aa62.css">
@@ -728,5 +728,41 @@ html[data-layout="path"][data-design="2"] body.v15-rail-off #v15RailBtn{inset-in
 html[data-layout="path"][data-design="1"]{--v71-rail-w:56px}
 html[data-layout="path"][data-design="2"]{--v71-rail-w:46px}
 </style>
+<style id="v71banner">/* v71 — البانر العلوي (الأجبية / الخلوة اليومية) يظهر في رئيسية الأجبية فقط؛ يختفي أثناء الصلاة. */
+#mod-k.v71-inprayer .app-switcher{display:none!important}
+</style>
+<script id="v71banner-js">/* v71 — البانر العلوي في رئيسية الأجبية فقط.
+   - يختفي عند اختيار ساعة أو دمج صلوات (state.hour / state.mergedPair).
+   - يعود عند: زر الرجوع في الجهاز/المتصفح، أو الضغط على «الصلاة» في شريط الانتقال.
+   - في تبويب «الخلوة اليومية» يبقى ظاهرًا (هو طريق العودة للأجبية). */
+(function(){
+  var mod=document.getElementById('mod-k'), va=document.getElementById('view-agpeya');
+  if(!mod||!va) return;
+  function st(){ try{ return window.__k&&window.__k.getState&&window.__k.getState(); }catch(e){ return null; } }
+  function inPrayer(){ var s=st(); return !!(s&&(s.hour||s.mergedPair)); }
+  var pushed=false, was=false, raf=0;
+  function sync(){
+    raf=0;
+    var p=inPrayer() && va.style.display!=='none';
+    mod.classList.toggle('v71-inprayer',p);
+    if(p&&!was&&!pushed){ try{ history.pushState({v71pray:1},'',location.href); pushed=true; }catch(e){} }
+    if(!p) pushed=pushed&&false;
+    was=p;
+  }
+  function soon(){ if(!raf) raf=requestAnimationFrame(sync); }
+  new MutationObserver(soon).observe(va,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']});
+  new MutationObserver(soon).observe(document.getElementById('view-meditation')||va,{attributes:true,attributeFilter:['style']});
+  document.addEventListener('click',function(e){
+    var n=e.target.closest&&e.target.closest('#uNav [data-go="pray"]');
+    if(n&&typeof window.goHome==='function'){ window.goHome(); setTimeout(sync,0); return; }
+    setTimeout(soon,0);
+  },true);
+  /* زر الرجوع: لو داخل صلاة → ارجع لرئيسية الأجبية */
+  window.addEventListener('popstate',function(){
+    if(inPrayer()&&typeof window.goHome==='function'){ pushed=false; window.goHome(); setTimeout(sync,0); }
+  });
+  sync();
+})();
+</script>
 </body>
 </html>
