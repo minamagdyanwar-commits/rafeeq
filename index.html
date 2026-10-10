@@ -8,6 +8,71 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="store.78b63c1c4e.js"></script>
 <script>window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__bip=e});</script>
+<script id="theme-core">/* v73 — الثيمات الداخلية: لكل تصميم (كلاسيكي / الدرب / الفهرس) × وضع (فاتح / داكن) مجموعة ثيمات جاهزة.
+   الثيم = قيم متغيّرات --tc-* (يولّدها tools/themify.mjs في الـCSS بقيمة احتياطية = اللون الأصلي).
+   الاختيار محفوظ في rafeeq_v73_themes (داخل النسخة الاحتياطية). لا يوجد منتقي ألوان حر. */
+(function(){
+  var D={"combos":{"path/2":[{"id":"orig","name":"عنابي وكريمي (الأصلي)","sw":["#f3ead8","#fbf6ea","#7a1f2b"],"map":{}},{"id":"olive","name":"زيتوني","sw":["#e8edd8","#f5f8eb","#2b4916"],"map":{"#7a1f2b":"#2b4916","#f3ead8":"#e8edd8","#fbf6ea":"#f5f8eb","#fbf3e7":"#f2f6e4","#d8c7a0":"#c3cda4","#2b1d12":"#1e2213","#6a5640":"#565d41"}},{"id":"royal","name":"أزرق ملكي","sw":["#e7ebf2","#f4f7fa","#223f7a"],"map":{"#7a1f2b":"#223f7a","#f3ead8":"#e7ebf2","#fbf6ea":"#f4f7fa","#fbf3e7":"#f1f4f9","#d8c7a0":"#bfc9d7","#2b1d12":"#1a2029","#6a5640":"#505a69","#b88a2e":"#bc882f","#8a6a12":"#956513","#7a5a12":"#7f5813"}},{"id":"plum","name":"بنفسجي هادئ","sw":["#efe9f1","#f9f5fa","#5d2d6d"],"map":{"#7a1f2b":"#5d2d6d","#f3ead8":"#efe9f1","#fbf6ea":"#f9f5fa","#fbf3e7":"#f7f2f9","#d8c7a0":"#d2c4d7","#2b1d12":"#261d29","#6a5640":"#645469"}}],"path/1":[{"id":"orig","name":"ليل ووردي وذهبي (الأصلي)","sw":["#1e1812","#2a2118","#e4a3ab"],"map":{}},{"id":"navy","name":"كحلي ليلي","sw":["#151922","#1d2330","#97b7dc"],"map":{"#e4a3ab":"#97b7dc","#7a1f2b":"#20426a","#1e1812":"#151922","#2a2118":"#1d2330","#372c20":"#272e3f","#4d3e2c":"#364059","#f3ead8":"#e6ebf6","#c4b393":"#aab5ce","#2b1d12":"#172033","#fbf3e7":"#f1f4fc","#6a5640":"#4c5978"}},{"id":"forest","name":"أخضر الغابة","sw":["#131b12","#1a2617","#8bc194"],"map":{"#e4a3ab":"#8bc194","#7a1f2b":"#25492b","#1e1812":"#131b12","#2a2118":"#1a2617","#372c20":"#233220","#4d3e2c":"#30462c","#f3ead8":"#ddf0d9","#c4b393":"#9bbe94","#2b1d12":"#142411","#fbf3e7":"#e8f9e5","#6a5640":"#45613f"}},{"id":"wine","name":"عنابي عميق","sw":["#251418","#351b21","#dea5af"],"map":{"#e4a3ab":"#dea5af","#7a1f2b":"#732633","#1e1812":"#251418","#2a2118":"#351b21","#372c20":"#45242c","#4d3e2c":"#62323e","#f3ead8":"#f9e6eb","#c4b393":"#d6a9b4","#2b1d12":"#39131d","#fbf3e7":"#fef1f4","#6a5640":"#834756"}}],"index/2":[{"id":"orig","name":"أحمر وكريمي (الأصلي)","sw":["#f8f6f0","#fbfaf5","#b3261e"],"map":{}},{"id":"blue","name":"أزرق","sw":["#f5f6f8","#f9fafb","#2b5bae"],"map":{"#b3261e":"#2b5bae","#f8f6f0":"#f5f6f8","#fbfaf5":"#f9fafb","#efebe0":"#e9ebef","#d9d5cb":"#d3d5da","#141210":"#111214","#5c564e":"#54575c","#8a857b":"#82868a"}},{"id":"green","name":"أخضر","sw":["#f3f7f4","#f8fbf8","#1d6a44"],"map":{"#b3261e":"#1d6a44","#f8f6f0":"#f3f7f4","#fbfaf5":"#f8fbf8","#efebe0":"#e6ede7","#d9d5cb":"#d0d7d1","#141210":"#111311","#5c564e":"#525953","#8a857b":"#808781"}},{"id":"violet","name":"بنفسجي","sw":["#f7f6f8","#fafafb","#7744ab"],"map":{"#b3261e":"#7744ab","#f8f6f0":"#f7f6f8","#fbfaf5":"#fafafb","#efebe0":"#edeaf0","#d9d5cb":"#d7d4da","#141210":"#131214","#5c564e":"#59565d","#8a857b":"#87848b"}}],"index/1":[{"id":"orig","name":"أحمر على أسود (الأصلي)","sw":["#121110","#1c1a17","#ff7367"],"map":{}},{"id":"sky","name":"أزرق سماوي","sw":["#111112","#191a1c","#47a4f5"],"map":{"#ff7367":"#47a4f5","#ff9d95":"#7bbdf8","#b3261e":"#216198","#121110":"#111112","#1c1a17":"#191a1c","#26231f":"#222426","#3a3731":"#35373b","#f2efe8":"#edeff2","#a9a298":"#9fa3a9","#a29c90":"#999da3","#141210":"#111214","#f8f6f0":"#f5f6f8","#d9d5cb":"#d2d6da","#5c564e":"#54575c"}},{"id":"mint","name":"أخضر نعناعي","sw":["#101111","#181b19","#1ab668"],"map":{"#ff7367":"#1ab668","#ff9d95":"#1ed278","#b3261e":"#206a45","#121110":"#101111","#1c1a17":"#181b19","#26231f":"#202422","#3a3731":"#333935","#f2efe8":"#ebf1ed","#a9a298":"#9ba59f","#a29c90":"#949f98","#141210":"#111311","#f8f6f0":"#f3f7f4","#d9d5cb":"#cfd7d2","#5c564e":"#515953"}},{"id":"amber","name":"كهرماني","sw":["#111110","#1b1a19","#cf940b"],"map":{"#ff7367":"#cf940b","#ff9d95":"#efab0d","#b3261e":"#75591a","#121110":"#111110","#1c1a17":"#1b1a19","#26231f":"#252321","#3a3731":"#393734","#f2efe8":"#f1efec","#a9a298":"#a6a39d","#a29c90":"#9f9c97","#141210":"#131211","#f8f6f0":"#f7f6f4","#d9d5cb":"#d7d5d1","#5c564e":"#595752"}}],"classic/1":[{"id":"orig","name":"كحلي وذهبي (الأصلي)","sw":["#071530","#173563","#c9a44c"],"map":{}},{"id":"green","name":"أخضر داكن","sw":["#061a0d","#143d22","#c9a44c"],"map":{"#071530":"#061a0d","#0a1e3f":"#092412","#060f24":"#05130a","#0b1b33":"#0a1f11","#13294a":"#112f1b","#10294f":"#0f301a","#173563":"#143d22","#20437a":"#1c4d2c","#9fb0cc":"#8cb99b","#b9c4dc":"#a8ccb4","#8291ab":"#739980","#8a97b5":"#77a085","#c9d3e6":"#bbdac5","#faf6ec":"#eef9f2"}},{"id":"wine","name":"عنابي غامق","sw":["#2b0b10","#5f202a","#c9a44c"],"map":{"#071530":"#2b0b10","#0a1e3f":"#3b1017","#060f24":"#1f090c","#0b1b33":"#321016","#13294a":"#481a21","#10294f":"#4c1720","#173563":"#5f202a","#20437a":"#752a37","#9fb0cc":"#c9a6ac","#b9c4dc":"#d9bdc2","#8291ab":"#a8888d","#8a97b5":"#b18e94","#c9d3e6":"#e4cdd1","#faf6ec":"#fbf5f6"}},{"id":"charcoal","name":"فحمي","sw":["#181614","#393531","#c9a44c"],"map":{"#071530":"#181614","#0a1e3f":"#211e1c","#060f24":"#11100e","#0b1b33":"#1d1b19","#13294a":"#2b2926","#10294f":"#2c2926","#173563":"#393531","#20437a":"#48433e","#9fb0cc":"#b1aeab","#b9c4dc":"#c6c3c1","#8291ab":"#92908d","#8a97b5":"#999694","#c9d3e6":"#d4d2d0","#faf6ec":"#f7f6f5"}}],"classic/2":[{"id":"orig","name":"عنابي وكريمي (الأصلي)","sw":["#4A1420","#FFFBF2","#7a1f2b"],"map":{},"colors":{"bg":"#4A1420","surface":"#FFFBF2","ink":"#2E1D12"}},{"id":"navy","name":"كحلي وكريمي","sw":["#12294A","#FFFBF2","#234073"],"map":{"#7a1f2b":"#234073","#6e1b26":"#1f3968","#8c3240":"#345182","#3a0f18":"#101e36","#2c0c13":"#0d1728","#8a1f2b":"#244784"},"colors":{"bg":"#12294A","surface":"#FFFBF2","ink":"#0A1E3F"}},{"id":"green","name":"أخضر وكريمي","sw":["#1E3A22","#FFFBF2","#174b24"],"map":{"#7a1f2b":"#174b24","#6e1b26":"#14431f","#8c3240":"#255c33","#3a0f18":"#0b2311","#2c0c13":"#091b0d","#8a1f2b":"#175326"},"colors":{"bg":"#1E3A22","surface":"#FFFBF2","ink":"#1A3320"}},{"id":"brown","name":"بني ترابي","sw":["#3B2415","#FBF3E7","#5e381d"],"map":{"#7a1f2b":"#5e381d","#6e1b26":"#553219","#8c3240":"#6f482d","#3a0f18":"#2c1a0d","#2c0c13":"#21140b","#8a1f2b":"#6a3d1d"},"colors":{"bg":"#3B2415","surface":"#FBF3E7","ink":"#2E1D12"}},{"id":"violet","name":"بنفسجي","sw":["#2E1A47","#F6F0FA","#60267c"],"map":{"#7a1f2b":"#60267c","#6e1b26":"#562170","#8c3240":"#70388c","#3a0f18":"#2d123b","#2c0c13":"#220e2c","#8a1f2b":"#6c278e"},"colors":{"bg":"#2E1A47","surface":"#F6F0FA","ink":"#2A1840"}},{"id":"teal","name":"تركواز","sw":["#123B3E","#FBF6EC","#17484a"],"map":{"#7a1f2b":"#17484a","#6e1b26":"#144043","#8c3240":"#25595b","#3a0f18":"#0b2223","#2c0c13":"#08191a","#8a1f2b":"#175053"},"colors":{"bg":"#123B3E","surface":"#FBF6EC","ink":"#0F2F31"}}]},"bases":["#060f24","#071530","#0a1e3f","#0b1b33","#10294f","#121110","#13294a","#141210","#173563","#1c1a17","#1e1812","#20437a","#26231f","#2a2118","#2b1d12","#2c0c13","#372c20","#3a0f18","#3a3731","#4d3e2c","#5c564e","#6a5640","#6e1b26","#7a1f2b","#7a5a12","#8291ab","#8a1f2b","#8a6a12","#8a857b","#8a97b5","#8c3240","#9fb0cc","#a29c90","#a9a298","#b3261e","#b88a2e","#b9c4dc","#c4b393","#c9a24a","#c9a44c","#c9d3e6","#d8ae55","#d8c7a0","#d9ae4e","#d9b45c","#d9d5cb","#e4a3ab","#e8c468","#e8c77a","#efebe0","#f0dfae","#f2efe8","#f3ead8","#f8f6f0","#faf6ec","#fbf3e7","#fbf6ea","#fbfaf5","#ff7367","#ff9d95"]}; if(!D) return;
+  var KEY='rafeeq_v73_themes', root=document.documentElement, ready=false, setProps=[];
+  var LAYOUT_NAME={classic:'الكلاسيكي',path:'الدرب',index:'الفهرس'};
+  function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'null'); }catch(e){ return null; } }
+  function sel(){ var s=jget(KEY); return (s&&typeof s==='object')?s:{}; }
+  function prefsLayout(){ var p=jget('rafeeq_v14_prefs'), l=p&&p.layout; return (l==='path'||l==='index')?l:'classic'; }
+  function layoutNow(){ var a=root.getAttribute('data-layout'); if(a==='path'||a==='index') return a; return ready?'classic':prefsLayout(); }
+  function modeSetting(){ var s=jget('khalwa_settings_v80')||{}; var m=s.themeMode; if(m==='light'||m==='dark'||m==='auto') return m; return s.design==='1'?'dark':'light'; }
+  function designNow(){ var m=modeSetting(); if(m==='dark') return '1'; if(m==='light') return '2'; try{ return (window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'1':'2'; }catch(e){ return '2'; } }
+  function list(layout,design){ return D.combos[layout+'/'+design]||[]; }
+  function cur(layout,design){ var id=(sel()[layout]||{})[design]; var L=list(layout,design); for(var i=0;i<L.length;i++) if(L[i].id===id) return L[i]; return L[0]||null; }
+  function rgbOf(h){ return parseInt(h.slice(1,3),16)+','+parseInt(h.slice(3,5),16)+','+parseInt(h.slice(5,7),16); }
+  function lum(hex){ var c=[1,3,5].map(function(i){ var v=parseInt(hex.slice(i,i+2),16)/255; return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4); }); return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2]; }
+  function setP(n,v){ root.style.setProperty(n,v); if(setProps.indexOf(n)<0) setProps.push(n); }
+  function classicColors(){ var t=cur('classic','2'); return (t&&t.colors)||{bg:'#4A1420',surface:'#FFFBF2',ink:'#2E1D12'}; }
+  function apply(){
+    var layout=layoutNow(), design=designNow();
+    setProps.forEach(function(n){ root.style.removeProperty(n); }); setProps=[];
+    // ألوان الكلاسيكي الفاتح (الخلفية/الكروت/الحبر): كانت تُضبط دائمًا من الإعدادات وبقيت كذلك (تُحدَّد الآن بالثيم)
+    var c=classicColors(), st=root.style;
+    ['--bg','--u-bg'].forEach(function(n){ st.setProperty(n,c.bg); }); ['--surface','--u-surface'].forEach(function(n){ st.setProperty(n,c.surface); }); ['--ink','--u-ink'].forEach(function(n){ st.setProperty(n,c.ink); });
+    var dark=lum(c.bg)<0.5; root.setAttribute('data-pt',dark?'dark':'light');
+    st.setProperty('--page-text',dark?'#F6ECD6':'#2E1D12'); st.setProperty('--page-text-soft',dark?'#D9C6A3':'#7A6248');
+    // ثيم التصميم الحالي
+    var t=cur(layout,design);
+    if(t&&t.map) Object.keys(t.map).forEach(function(b){ setP('--tc-'+b.slice(1),t.map[b]); setP('--tc-'+b.slice(1)+'-rgb',rgbOf(t.map[b])); });
+    // ألوان التمييز لثيم الكلاسيكي الفاتح تعمل حتى لو الوضع الحالي داكن (تظهر عند الرجوع للفاتح) — لا شيء مطلوب هنا
+    root.setAttribute('data-rf-theme',layout+'/'+design+'/'+(t?t.id:'orig'));
+    try{ document.dispatchEvent(new Event('rafeeq:theme')); }catch(e){}
+    paintUI();
+  }
+  function set(layout,design,id){ var s=sel(); s[layout]=s[layout]||{}; s[layout][design]=id; try{ localStorage.setItem(KEY,JSON.stringify(s)); }catch(e){} apply(); }
+  function reset(){ try{ localStorage.removeItem(KEY); }catch(e){} apply(); }
+  // ---------- واجهة الإعدادات ----------
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function paintUI(){
+    var box=document.getElementById('themesBox'); if(!box) return;
+    var layout=layoutNow(), now=designNow(), h='';
+    h+='<div class="rf-th-note">ثيمات «'+LAYOUT_NAME[layout]+'» الجاهزة — لكل وضع (فاتح / داكن) ثيمه المستقل، والتغيير فوري ومحفوظ على جهازك.</div>';
+    [['2','فاتح ☀️'],['1','داكن 🌙']].forEach(function(m){
+      var L=list(layout,m[0]); if(!L.length) return; var c=cur(layout,m[0]);
+      h+='<div class="settings-subhead">'+m[1]+(m[0]===now?' <small>(المستخدم الآن)</small>':'')+'</div><div class="rf-th-grid">';
+      L.forEach(function(t){ h+='<button type="button" class="settings-mbtn rf-th'+(c&&c.id===t.id?' active':'')+'" data-d="'+m[0]+'" data-id="'+t.id+'" aria-pressed="'+(c&&c.id===t.id)+'"><span class="rf-sw" aria-hidden="true">'+t.sw.map(function(x){ return '<i style="background:'+x+'"></i>'; }).join('')+'</span><span class="rf-nm">'+esc(t.name)+'</span></button>'; });
+      h+='</div>';
+    });
+    box.innerHTML=h;
+  }
+  function init(){
+    ready=true;
+    var box=document.getElementById('themesBox');
+    if(box&&!box.__rf){ box.__rf=1; box.addEventListener('click',function(e){ var b=e.target.closest('.rf-th'); if(b) set(layoutNow(),b.dataset.d,b.dataset.id); }); }
+    apply();
+  }
+  window.__rfTheme={list:list,current:cur,set:set,reset:reset,apply:apply,layout:layoutNow,design:designNow,classicColors:classicColors,data:D};
+  new MutationObserver(function(){ apply(); }).observe(root,{attributes:true,attributeFilter:['data-design','data-layout']});
+  document.addEventListener('rafeeq:layout',function(){ ready=true; apply(); });
+  try{ var mq=matchMedia('(prefers-color-scheme: dark)'); (mq.addEventListener?mq.addEventListener('change',apply):mq.addListener(apply)); }catch(e){}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+  apply();
+})();
+</script>
 <title>الرفيق الروحي | الأجبية · الخلوة · القراءات · محاسبة النفس</title>
 <meta name="description" content="برنامج واحد للحياة الروحية اليومية: الأجبية، الخلوة اليومية، القراءات القبطية، ومحاسبة النفس">
 <meta name="theme-color" content="#4A1420">
@@ -21,15 +86,15 @@
 var dark=m==='dark'||(m==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);
 document.documentElement.setAttribute('data-design',dark?'1':'2');document.documentElement.setAttribute('data-theme',dark?'dark':'light');}catch(e){}})();
 </script>
-<link rel="stylesheet" id="css-k" href="03-css-k.38123114eb.css">
-<link rel="stylesheet" id="css-r" href="04-css-r.1933e247ea.css">
-<link rel="stylesheet" id="css-m" href="05-css-m.8ec38eb61c.css">
-<link rel="stylesheet" id="css-unify" href="06-css-unify.b6f54b7d23.css">
-<link rel="stylesheet" id="css-feat" href="07-css-feat.c481e6c838.css">
-<link rel="stylesheet" id="css-v14" href="08-css-v14.aa45c7244d.css">
-<link rel="stylesheet" id="css-v17" href="09-css-v17.6fe5bdbde7.css">
-<link rel="stylesheet" id="css-v21" href="10-css-v21.3dfd93b6e3.css">
-<link rel="stylesheet" id="css-v22" href="11-css-v22.bf12c2bf13.css">
+<link rel="stylesheet" id="css-k" href="03-css-k.f6275964e5.css">
+<link rel="stylesheet" id="css-r" href="04-css-r.189bec221e.css">
+<link rel="stylesheet" id="css-m" href="05-css-m.d91d476135.css">
+<link rel="stylesheet" id="css-unify" href="06-css-unify.cdfae846a4.css">
+<link rel="stylesheet" id="css-feat" href="07-css-feat.80e3a8cfbf.css">
+<link rel="stylesheet" id="css-v14" href="08-css-v14.04f056a1cc.css">
+<link rel="stylesheet" id="css-v17" href="09-css-v17.3b9fe0e0ff.css">
+<link rel="stylesheet" id="css-v21" href="10-css-v21.889ef9b890.css">
+<link rel="stylesheet" id="css-v22" href="11-css-v22.f2aeba00f7.css">
 
 <style id="v29top">
 /* v29: ترتيب الشريط العلوي — العنوان يمينًا، التاريخ في الوسط بلا إطار، الأيقونات الصغيرة يسارًا */
@@ -43,10 +108,10 @@ html body #uTop .acts button{width:32px!important;height:32px!important;min-widt
 html body #uTop .acts button svg{width:16px!important;height:16px!important}
 html body #uTop #v14Khalwa{font-size:15px!important;line-height:1}
 </style>
-<link rel="stylesheet" id="v30css" href="13-v30css.b2d3164fdf.css">
-<link rel="stylesheet" id="v36iso" href="14-v36iso.7f951ee29d.css">
-<link rel="stylesheet" id="v32dual" href="15-v32dual.ac6ea1f96a.css">
-<link rel="stylesheet" id="v34fix" href="16-v34fix.0873d7fd55.css">
+<link rel="stylesheet" id="v30css" href="13-v30css.10e10bfc5c.css">
+<link rel="stylesheet" id="v36iso" href="14-v36iso.60598b288d.css">
+<link rel="stylesheet" id="v32dual" href="15-v32dual.cb06703be0.css">
+<link rel="stylesheet" id="v34fix" href="16-v34fix.d81c449e80.css">
 <link rel="stylesheet" id="v33set" href="17-v33set.ec17b34f1d.css">
 <link rel="stylesheet" id="v40k" href="18-v40k.d1098e972f.css">
 <style id="v41dord">
@@ -90,7 +155,7 @@ html body.v14-khalwa.has-bar .u-page{padding-bottom:calc(env(safe-area-inset-bot
 .agh{white-space:nowrap}
 </style>
 <style id="v53s">
-#v14Strip{display:none;position:fixed;top:0;left:0;right:0;height:calc(env(safe-area-inset-top,0px) + 42px);z-index:2147483000;pointer-events:none;background:rgba(0,0,0,.7);background:color-mix(in srgb,var(--s-bar,#000) 70%,transparent);border-bottom:1px solid color-mix(in srgb,var(--s-accent,#c9a44c) 45%,transparent);box-sizing:border-box}
+#v14Strip{display:none;position:fixed;top:0;left:0;right:0;height:calc(env(safe-area-inset-top,0px) + 42px);z-index:2147483000;pointer-events:none;background:rgba(0,0,0,.7);background:color-mix(in srgb,var(--s-bar,#000) 70%,transparent);border-bottom:1px solid color-mix(in srgb,var(--s-accent,var(--tc-c9a44c,#c9a44c)) 45%,transparent);box-sizing:border-box}
 body.v14-khalwa #v14Strip{display:block}
 </style>
 <link rel="stylesheet" id="v55m" href="27-v55m.f2cf65572d.css">
@@ -113,7 +178,7 @@ body.v14-khalwa #v14Strip{display:block}
     <button class="h-row" data-act="hist"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span class="tx"><b>سجل المحاسبة</b><span>مراجعة أيامك السابقة</span></span><span class="ar">‹</span></button>
     <button class="h-row" data-act="conf"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M6 21h12"/><path d="M5 7h14"/><path d="M5 7l-3 7a3.2 3.2 0 006 0zM19 7l-3 7a3.2 3.2 0 006 0z"/></svg></span><span class="tx"><b>ورقة الاعتراف</b><span>ما تحمله لأب اعترافك من محاسبتك، وموعد الاعتراف القادم</span></span><span class="ar">‹</span></button>
   </div>
-  <p class="h-foot">كل ما تسجّله يُحفظ على جهازك فقط. ⚙ في الأعلى للمظهر والألوان والخط والتذكيرات والنسخ الاحتياطي.</p>
+  <p class="h-foot">كل ما تسجّله يُحفظ على جهازك فقط. ⚙ في الأعلى للمظهر والثيمات والخط والتذكيرات والنسخ الاحتياطي.</p>
 </div></section>
 <section class="u-page" id="page-pray" aria-label="الصلاة"><div id="mod-k">
 
@@ -583,36 +648,9 @@ body.v14-khalwa #v14Strip{display:block}
     </div>
   </div>
 
-  <div class="settings-section" id="colorsSection">
-    <div class="settings-label">الألوان</div>
-
-    <div class="settings-subhead">الخلفية والحواشي</div>
-    <div class="settings-pairgrid" id="pairSwatches">
-      <button class="settings-pairswatch" data-bg="#4A1420" data-surface="#FFFBF2" style="--c1:#4A1420;--c2:#FFFBF2" title="نبيتي وكريمي" aria-label="نبيتي وكريمي"></button>
-      <button class="settings-pairswatch" data-bg="#12294A" data-surface="#FFFBF2" style="--c1:#12294A;--c2:#FFFBF2" title="كحلي وكريمي" aria-label="كحلي وكريمي"></button>
-      <button class="settings-pairswatch" data-bg="#1E3A22" data-surface="#FFFBF2" style="--c1:#1E3A22;--c2:#FFFBF2" title="أخضر غامق وكريمي" aria-label="أخضر غامق وكريمي"></button>
-      <button class="settings-pairswatch" data-bg="#3A0F18" data-surface="#F7F0E3" style="--c1:#3A0F18;--c2:#F7F0E3" title="عنابي وعاجي" aria-label="عنابي وعاجي"></button>
-      <button class="settings-pairswatch" data-bg="#3B2415" data-surface="#FBF3E7" style="--c1:#3B2415;--c2:#FBF3E7" title="بني شوكولاتة وكريمي" aria-label="بني شوكولاتة وكريمي"></button>
-      <button class="settings-pairswatch" data-bg="#0D1E36" data-surface="#EAF2FB" style="--c1:#0D1E36;--c2:#EAF2FB" title="كحلي داكن وأزرق فاتح" aria-label="كحلي داكن وأزرق فاتح"></button>
-      <button class="settings-pairswatch" data-bg="#33361C" data-surface="#F5F3E4" style="--c1:#33361C;--c2:#F5F3E4" title="زيتوني وكريمي فاتح" aria-label="زيتوني وكريمي فاتح"></button>
-      <button class="settings-pairswatch" data-bg="#232323" data-surface="#FAF8F5" style="--c1:#232323;--c2:#FAF8F5" title="رمادي فحمي وأبيض دافئ" aria-label="رمادي فحمي وأبيض دافئ"></button>
-      <button class="settings-pairswatch" data-bg="#123B3E" data-surface="#FBF6EC" style="--c1:#123B3E;--c2:#FBF6EC" title="تركواز غامق وكريمي" aria-label="تركواز غامق وكريمي"></button>
-      <button class="settings-pairswatch" data-bg="#2E1A47" data-surface="#F6F0FA" style="--c1:#2E1A47;--c2:#F6F0FA" title="بنفسجي غامق وكريمي فاتح" aria-label="بنفسجي غامق وكريمي فاتح"></button>
-      <button class="settings-pairswatch" data-bg="#4A1F1F" data-surface="#FBEDEA" style="--c1:#4A1F1F;--c2:#FBEDEA" title="كستنائي ووردي فاتح" aria-label="كستنائي ووردي فاتح"></button>
-      <button class="settings-pairswatch" data-bg="#1B2A4A" data-surface="#FDF8EC" style="--c1:#1B2A4A;--c2:#FDF8EC" title="أزرق ليلي وكريمي" aria-label="أزرق ليلي وكريمي"></button>
-    </div>
-
-    <div class="settings-subhead">لون الخط</div>
-    <div class="settings-inkgrid" id="inkSwatches">
-      <button class="settings-inkswatch" data-ink="#2E1D12" style="--c:#2E1D12" title="بني غامق" aria-label="بني غامق"></button>
-      <button class="settings-inkswatch" data-ink="#0A1E3F" style="--c:#0A1E3F" title="كحلي غامق" aria-label="كحلي غامق"></button>
-      <button class="settings-inkswatch" data-ink="#1A3320" style="--c:#1A3320" title="أخضر غامق" aria-label="أخضر غامق"></button>
-      <button class="settings-inkswatch" data-ink="#3A0F18" style="--c:#3A0F18" title="نبيتي غامق" aria-label="نبيتي غامق"></button>
-      <button class="settings-inkswatch" data-ink="#1C1C1C" style="--c:#1C1C1C" title="أسود فحمي" aria-label="أسود فحمي"></button>
-      <button class="settings-inkswatch" data-ink="#3B2415" style="--c:#3B2415" title="بني شوكولاتة" aria-label="بني شوكولاتة"></button>
-      <button class="settings-inkswatch" data-ink="#4A1F1F" style="--c:#4A1F1F" title="كستنائي" aria-label="كستنائي"></button>
-      <button class="settings-inkswatch" data-ink="#2B2B2B" style="--c:#2B2B2B" title="رمادي غامق" aria-label="رمادي غامق"></button>
-    </div>
+  <div class="settings-section" id="themesSection">
+    <div class="settings-label">الثيمات</div>
+    <div id="themesBox"></div>
   </div>
 
   <div class="settings-section" id="remindersSection">
@@ -657,7 +695,7 @@ if(e&&e.auto) return rk(new Date());
 if(e&&/^\d{4}-\d\d-\d\d$/.test(e.date)) return e.date;
 var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_prefs_v1',JSON.stringify(p));return k}catch(x){return rk(new Date())}}})();
 </script>
-<script src="29-anon.c09780845a.js"></script>
+<script src="29-anon.caeb5eebc5.js"></script>
 <script src="30-anon.4ef9de7a19.js"></script>
 <script src="31-anon.cdd5a50b71.js"></script>
 <script src="data-bibleData.e64361f795.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
@@ -668,16 +706,16 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
 <script src="37-anon.c94ab4bc84.js"></script>
 <script src="38-anon.5ed3a3ba72.js"></script>
 <script src="39-anon.000150e219.js"></script>
-<script id="js-v14" src="40-js-v14.8cb63117dc.js"></script>
+<script id="js-v14" src="40-js-v14.3bd0cda93e.js"></script>
 <script id="v55m-js" src="41-v55m-js.6032ecfee5.js"></script>
 <script id="v57-inst" src="42-v57-inst.1cb8a1f579.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v72';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v73';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
-<link rel="stylesheet" id="v62nav" href="45-v62nav.96c482aa62.css">
+<link rel="stylesheet" id="v62nav" href="45-v62nav.16d6ade3ea.css">
 <script id="v62nav-js" src="46-v62nav-js.3a5b5ad697.js"></script>
-<link rel="stylesheet" id="v64ux" href="47-v64ux.334245fe4e.css">
+<link rel="stylesheet" id="v64ux" href="47-v64ux.e2060c873e.css">
 <script id="v64ux-js" src="48-v64ux-js.cc1e9ef072.js"></script>
 <style id="v67ux">
 #uToast{display:flex;align-items:center;gap:10px}
@@ -698,21 +736,21 @@ html body.v14-khalwa #uToast.act{display:flex!important;bottom:calc(env(safe-are
 .v69res{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0}
 .v69res small{display:block;opacity:.7;font-size:12px}
 .v69res b{display:block;font-size:16px;margin-top:2px}
-.v69res button{flex-shrink:0;min-height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--s-accent,#c9a24a);background:var(--s-accent,#c9a24a);color:#1b0d11;font:inherit;font-weight:700;cursor:pointer}
+.v69res button{flex-shrink:0;min-height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--s-accent,var(--tc-c9a24a,#c9a24a));background:var(--s-accent,var(--tc-c9a24a,#c9a24a));color:#1b0d11;font:inherit;font-weight:700;cursor:pointer}
 .v69tour{text-align:center;display:flex;flex-direction:column;gap:12px;padding:6px 4px 2px}
 .v69tour .ic{font-size:44px;line-height:1.1}
 .v69tour h3{margin:0;font-size:20px}
 .v69tour p{margin:0;line-height:1.9;opacity:.9}
 .v69dots{display:flex;gap:8px;justify-content:center;margin:4px 0}
 .v69dots i{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.25}
-.v69dots i.on{opacity:.9;background:var(--s-accent,#c9a24a)}
+.v69dots i.on{opacity:.9;background:var(--s-accent,var(--tc-c9a24a,#c9a24a))}
 .v69row{display:flex;gap:10px;justify-content:center}
-.v69row button{min-height:46px;padding:0 22px;border-radius:12px;border:1px solid var(--s-accent,#c9a24a);background:transparent;color:inherit;font:inherit;cursor:pointer}
-.v69row button.p{background:var(--s-accent,#c9a24a);color:#1b0d11;font-weight:700}
+.v69row button{min-height:46px;padding:0 22px;border-radius:12px;border:1px solid var(--s-accent,var(--tc-c9a24a,#c9a24a));background:transparent;color:inherit;font:inherit;cursor:pointer}
+.v69row button.p{background:var(--s-accent,var(--tc-c9a24a,#c9a24a));color:#1b0d11;font-weight:700}
 #settingsPanel .v69tourbtn{display:block;margin:14px auto 0;min-height:44px;padding:0 18px;border-radius:12px;border:1px solid currentColor;background:transparent;color:inherit;font:inherit;opacity:.85;cursor:pointer}
 </style>
 <script id="v69st-js" src="54-v69st-js.1edeb162dd.js"></script>
-<link rel="stylesheet" id="v70me" href="55-v70me.c08611b82d.css">
+<link rel="stylesheet" id="v70me" href="55-v70me.8dbbca9307.css">
 <script id="v70me-js" src="56-v70me-js.48f0f3b1be.js"></script>
 <style id="v71rail">/* v71 — «الدرب»: سهم إخفاء/إظهار شريط الانتقال دائمًا في منتصف ارتفاع الشاشة.
    والشريط ظاهر: السهم يلاصق حافة الشريط من جهة المحتوى (لا ينزل تحته ولا يختفي خلفه)؛ والشريط مخفي: يلاصق حافة الشاشة. */
@@ -764,5 +802,14 @@ html[data-layout="path"][data-design="2"]{--v71-rail-w:46px}
   sync();
 })();
 </script>
+<style id="v73themes">/* v73 — قسم «الثيمات» في الإعدادات */
+#themesBox .rf-th-note{font-size:.8rem;line-height:1.6;opacity:.8;margin:2px 0 6px}
+#themesBox .settings-subhead small{font-weight:400;opacity:.7}
+#themesBox .rf-th-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
+#themesBox .rf-th{display:flex;flex-direction:column;align-items:stretch;gap:7px;padding:8px;margin:0;width:auto;min-width:0;text-align:center;white-space:normal}
+#themesBox .rf-sw{display:flex;height:24px;border-radius:7px;overflow:hidden;border:1px solid rgba(128,128,128,.45)}
+#themesBox .rf-sw i{flex:1;display:block}
+#themesBox .rf-nm{font-size:.82rem;line-height:1.35}
+</style>
 </body>
 </html>

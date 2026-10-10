@@ -1,0 +1,189 @@
+
+/* ===== v22: مطابقة التصاميم ===== */
+#v22Home,#v22Pray{display:none}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #v22Home,
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #v22Pray{display:block}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #page-home :is(.home-hero,#hExtra,.h-grid,.h-sec,.h-list,.h-foot,#pathTL){display:none!important}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #v22Home button{font-family:inherit;cursor:pointer}
+#v22Home .nowtag{font:700 11px 'Cairo',sans-serif;padding:1px 9px;border-radius:99px;margin-inline-start:6px}
+#v22Home ol{list-style:none;margin:0;padding:0}
+#v22Home li{display:flex;align-items:center}
+#v22Home .go{flex:1;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:8px;background:none;border:0;color:inherit;text-align:start;padding:0}
+#v22Home .sq{flex:none;cursor:pointer;padding:0}
+#v22Home .nm b{font-size:16px}
+#v22Home .sb{font-size:12px;opacity:.8;white-space:nowrap}
+
+/* ---------- الأفق: الرئيسية ---------- */
+html[data-layout=horizon] #v22Home .ttl{font:700 30px 'Amiri',serif;text-align:center;margin:2px 0 0;color:#F3EBDD}
+html[data-layout=horizon] #v22Home .dialwrap{max-width:340px;margin:0 auto}
+html[data-layout=horizon] #v22Home .v22dial{width:100%;height:auto;display:block;font-family:'Cairo',sans-serif}
+html[data-layout=horizon] #v22Home .dot{cursor:pointer;outline:none}
+html[data-layout=horizon] #v22Home .cta{display:block;width:100%;background:var(--tc-e8c468,#E8C468);color:#1A1630;border:0;border-radius:18px;padding:14px;font-weight:700;font-size:17px;margin-top:4px}
+html[data-layout=horizon] #v22Home .tiles{display:flex;gap:10px;margin-top:12px}
+html[data-layout=horizon] #v22Home .tile{flex:1;min-width:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:6px;text-align:start;color:#F3EBDD}
+html[data-layout=horizon] #v22Home .tile svg{width:22px;height:22px;color:var(--tc-e8c468,#E8C468)}
+html[data-layout=horizon] #v22Home .tile b{font-size:15px}
+html[data-layout=horizon] #v22Home .tile small{font-size:12px;color:#B9B4D6}
+html[data-layout=horizon] #v22Home .verse{margin-top:12px;background:rgba(255,255,255,.06);border-radius:18px;padding:14px 16px;text-align:center}
+html[data-layout=horizon] #v22Home .vl{display:none}
+html[data-layout=horizon] #v22Home .vt{font:400 20px/1.8 'Amiri',serif;color:#F3EBDD}
+html[data-layout=horizon] #v22Home .vr{font-size:12px;color:var(--tc-e8c468,#E8C468);margin-top:2px}
+
+/* ---------- المخطوطة: الرئيسية ---------- */
+html[data-layout=scroll] #v22Home .top{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:6px}
+html[data-layout=scroll] #v22Home .top h2{font:700 38px/1.1 'Aref Ruqaa','Amiri',serif;color:var(--tc-7a1f2b,#7A1F2B);margin:0}
+html[data-layout=scroll] #v22Home .top p{font-size:13px;color:var(--tc-6a5640,#6A5640);margin:4px 0 0}
+html[data-layout=scroll] #v22Home .ring{flex:none;width:54px;height:54px;border-radius:50%;border:2px solid var(--tc-b88a2e,#B88A2E);display:flex;align-items:center;justify-content:center;font:700 19px 'Amiri',serif;color:var(--tc-7a1f2b,#7A1F2B)}
+html[data-layout=scroll] #v22Home .rule{display:block;height:1px;background:linear-gradient(90deg,var(--tc-b88a2e,#B88A2E),transparent);margin:14px 0 4px}
+html[data-layout=scroll] #v22Home li{gap:12px;padding:9px 0;border-bottom:1px dotted rgba(var(--tc-7a1f2b-rgb,122,31,43),.4)}
+html[data-layout=scroll] #v22Home .sq{width:30px;height:30px;border:1.5px solid var(--tc-7a1f2b,#7A1F2B);border-radius:4px;background:transparent;color:var(--tc-7a1f2b,#7A1F2B);font:700 17px 'Amiri',serif}
+html[data-layout=scroll] #v22Home li.done .sq,html[data-layout=scroll] #v22Home li.now .sq{background:var(--tc-7a1f2b,#7A1F2B);color:#F7ECD2}
+html[data-layout=scroll] #v22Home li.now{background:rgba(var(--tc-b88a2e-rgb,184,138,46),.16);border-bottom:2px solid var(--tc-7a1f2b,#7A1F2B);margin:0 -10px;padding:9px 10px}
+html[data-layout=scroll] #v22Home li.done .nm b{text-decoration:line-through;text-decoration-color:rgba(var(--tc-7a1f2b-rgb,122,31,43),.5);opacity:.7}
+html[data-layout=scroll] #v22Home .nowtag{background:var(--tc-7a1f2b,#7A1F2B);color:#F7ECD2}
+html[data-layout=scroll] #v22Home .sb{color:var(--tc-6a5640,#6A5640)}
+html[data-layout=scroll] #v22Home .verse{margin:22px 4px 8px;border:1px solid var(--tc-b88a2e,#B88A2E);outline:1px solid rgba(var(--tc-7a1f2b-rgb,122,31,43),.4);outline-offset:3px;padding:16px 16px 12px;text-align:center;background:rgba(255,251,242,.55)}
+html[data-layout=scroll] #v22Home .vl{font-size:12px;color:var(--tc-7a5a12,#7A5A12);font-weight:700}
+html[data-layout=scroll] #v22Home .vt{font:400 22px/1.8 'Amiri',serif;margin:4px 0;color:var(--tc-2b1d12,#2B1D12)}
+html[data-layout=scroll] #v22Home .vr{font-size:12px;color:var(--tc-6a5640,#6A5640)}
+
+/* ---------- الفهرس: الرئيسية ---------- */
+html[data-layout=index] #v22Home .dl{display:flex;justify-content:space-between;font-size:12px;color:var(--tc-5c564e,#5C564E);margin-top:4px}
+html[data-layout=index] #v22Home .big{font:700 clamp(46px,14vw,58px)/1.05 'Amiri',serif;margin:8px 0 0;color:var(--tc-141210,#141210)}
+html[data-layout=index] #v22Home .big i{font-style:normal;color:var(--tc-b3261e,#B3261E)}
+html[data-layout=index] #v22Home .sub{font-size:15px;color:#3A352F;margin:2px 0 0}
+html[data-layout=index] #v22Home .cta{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--tc-141210,#141210);color:var(--tc-f8f6f0,#F8F6F0);border:0;border-radius:2px;padding:12px 22px;font-size:15px;font-weight:700}
+html[data-layout=index] #v22Home .sec{display:flex;align-items:baseline;justify-content:space-between;margin-top:28px;border-bottom:1px solid var(--tc-141210,#141210);padding-bottom:6px}
+html[data-layout=index] #v22Home .sec b{font:700 22px 'Amiri',serif}
+html[data-layout=index] #v22Home .sec span{font-size:12px;color:var(--tc-5c564e,#5C564E)}
+html[data-layout=index] #v22Home li{gap:12px;padding:10px 0;border-bottom:1px solid var(--tc-d9d5cb,#D9D5CB)}
+html[data-layout=index] #v22Home .sq{width:18px;height:18px;border:1.5px solid var(--tc-141210,#141210);border-radius:2px;background:transparent;font-size:0;color:var(--tc-f8f6f0,#F8F6F0)}
+html[data-layout=index] #v22Home li.done .sq{background:var(--tc-141210,#141210);font-size:12px;line-height:1}
+html[data-layout=index] #v22Home .nm b{font-size:15px;font-weight:600}
+html[data-layout=index] #v22Home li.now .nm b{color:var(--tc-b3261e,#B3261E);font-weight:700}
+html[data-layout=index] #v22Home li.done .nm b{text-decoration:line-through;opacity:.6}
+html[data-layout=index] #v22Home .nowtag{background:var(--tc-b3261e,#B3261E);color:var(--tc-f8f6f0,#F8F6F0)}
+html[data-layout=index] #v22Home .sb{color:var(--tc-5c564e,#5C564E)}
+html[data-layout=index] #v22Home .verse{margin-top:24px}
+html[data-layout=index] #v22Home .vl{font-size:12px;color:var(--tc-b3261e,#B3261E);font-weight:700}
+html[data-layout=index] #v22Home .vt{font:400 24px/1.7 'Amiri',serif;margin-top:2px}
+html[data-layout=index] #v22Home .vr{font-size:12px;color:var(--tc-5c564e,#5C564E)}
+
+/* ---------- الأجبية ---------- */
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #view-agpeya .wrap .header,
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #hourTrigger,
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #suggestNow{display:none!important}
+#v22Pray button{font-family:inherit;cursor:pointer}
+#v22Pray .chips{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+#v22Pray .chips::-webkit-scrollbar{display:none}
+#v22Pray .chips button{flex:none}
+/* المخطوطة */
+html[data-layout=scroll] #v22Pray{margin-bottom:8px}
+html[data-layout=scroll] #v22Pray .chips{display:none}
+html[data-layout=scroll] #v22Pray h1{font:700 40px/1.1 'Aref Ruqaa','Amiri',serif;color:var(--tc-7a1f2b,#7A1F2B);text-align:center;margin:4px 0 0}
+html[data-layout=scroll] #v22Pray .st{font-size:13px;color:var(--tc-6a5640,#6A5640);text-align:center;margin:2px 0 0}
+html[data-layout=scroll] #v22Pray .cr{display:flex;align-items:center;gap:10px;margin:10px 0;color:var(--tc-b88a2e,#B88A2E)}
+html[data-layout=scroll] #v22Pray .cr i{flex:1;height:1px;background:currentColor}
+html[data-layout=scroll] #v22Pray .box{border:1.5px solid var(--tc-7a1f2b,#7A1F2B);background:rgba(var(--tc-7a1f2b-rgb,122,31,43),.08);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+html[data-layout=scroll] #v22Pray .box small{display:block;font-size:12px;color:var(--tc-6a5640,#6A5640)}
+html[data-layout=scroll] #v22Pray .box b{font:700 20px 'Amiri',serif;color:var(--tc-7a1f2b,#7A1F2B)}
+html[data-layout=scroll] #v22Pray .box button{background:var(--tc-7a1f2b,#7A1F2B);color:#F7ECD2;border:0;border-radius:99px;padding:8px 16px;font-size:13px;font-weight:700;white-space:nowrap}
+html[data-layout=scroll] #v22Pray .lb{margin-top:16px;font-size:12px;color:var(--tc-7a5a12,#7A5A12);font-weight:700}
+html[data-layout=scroll] #mod-k .acc-card{background:transparent!important;border:0!important;border-bottom:1px dotted rgba(var(--tc-7a1f2b-rgb,122,31,43),.4)!important;border-radius:0!important;box-shadow:none!important}
+html[data-layout=scroll] #mod-k .acc-card[open]{background:rgba(var(--tc-b88a2e-rgb,184,138,46),.16)!important;border-bottom:2px solid var(--tc-7a1f2b,#7A1F2B)!important}
+html[data-layout=scroll] #mod-k .acc-num{border:1.5px solid var(--tc-7a1f2b,#7A1F2B)!important;border-radius:4px!important;background:transparent!important;color:var(--tc-7a1f2b,#7A1F2B)!important;width:28px;height:28px;font-family:'Amiri',serif;font-weight:700}
+html[data-layout=scroll] #mod-k .acc-card[open] .acc-num{background:var(--tc-7a1f2b,#7A1F2B)!important;color:#F7ECD2!important}
+html[data-layout=scroll] #mod-k .acc-title{font-weight:700;color:var(--tc-2b1d12,#2B1D12)}
+/* الأفق */
+html[data-layout=horizon] #v22Pray .chips button{padding:8px 14px;border-radius:99px;background:rgba(255,255,255,.08);border:0;color:#B9B4D6;font-size:13px;font-weight:700}
+html[data-layout=horizon] #v22Pray .chips button.on{background:var(--tc-e8c468,#E8C468);color:#1A1630}
+html[data-layout=horizon] #v22Pray .hh{text-align:center;margin:12px 0 10px}
+html[data-layout=horizon] #v22Pray .hh small{display:block;font-size:12px;color:var(--tc-e8c468,#E8C468);font-weight:700}
+html[data-layout=horizon] #v22Pray .hh b{font:700 24px 'Amiri',serif;color:#F3EBDD}
+html[data-layout=horizon] #mod-k .acc-num{background:rgba(var(--tc-e8c468-rgb,232,196,104),.2)!important;color:var(--tc-e8c468,#E8C468)!important;border:0!important;width:26px;height:26px;border-radius:50%!important}
+html[data-layout=horizon] #mod-k .acc-card[open]{background:rgba(var(--tc-e8c468-rgb,232,196,104),.1)!important;border-color:rgba(var(--tc-e8c468-rgb,232,196,104),.45)!important}
+html[data-layout=horizon] #mod-k .acc-card[open] .acc-num{background:var(--tc-e8c468,#E8C468)!important;color:#1A1630!important}
+html[data-layout=horizon] #mod-k .acc-title{color:#F3EBDD;font-weight:700}
+/* الفهرس */
+html[data-layout=index] #v22Pray .chips{gap:14px}
+html[data-layout=index] #v22Pray .chips button{padding:0 0 3px;background:none;border:0;border-bottom:2px solid transparent;color:var(--tc-5c564e,#5C564E);font-size:13px;font-weight:600}
+html[data-layout=index] #v22Pray .chips button.on{color:var(--tc-141210,#141210);font-weight:700;border-bottom-color:var(--tc-b3261e,#B3261E)}
+html[data-layout=index] #v22Pray h1{font:700 44px/1.1 'Amiri',serif;margin:10px 0 0;color:var(--tc-141210,#141210)}
+html[data-layout=index] #v22Pray h1 i{font-style:normal;color:var(--tc-b3261e,#B3261E)}
+html[data-layout=index] #v22Pray .st{font-size:14px;color:#3A352F;margin:0 0 8px}
+html[data-layout=index] #mod-k .acc-card{background:transparent!important;border:0!important;border-bottom:1px solid var(--tc-d9d5cb,#D9D5CB)!important;border-radius:0!important;box-shadow:none!important}
+html[data-layout=index] #mod-k .acc-card[open]{border-bottom-color:var(--tc-141210,#141210)!important}
+html[data-layout=index] #mod-k .acc-num{background:none!important;border:0!important;color:var(--tc-5c564e,#5C564E)!important;font:400 20px 'Amiri',serif;width:20px}
+html[data-layout=index] #mod-k .acc-card[open] .acc-num{color:var(--tc-b3261e,#B3261E)!important;font-weight:700}
+html[data-layout=index] #mod-k .acc-caret{font-size:0}
+html[data-layout=index] #mod-k .acc-caret::before{content:"+";font-size:20px;color:var(--tc-5c564e,#5C564E)}
+html[data-layout=index] #mod-k .acc-card[open] .acc-caret::before{content:"−";color:var(--tc-b3261e,#B3261E)}
+
+/* ---------- القراءات ---------- */
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #mod-r :is(.titleblock .subtitle,.flourish,.coptic-note,#weekStrip,.titleblock .version-tag){display:none!important}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #mod-r .datecard{background:transparent;border:0;box-shadow:none;padding:0;margin-top:6px}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #mod-r .datecard-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #mod-r .date-center{flex:1;display:flex;flex-wrap:wrap;gap:2px 8px;justify-content:center;align-items:baseline;text-align:center}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #mod-r .datebar-controls{display:flex;gap:6px;justify-content:center;margin-top:6px;font-size:12px}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #mod-r .datebar-controls input{max-width:150px;min-height:34px}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #mod-r .datebar-controls .today-btn{min-height:34px}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #mod-r .commem svg{display:none}
+/* المخطوطة */
+html[data-layout=scroll] #mod-r .titleblock h1{font-size:0!important;margin:0!important;text-align:start}
+html[data-layout=scroll] #mod-r .titleblock h1::before{content:"قراءات اليوم";font:700 30px/1.2 'Aref Ruqaa','Amiri',serif;color:var(--tc-7a1f2b,#7A1F2B)}
+html[data-layout=scroll] #mod-r .nav-btn{width:34px;height:34px;min-height:0;border-radius:50%;border:1px solid rgba(var(--tc-7a1f2b-rgb,122,31,43),.35);background:transparent;color:var(--tc-7a1f2b,#7A1F2B)}
+html[data-layout=scroll] #mod-r .weekday,html[data-layout=scroll] #mod-r .greg-date{font-size:13px;color:var(--tc-6a5640,#6A5640);font-weight:600}
+html[data-layout=scroll] #mod-r .coptic-date{font-size:12px;color:var(--tc-6a5640,#6A5640)}
+html[data-layout=scroll] #mod-r .commem{background:transparent;border:0;border-top:1px solid var(--tc-b88a2e,#B88A2E);border-radius:0;padding:10px 0 0;font:700 17px/1.5 'Amiri',serif;color:var(--tc-7a5a12,#7A5A12)}
+html[data-layout=scroll] #mod-r .commem b{font-weight:700}
+html[data-layout=scroll] #mod-r .tabs{display:flex;gap:16px;overflow-x:auto;background:transparent;border:0;border-bottom:1px solid rgba(var(--tc-7a1f2b-rgb,122,31,43),.35);border-radius:0;padding:0;scrollbar-width:none}
+html[data-layout=scroll] #mod-r .tab{flex:none;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:6px 0!important;color:var(--tc-6a5640,#6A5640)!important;font-size:13px;font-weight:700;min-height:0}
+html[data-layout=scroll] #mod-r .tab svg{display:none}
+html[data-layout=scroll] #mod-r .tab[aria-selected=true]{color:var(--tc-7a1f2b,#7A1F2B)!important;border-bottom:3px solid var(--tc-7a1f2b,#7A1F2B)!important;margin-bottom:-1px}
+html[data-layout=scroll] #mod-r .readingcard{background:transparent;border:0;box-shadow:none;padding:6px 0}
+html[data-layout=scroll] #mod-r .kicker .name{color:var(--tc-7a1f2b,#7A1F2B);font-size:13px;font-weight:700}
+html[data-layout=scroll] #mod-r .kicker .ref{color:var(--tc-7a5a12,#7A5A12);font-size:12px}
+html[data-layout=scroll] #mod-r .subreading blockquote:not(.psalm)::first-letter{float:right;font:700 58px/.9 'Aref Ruqaa','Amiri',serif;color:var(--tc-7a1f2b,#7A1F2B);margin:6px 0 0 8px}
+/* الأفق */
+html[data-layout=horizon] #mod-r .titleblock h1{font-size:0!important;margin:0!important}
+html[data-layout=horizon] #mod-r .titleblock h1::before{content:"القراءات";font:700 26px/1.2 'Amiri',serif;color:#F3EBDD}
+html[data-layout=horizon] #mod-r .nav-btn{width:40px;height:40px;min-height:0;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:#F3EBDD}
+html[data-layout=horizon] #mod-r .weekday,html[data-layout=horizon] #mod-r .greg-date{font-size:16px;font-weight:700;color:#F3EBDD}
+html[data-layout=horizon] #mod-r .coptic-date{flex-basis:100%;font-size:12px;color:var(--tc-e8c468,#E8C468)}
+html[data-layout=horizon] #mod-r .commem{background:rgba(var(--tc-e8c468-rgb,232,196,104),.14);border:1px solid rgba(var(--tc-e8c468-rgb,232,196,104),.35);border-radius:14px;padding:10px 14px;font-size:14px;font-weight:700;color:#F6DA94}
+html[data-layout=horizon] #mod-r .tabs{display:flex;gap:8px;overflow-x:auto;background:transparent;border:0;padding:0;scrollbar-width:none}
+html[data-layout=horizon] #mod-r .tab{flex:none;background:rgba(255,255,255,.08)!important;border:0!important;border-radius:99px!important;padding:8px 14px!important;color:#B9B4D6!important;font-size:13px;font-weight:700;min-height:0}
+html[data-layout=horizon] #mod-r .tab svg{display:none}
+html[data-layout=horizon] #mod-r .tab[aria-selected=true]{background:var(--tc-e8c468,#E8C468)!important;color:#1A1630!important}
+html[data-layout=horizon] #mod-r .readingcard{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:18px;box-shadow:none}
+html[data-layout=horizon] #mod-r .kicker .name{color:var(--tc-e8c468,#E8C468);font-size:13px;font-weight:700}
+html[data-layout=horizon] #mod-r .kicker .ref{color:#B9B4D6;font-size:12px}
+/* الفهرس */
+html[data-layout=index] #mod-r .titleblock{display:none}
+html[data-layout=index] #mod-r .toolbar{margin-top:0}
+html[data-layout=index] #mod-r .nav-btn{width:auto;height:auto;min-height:0;border:0;background:transparent;color:var(--tc-5c564e,#5C564E);font-size:13px;padding:4px 0}
+html[data-layout=index] #mod-r .nav-btn svg{display:none}
+html[data-layout=index] #mod-r #prevDay::after{content:"→ السابق"}
+html[data-layout=index] #mod-r #nextDay::after{content:"التالي ←"}
+html[data-layout=index] #mod-r .weekday,html[data-layout=index] #mod-r .greg-date{font-size:13px;font-weight:700;color:var(--tc-141210,#141210)}
+html[data-layout=index] #mod-r .coptic-date{font-size:12px;color:var(--tc-5c564e,#5C564E)}
+html[data-layout=index] #mod-r .commem{background:transparent;border:0;border-radius:0;padding:10px 0 0;font:700 27px/1.35 'Amiri',serif;color:var(--tc-141210,#141210)}
+html[data-layout=index] #mod-r .tabs{display:flex;gap:14px;overflow-x:auto;background:transparent;border:0;border-top:1px solid var(--tc-141210,#141210);border-bottom:1px solid var(--tc-d9d5cb,#D9D5CB);border-radius:0;padding:0;margin-top:12px;scrollbar-width:none}
+html[data-layout=index] #mod-r .tab{flex:none;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:9px 0!important;color:var(--tc-5c564e,#5C564E)!important;font-size:13px;font-weight:600;min-height:0}
+html[data-layout=index] #mod-r .tab svg{display:none}
+html[data-layout=index] #mod-r .tab[aria-selected=true]{color:var(--tc-b3261e,#B3261E)!important;font-weight:700;border-bottom:3px solid var(--tc-b3261e,#B3261E)!important;margin-bottom:-1px}
+html[data-layout=index] #mod-r .readingcard{background:transparent;border:0;box-shadow:none;padding:6px 0}
+html[data-layout=index] #mod-r .kicker .name{color:var(--tc-b3261e,#B3261E);font-size:12px;font-weight:700}
+html[data-layout=index] #mod-r .kicker .ref{color:var(--tc-5c564e,#5C564E);font-size:12px}
+html[data-layout=horizon] #v22Home .tile b{color:#F3EBDD}
+html[data-layout=horizon] #v22Home .tile small{display:block}
+#v22Pray .chips{flex-wrap:nowrap!important}
+html[data-layout=horizon] #mod-r .titleblock{display:none}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #mod-r .tabs{flex-wrap:nowrap!important}
+html:is([data-layout=scroll],[data-layout=horizon],[data-layout=index]) #mod-r .coptic-date{font:inherit!important;font-size:12px!important;font-style:normal!important}
+html[data-layout=horizon] #mod-r .coptic-date{color:var(--tc-e8c468,#E8C468)!important}
+html[data-layout=scroll] #mod-r .coptic-date,html[data-layout=index] #mod-r .coptic-date{color:var(--tc-6a5640,#6A5640)!important}
+html[data-layout=index] #mod-k .acc-title{color:var(--tc-141210,#141210)!important;font-weight:600}
+html[data-layout=index] #mod-k .acc-sub{color:var(--tc-5c564e,#5C564E)!important;font-weight:400}
+html[data-layout=horizon] #mod-k .acc-sub{color:#B9B4D6!important}
+
