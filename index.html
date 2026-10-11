@@ -258,10 +258,6 @@ body.v14-khalwa #v14Strip{display:block}
   <div id="personalPrayerArea"></div>
   <div id="godMessageArea"></div>
 
-  <p class="note">
-    إصدار الملف: v86.2
-  </p>
-
 </div>
 
 </div><!-- /view-agpeya -->
@@ -573,6 +569,7 @@ body.v14-khalwa #v14Strip{display:block}
 
 <section class="u-page" id="page-trk" aria-label="رحلتي"><div class="u-wrap"><div id="trkTabs" class="u-tabs" role="tablist"></div><div id="trkBody"></div></div></section>
 <section class="u-page" id="page-fat" aria-label="أقوال الآباء"><div class="u-wrap"><div id="fatBody"></div></div></section>
+<section class="u-page" id="page-cal" aria-label="التقويم القبطي"><div class="u-wrap"><div id="calBody"></div></div></section>
 <section class="u-page" id="page-msg" aria-label="رسالة من يسوع"><div class="u-wrap"><div id="msgBody"></div></div></section>
 
 
@@ -826,22 +823,22 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
   window.__khalwaYear={ready:!!D,days:D?Object.keys(D).length:0,copticOf:copticOf,keyOf:keyOf,entry:entry,toVariants:toVariants,kinds:KINDS,months:COPT};
 })();
 </script>
-<script src="29-anon.d912f791f2.js"></script>
+<script src="29-anon.11310321fa.js"></script>
 <script src="30-anon.4ef9de7a19.js"></script>
 <script src="31-anon.cdd5a50b71.js"></script>
 <script src="data-bibleData.e64361f795.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="data-bgData.fcf82ceaa4.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="34-anon.e47481277b.js"></script>
 <script src="35-anon.fb5e9f9a6c.js"></script>
-<script src="36-anon.96cfa0fb84.js"></script>
+<script src="36-anon.b3369ee188.js"></script>
 <script src="37-anon.c94ab4bc84.js"></script>
 <script src="38-anon.5ed3a3ba72.js"></script>
-<script src="39-anon.cc634caa6e.js"></script>
-<script id="js-v14" src="40-js-v14.97796f6911.js"></script>
+<script src="39-anon.0d2552914e.js"></script>
+<script id="js-v14" src="40-js-v14.ee7cdf7d77.js"></script>
 <script id="v55m-js" src="41-v55m-js.43cc7092bd.js"></script>
 <script id="v57-inst" src="42-v57-inst.1cb8a1f579.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v76';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v80';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" id="v62nav" href="45-v62nav.16d6ade3ea.css">
@@ -881,8 +878,8 @@ html body.v14-khalwa #uToast.act{display:flex!important;bottom:calc(env(safe-are
 #settingsPanel .v69tourbtn{display:block;margin:14px auto 0;min-height:44px;padding:0 18px;border-radius:12px;border:1px solid currentColor;background:transparent;color:inherit;font:inherit;opacity:.85;cursor:pointer}
 </style>
 <script id="v69st-js" src="54-v69st-js.1edeb162dd.js"></script>
-<link rel="stylesheet" id="v70me" href="55-v70me.8dbbca9307.css">
-<script id="v70me-js" src="56-v70me-js.48f0f3b1be.js"></script>
+<link rel="stylesheet" id="v70me" href="55-v70me.863e3c58ef.css">
+<script id="v70me-js" src="56-v70me-js.96e2cdb39d.js"></script>
 <style id="v71rail">/* v71 — «الدرب»: سهم إخفاء/إظهار شريط الانتقال دائمًا في منتصف ارتفاع الشاشة.
    والشريط ظاهر: السهم يلاصق حافة الشريط من جهة المحتوى (لا ينزل تحته ولا يختفي خلفه)؛ والشريط مخفي: يلاصق حافة الشاشة. */
 html[data-layout="path"] #v15RailBtn,
@@ -1146,6 +1143,297 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
   function init(){ bind(); armTimer(); swSync(); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
   setTimeout(bind,1500);
+})();
+</script><script id="copcal">/* v80 — التقويم القبطي: مواسم السنة (ثابتة ومتحركة) محسوبة بالخوارزمية، صالحة 1900–2099.
+   القيامة القبطية = قيامة الحساب الإسكندري (يوليانية) + 13 يومًا. كل المواسم المتحركة تُشتق منها. */
+(function(){
+  var AR='٠١٢٣٤٥٦٧٨٩'; function ard(n){ return String(n).replace(/\d/g,function(d){return AR[d]}); }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  var DAYS=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  var GM=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  var CM=['توت','بابه','هاتور','كيهك','طوبة','أمشير','برمهات','برمودة','بشنس','بؤونة','أبيب','مسرى','النسيء'];
+  function D(y,m,d){ return new Date(y,m,d,12,0,0); }          /* ظهرًا لتفادي فروق التوقيت الصيفي */
+  function addDays(dt,n){ return D(dt.getFullYear(),dt.getMonth(),dt.getDate()+n); }
+  function dnum(dt){ return Math.round(Date.UTC(dt.getFullYear(),dt.getMonth(),dt.getDate())/864e5); }
+  function same(a,b){ return dnum(a)===dnum(b); }
+  /* ----- التاريخ القبطي (نفس خوارزمية الرئيسية) ----- */
+  function coptic(dt){
+    var y=dt.getFullYear(),m=dt.getMonth()+1,dd=dt.getDate();
+    var leap=(y%4===0&&y%100!==0)||y%400===0, corr=m<=2?0:(leap?-1:-2);
+    var rd=365*(y-1)+Math.floor((y-1)/4)-Math.floor((y-1)/100)+Math.floor((y-1)/400)+Math.floor((367*m-362)/12)+corr+dd;
+    var E=103605;
+    function fc(yy,mm,d2){return E-1+365*(yy-1)+Math.floor(yy/4)+30*(mm-1)+d2}
+    var yr=Math.floor((4*(rd-E)+1463)/1461), mo=Math.floor((rd-fc(yr,1,1))/30)+1;
+    return {y:yr,m:mo,d:rd-fc(yr,mo,1)+1};
+  }
+  /* ----- القيامة (ميوس، يوليانية) + 13 يومًا ----- */
+  var _e={};
+  function easter(y){
+    if(_e[y]) return _e[y];
+    var a=y%4,b=y%7,c=y%19,d=(19*c+15)%30,e=(2*a+4*b-d+34)%7,t=d+e+114;
+    var jm=Math.floor(t/31),jd=t%31+1;                         /* التاريخ اليوليانيّ */
+    return (_e[y]=addDays(D(y,jm-1,jd),13));                    /* 1900–2099 */
+  }
+  /* ----- صوم/مواسم متحركة وثابتة لسنة ميلادية y ----- */
+  var _s={};
+  function seasons(y){
+    if(_s[y]) return _s[y];
+    var E=easter(y), S=[];
+    function mov(id,name,a,b,kind,note){ S.push({id:id,name:name,from:addDays(E,a),to:addDays(E,b),kind:kind,note:note||''}); }
+    function fix(id,name,fm,fd,tm,td,kind,note,ty){ S.push({id:id,name:name,from:D(y,fm-1,fd),to:D(ty||y,tm-1,td),kind:kind,note:note||''}); }
+    mov('jonah','صوم يونان (نينوى)',-69,-67,'fast','ثلاثة أيام، ويليه عيد نينوى');
+    mov('lent','الصوم الكبير',-55,-1,'fast','٥٥ يومًا تبدأ بأسبوع الاستعداد وتنتهي بأسبوع الآلام');
+    mov('holy','أسبوع الآلام',-7,-1,'holy','من أحد الشعانين إلى سبت الفرح');
+    mov('pasc','الخمسون المقدسة (الخماسين)',0,49,'joy','من القيامة إلى العنصرة؛ لا صوم ولا سجود');
+    S.push({id:'apostles',name:'صوم الرسل',from:addDays(E,50),to:D(y,6,11),kind:'fast',note:'من الاثنين بعد العنصرة إلى ٥ أبيب (عيد الرسل)'});
+    fix('virgin','صوم السيدة العذراء',8,7,8,21,'fast','١–١٥ مسرى');
+    fix('advA','صوم الميلاد',11,25,12,31,'fast','١٥ هاتور–٢٨ كيهك، ويستمر إلى ٦ يناير');
+    S.push({id:'advB',name:'صوم الميلاد',from:D(y,0,1),to:D(y,0,6),kind:'fast',note:'١٥ هاتور–٢٨ كيهك'});
+    if(S[S.length-1].to < S[S.length-1].from) S.pop();
+    return (_s[y]=S);
+  }
+  /* الأعياد المتحركة (بالنسبة للقيامة) */
+  function movFeasts(y){
+    var E=easter(y);
+    return [
+      {d:addDays(E,-66),n:'عيد نينوى',t:'minor'},
+      {d:addDays(E,-7),n:'أحد الشعانين',t:'major'},
+      {d:addDays(E,-3),n:'خميس العهد',t:'major'},
+      {d:addDays(E,-2),n:'الجمعة العظيمة',t:'holy'},
+      {d:addDays(E,-1),n:'سبت الفرح',t:'major'},
+      {d:E,n:'عيد القيامة المجيد',t:'major'},
+      {d:addDays(E,1),n:'ثاني أيام القيامة (شم النسيم)',t:'minor'},
+      {d:addDays(E,39),n:'عيد الصعود',t:'major'},
+      {d:addDays(E,49),n:'عيد العنصرة (حلول الروح القدس)',t:'major'}
+    ];
+  }
+  /* الأعياد الثابتة بالتاريخ القبطي (شهر،يوم) */
+  var FIXED=[
+    [1,1,'عيد النيروز (رأس السنة القبطية)','major'],
+    [1,17,'عيد الصليب المجيد','major'],
+    [3,12,'عيد رئيس الملائكة ميخائيل','minor'],
+    [4,29,'عيد الميلاد المجيد','major'],
+    [5,11,'عيد الغطاس','major'],
+    [5,13,'عرس قانا الجليل','minor'],
+    [5,21,'نياحة السيدة العذراء (الأولى)','minor'],
+    [6,8,'عيد دخول المسيح الهيكل','minor'],
+    [7,10,'عيد الصليب (الصليب الثاني)','minor'],
+    [7,29,'عيد البشارة','major'],
+    [9,24,'عيد دخول المسيح أرض مصر','minor'],
+    [11,5,'عيد الرسل بطرس وبولس','major'],
+    [12,13,'عيد التجلي','major'],
+    [12,16,'نياحة السيدة العذراء','major']
+  ];
+  function dayInfo(dt){
+    var y=dt.getFullYear(), c=coptic(dt), n=dnum(dt), out={date:dt,c:c,wd:dt.getDay(),fasts:[],feasts:[],seasons:[]};
+    [y-1,y,y+1].forEach(function(yy){ if(yy<1900||yy>2099) return;
+      seasons(yy).forEach(function(s){ if(dnum(s.from)<=n&&n<=dnum(s.to)){
+        var k=s.id==='advA'||s.id==='advB'?'adv':s.id;
+        if(!out.seasons.some(function(z){return z.k===k})) out.seasons.push({k:k,name:s.name,kind:s.kind,day:n-dnum(s.from)+1,len:dnum(s.to)-dnum(s.from)+1,note:s.note});
+      }});
+    });
+    var E=easter(y), rel=n-dnum(E);
+    FIXED.forEach(function(f){ if(f[0]===c.m&&f[1]===c.d) out.feasts.push({n:f[2],t:f[3]}); });
+    movFeasts(y).forEach(function(f){ if(same(f.d,dt)) out.feasts.push({n:f.n,t:f.t}); });
+    /* أحاد الصوم */
+    if(dt.getDay()===0&&rel>=-55&&rel<=-8){ var k=Math.round((rel+55+1)/7); if(k>=1&&k<=7) out.sun='الأحد '+['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع'][k]+' من الصوم الكبير'; }
+    /* صوم أسبوعي: الأربعاء والجمعة خارج الخمسين المقدسة */
+    var inPasc=rel>=0&&rel<=49;
+    out.weekly=(dt.getDay()===3||dt.getDay()===5)&&!inPasc;
+    /* برامون الميلاد والغطاس */
+    if(c.m===4&&c.d===28||c.m===5&&c.d===10) out.paramoun=true;
+    out.fast=out.seasons.some(function(s){return s.kind==='fast'})||out.weekly||!!out.paramoun;
+    out.holy=out.feasts.some(function(f){return f.t==='holy'});
+    return out;
+  }
+  /* وصف مختصر للموسم لعرضه في الرئيسية/الخلوة */
+  function label(dt){
+    var i=dayInfo(dt), parts=[];
+    var main=null;
+    ['holy','lent','jonah','pasc','apostles','virgin','adv'].some(function(k){ main=i.seasons.filter(function(s){return s.k===k})[0]; return !!main; });
+    if(i.feasts.length) parts.push(i.feasts.map(function(f){return f.n}).join(' · '));
+    if(main) parts.push(main.name+' — اليوم '+ard(main.day)+' من '+ard(main.len));
+    if(i.sun) parts.push(i.sun);
+    if(!main&&i.weekly) parts.push('يوم صوم (الأربعاء والجمعة)');
+    return {text:parts.join(' · '),info:i,main:main};
+  }
+  window.__copCal={coptic:coptic,easter:easter,seasons:seasons,dayInfo:dayInfo,label:label,CM:CM,GM:GM,ard:ard,fixed:FIXED};
+
+  /* ============ الواجهة ============ */
+  var st={y:0,m:0,sel:null,tab:'m',yy:0}, wired=false;
+  function today(){ var t=new Date(); return D(t.getFullYear(),t.getMonth(),t.getDate()); }
+  function khalwaTheme(dt){ try{ var K=window.__khalwaYear, e=K&&K.entry&&K.entry(dt); return e&&e.th||''; }catch(e){ return ''; } }
+  function fmt(dt){ var c=coptic(dt); return DAYS[dt.getDay()]+' '+ard(dt.getDate())+' '+GM[dt.getMonth()]+' '+ard(dt.getFullYear())+' — '+ard(c.d)+' '+CM[c.m-1]+' '+ard(c.y); }
+  function cell(dt,inMonth){
+    var i=dayInfo(dt), cls='cc'+(inMonth?'':' out')+(same(dt,today())?' today':'')+(st.sel&&same(dt,st.sel)?' sel':'')+(i.fast?' fast':'')+(i.feasts.length?' feast':'')+(i.wd===0?' sun':'')+(i.holy?' holy':'');
+    var dots=(i.feasts.length?'<i class="d f"></i>':'')+(i.fast?'<i class="d s"></i>':'');
+    return '<button type="button" class="'+cls+'" data-cd="'+dt.getFullYear()+'-'+dt.getMonth()+'-'+dt.getDate()+'" aria-label="'+esc(fmt(dt))+'"><b>'+ard(dt.getDate())+'</b><small>'+ard(i.c.d)+(i.c.d===1?' '+CM[i.c.m-1]:'')+'</small><span class="dots">'+dots+'</span></button>';
+  }
+  function detail(dt){
+    var i=dayInfo(dt), L=label(dt), th=khalwaTheme(dt), h='<div class="cal-det"><h3>'+esc(fmt(dt))+'</h3>';
+    if(i.feasts.length) h+=i.feasts.map(function(f){return '<div class="tag feast">✠ '+esc(f.n)+'</div>'}).join('');
+    i.seasons.forEach(function(s){ h+='<div class="tag '+(s.kind==='fast'||s.kind==='holy'?'fast':'joy')+'">'+esc(s.name)+' — اليوم '+ard(s.day)+' من '+ard(s.len)+(s.note?'<small>'+esc(s.note)+'</small>':'')+'</div>'; });
+    if(i.sun) h+='<div class="tag">'+esc(i.sun)+'</div>';
+    if(i.paramoun) h+='<div class="tag fast">برامون — صوم انقطاعي</div>';
+    if(i.weekly&&!i.seasons.some(function(s){return s.kind==='fast'})) h+='<div class="tag fast">يوم صوم أسبوعي (الأربعاء/الجمعة)</div>';
+    if(!i.feasts.length&&!i.seasons.length&&!i.sun&&!i.weekly&&!i.paramoun) h+='<div class="tag">يوم عادي من أيام السنة القبطية</div>';
+    if(th) h+='<div class="cal-kh"><small>موضوع الخلوة لهذا التاريخ</small><b>'+esc(th)+'</b></div>';
+    return h+'</div>';
+  }
+  function monthView(){
+    var first=D(st.y,st.m,1), start=addDays(first,-first.getDay()), h='', n=new Date(st.y,st.m+1,0).getDate();
+    var rows=Math.ceil((first.getDay()+n)/7);
+    var c1=coptic(first), c2=coptic(D(st.y,st.m,n));
+    var sub=c1.m===c2.m?CM[c1.m-1]+' '+ard(c1.y):CM[c1.m-1]+' – '+CM[c2.m-1]+' '+ard(c2.y);
+    h+='<div class="cal-nav"><button type="button" data-cn="-1" aria-label="الشهر السابق">›</button><div class="cal-ttl"><b>'+GM[st.m]+' '+ard(st.y)+'</b><small>'+esc(sub)+'</small></div><button type="button" data-cn="1" aria-label="الشهر التالي">‹</button></div>';
+    h+='<div class="cal-wd">'+DAYS.map(function(x){return '<span>'+x.replace('ال','').slice(0,3)+'</span>'}).join('')+'</div><div class="cal-grid">';
+    for(var k=0;k<rows*7;k++){ var dt=addDays(start,k); h+=cell(dt,dt.getMonth()===st.m); }
+    h+='</div><div class="cal-leg"><span><i class="d f"></i> عيد</span><span><i class="d s"></i> صوم</span><span class="t">اليوم</span></div>';
+    h+=detail(st.sel||today());
+    return h;
+  }
+  function yearView(){
+    var y=st.yy, S=seasons(y).slice(), M=movFeasts(y), E=easter(y), h='';
+    function r(a,b){ return a.getTime()===b.getTime()||same(a,b)?ard(a.getDate())+' '+GM[a.getMonth()]:ard(a.getDate())+' '+GM[a.getMonth()]+' – '+ard(b.getDate())+' '+GM[b.getMonth()]; }
+    h+='<div class="cal-nav"><button type="button" data-cy="-1">›</button><div class="cal-ttl"><b>مواسم سنة '+ard(y)+'</b><small>القيامة: '+ard(E.getDate())+' '+GM[E.getMonth()]+' · '+ard(coptic(D(y,8,12)).y-1)+'–'+ard(coptic(D(y,8,12)).y)+' ش</small></div><button type="button" data-cy="1">‹</button></div>';
+    var opts=''; for(var yy=1900;yy<=2099;yy++) opts+='<option value="'+yy+'"'+(yy===y?' selected':'')+'>'+ard(yy)+' م — '+ard(coptic(D(yy,8,12)).y-1)+'/'+ard(coptic(D(yy,8,12)).y)+' ش</option>';
+    h+='<label class="cal-sel">اختر السنة <select id="calYearSel" aria-label="اختيار السنة">'+opts+'</select></label>';
+    var order=[];
+    S.forEach(function(s){ if(s.id==='advB') return; order.push(s); });
+    var jan=S.filter(function(s){return s.id==='advB'})[0];
+    if(jan) order.unshift({id:'advB',name:'صوم الميلاد (يستمر من السنة السابقة)',from:jan.from,to:jan.to,kind:'fast',note:jan.note});
+    order.sort(function(a,b){return a.from-b.from});
+    h+='<div class="cal-list">'+order.map(function(s){ var days=dnum(s.to)-dnum(s.from)+1;
+      return '<button type="button" class="cal-row '+s.kind+'" data-cgo="'+s.from.getFullYear()+'-'+s.from.getMonth()+'-'+s.from.getDate()+'"><b>'+esc(s.name)+'</b><span>'+r(s.from,s.to)+' · '+ard(days)+' يومًا</span>'+(s.note?'<small>'+esc(s.note)+'</small>':'')+'</button>'; }).join('')+'</div>';
+    var F=[], t0=D(y,0,1);
+    for(var k=0;k<366;k++){ var dt=addDays(t0,k); if(dt.getFullYear()!==y) break; var inf=dayInfo(dt); inf.feasts.forEach(function(f){ F.push({d:dt,c:inf.c,n:f.n,t:f.t}); }); }
+    h+='<h4 class="cal-h4">جدول الأعياد — '+ard(y)+' م</h4><div class="cal-tbl" role="table"><div class="cal-tr hd" role="row"><span>العيد</span><span>ميلادي</span><span>قبطي</span></div>'+F.map(function(f){
+      return '<button type="button" class="cal-tr" role="row" data-cgo="'+f.d.getFullYear()+'-'+f.d.getMonth()+'-'+f.d.getDate()+'"><span><b>'+esc(f.n)+'</b></span><span>'+DAYS[f.d.getDay()]+' '+ard(f.d.getDate())+' '+GM[f.d.getMonth()]+'</span><span>'+ard(f.c.d)+' '+CM[f.c.m-1]+' '+ard(f.c.y)+'</span></button>'; }).join('')+'</div>';
+    h+='<p class="cal-note">المواسم المتحركة تُحسب من موعد عيد القيامة بالحساب الإسكندري (القيامة القبطية). الأعياد الثابتة تُحدَّد بالتاريخ القبطي فتنتقل يومًا في سنوات معيّنة بين التقويمين. المراجع: st-takla.org · anba-abraam.com — يُرجى مطابقة التواريخ المهمّة مع بيان الكنيسة كل عام.</p>';
+    return h;
+  }
+  function render(){
+    var b=document.getElementById('calBody'); if(!b) return;
+    var tabs='<div class="u-tabs cal-tabs"><button type="button" data-ct="m" class="'+(st.tab==='m'?'on':'')+'">الشهر</button><button type="button" data-ct="y" class="'+(st.tab==='y'?'on':'')+'">مواسم السنة</button></div>';
+    b.innerHTML=tabs+(st.tab==='m'?monthView():yearView());
+  }
+  function init(){
+    var b=document.getElementById('calBody'); if(!b) return;
+    if(!st.y){ var t=today(); st.y=t.getFullYear(); st.m=t.getMonth(); st.yy=st.y; st.sel=t; }
+    if(!wired){ wired=true;
+      b.addEventListener('click',function(e){
+        var x;
+        if((x=e.target.closest('[data-ct]'))){ st.tab=x.dataset.ct; render(); }
+        else if((x=e.target.closest('[data-cn]'))){ st.m+=+x.dataset.cn; if(st.m<0){st.m=11;st.y--} if(st.m>11){st.m=0;st.y++} if(st.y<1900){st.y=1900;st.m=0} if(st.y>2099){st.y=2099;st.m=11} render(); }
+        else if((x=e.target.closest('[data-cy]'))){ st.yy=Math.max(1900,Math.min(2099,st.yy+ +x.dataset.cy)); render(); }
+        else if((x=e.target.closest('[data-cd]'))){ var p=x.dataset.cd.split('-'); st.sel=D(+p[0],+p[1],+p[2]); st.y=st.sel.getFullYear(); st.m=st.sel.getMonth(); render(); }
+        else if((x=e.target.closest('[data-cgo]'))){ var q=x.dataset.cgo.split('-'); st.sel=D(+q[0],+q[1],+q[2]); st.y=st.sel.getFullYear(); st.m=st.sel.getMonth(); st.tab='m'; render(); window.scrollTo(0,0); }
+      });
+    }
+    b.addEventListener('change',function(e){ if(e.target.id==='calYearSel'){ st.yy=+e.target.value; render(); } });
+    render();
+  }
+  window.__calInit=init;
+  /* الرئيسية رُسمت قبل تحميل هذا الملف: أعد رسمها ببطاقة التقويم */
+  try{ if(window.__F&&window.__F.refreshHome) window.__F.refreshHome(); }catch(e){}
+})();
+</script><style id="v80cal">#page-cal .cal-tabs{margin-bottom:10px}
+#page-cal .cal-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0 10px;color:var(--s-page-ink)}
+#page-cal .cal-nav button{font:700 22px 'Cairo',sans-serif;width:44px;height:44px;border-radius:12px;border:1px solid var(--s-card-border,#888);background:var(--s-card,transparent);color:var(--s-card-ink,inherit);cursor:pointer}
+#page-cal .cal-ttl{text-align:center;display:flex;flex-direction:column}
+#page-cal .cal-ttl b{font:800 18px 'Cairo',sans-serif}
+#page-cal .cal-ttl small{font:600 13px 'Cairo',sans-serif;opacity:.8}
+#page-cal .cal-wd,#page-cal .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;direction:rtl}
+#page-cal .cal-wd span{text-align:center;font:700 11px 'Cairo',sans-serif;color:var(--s-page-ink);opacity:.75;padding:2px 0}
+#page-cal .cc{position:relative;min-height:54px;padding:4px 2px;border-radius:10px;border:1px solid var(--s-card-border,#888);background:var(--s-card,transparent);color:var(--s-card-ink,inherit);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;font-family:'Cairo',sans-serif}
+#page-cal .cc b{font-size:15px;font-weight:800;line-height:1.1}
+#page-cal .cc small{font-size:10px;opacity:.75;line-height:1.1}
+#page-cal .cc.out{opacity:.45}
+#page-cal .cc.sun b{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+#page-cal .cc.fast{box-shadow:inset 0 -3px 0 #8a5a9e}
+#page-cal .cc.feast{border-color:#c9a13b;border-width:2px}
+#page-cal .cc.today{outline:2px solid var(--s-accent,#c9a13b);outline-offset:1px}
+#page-cal .cc.sel{background:var(--s-accent,#c9a13b);color:var(--s-btn-ink,#1a1a1a)}
+#page-cal .dots{display:flex;gap:3px;height:6px}
+#page-cal .d{display:inline-block;width:6px;height:6px;border-radius:50%}
+#page-cal .d.f{background:#c9a13b}#page-cal .d.s{background:#8a5a9e}
+#page-cal .cal-leg{display:flex;gap:14px;justify-content:center;margin:8px 0;font:600 12px 'Cairo',sans-serif;color:var(--s-page-ink)}
+#page-cal .cal-det,#page-cal .cal-row{background:var(--s-card);border:1px solid var(--s-card-border);color:var(--s-card-ink);border-radius:16px;padding:14px;margin:8px 0}
+#page-cal .cal-det h3{font:800 16px 'Cairo',sans-serif;margin:0 0 8px}
+#page-cal .tag{font:700 14px 'Cairo',sans-serif;padding:8px 10px;border-radius:10px;border:1px solid var(--s-card-border,#888);margin:6px 0}
+#page-cal .tag small{display:block;font-weight:500;opacity:.8;margin-top:2px}
+#page-cal .tag.feast{border-color:#c9a13b}#page-cal .tag.fast{border-inline-start:5px solid #8a5a9e}#page-cal .tag.joy{border-inline-start:5px solid #3f9a6a}
+#page-cal .cal-kh{margin-top:10px;font-family:'Cairo',sans-serif}#page-cal .cal-kh small{display:block;opacity:.75;font-size:12px}#page-cal .cal-kh b{font-size:15px}
+#page-cal .cal-row{display:block;width:100%;text-align:right;cursor:pointer;font-family:'Cairo',sans-serif}
+#page-cal .cal-row b{display:block;font-size:15px}#page-cal .cal-row span{display:block;font-size:13px;opacity:.85;margin-top:2px}#page-cal .cal-row small{display:block;font-size:12px;opacity:.7;margin-top:2px}
+#page-cal .cal-row.fast{border-inline-start:5px solid #8a5a9e}#page-cal .cal-row.joy{border-inline-start:5px solid #3f9a6a}#page-cal .cal-row.feast{border-inline-start:5px solid #c9a13b}#page-cal .cal-row.holy{border-inline-start:5px solid #8a5a9e}
+#page-cal .cal-h4{font:800 15px 'Cairo',sans-serif;margin:16px 4px 4px;color:var(--s-page-ink)}
+#page-cal .cal-note{font:500 12px/1.8 'Cairo',sans-serif;opacity:.8;margin:12px 4px;color:var(--s-page-ink)}
+.u-card.cal-day{display:block;width:100%;text-align:center;color:var(--s-card-ink);cursor:pointer;-webkit-appearance:none;appearance:none}
+.u-card.cal-day .vt{font:700 15px/1.8 'Cairo',sans-serif;margin:4px 0}.u-card.cal-day .u-sub{font-weight:600}
+#page-cal .cal-sel{display:flex;align-items:center;gap:8px;margin:6px 0 10px;font:700 14px 'Cairo',sans-serif;color:var(--s-page-ink)}
+#page-cal .cal-sel select{flex:1;font:600 15px 'Cairo',sans-serif;padding:10px;border-radius:12px;border:1px solid var(--s-card-border,#888);background:var(--s-card,transparent);color:var(--s-card-ink,inherit)}
+#page-cal .cal-tbl{background:var(--s-card);border:1px solid var(--s-card-border);color:var(--s-card-ink);border-radius:16px;overflow:hidden}
+#page-cal .cal-tr{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:6px;width:100%;text-align:right;padding:10px 12px;border:0;border-top:1px solid var(--s-card-border,#8885);background:transparent;color:inherit;font:500 12px/1.5 'Cairo',sans-serif;cursor:pointer}
+#page-cal .cal-tr b{font-size:13px}
+#page-cal .cal-tr.hd{border-top:0;font-weight:800;opacity:.8;cursor:default}
+</style><style id="v80fix">/* v80 — مراجعة شاملة */
+/* «الدرب»: الشريط الجانبي كان يغطي طرف النص (وأحيانًا نص الصلاة نفسه). نحجز له مساحة طالما هو ظاهر، ونعيدها حين يُخفى. */
+html[data-layout="path"] body:not(.v15-rail-off) .u-page{padding-inline-start:calc(var(--v17-g,12px) + 56px)}
+/* «إيه حالك النهارده»: الأزرار الخمسة متساوية الارتفاع */
+.v70chips{align-items:stretch}
+.hours-drawer-close{min-width:36px;min-height:36px}
+.suggest-now-btn{min-height:36px}
+@media (max-width:400px){html[data-layout="path"] .v70chip{font-size:11px;padding:6px 0;gap:1px}html[data-layout="path"] .v70chips{gap:4px}}
+/* تمييز «التأمل الروحي» عن نص الأجبية: نفس نمط صندوق «الكاتب وغرض الكتابة» في القراءات
+   (خلفية مظلّلة + حدّ متقطّع + خط أصغر بلون مختلف + عنوان ملوّن) */
+html body #mod-k .meditation{
+  background:color-mix(in srgb,var(--s-accent,var(--tc-c9a24a,#c9a24a)) 11%,transparent)!important;
+  border:1px dashed color-mix(in srgb,var(--s-accent,var(--tc-c9a24a,#c9a24a)) 55%,transparent)!important;
+  border-radius:12px!important;margin:14px 12px 12px!important;padding:12px 14px 12px!important;
+}
+html body #mod-k .merged-meditation-toggle .meditation{margin:6px 0 10px!important}
+html body #mod-k .meditation .mtitle{
+  color:var(--s-accent,#b8912f)!important;font:800 13px 'Cairo',sans-serif!important;
+  margin:0 0 8px!important;padding-bottom:6px;border-bottom:1px dashed color-mix(in srgb,var(--s-accent,var(--tc-c9a24a,#c9a24a)) 40%,transparent);
+}
+html body #mod-k .meditation p,html[data-design] body #mod-k div.meditation p{
+  font:500 14px/1.95 'Cairo',sans-serif!important;
+}
+html body #mod-k .merged-meditation-toggle summary{
+  display:block;background:color-mix(in srgb,var(--s-accent,var(--tc-c9a24a,#c9a24a)) 11%,transparent);
+  border:1px dashed color-mix(in srgb,var(--s-accent,var(--tc-c9a24a,#c9a24a)) 55%,transparent);border-radius:10px;padding:8px 12px!important;
+  color:var(--s-accent,#b8912f)!important;font:800 13px 'Cairo',sans-serif!important;
+}
+html body #mod-k .merged-meditation-toggle[open] summary{border-bottom-left-radius:0;border-bottom-right-radius:0}
+html[data-theme="light"] body #mod-k .meditation .mtitle,html[data-theme="light"] body #mod-k .merged-meditation-toggle summary{color:color-mix(in srgb,var(--s-accent,#b8912f) 62%,#000)!important}
+</style><script id="edgeguard">/* v80 — حارس سحب الحافة: على أندرويد، السحب من حافة الشاشة هو إيماءة «رجوع» النظام فتعمل back بدل الانتقال للتالي/السابق.
+   إن بدأ لمس على الحافة (≤28px) ثم حدث popstate خلال ثانية ونصف ولم ينتهِ اللمس عاديًا، نعامله كسحبة:
+   ننفّذ الانتقال (السابق/التالي) إن كان ممكنًا ونُلغي الرجوع (نعيد الرابط الأصلي) — وإلا نترك الرجوع يعمل كالمعتاد.
+   السحب من الحافة اليسرى = التالي، من اليمنى = السابق (مثل سحب داخل الشاشة). يُحترم مفتاح «التنقل بالسحب» في الإعدادات. */
+(function(){
+  var EDGE=28, WIN=1500, last=null, guardUntil=0;
+  function swipeOn(){ try{ var p=JSON.parse(localStorage.getItem('rafeeq_v14_prefs')||'{}'); return p.swipe!==false; }catch(e){ return true; } }
+  function nextOf(l){ var dx=l.mx-l.x; if(Math.abs(dx)>=6) return dx>0; return l.x<=EDGE; }
+  document.addEventListener('touchstart',function(e){
+    if(e.touches.length!==1){ last=null; return; }
+    var t=e.touches[0], w=window.innerWidth;
+    last=(t.clientX<=EDGE||t.clientX>=w-EDGE)?{x:t.clientX,mx:t.clientX,t:Date.now(),url:location.href,ended:false}:null;
+  },{passive:true,capture:true});
+  document.addEventListener('touchmove',function(e){ if(last&&e.touches[0]) last.mx=e.touches[0].clientX; },{passive:true,capture:true});
+  document.addEventListener('touchend',function(){ if(last) last.ended=true; },{passive:true,capture:true});
+  window.addEventListener('popstate',function(ev){
+    if(!last||last.ended||Date.now()-last.t>WIN||!swipeOn()) return;
+    var done=false;
+    try{ done=!!(window.__v14swipe&&window.__v14swipe(nextOf(last))); }catch(e){ done=false; }
+    if(done){
+      ev.stopImmediatePropagation(); guardUntil=Date.now()+700;
+      try{ history.pushState(history.state,'',last.url); }catch(e){}
+      last=null;
+    }
+  },true);
+  window.addEventListener('hashchange',function(ev){ if(Date.now()<guardUntil) ev.stopImmediatePropagation(); },true);
+  window.__edgeGuard={state:function(){ return last; }};
 })();
 </script>
 </body>
