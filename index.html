@@ -86,7 +86,7 @@
 var dark=m==='dark'||(m==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);
 document.documentElement.setAttribute('data-design',dark?'1':'2');document.documentElement.setAttribute('data-theme',dark?'dark':'light');}catch(e){}})();
 </script>
-<link rel="stylesheet" id="css-k" href="03-css-k.f6275964e5.css">
+<link rel="stylesheet" id="css-k" href="03-css-k.2e37f90ea1.css">
 <link rel="stylesheet" id="css-r" href="04-css-r.189bec221e.css">
 <link rel="stylesheet" id="css-m" href="05-css-m.d91d476135.css">
 <link rel="stylesheet" id="css-unify" href="06-css-unify.cdfae846a4.css">
@@ -168,15 +168,15 @@ body.v14-khalwa #v14Strip{display:block}
   <div class="home-hero"><div class="cross">✠</div><h1>يومك الروحي</h1><p>صلاة · قراءة · تأمل · محاسبة</p><div class="dt" id="hDate"></div></div>
   <div id="hExtra"></div>
   <div class="h-grid">
-    <button class="h-tile" data-act="hour"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M6 8h12"/><circle cx="12" cy="12" r="10" stroke-width="1.2"/></svg></span><span class="k">الصلاة الآن</span><b id="hHour">…</b><span class="k" id="hHourSub"></span><span class="go">ابدأ ‹</span></button>
-    <button class="h-tile" data-act="read"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 21V5"/><path d="M9 8h6M9 12h6"/></svg></span><span class="k">قراءات اليوم</span><b id="hRead">…</b><span class="go">افتح ‹</span></button>
-    <button class="h-tile" data-act="meditation"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4-2.5-7-6-7-10a7 7 0 0114 0c0 4-3 7.5-7 10z"/><circle cx="12" cy="10" r="2.3"/></svg></span><span class="k">خلوة اليوم</span><b id="hMed">…</b><span class="go">اقرأ ‹</span></button>
-    <button class="h-tile" data-act="exam"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M6 21h12"/><path d="M5 7h14"/><path d="M5 7l-3 7a3.2 3.2 0 006 0zM19 7l-3 7a3.2 3.2 0 006 0z"/></svg></span><span class="k">محاسبة النفس</span><b id="hExam">…</b><span class="go">سجّل ‹</span></button>
+    <button class="h-tile" data-act="hour"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M6 8h12"/><circle cx="12" cy="12" r="10" stroke-width="1.2"/></svg></span><span class="k">الصلاة الآن</span><b id="hHour">…</b><span class="k" id="hHourSub"></span><span class="go">ابدأ <i class=chv>‹</i></span></button>
+    <button class="h-tile" data-act="read"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 21V5"/><path d="M9 8h6M9 12h6"/></svg></span><span class="k">قراءات اليوم</span><b id="hRead">…</b><span class="go">افتح <i class=chv>‹</i></span></button>
+    <button class="h-tile" data-act="meditation"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4-2.5-7-6-7-10a7 7 0 0114 0c0 4-3 7.5-7 10z"/><circle cx="12" cy="10" r="2.3"/></svg></span><span class="k">خلوة اليوم</span><b id="hMed">…</b><span class="go">اقرأ <i class=chv>‹</i></span></button>
+    <button class="h-tile" data-act="exam"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M6 21h12"/><path d="M5 7h14"/><path d="M5 7l-3 7a3.2 3.2 0 006 0zM19 7l-3 7a3.2 3.2 0 006 0z"/></svg></span><span class="k">محاسبة النفس</span><b id="hExam">…</b><span class="go">سجّل <i class=chv>‹</i></span></button>
   </div>
   <h2 class="h-sec">المحاسبة</h2>
   <div class="h-list">
-    <button class="h-row" data-act="hist"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span class="tx"><b>سجل المحاسبة</b><span>مراجعة أيامك السابقة</span></span><span class="ar">‹</span></button>
-    <button class="h-row" data-act="conf"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M6 21h12"/><path d="M5 7h14"/><path d="M5 7l-3 7a3.2 3.2 0 006 0zM19 7l-3 7a3.2 3.2 0 006 0z"/></svg></span><span class="tx"><b>ورقة الاعتراف</b><span>ما تحمله لأب اعترافك من محاسبتك، وموعد الاعتراف القادم</span></span><span class="ar">‹</span></button>
+    <button class="h-row" data-act="hist"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><span class="tx"><b>سجل المحاسبة</b><span>مراجعة أيامك السابقة</span></span><span class="ar"><i class=chv>‹</i></span></button>
+    <button class="h-row" data-act="conf"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M6 21h12"/><path d="M5 7h14"/><path d="M5 7l-3 7a3.2 3.2 0 006 0zM19 7l-3 7a3.2 3.2 0 006 0z"/></svg></span><span class="tx"><b>ورقة الاعتراف</b><span>ما تحمله لأب اعترافك من محاسبتك، وموعد الاعتراف القادم</span></span><span class="ar"><i class=chv>‹</i></span></button>
   </div>
   <p class="h-foot">كل ما تسجّله يُحفظ على جهازك فقط. ⚙ في الأعلى للمظهر والثيمات والخط والتذكيرات والنسخ الاحتياطي.</p>
 </div></section>
@@ -240,12 +240,12 @@ body.v14-khalwa #v14Strip{display:block}
       <span class="hour-trigger-label">ساعة الصلاة</span>
       <span class="hour-trigger-value" id="hourTriggerValue">اختر ساعة الصلاة</span>
     </span>
-    <span class="hour-trigger-arrow">‹</span>
+    <span class="hour-trigger-arrow"><i class=chv>‹</i></span>
   </div>
 
   <div class="suggest-now" id="suggestNow" style="display:none;">
     <span class="suggest-now-text">الساعة المناسبة الآن: <b id="suggestNowLabel"></b></span>
-    <button class="suggest-now-btn" id="suggestNowBtn">ابدأ الآن ‹</button>
+    <button class="suggest-now-btn" id="suggestNowBtn">ابدأ الآن <i class=chv>‹</i></button>
   </div>
 
   <div id="mergedViewArea"></div>
@@ -823,19 +823,19 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
   window.__khalwaYear={ready:!!D,days:D?Object.keys(D).length:0,copticOf:copticOf,keyOf:keyOf,entry:entry,toVariants:toVariants,kinds:KINDS,months:COPT};
 })();
 </script>
-<script src="29-anon.11310321fa.js"></script>
+<script src="29-anon.56a19d5fc4.js"></script>
 <script src="30-anon.4ef9de7a19.js"></script>
 <script src="31-anon.cdd5a50b71.js"></script>
 <script src="data-bibleData.e64361f795.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="data-bgData.fcf82ceaa4.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="34-anon.e47481277b.js"></script>
-<script src="35-anon.fb5e9f9a6c.js"></script>
-<script src="36-anon.b3369ee188.js"></script>
+<script src="35-anon.b741fb489a.js"></script>
+<script src="36-anon.a236e13535.js"></script>
 <script src="37-anon.c94ab4bc84.js"></script>
 <script src="38-anon.5ed3a3ba72.js"></script>
 <script src="39-anon.0d2552914e.js"></script>
-<script id="js-v14" src="40-js-v14.ee7cdf7d77.js"></script>
-<script id="v55m-js" src="41-v55m-js.43cc7092bd.js"></script>
+<script id="js-v14" src="40-js-v14.91362f598f.js"></script>
+<script id="v55m-js" src="41-v55m-js.07a58e4c61.js"></script>
 <script id="v57-inst" src="42-v57-inst.1cb8a1f579.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
 <script id="v61ver-js">(function(){var V='v80';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
@@ -1285,7 +1285,7 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
     var rows=Math.ceil((first.getDay()+n)/7);
     var c1=coptic(first), c2=coptic(D(st.y,st.m,n));
     var sub=c1.m===c2.m?CM[c1.m-1]+' '+ard(c1.y):CM[c1.m-1]+' – '+CM[c2.m-1]+' '+ard(c2.y);
-    h+='<div class="cal-nav"><button type="button" data-cn="-1" aria-label="الشهر السابق">›</button><div class="cal-ttl"><b>'+GM[st.m]+' '+ard(st.y)+'</b><small>'+esc(sub)+'</small></div><button type="button" data-cn="1" aria-label="الشهر التالي">‹</button></div>';
+    h+='<div class="cal-nav"><button type="button" data-cn="-1" aria-label="الشهر السابق"><i class=chv>›</i></button><div class="cal-ttl"><b>'+GM[st.m]+' '+ard(st.y)+'</b><small>'+esc(sub)+'</small></div><button type="button" data-cn="1" aria-label="الشهر التالي"><i class=chv>‹</i></button></div>';
     h+='<div class="cal-wd">'+DAYS.map(function(x){return '<span>'+x.replace('ال','').slice(0,3)+'</span>'}).join('')+'</div><div class="cal-grid">';
     for(var k=0;k<rows*7;k++){ var dt=addDays(start,k); h+=cell(dt,dt.getMonth()===st.m); }
     h+='</div><div class="cal-leg"><span><i class="d f"></i> عيد</span><span><i class="d s"></i> صوم</span><span class="t">اليوم</span></div>';
@@ -1295,7 +1295,7 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
   function yearView(){
     var y=st.yy, S=seasons(y).slice(), M=movFeasts(y), E=easter(y), h='';
     function r(a,b){ return a.getTime()===b.getTime()||same(a,b)?ard(a.getDate())+' '+GM[a.getMonth()]:ard(a.getDate())+' '+GM[a.getMonth()]+' – '+ard(b.getDate())+' '+GM[b.getMonth()]; }
-    h+='<div class="cal-nav"><button type="button" data-cy="-1">›</button><div class="cal-ttl"><b>مواسم سنة '+ard(y)+'</b><small>القيامة: '+ard(E.getDate())+' '+GM[E.getMonth()]+' · '+ard(coptic(D(y,8,12)).y-1)+'–'+ard(coptic(D(y,8,12)).y)+' ش</small></div><button type="button" data-cy="1">‹</button></div>';
+    h+='<div class="cal-nav"><button type="button" data-cy="-1"><i class=chv>›</i></button><div class="cal-ttl"><b>مواسم سنة '+ard(y)+'</b><small>القيامة: '+ard(E.getDate())+' '+GM[E.getMonth()]+' · '+ard(coptic(D(y,8,12)).y-1)+'–'+ard(coptic(D(y,8,12)).y)+' ش</small></div><button type="button" data-cy="1"><i class=chv>‹</i></button></div>';
     var opts=''; for(var yy=1900;yy<=2099;yy++) opts+='<option value="'+yy+'"'+(yy===y?' selected':'')+'>'+ard(yy)+' م — '+ard(coptic(D(yy,8,12)).y-1)+'/'+ard(coptic(D(yy,8,12)).y)+' ش</option>';
     h+='<label class="cal-sel">اختر السنة <select id="calYearSel" aria-label="اختيار السنة">'+opts+'</select></label>';
     var order=[];
@@ -1407,6 +1407,11 @@ html body #mod-k .merged-meditation-toggle summary{
 }
 html body #mod-k .merged-meditation-toggle[open] summary{border-bottom-left-radius:0;border-bottom-right-radius:0}
 html[data-theme="light"] body #mod-k .meditation .mtitle,html[data-theme="light"] body #mod-k .merged-meditation-toggle summary{color:color-mix(in srgb,var(--s-accent,#b8912f) 62%,#000)!important}
+
+/* v80 — اتجاه الأسهم النصية: ‹ › حروف تنعكس تلقائيًا داخل النص العربي (RTL) فكانت تُرسم بالعكس.
+   العزل بـ LTR يُوقف الانعكاس: ‹ = سهم يشير لليسار (التالي/فتح)، › = سهم يشير لليمين (السابق/رجوع). */
+.chv{font-style:normal;direction:ltr;unicode-bidi:isolate;display:inline-block}
+.v14-feat summary::before{direction:ltr;unicode-bidi:isolate;display:inline-block}
 </style><script id="edgeguard">/* v80 — حارس سحب الحافة: على أندرويد، السحب من حافة الشاشة هو إيماءة «رجوع» النظام فتعمل back بدل الانتقال للتالي/السابق.
    إن بدأ لمس على الحافة (≤28px) ثم حدث popstate خلال ثانية ونصف ولم ينتهِ اللمس عاديًا، نعامله كسحبة:
    ننفّذ الانتقال (السابق/التالي) إن كان ممكنًا ونُلغي الرجوع (نعيد الرابط الأصلي) — وإلا نترك الرجوع يعمل كالمعتاد.
