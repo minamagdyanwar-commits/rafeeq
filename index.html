@@ -664,6 +664,21 @@ body.v14-khalwa #v14Strip{display:block}
     <div class="settings-reminder-note" id="remindersNote">يعمل التذكير فقط أثناء فتح الصفحة أو بعد تثبيتها على الشاشة الرئيسية، وقد لا يصل إذا كان المتصفح مغلقًا تمامًا.</div>
   </div>
 
+  <div class="settings-section" id="notifySection">
+    <div class="settings-label">التنبيه اليومي</div>
+    <div class="settings-reminder-row">
+      <span class="settings-reminder-text">آية اليوم + قول الآباء + رسالة قصيرة من يسوع</span>
+      <button class="settings-toggle" id="notifyToggle" role="switch" aria-checked="false" aria-label="تفعيل التنبيه اليومي"><span class="settings-toggle-knob"></span></button>
+    </div>
+    <div class="notify-row">
+      <label for="notifyTime">الوقت</label>
+      <input type="time" id="notifyTime" value="07:00" aria-label="وقت التنبيه اليومي">
+      <button type="button" class="notify-btn" id="notifyDefault">الافتراضي ٧:٠٠ ص</button>
+      <button type="button" class="notify-btn" id="notifyTest">جرّب الآن</button>
+    </div>
+    <div class="settings-reminder-note" id="notifyNote"></div>
+  </div>
+
   <div class="settings-section">
     <div class="settings-label">الصفحة التي يفتح عليها البرنامج</div>
     <div class="settings-moderow"><button class="settings-mbtn" id="uStartHome">الرئيسية</button><button class="settings-mbtn" id="uStartLast">آخر قسم فتحته</button></div>
@@ -811,22 +826,22 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
   window.__khalwaYear={ready:!!D,days:D?Object.keys(D).length:0,copticOf:copticOf,keyOf:keyOf,entry:entry,toVariants:toVariants,kinds:KINDS,months:COPT};
 })();
 </script>
-<script src="29-anon.fa10dfe193.js"></script>
+<script src="29-anon.d912f791f2.js"></script>
 <script src="30-anon.4ef9de7a19.js"></script>
 <script src="31-anon.cdd5a50b71.js"></script>
 <script src="data-bibleData.e64361f795.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="data-bgData.fcf82ceaa4.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="34-anon.e47481277b.js"></script>
 <script src="35-anon.fb5e9f9a6c.js"></script>
-<script src="36-anon.cf6a4fba85.js"></script>
+<script src="36-anon.96cfa0fb84.js"></script>
 <script src="37-anon.c94ab4bc84.js"></script>
 <script src="38-anon.5ed3a3ba72.js"></script>
 <script src="39-anon.cc634caa6e.js"></script>
-<script id="js-v14" src="40-js-v14.9d340e38dc.js"></script>
-<script id="v55m-js" src="41-v55m-js.e2e980c26b.js"></script>
+<script id="js-v14" src="40-js-v14.97796f6911.js"></script>
+<script id="v55m-js" src="41-v55m-js.43cc7092bd.js"></script>
 <script id="v57-inst" src="42-v57-inst.1cb8a1f579.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v75';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v76';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" id="v62nav" href="45-v62nav.16d6ade3ea.css">
@@ -971,8 +986,167 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
 #page-fat .fat-more{display:block;margin:14px auto}
 #page-fat .fat-empty{text-align:center;opacity:.7;padding:24px 8px;color:var(--s-page-ink)}
 #page-fat .fat-c{font:600 12px 'Cairo',sans-serif;opacity:.7;margin:0 0 6px}
-.u-card.fat-day{display:block;width:100%;text-align:inherit;font:inherit;color:inherit;cursor:pointer}
-.u-card.fat-day .vt{font-size:15px;line-height:1.9;margin:6px 0}
-</style>
+.u-card.fat-day{display:block;width:100%;text-align:center;color:var(--s-card-ink);cursor:pointer;-webkit-appearance:none;appearance:none}
+</style><style id="v75notify">.notify-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
+.notify-row label{font:600 var(--fs-sm,13px) 'Cairo',sans-serif;color:var(--ink-soft,var(--gold-300))}
+.notify-row input[type=time]{font:700 16px 'Cairo',sans-serif;padding:6px 10px;border-radius:10px;border:1px solid var(--gold-300,#888);background:transparent;color:inherit;min-height:40px}
+.notify-btn{font:700 13px 'Cairo',sans-serif;padding:8px 12px;border-radius:10px;border:1px solid var(--gold-300,#888);background:transparent;color:inherit;cursor:pointer;min-height:40px}
+</style><script id="notify">/* v75 — التنبيه اليومي: آية اليوم + قول الآباء + رسالة قصيرة من يسوع.
+   الإعدادات: rafeeq_v75_notify = {on, time:"HH:MM"} (الافتراضي ٠٧:٠٠). تدخل في النسخة الاحتياطية تلقائيًا (بادئة rafeeq_).
+   طبقات التسليم (من الأدق للأضعف، وكلها تعمل مع بعض والوسم اليومي يمنع التكرار):
+   ١) TimestampTrigger إن دعمه المتصفح (يعمل والتطبيق مغلق وفي الوقت بالضبط).
+   ٢) Periodic Background Sync في الـservice worker (تطبيق مثبّت على أندرويد/كروم؛ الوقت تقريبي يحدده المتصفح).
+   ٣) مؤقّت داخل الصفحة وهي مفتوحة أو في الخلفية.
+   لا يوجد خادم دفع (Web Push) — لذلك لا ضمان لتنبيه في وقت محدد تمامًا والتطبيق مغلق على كل الأجهزة. */
+(function(){
+  var KEY='rafeeq_v75_notify', DEF={on:false,time:'07:00'}, timer=null;
+  function load(){ try{ var o=JSON.parse(localStorage.getItem(KEY)||'null'); if(o&&typeof o==='object') return {on:o.on===true,w:o.w===true||o.on===true,time:/^\d\d:\d\d$/.test(o.time)?o.time:DEF.time}; }catch(e){} return {on:DEF.on,w:false,time:DEF.time}; }
+  function save(s){ try{ localStorage.setItem(KEY,JSON.stringify(s)); }catch(e){} }
+  var S=load();
+
+  /* ---- رسائل قصيرة من يسوع: ٢٠ افتتاحية × ١٩ ختامًا، تُركَّب بحسب يوم السنة (باقي القسمة، متباينان) فلا يتكرر التركيب في ٣٦٦ يومًا ---- */
+  var OP=[
+   'سلام لك {A}، أنا يسوع. كنت مستنيك النهارده.',
+   '{A}، أنا فاكرك دلوقتي وفرحان بيك.',
+   '{A}، أنا معاك في كل اللي بتعدّي بيه النهارده، حتى لو ما شفتنيش.',
+   'أنا يسوع {A}. اللي شاغل بالك شاغلني أنا كمان.',
+   '{A}، قلبي مفتوح ليك، وعمري ما بتشغل عنك.',
+   'النهارده يوم جديد {A}، وأنا اللي بدأته معاك.',
+   '{A}، مش لازم تبقى {قوي|قوية} قدامي. تعالى زي ما إنت.',
+   'أنا يسوع، وبحبك {A} قبل ما تعمل أي حاجة وبعد ما تعملها.',
+   '{A}، مهما كان تعبك النهارده، أنا شايفه وعارفه.',
+   'سلام ليك {A}. سبت لك النهارده كلمة صغيرة تسندك.',
+   '{A}، أنا مش بحاسبك على التأخير، أنا بنده عليك لأني بحبك.',
+   'يا {حبيبي|حبيبتي}، أنا هنا. مش لازم تقول كتير، يكفي تيجي.',
+   '{A}، كل خطوة النهارده هتمشيها وأنا جنبك.',
+   'أنا يسوع. النهارده محتاجك تسمعني ثواني وسط الزحمة.',
+   '{A}، ربنا ما بينساش حد، وأنا أولهم ما بنساكش.',
+   'صباح أو مساء، أنا واحد ومستنيك {A}.',
+   '{A}، حتى لو نسيت أسألك عن يومك، أنا فاكر كل تفصيلة فيه.',
+   'أنا يسوع. سلامي ليك النهارده، خدّه مني ببلاش.',
+   '{A}، مش محتاج تشرح كتير. أنا فاهمك قبل ما تتكلم.',
+   'النهارده، سيب حِملك عندي شوية {A}، وأنا شايله معاك.'
+  ];
+  var CL=[
+   'خد دقيقة وصلّي، وافتح الرفيق الروحي نقرا كلمة النهارده مع بعض.',
+   'افتح البرنامج وشوف الآية اللي جهزتها ليك، وقف معايا دقيقة.',
+   'قول لي «يا رب» بس، وأنا أكمّل. وبعدها افتح الرفيق الروحي.',
+   'مستنيك في صلاة قصيرة النهارده. افتح الأجبية وقف قدامي.',
+   'لو مش لاقي وقت، صلاة من ٣٠ ثانية بتكفي. وبعدها افتح الخلوة اليومية.',
+   'سيب كل حاجة دقيقة، وتعالى نقعد مع بعض في الخلوة.',
+   'افتح الرفيق الروحي وخلّينا نبدأ النهارده بكلمتي.',
+   'متنساش صلاتك النهارده، أنا بفرح بكل مرة تيجي فيها.',
+   'ارفع قلبك ليّ دلوقتي، وبعدها افتح التأمل وشوف كلمتي ليك.',
+   'اقرا الآية دي ببطء، وكلّمني فيها بصوت واطي.',
+   'تعالى اقعد معايا قدام الأجبية، حتى لو ساعة واحدة بس.',
+   'افتح البرنامج، فيه قول من الآباء ينفعك النهارده.',
+   'كلمة النهارده مستنياك، وأنا مستني ردك عليها.',
+   'اطلب مني اللي محتاجه النهارده، وبعدها افتح الرفيق الروحي.',
+   'قبل ما اليوم يعدّي، خصص وقت لصلاتك وكلمتي.',
+   'أنا بسمعك، قول لي اللي جواك وافتح التأمل بعدها.',
+   'افتح الخلوة اليومية واقرا التأمل لحد آخره، فيه حاجة ليك.',
+   'صلاة صغيرة دلوقتي، وأنا هكمّل معاك باقي اليوم.',
+   'وقف دقيقة قدام الأجبية النهارده، وأنا هقف معاك.'
+  ];
+  function A(){ var p=window.__rfPrefs||{}, n=(p.name||'').trim(); return n?('يا '+n):'يا حبيبي'; }
+  function fillG(t){ return t.replace(/\{([^|{}]+)\|([^{}]+)\}/g,function(_,a){ return a; }); }
+  function doy(d){ return Math.floor((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-Date.UTC(d.getFullYear(),0,0))/864e5); }
+  function jesus(d){
+    var n=doy(d), a=OP[n%OP.length].replace(/\{A\}/g,A()), c=CL[n%CL.length];
+    return fillG(a)+' '+fillG(c);
+  }
+  function dkey(d){ return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+  function content(d){
+    var KY=window.__khalwaYear, o=null, verse='', ref='', fa='';
+    try{ var e=KY&&KY.ready?KY.entry(d):null; if(e){ var v=KY.toVariants(e,'','',d.getDate()); o=v[1]; if(o){ verse=o.verse||''; ref=o.ref||''; } } }catch(x){}
+    try{ var f=window.__fatherOfDay&&window.__fatherOfDay(d); if(f&&window.__fathers) fa='«'+f.t+'»\n— '+window.__fathers.cite(f); }catch(x){}
+    var body=jesus(d);
+    if(verse) body+='\n\nآية اليوم: «'+verse+'»'+(ref?' ('+ref+')':'');
+    if(fa) body+='\n\nقول اليوم من الآباء: '+fa;
+    return {title:'رسالة من يسوع',body:body,tag:'rafeeq-daily-'+dkey(d)};
+  }
+  function atOf(d,time){ var p=time.split(':'); return new Date(d.getFullYear(),d.getMonth(),d.getDate(),+p[0],+p[1],0,0).getTime(); }
+  function plan(days){
+    var out=[], now=Date.now(), base=new Date();
+    for(var i=0;i<(days||14);i++){ var d=new Date(base.getFullYear(),base.getMonth(),base.getDate()+i,12,0,0), at=atOf(d,S.time); if(at<=now) continue; var c=content(d); c.at=at; out.push(c); }
+    return out;
+  }
+  function can(){ return ('Notification' in window)&&Notification.permission==='granted'; }
+
+  /* عرض إشعار: على أندرويد لا يعمل new Notification، فنفضّل registration.showNotification */
+  function show(title,opts){
+    opts=opts||{}; opts.lang='ar'; opts.dir='rtl'; if(!opts.icon) opts.icon='icon-192.png'; opts.data=opts.data||{url:'./'};
+    var fb=function(){ try{ new Notification(title,opts); }catch(e){} };
+    if(!('serviceWorker' in navigator)){ fb(); return Promise.resolve(); }
+    var done=false, to=setTimeout(function(){ if(!done){ done=true; fb(); } },1500);
+    return navigator.serviceWorker.getRegistration().then(function(r){ if(done) return; done=true; clearTimeout(to); if(r&&r.showNotification) return r.showNotification(title,opts); fb(); }).catch(function(){ if(!done){ done=true; clearTimeout(to); fb(); } });
+  }
+  window.__rfNotify=show;
+
+  function clearTimer(){ if(timer){ clearTimeout(timer); timer=null; } }
+  function armTimer(){
+    clearTimer(); if(!S.on||!can()) return;
+    var p=plan(2)[0]; if(!p) return;
+    var ms=Math.max(1000,p.at-Date.now()); if(ms>2147000000) return;
+    timer=setTimeout(function(){ show(p.title,{body:p.body,tag:p.tag}); setTimeout(armTimer,2000); },ms);
+  }
+  function swSync(){
+    if(!('serviceWorker' in navigator)||(!S.on&&!S.w)) return;
+    navigator.serviceWorker.ready.then(function(reg){
+      var pl=(S.on&&can())?plan(14):[];
+      try{ var w=reg.active||navigator.serviceWorker.controller; if(w) w.postMessage({type:'rafeeq-notify-plan',plan:pl}); }catch(e){}
+      try{ if(S.on&&can()&&reg.periodicSync) reg.periodicSync.register('rafeeq-daily',{minInterval:3600000}).catch(function(){}); else if(reg.periodicSync&&reg.periodicSync.unregister) reg.periodicSync.unregister('rafeeq-daily').catch(function(){}); }catch(e){}
+      try{
+        if(typeof TimestampTrigger!=='undefined'&&reg.getNotifications){
+          reg.getNotifications({includeTriggered:true}).then(function(ns){ ns.forEach(function(n){ if(/^rafeeq-daily-/.test(n.tag||'')&&n.showTrigger) n.close(); });
+            pl.forEach(function(p){ reg.showNotification(p.title,{body:p.body,tag:p.tag,lang:'ar',dir:'rtl',icon:'icon-192.png',data:{url:'./'},showTrigger:new TimestampTrigger(p.at)}).catch(function(){}); });
+          }).catch(function(){});
+        }
+      }catch(e){}
+    }).catch(function(){});
+  }
+  function apply(){ armTimer(); swSync(); paint(); }
+  function setOn(on){ S.on=on; if(on) S.w=true; save(S); apply(); }
+  function setTime(t){ if(!/^\d\d:\d\d$/.test(t)) return; S.time=t; save(S); apply(); }
+
+  /* ---- واجهة الإعدادات ---- */
+  function ui(){ return {tg:document.getElementById('notifyToggle'),tm:document.getElementById('notifyTime'),ts:document.getElementById('notifyTest'),nt:document.getElementById('notifyNote'),df:document.getElementById('notifyDefault')}; }
+  function paint(){
+    var u=ui(); if(!u.tg) return;
+    u.tg.setAttribute('aria-checked',S.on?'true':'false'); if(u.tm&&u.tm.value!==S.time) u.tm.value=S.time;
+    if(u.nt){
+      var perm=('Notification' in window)?Notification.permission:'unsupported', m;
+      if(perm==='unsupported') m='متصفحك لا يدعم التنبيهات.';
+      else if(perm==='denied') m='التنبيهات ممنوعة لهذا الموقع من إعدادات المتصفح — فعّلها من هناك أولًا.';
+      else if(!S.on) m='معطّل. الوقت الافتراضي ٧:٠٠ صباحًا ويمكنك تغييره.';
+      else m='مفعّل يوميًا الساعة '+S.time+'. يصل في وقته بدقة إن دعم جهازك الجدولة، وإلا يصل تقريبًا حسب المتصفح بعد تثبيت التطبيق على الشاشة الرئيسية، وقد لا يصل إذا كان التطبيق مغلقًا تمامًا.';
+      u.nt.textContent=m;
+    }
+  }
+  function bind(){
+    var u=ui(); if(!u.tg||u.tg.__nb) return; u.tg.__nb=1;
+    u.tg.addEventListener('click',function(){
+      if(S.on){ setOn(false); return; }
+      if(!('Notification' in window)){ paint(); return; }
+      if(Notification.permission==='granted') setOn(true);
+      else if(Notification.permission!=='denied') Notification.requestPermission().then(function(p){ if(p==='granted') setOn(true); else paint(); });
+      else paint();
+    });
+    if(u.tm) u.tm.addEventListener('change',function(){ setTime(u.tm.value); });
+    if(u.df) u.df.addEventListener('click',function(){ setTime(DEF.time); });
+    if(u.ts) u.ts.addEventListener('click',function(){
+      var go=function(){ var c=content(new Date()); show(c.title,{body:c.body,tag:'rafeeq-daily-test'}); };
+      if(!('Notification' in window)) return;
+      if(Notification.permission==='granted') go(); else if(Notification.permission!=='denied') Notification.requestPermission().then(function(p){ paint(); if(p==='granted') go(); }); else paint();
+    });
+    paint();
+  }
+  window.__rfNotifyPlan=plan; window.__rfNotifyContent=content; window.__rfNotifyState=function(){ return {on:S.on,time:S.time}; }; window.__rfNotifyMsgCount=function(){ return OP.length*CL.length; };
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden){ armTimer(); swSync(); } });
+  function init(){ bind(); armTimer(); swSync(); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+  setTimeout(bind,1500);
+})();
+</script>
 </body>
 </html>
