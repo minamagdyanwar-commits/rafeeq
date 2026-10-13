@@ -165,6 +165,7 @@ body.v14-khalwa #v14Strip{display:block}
   <div class="acts"><button id="uDay" type="button" class="dchip" aria-label="تاريخ التدوين" title="تاريخ التدوين"></button><button id="uSearchBtn" type="button" aria-label="بحث" title="بحث (Ctrl+K)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button><button id="uGear" type="button" aria-label="الإعدادات" title="الإعدادات"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.6V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.5 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.6-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.6V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.6 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></button></div></header>
 
 <section class="u-page on" id="page-home" aria-label="الرئيسية"><div class="u-wrap">
+  <div id="hWeek"></div>
   <div class="home-hero"><div class="cross">✠</div><h1>يومك الروحي</h1><p>صلاة · قراءة · تأمل · محاسبة</p><div class="dt" id="hDate"></div></div>
   <div id="hExtra"></div>
   <div class="h-grid">
@@ -778,12 +779,12 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
     }catch(er){ return null; }
   };
 })();
-</script><script src="data-khalwaYear.e48cf2af84.js"></script><script>(function(){var s=document.createElement('script');s.id="khalwaYear";s.type='text/plain';s.textContent=__RF_DATA["khalwaYear"];delete __RF_DATA["khalwaYear"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+</script><script src="data-khalwaYear.313c416dc8.js"></script><script>(function(){var s=document.createElement('script');s.id="khalwaYear";s.type='text/plain';s.textContent=__RF_DATA["khalwaYear"];delete __RF_DATA["khalwaYear"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script id="khalwa-year">/* v75 — الخلوة اليومية: سنة كاملة بالتاريخ الميلادي (٣٦٦ يومًا × ٣ تأملات) تعمل دون إنترنت.
    البيانات: <script id="khalwaYear"> (يولّدها tools/khalwa-build.mjs من src/content/khalwa). المفتاح = (شهر ميلادي - يوم). */
 (function(){
-  var el=document.getElementById('khalwaYear'), raw=el?el.textContent:'', D=null;
-  try{ if(raw) D=JSON.parse(raw).days; }catch(e){ D=null; }
+  var el=document.getElementById('khalwaYear'), raw=el?el.textContent:'', D=null, WK=[];
+  try{ if(raw){ var J=JSON.parse(raw); D=J.days; WK=J.weeks||[]; } }catch(e){ D=null; }
   var COPT=['توت','بابه','هاتور','كيهك','طوبة','أمشير','برمهات','برمودة','بشنس','بؤونة','أبيب','مسرى','النسيء'];
   /* نفس خوارزمية التاريخ القبطي المعتمدة في شاشة «الرئيسية» */
   function copticOf(d){
@@ -798,49 +799,48 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
   }
   function keyOf(date){ var d=date||new Date(); return (d.getMonth()+1)+'-'+d.getDate(); }
   function entry(date){ return D?(D[keyOf(date)]||null):null; }
-  var KINDS=['تأمل','من الكتاب','تطبيق'];
-  /* يحوّل يومًا من البيانات إلى الشكل الذي تعرضه بطاقة الخلوة (نفس حقول التأملات المكتوبة سابقًا) */
-  function toVariants(e,dateStr,weekday,dayNo){
-    var out={}, FA=window.__fathers;
+  /* أسبوع السنة (٧ أيام متتالية من ١ يناير؛ ٢٩ فبراير يُحسب ٢٨) — بلا أي رقم يظهر للمستخدم */
+  var CUM=[0,31,59,90,120,151,181,212,243,273,304,334];
+  function weekIdx(date){ var d=date||new Date(), m=d.getMonth(), dd=d.getDate(); if(m===1&&dd===29) dd=28; var n=CUM[m]+dd; return Math.min(51,Math.floor((n-1)/7)); }
+  function week(date){ var w=WK[weekIdx(date)]; return w?{title:w[0],idea:w[1]||''}:null; }
+  var KINDS=['من الأجبية','من الكتاب المقدس','من أقوال الآباء'];
+  var LABELS=['من الأجبية المقدسة','آية من الكتاب المقدس','قول من الآباء'];
+  /* يحوّل يومًا من البيانات إلى الشكل الذي تعرضه بطاقة الخلوة: آية/نص + تأمل + «صلاة من القلب» */
+  function toVariants(e,dateStr,weekday,dayNo,date){
+    var out={}, FA=window.__fathers, w=week(date||new Date());
     e.m.forEach(function(M,i){
-      var n=i+1, q=(M.fq&&FA&&FA.byId)?FA.byId[M.fq]:null;
-      var src='للاستزادة: تفسير القمص تادرس يعقوب ملطي على «'+M.bk+'» — st-takla.org';
-      var o={date:dateStr,weekday:weekday,day:dayNo,topic:e.th,title2:M.t,ref:M.ref,verse:M.v,
-        reflect:M.r,deep:M.x,prayer:M.p,
-        extraLabel:M.e?'مقطع للتأمل':'',extraText:M.e||'',extraRef:M.eref||'',kind:KINDS[i]};
-      if(q){
-        /* قول حقيقي من كتاب «أقوال الآباء الشيوخ» — النص حرفي */
-        o.fatherLabel='قول الآباء'; o.father=q.f; o.quote='«'+q.t+'»';
-        if(q.c&&q.c.split(/\s+/).length<=16) o.fatherCtx=q.c;
-        o.source=FA.cite(q)+' · '+src;
-      }else{
-        /* لا قول مناسب: نعرض خلاصة التعليم دون نسبتها إلى أحد */
-        o.fatherLabel='خلاصة التعليم'; o.father=''; o.quote=M.f;
-        o.source=src+' · التأمل مصوغ على تعليم الكنيسة';
+      var n=i+1, o={date:dateStr,weekday:weekday,day:dayNo,topic:e.th,title2:M.t,ref:M.ref,verse:M.v,
+        reflect:M.r,prayer:M.p,kind:KINDS[i],verseLabel:LABELS[i],weekTitle:w?w.title:''};
+      if(i===0){ o.source='المصدر: الأجبية المقدسة — '+M.ref+' · للاستزادة: st-takla.org (شرح الأجبية)'; }
+      else if(i===1){ o.source='للاستزادة: تفسير القمص تادرس يعقوب ملطي على «'+(M.bk||M.ref)+'» — st-takla.org'; }
+      else{
+        var q=(M.fq&&FA&&FA.byId)?FA.byId[M.fq]:null;
+        if(q){ o.verse=q.t; o.ref=q.f+' — '+FA.cite(q); }
+        o.source='المصدر: كتاب «أقوال الآباء الشيوخ» — منشورات النور، ١٩٩٠'+(q?' · '+FA.cite(q):'');
       }
       out[n]=o;
     });
     return out;
   }
-  window.__khalwaYear={ready:!!D,days:D?Object.keys(D).length:0,copticOf:copticOf,keyOf:keyOf,entry:entry,toVariants:toVariants,kinds:KINDS,months:COPT};
+  window.__khalwaYear={ready:!!D,days:D?Object.keys(D).length:0,copticOf:copticOf,keyOf:keyOf,entry:entry,week:week,weekIdx:weekIdx,toVariants:toVariants,kinds:KINDS,months:COPT};
 })();
 </script>
-<script src="29-anon.e58a5eaaec.js"></script>
+<script src="29-anon.0b0cb243e6.js"></script>
 <script src="30-anon.4ef9de7a19.js"></script>
 <script src="31-anon.cdd5a50b71.js"></script>
 <script src="data-bibleData.e64361f795.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="data-bgData.fcf82ceaa4.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="34-anon.e47481277b.js"></script>
-<script src="35-anon.abc94d29b5.js"></script>
-<script src="36-anon.2aa66e2e30.js"></script>
+<script src="35-anon.36bc43387a.js"></script>
+<script src="36-anon.bb5e700387.js"></script>
 <script src="37-anon.c94ab4bc84.js"></script>
 <script src="38-anon.5ed3a3ba72.js"></script>
 <script src="39-anon.0d4fc48125.js"></script>
-<script id="js-v14" src="40-js-v14.c310e0dd50.js"></script>
+<script id="js-v14" src="40-js-v14.d32443e965.js"></script>
 <script id="v55m-js" src="41-v55m-js.07a58e4c61.js"></script>
 <script id="v57-inst" src="42-v57-inst.1cb8a1f579.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v2.83';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v2.84';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" id="v62nav" href="45-v62nav.16d6ade3ea.css">
@@ -1057,7 +1057,7 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
   function dkey(d){ return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
   function content(d){
     var KY=window.__khalwaYear, o=null, verse='', ref='', fa='';
-    try{ var e=KY&&KY.ready?KY.entry(d):null; if(e){ var v=KY.toVariants(e,'','',d.getDate()); o=v[1]; if(o){ verse=o.verse||''; ref=o.ref||''; } } }catch(x){}
+    try{ var e=KY&&KY.ready?KY.entry(d):null; if(e){ var v=KY.toVariants(e,'','',d.getDate(),d); o=v[2]||v[1]; if(o){ verse=o.verse||''; ref=o.ref||''; } } }catch(x){}
     try{ var f=window.__fatherOfDay&&window.__fatherOfDay(d); if(f&&window.__fathers) fa='«'+f.t+'»\n— '+window.__fathers.cite(f); }catch(x){}
     var body=jesus(d);
     if(verse) body+='\n\nآية اليوم: «'+verse+'»'+(ref?' ('+ref+')':'');
@@ -1442,6 +1442,6 @@ html[data-theme="light"] body #mod-k .meditation .mtitle,html[data-theme="light"
   window.addEventListener('hashchange',function(ev){ if(Date.now()<guardUntil) ev.stopImmediatePropagation(); },true);
   window.__edgeGuard={state:function(){ return last; }};
 })();
-</script><script src="data-xrData.850db9ab44.js"></script><script>(function(){var s=document.createElement('script');s.id="xrData";s.type='text/plain';s.textContent=__RF_DATA["xrData"];delete __RF_DATA["xrData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script id="v81gloss" src="58-v81gloss.1a5f045ff9.js"></script><link rel="stylesheet" id="v81xref" href="70-v81xref.18998c42b1.css"><script id="v281talk" src="60-v281talk.ce36716cfb.js"></script><link rel="stylesheet" id="v281talk-css" href="71-v281talk.634363b1a6.css"><script id="v282meaning" src="61-v282meaning.5faef39078.js"></script><script src="data-ervData.c4d9b8e355.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+</script><script src="data-xrData.850db9ab44.js"></script><script>(function(){var s=document.createElement('script');s.id="xrData";s.type='text/plain';s.textContent=__RF_DATA["xrData"];delete __RF_DATA["xrData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script id="v81gloss" src="58-v81gloss.1a5f045ff9.js"></script><link rel="stylesheet" id="v81xref" href="70-v81xref.681a7e41b3.css"><script id="v281talk" src="60-v281talk.b20049027d.js"></script><link rel="stylesheet" id="v281talk-css" href="71-v281talk.017aed680f.css"><script id="v282meaning" src="61-v282meaning.5faef39078.js"></script><script src="data-ervHeads.92f1ee6f1b.js"></script><script src="data-ervData.c4d9b8e355.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 </body>
 </html>
