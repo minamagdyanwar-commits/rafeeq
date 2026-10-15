@@ -571,6 +571,7 @@ body.v14-khalwa #v14Strip{display:block}
 <section class="u-page" id="page-trk" aria-label="رحلتي"><div class="u-wrap"><div id="trkTabs" class="u-tabs" role="tablist"></div><div id="trkBody"></div></div></section>
 <section class="u-page" id="page-fat" aria-label="أقوال الآباء"><div class="u-wrap"><div id="fatBody"></div></div></section>
 <section class="u-page" id="page-talk" aria-label="صوت الله"><div class="u-wrap"><div id="talkBody"></div></div></section>
+<section class="u-page" id="page-favs" aria-label="المفضلات"><div class="u-wrap"><div id="favsBody"></div></div></section>
 <section class="u-page" id="page-cal" aria-label="التقويم القبطي"><div class="u-wrap"><div id="calBody"></div></div></section>
 <section class="u-page" id="page-msg" aria-label="رسالة من يسوع"><div class="u-wrap"><div id="msgBody"></div></div></section>
 
@@ -745,7 +746,7 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
   function card(x){
     return '<article class="fat-card" data-i="'+x.i+'">'+(x.c?'<div class="fat-c">'+esc(x.c)+'</div>':'')+'<p class="fat-q">«'+esc(x.t)+'»</p><div class="fat-meta"><b>'+esc(x.f)+'</b><span>'+cite(x)+'</span></div>'+
       '<div class="fat-tags">'+x.g.map(function(g){return '<button type="button" data-tag="'+esc(g)+'">'+esc(g)+'</button>'}).join('')+'</div>'+
-      '<button type="button" class="fat-copy" data-copy="'+x.i+'">نسخ</button></article>';
+      '<button type="button" class="fat-copy" data-copy="'+x.i+'">نسخ</button> '+(window.__fatFav?window.__fatFav.btn(x.i):'')+'</article>';
   }
   var PAGE=40;
   function render(more){
@@ -835,8 +836,8 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
   window.__khalwaYear={ready:!!D,days:D?Object.keys(D).length:0,copticOf:copticOf,keyOf:keyOf,entry:entry,week:week,weekIdx:weekIdx,toVariants:toVariants,kinds:KINDS,months:COPT};
 })();
 </script>
-<script src="29-anon.5e90c1de96.js"></script>
-<script src="30-anon.be93a8254a.js"></script>
+<script src="29-anon.31f6a3639b.js"></script>
+<script src="30-anon.a6d83c9812.js"></script>
 <script src="31-anon.cdd5a50b71.js"></script>
 <script src="data-bibleData.9772378e34.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="data-bgData.fcf82ceaa4.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
@@ -845,8 +846,8 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
 <script src="36-anon.bb5e700387.js"></script>
 <script src="37-anon.c94ab4bc84.js"></script>
 <script src="38-anon.5ed3a3ba72.js"></script>
-<script src="39-anon.132e76cb75.js"></script>
-<script id="js-v14" src="40-js-v14.d32443e965.js"></script>
+<script src="39-anon.6753cc2bca.js"></script>
+<script id="js-v14" src="40-js-v14.62d136f712.js"></script>
 <script id="v55m-js" src="41-v55m-js.07a58e4c61.js"></script>
 <script id="v57-inst" src="42-v57-inst.1cb8a1f579.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
@@ -1452,6 +1453,8 @@ html[data-theme="light"] body #mod-k .meditation .mtitle,html[data-theme="light"
   window.addEventListener('hashchange',function(ev){ if(Date.now()<guardUntil) ev.stopImmediatePropagation(); },true);
   window.__edgeGuard={state:function(){ return last; }};
 })();
-</script><script src="data-xrData.850db9ab44.js"></script><script>(function(){var s=document.createElement('script');s.id="xrData";s.type='text/plain';s.textContent=__RF_DATA["xrData"];delete __RF_DATA["xrData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script id="v81gloss" src="58-v81gloss.1a5f045ff9.js"></script><link rel="stylesheet" id="v81xref" href="70-v81xref.681a7e41b3.css"><script id="v281talk" src="60-v281talk.ff5907e61f.js"></script><link rel="stylesheet" id="v281talk-css" href="71-v281talk.69a77a798e.css"><script id="v282meaning" src="61-v282meaning.a6c3e16684.js"></script><script src="data-ervHeads.92f1ee6f1b.js"></script><script src="data-ervData.c4d9b8e355.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+</script><script src="data-xrData.850db9ab44.js"></script><script>(function(){var s=document.createElement('script');s.id="xrData";s.type='text/plain';s.textContent=__RF_DATA["xrData"];delete __RF_DATA["xrData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script id="v81gloss" src="58-v81gloss.1a5f045ff9.js"></script><link rel="stylesheet" id="v81xref" href="70-v81xref.681a7e41b3.css"><script id="v281talk" src="60-v281talk.0bfb66a48a.js"></script><link rel="stylesheet" id="v281talk-css" href="71-v281talk.69a77a798e.css">
+<link rel="stylesheet" id="v290favs-css" href="72-v290favs.84fe4fbcf5.css"><script id="v282meaning" src="61-v282meaning.a6c3e16684.js"></script>
+<script id="v290favs" src="62-v290favs.3f08493e01.js"></script><script src="data-ervHeads.92f1ee6f1b.js"></script><script src="data-ervData.c4d9b8e355.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 </body>
 </html>
