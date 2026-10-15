@@ -1,0 +1,115 @@
+#page-talk .u-wrap{padding-bottom:210px}
+.tk-intro{margin:0 4px 14px;line-height:1.9;color:var(--s-page-soft);font-size:.95rem}
+.tk-log{display:flex;flex-direction:column;gap:8px}
+.tk-me{color:var(--s-page-ink);align-self:flex-start;max-width:86%;padding:10px 14px;border-radius:16px 16px 4px 16px;background:color-mix(in srgb,var(--s-accent,#8a6d1f) 22%,transparent);border:1px solid color-mix(in srgb,var(--s-accent,#8a6d1f) 45%,transparent);line-height:1.8;margin-top:8px;overflow-wrap:anywhere}
+.tk-re{display:flex;flex-direction:column;gap:7px;align-items:flex-end}
+.tk-re>*{scroll-margin-bottom:170px;max-width:94%}
+.tk-say{padding:9px 13px;border-radius:16px 16px 16px 4px;border:1px solid var(--s-card-border);background:var(--s-card);color:var(--s-card-ink);font:500 .92rem/1.8 'Cairo',sans-serif;overflow-wrap:anywhere}
+.tk-why{display:block;font-weight:400;font-size:.76rem;opacity:.75;margin-top:2px}
+.tk-more{margin-top:8px}
+.tk-more button{min-height:34px;padding:0 14px;border-radius:18px;border:1px solid color-mix(in srgb,var(--s-accent,#8a6d1f) 70%,transparent);background:transparent;color:var(--s-card-ink);font:600 .8rem 'Cairo',sans-serif;cursor:pointer}
+.tk-typing{display:inline-flex;gap:5px;align-items:center;padding:12px 15px}
+.tk-typing i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.35;animation:tkdot 1s infinite ease-in-out}
+.tk-typing i:nth-child(2){animation-delay:.15s}.tk-typing i:nth-child(3){animation-delay:.3s}
+@keyframes tkdot{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:.9;transform:translateY(-3px)}}
+@media(prefers-reduced-motion:reduce){.tk-typing i{animation:none}}
+.tk-v{padding:10px 13px;border-radius:14px 14px 14px 4px;border:1px solid var(--s-card-border);background:var(--s-card);color:var(--s-card-ink);width:100%}
+.tk-v.tk-c{border-width:1.5px;border-color:var(--s-accent,#8a6d1f)}
+.tk-badge{display:inline-block;font:700 .68rem 'Cairo',sans-serif;padding:1px 9px;border-radius:10px;background:var(--s-accent,#8a6d1f);color:var(--s-btn-ink,#1b1204);margin-bottom:5px}
+.tk-badge.tk-near{background:transparent;color:var(--s-card-ink);border:1px solid var(--s-card-border)}
+.tk-t{margin:0 0 6px;font:500 .93rem/1.85 'Cairo',sans-serif}
+.tk-m{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;justify-content:space-between}
+.tk-m b{color:var(--s-card-ink);font-size:.8rem}
+.tk-a{display:flex;gap:6px;flex-wrap:wrap}
+.tk-a button{color:var(--s-card-ink);border-color:var(--s-card-border)}
+.tk-clear button,.tk-chips button{color:var(--s-page-ink)}
+.tk-a button{min-height:32px;padding:0 11px;font-size:.74rem}
+.tk-a button,.tk-clear button,.tk-chips button{border-radius:18px;border:1px solid color-mix(in srgb,var(--s-accent,#8a6d1f) 60%,transparent);background:transparent;font-family:'Cairo',sans-serif;font-weight:600;cursor:pointer}
+.tk-clear button,.tk-chips button{min-height:40px;padding:0 14px;font-size:.82rem}
+.tk-care{color:var(--s-page-ink);padding:12px 14px;border-radius:12px;border:2px solid var(--s-accent,#8a6d1f);line-height:1.9;font-size:.95rem}
+.tk-none{color:var(--s-page-ink);padding:12px 14px;border-radius:12px;border:1px dashed color-mix(in srgb,var(--s-accent,#8a6d1f) 60%,transparent);line-height:1.9;font-size:.92rem;opacity:.9}
+.tk-clear{text-align:center;margin:16px 0 4px}
+.tk-chips{display:flex;gap:8px;overflow-x:auto;padding:12px 2px 4px;margin-top:10px;scrollbar-width:none}
+.tk-chips button{flex:none}
+.tk-in{position:fixed;inset-inline:10px;bottom:calc(var(--u-nav,64px) + env(safe-area-inset-bottom,0px) + 10px);z-index:54;display:flex;gap:8px;align-items:flex-end;max-width:560px;margin:0 auto;padding:8px;border-radius:22px;background:var(--s-bar);color:var(--s-bar-ink);border:1px solid color-mix(in srgb,var(--s-accent,#8a6d1f) 60%,transparent);box-shadow:0 6px 20px rgba(0,0,0,.3)}
+#page-talk:not(.on) .tk-in{display:none}
+.tk-in textarea{flex:1;min-width:0;resize:none;border:0;background:transparent;color:inherit;font:400 1rem/1.7 'Cairo',sans-serif;padding:8px 10px;max-height:120px;outline:none}
+.tk-in textarea:focus-visible{outline:2px solid var(--s-accent,#8a6d1f);border-radius:10px}
+.tk-in button{flex:none;min-height:44px;padding:0 18px;border-radius:22px;border:0;background:var(--s-accent,#8a6d1f);color:var(--s-btn-ink,#1b1204);font:700 .9rem 'Cairo',sans-serif;cursor:pointer}
+.tk-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+body.u-focus .tk-in{bottom:calc(env(safe-area-inset-bottom,0px) + 14px)}
+
+.u-card.talk-card{display:block;width:100%;text-align:center;color:var(--s-card-ink);cursor:pointer;-webkit-appearance:none;appearance:none;font:inherit}
+.u-card.talk-card .vt{font:700 15px/1.8 'Cairo',sans-serif;margin:4px 0}.u-card.talk-card .u-sub{font-weight:600}
+/* v2.81: ثمانية أزرار في الشريط — منع التفاف الاسم */
+#uNav button span{white-space:nowrap}
+html:not([data-layout="path"]):not([data-layout="index"]) #uNav button{min-width:0;padding-inline:0}
+html:not([data-layout="path"]):not([data-layout="index"]) #uNav button span{font-size:10px;letter-spacing:-.1px}
+/* الفهرس: ثمانية أبواب على شاشة ضيقة */
+@media(max-width:400px){
+html[data-layout="index"] #uNav{gap:5px!important;padding:0 8px!important}
+html[data-layout="index"] #uNav button{font-size:12px!important;gap:1px!important;white-space:nowrap}
+html[data-layout="index"] #uNav button:not(#uNavMore)::before{font-size:12px!important}
+}
+@media(max-width:380px){
+html[data-layout="index"] #uNav{gap:3px!important;padding:0 5px!important}
+html[data-layout="index"] #uNav button{font-size:11.5px!important}
+html[data-layout="index"] #uNav button:not(#uNavMore)::before{font-size:11px!important}
+}
+@media(max-width:380px){
+html[data-layout="index"] #uNav{gap:0!important;padding:0 3px!important}
+html[data-layout="index"] #uNav button:not(#uNavMore){padding:0 3px!important}
+}
+/* مسار + شاشة أفقية قصيرة: ثمانية أزرار في الشريط الجانبي */
+@media(max-height:460px){
+html[data-layout="path"] #uNav{padding:2px 0!important}
+html[data-layout="path"] #uNav button{min-height:38px!important;gap:0!important;font-size:9px!important}
+html[data-layout="path"] #uNav button svg{width:17px!important;height:17px!important}
+}
+
+/* v2.84: الترجمة المبسطة في «صوت الله» */
+.tk-erv{margin:6px 0 4px;font-size:.84em;line-height:1.8;color:color-mix(in srgb,currentColor 50%,#1f7a9c);border-inline-start:3px solid #1f7a9c;padding-inline-start:10px}
+.tk-erv[hidden]{display:none}
+
+/* v2.84 — كارت عنوان الأسبوع (الرئيسية) + صلاة من القلب بحجم أكبر */
+#hWeek:empty{display:none}
+.wk-card{display:block;width:100%;text-align:start;font:inherit;cursor:pointer;margin:6px 0 10px;padding:12px 14px;border-radius:14px;
+  background:var(--s-card);color:var(--s-card-ink);border:1px solid var(--s-card-border);border-inline-start:4px solid var(--s-accent);box-sizing:border-box}
+.wk-card span{display:block}
+.wk-card .wk-t{font:700 clamp(19px,5.4vw,23px)/1.5 'Aref Ruqaa','Amiri',serif;color:var(--s-accent)}
+.wk-card .wk-i{margin-top:2px;font:400 14px/1.7 'Amiri','Cairo',serif;color:var(--s-card-ink);opacity:.85}
+.wk-card .wk-o{margin-top:6px;padding-top:6px;border-top:1px dashed var(--s-card-border);font:600 12.5px/1.6 'Cairo','Tajawal',sans-serif;color:var(--s-page-soft,var(--s-card-ink));opacity:.9}
+html[data-layout="path"] .wk-card,html[data-layout="index"] .wk-card{background:transparent;border:0;border-bottom:1px solid var(--s-card-border);border-inline-start:3px solid var(--s-accent);border-radius:0;padding:8px 10px}
+.wk-line{font:600 12px/1.5 'Cairo',sans-serif;color:#9a7b1c;margin:2px 0 0;text-align:center}
+html[data-design] #mod-k .prayer-text.prayer-lg:not(:is(.export-card *)){font-size:1.42rem !important;line-height:2.05 !important;font-weight:600}
+html[data-design] #mod-k .export-card .prayer-text.prayer-lg{font-size:46px !important;line-height:1.55 !important}
+
+/* v2.84 — «تعمّق» داخل بطاقة الخلوة (الشاشة والصورة) */
+#mod-k .deep-box{width:100%;margin-top:14px;padding-top:12px;border-top:1px dashed rgba(201,164,76,.4);text-align:center}
+#mod-k .deep-label{font-family:'Tajawal','Cairo',sans-serif;color:var(--gold);font-size:14px;margin-bottom:6px;letter-spacing:.5px}
+#mod-k .deep-text{font:400 16px/1.9 'Amiri','Cairo',serif;color:var(--cream-soft,inherit);text-align:center}
+#mod-k .export-card .deep-box{margin-top:18px;padding-top:16px}
+#mod-k .export-card .deep-label{font-size:30px;margin-bottom:8px}
+#mod-k .export-card .deep-text{font-size:34px;line-height:1.55}
+
+/* v2.87 — أقوال الآباء، التوضيح، شرح الآية */
+.tk-v.tk-f{border-inline-start:4px solid color-mix(in srgb,var(--s-accent,#8a6d1f) 70%,transparent)}
+.tk-badge.tk-fb{background:transparent;color:var(--s-card-ink);border:1px solid var(--s-accent,#8a6d1f)}
+.tk-fc{font:400 .76rem/1.6 'Cairo',sans-serif;opacity:.75;margin:0 0 4px}
+.tk-fs{font-size:.74rem;opacity:.8}
+.tk-clar{color:var(--s-page-ink);border:1px dashed color-mix(in srgb,var(--s-accent,#8a6d1f) 55%,transparent);border-radius:12px;padding:10px 12px;width:100%}
+.tk-cq{font:600 .82rem/1.7 'Cairo',sans-serif;margin-bottom:6px}
+.tk-cb{display:flex;flex-wrap:wrap;gap:6px}
+.tk-cb button{min-height:34px;padding:0 12px;border-radius:18px;border:1px solid color-mix(in srgb,var(--s-accent,#8a6d1f) 60%,transparent);background:transparent;color:var(--s-page-ink);font:600 .78rem 'Cairo',sans-serif;cursor:pointer}
+.tk-ex{margin-top:8px;padding-top:8px;border-top:1px dashed var(--s-card-border);font:400 .84rem/1.8 'Cairo',sans-serif}
+.tk-ex p{margin:0 0 4px}
+.tk-exh{font-weight:700;font-size:.78rem;color:var(--s-accent,#8a6d1f);margin:4px 0 2px}
+.tk-gl{margin:0}.tk-gl dt{font-weight:700;display:inline}.tk-gl dt::after{content:': '}.tk-gl dd{display:inline;margin:0}.tk-gl dd::after{content:'';display:block}
+.tk-exn{font-size:.7rem;opacity:.65;margin-top:4px}
+
+/* v2.89 — زر الإيموجي في شريط الكتابة */
+.tk-in .tk-emob{background:transparent;color:inherit;border:1px solid color-mix(in srgb,var(--s-accent,#8a6d1f) 55%,transparent);padding:0;min-width:44px;font-size:1.3rem;line-height:1}
+.tk-emo{position:absolute;bottom:calc(100% + 8px);inset-inline:0;display:grid;grid-template-columns:repeat(8,1fr);gap:2px;padding:8px;border-radius:16px;background:var(--s-card);color:var(--s-card-ink);border:1px solid var(--s-card-border);box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.tk-emo[hidden]{display:none}
+.tk-in .tk-emo button{background:transparent;color:inherit;min-height:40px;padding:0;border-radius:10px;border:0;font-size:1.35rem;line-height:1}
+.tk-in .tk-emo button:active{background:color-mix(in srgb,var(--s-accent,#8a6d1f) 18%,transparent)}
