@@ -1,0 +1,4 @@
+html.v298-lock,html.v298-lock body{overflow:hidden!important;overscroll-behavior:none}
+#settingsPanel{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.v298-hit{position:relative}
+.v298-hit::before{content:"";position:absolute;inset:-8px -6px}
