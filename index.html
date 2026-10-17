@@ -77,7 +77,7 @@ try{Object.defineProperty(window,'localStorage',{get:function(){return S},config
 })();
 </script>
 <title>الرفيق الروحي | الأجبية · الخلوة · القراءات · محاسبة النفس</title>
-<meta name="description" content="برنامج واحد للحياة الروحية اليومية: الأجبية، الخلوة اليومية، القراءات القبطية، ومحاسبة النفس">
+<meta name="description" content="برنامج واحد للحياة الروحية اليومية: الأجبية، التأملات اليومية، القراءات القبطية، ومحاسبة النفس">
 <meta name="theme-color" content="#4A1420">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -191,7 +191,7 @@ body.v14-khalwa #v14Strip{display:block}
   <div class="app-tab active" id="tabAgpeya" onclick="switchApp('agpeya')">✠ الأجبية</div>
   <button class="home-btn" id="homeBtn" onclick="goHome()" title="العودة لقائمة الساعات" aria-label="العودة لقائمة الساعات">↺</button>
   <button class="home-btn" id="settingsBtn" title="الإعدادات" aria-label="الإعدادات">⚙</button>
-  <div class="app-tab" id="tabMeditation" onclick="switchApp('meditation')">📖 الخلوة اليومية</div>
+  <div class="app-tab" id="tabMeditation" onclick="switchApp('meditation')">📖 التأملات اليومية</div>
 </div>
 
 <div id="view-agpeya">
@@ -268,7 +268,7 @@ body.v14-khalwa #v14Strip{display:block}
 
 <div id="view-meditation" style="display:none">
   <div class="selector-wrap" style="max-width:1180px;background:linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.015));border:1px solid rgba(201,164,76,0.3);border-radius:13px;padding:14px 16px;">
-    <div class="selector-label" style="margin-bottom:8px;">✠ الخلوة اليومية</div>
+    <div class="selector-label" style="margin-bottom:8px;">✠ التأملات اليومية</div>
     <div id="khalwaHeader" style="text-align:center;font-family:'Amiri',serif;color:var(--gold-300, var(--gold));font-size:1rem;line-height:1.8;"></div>
     <div class="status-line" id="statusLine"></div>
   </div>
@@ -851,10 +851,10 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
 <script src="38-anon.5ed3a3ba72.js"></script>
 <script src="39-anon.6753cc2bca.js"></script>
 <script id="js-v14" src="40-js-v14.62d136f712.js"></script>
-<script id="v55m-js" src="41-v55m-js.07a58e4c61.js"></script>
+<script id="v55m-js" src="41-v55m-js.761fdb86d4.js"></script>
 <script id="v57-inst" src="42-v57-inst.1cb8a1f579.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v3.2';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v3.4';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" id="v62nav" href="45-v62nav.16d6ade3ea.css">
@@ -1045,7 +1045,7 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
    'افتح البرنامج وشوف الآية اللي جهزتها ليك، وقف معايا دقيقة.',
    'قول لي «يا رب» بس، وأنا أكمّل. وبعدها افتح الرفيق الروحي.',
    'مستنيك في صلاة قصيرة النهارده. افتح الأجبية وقف قدامي.',
-   'لو مش لاقي وقت، صلاة من ٣٠ ثانية بتكفي. وبعدها افتح الخلوة اليومية.',
+   'لو مش لاقي وقت، صلاة من ٣٠ ثانية بتكفي. وبعدها افتح التأملات اليومية.',
    'سيب كل حاجة دقيقة، وتعالى نقعد مع بعض في الخلوة.',
    'افتح الرفيق الروحي وخلّينا نبدأ النهارده بكلمتي.',
    'متنساش صلاتك النهارده، أنا بفرح بكل مرة تيجي فيها.',
@@ -1057,7 +1057,7 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
    'اطلب مني اللي محتاجه النهارده، وبعدها افتح الرفيق الروحي.',
    'قبل ما اليوم يعدّي، خصص وقت لصلاتك وكلمتي.',
    'أنا بسمعك، قول لي اللي جواك وافتح التأمل بعدها.',
-   'افتح الخلوة اليومية واقرا التأمل لحد آخره، فيه حاجة ليك.',
+   'افتح التأملات اليومية واقرا التأمل لحد آخره، فيه حاجة ليك.',
    'صلاة صغيرة دلوقتي، وأنا هكمّل معاك باقي اليوم.',
    'وقف دقيقة قدام الأجبية النهارده، وأنا هقف معاك.'
   ];
@@ -1458,6 +1458,6 @@ html[data-theme="light"] body #mod-k .meditation .mtitle,html[data-theme="light"
 })();
 </script><script src="data-xrData.850db9ab44.js"></script><script>(function(){var s=document.createElement('script');s.id="xrData";s.type='text/plain';s.textContent=__RF_DATA["xrData"];delete __RF_DATA["xrData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script id="v81gloss" src="58-v81gloss.1a5f045ff9.js"></script><link rel="stylesheet" id="v81xref" href="70-v81xref.681a7e41b3.css"><script id="v281talk" src="60-v281talk.6ae1d1152b.js"></script><link rel="stylesheet" id="v281talk-css" href="71-v281talk.69a77a798e.css">
 <link rel="stylesheet" id="v290favs-css" href="72-v290favs.84fe4fbcf5.css"><link rel="stylesheet" href="73-v296size.2a037c2b2d.css"><script id="v282meaning" src="61-v282meaning.a6c3e16684.js"></script>
-<script id="v290favs" src="62-v290favs.b928d26696.js"></script><link rel="stylesheet" href="74-v297link.6f4b983142.css"><link rel="stylesheet" href="75-v298fix.c547b89fea.css"><link rel="stylesheet" href="76-v299lines.477d576674.css"><link rel="stylesheet" href="77-fontsx.7dab705ba2.css"><link rel="stylesheet" href="78-v300look.bdf8358c5c.css"><script src="63-v297link.24fee8f53e.js"></script><script src="64-v298fix.feb7b49bf2.js"></script><script src="65-v299lines.d6062c5327.js"></script><script src="66-v300look.95edc2121f.js"></script><script src="data-ervHeads.92f1ee6f1b.js"></script><script src="data-ervData.c4d9b8e355.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+<script id="v290favs" src="62-v290favs.04fd0c16b0.js"></script><link rel="stylesheet" href="74-v297link.6f4b983142.css"><link rel="stylesheet" href="75-v298fix.c547b89fea.css"><link rel="stylesheet" href="76-v299lines.3c51da61b8.css"><link rel="stylesheet" href="77-fontsx.7dab705ba2.css"><link rel="stylesheet" href="78-v300look.bdf8358c5c.css"><script src="63-v297link.7a2a0f0a75.js"></script><script src="64-v298fix.feb7b49bf2.js"></script><script src="65-v299lines.319797afd6.js"></script><script src="66-v300look.95edc2121f.js"></script><link rel="stylesheet" href="82-v330guided.396997c793.css"><script src="80-guideddata.c477ca787d.js"></script><script src="81-v330guided.3c5c4b5faa.js"></script><script src="data-ervHeads.92f1ee6f1b.js"></script><script src="data-ervData.c4d9b8e355.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 </body>
 </html>
