@@ -1,0 +1,86 @@
+/* v3.6 — الخلوة الفردية: تتبع ثيمات وخطوط وأشكال وأحجام الإعدادات (رموز #mod-k نفسها) */
+#view-guided{direction:rtl}
+#tabGuided{cursor:pointer}
+.gd-wrap{max-width:720px;margin:0 auto;padding:4px 10px 24px;color:var(--cream,inherit);font-family:'Cairo','Tajawal',sans-serif;font-size:var(--fs-sm,.9rem);--gd-edge:var(--border,rgba(128,128,128,.4));--gd-acc:var(--gold-bright,var(--gold,#B88A2E))}
+html[data-design="2"] #mod-k .gd-text,html[data-design="2"] #mod-k .gd-text *,html[data-design="2"] #mod-k .gd-hint,html[data-design="2"] #mod-k .gd-quote,html[data-design="2"] #mod-k .gd-big-pr,html[data-design="2"] #mod-k .gd-arrow,html[data-design="2"] #mod-k .gd-arrow *,html[data-design="2"] #mod-k .gd-base,html[data-design="2"] #mod-k .gd-hero p,html[data-design="2"] #mod-k .gd-ta{font-family:'Amiri',serif!important}
+html[data-design="2"] #mod-k .gd-hero h2,html[data-design="2"] #mod-k .gd-sh h3,html[data-design="2"] #mod-k .gd-ref{font-family:'Aref Ruqaa',serif!important}
+/* خطوط: العناوين / المحتوى / الواجهة (تلتقطها وحدة تخصيص المظهر) */
+.gd-hero h2,.gd-sh h3,.gd-ref{font-family:'Aref Ruqaa',serif}
+.gd-text,.gd-hint,.gd-quote,.gd-big-pr,.gd-arrow,.gd-base,.gd-hero p{font-family:var(--read-font,'Amiri',serif)}
+.gd-hero{text-align:center;padding:6px 2px 2px}
+.gd-hero h2{margin:2px 0 4px;font-size:var(--fs-xl,1.375rem);color:var(--gold-300,inherit)}
+.gd-hero p{margin:0 auto;max-width:34em;line-height:calc(1.8 + var(--lh-d,0));font-size:var(--fs-sm,.9rem);opacity:.92}
+.gd-ic{font-size:30px;line-height:1.1}
+.gd-lab{font-weight:700;margin:12px 2px 6px;font-size:var(--fs-sm,.9rem);color:var(--gold-bright,var(--gold-300,inherit))}
+.gd-lab small{font-weight:400;opacity:.75}
+/* بطاقة */
+.gd-card{background:var(--surface,rgba(255,255,255,.06));color:var(--ink,inherit);border:1px solid var(--gd-edge);border-radius:16px;padding:10px 12px;margin:8px 0}
+.gd-resume{display:flex;flex-direction:column;gap:2px;align-items:center;text-align:center;font-size:var(--fs-sm,.9rem)}
+.gd-durs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.gd-dur{font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:64px;border-radius:14px;border:1.5px solid var(--gd-edge);background:var(--surface,transparent);color:var(--ink,inherit);cursor:pointer}
+.gd-dur b{font-size:var(--fs-xl,1.375rem);line-height:1.2}
+.gd-dur span{font-size:var(--fs-xs,.8rem);opacity:.8}
+.gd-dur.on{background:var(--ink,#333);color:var(--surface,#fff);border-color:var(--ink,#333)}
+.gd-plan{list-style:none;margin:0;padding:0}
+.gd-plan li{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed var(--gd-edge);font-size:var(--fs-sm,.9rem)}
+.gd-plan li:last-child{border-bottom:0}
+.gd-pi{width:24px;text-align:center}
+.gd-pt{flex:1}
+.gd-row{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin:10px 0}
+/* أزرار: أكبر وأوضح (نص أصغر) */
+.gd-btn,.gd-sbtn{font:inherit;font-size:var(--fs-sm,.9rem);font-weight:700;min-height:48px;padding:8px 14px;border-radius:14px;border:1.5px solid var(--gd-edge);background:var(--surface,transparent);color:var(--ink,inherit);cursor:pointer}
+.gd-btn:disabled{opacity:.4;cursor:default}
+.gd-pri{background:var(--ink,#333);color:var(--surface,#fff);border-color:var(--ink,#333)}
+.gd-big{min-width:70%;min-height:54px;font-size:var(--fs-md,1rem)}
+.gd-note{text-align:center;font-size:var(--fs-xs,.8rem);opacity:.8;line-height:1.8;margin:6px 4px}
+.gd-sub{font-size:var(--fs-xs,.8rem);opacity:.75}
+/* العدّاد العلوي الثابت */
+.gd-clock{position:sticky;top:var(--gd-top,96px);z-index:30;background:var(--surface,#fff);color:var(--ink,#222);border:1px solid var(--gd-edge);border-radius:14px;padding:6px 8px 8px;margin:0 0 8px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.gd-ck-row{display:flex;align-items:center;gap:8px}
+.gd-sbtn{min-height:40px;min-width:44px;padding:4px 10px;font-size:var(--fs-md,1rem);line-height:1}
+.gd-ck-mid{flex:1;display:flex;flex-direction:column;align-items:center;line-height:1.2}
+.gd-clk{font-size:var(--fs-xl,1.375rem);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.5px}
+.gd-clk.end{color:var(--gold,inherit)}
+.gd-ck-l{font-size:var(--fs-xs,.8rem);opacity:.75}
+.gd-seg{position:relative;display:flex;gap:3px;margin-top:6px;direction:rtl}
+.gd-seg i{height:7px;border-radius:4px;background:var(--gd-edge);opacity:.55}
+.gd-seg i.dn{background:var(--ink,#333);opacity:.85}
+.gd-seg i.cu{background:var(--gd-acc);opacity:1}
+.gd-seg b{position:absolute;top:-4px;width:3px;height:15px;margin-inline-start:-1px;border-radius:2px;background:var(--ink,#333);box-shadow:0 0 0 2px var(--surface,#fff);transition:inset-inline-start 1s linear}
+/* الجزء الحالي */
+.gd-sh{display:flex;align-items:center;gap:8px}
+.gd-sh h3{margin:0;font-size:var(--fs-lg,1.125rem);flex:1;line-height:1.5}
+.gd-ic2{font-size:20px}
+.gd-pn{font-size:var(--fs-xs,.8rem);opacity:.7}
+.gd-hint{margin:2px 0 8px;font-size:var(--fs-xs,.8rem);opacity:.8;line-height:1.7;border-bottom:1px dashed var(--gd-edge);padding-bottom:6px}
+.gd-ref{font-weight:700;font-size:var(--fs-md,1rem);margin:0 0 6px}
+.gd-ref i{font-style:normal;font-weight:400;font-size:var(--fs-xs,.8rem);padding:1px 8px;border-radius:12px;border:1px solid var(--gd-edge);margin-inline-start:6px;opacity:.9}
+.gd-text{font-size:var(--fs-lg,1.125rem);line-height:calc(1.95 + var(--lh-d,0))}
+.gd-text p{margin:0 0 8px}
+.gd-v::before{content:attr(data-n);font-size:.6em;vertical-align:super;opacity:.6;margin-inline-end:3px}
+.gd-pause{opacity:.65;text-align:center;font-size:var(--fs-sm,.9rem)}
+.gd-quote{margin:10px 0 2px;padding:8px 12px;border-inline-start:4px solid var(--gd-acc);background:rgba(128,128,128,.1);border-radius:10px;font-size:var(--fs-md,1rem)}
+.gd-fn{margin-top:10px;font-size:var(--fs-xs,.8rem);line-height:1.8;opacity:.8;border-top:1px dashed var(--gd-edge);padding-top:6px;font-family:'Cairo','Tajawal',sans-serif}
+.gd-fn a{color:inherit;text-decoration:underline}
+.gd-big-pr{text-align:center;font-size:var(--fs-xl,1.375rem);line-height:calc(1.9 + var(--lh-d,0));font-weight:700;padding:4px 0}
+.gd-base{text-align:center;font-size:var(--fs-sm,.9rem);opacity:.85;padding-bottom:6px}
+.gd-arrow{min-height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;padding:10px;border:1.5px solid var(--gd-acc);border-radius:14px;background:rgba(128,128,128,.1);font-size:var(--fs-md,1rem);line-height:1.9}
+.gd-arrow .gd-pre{opacity:.75;font-size:var(--fs-sm,.9rem)}
+.gd-arrow b{font-size:var(--fs-xl,1.375rem)}
+.gd-ar-nav{justify-content:space-between}
+.gd-ar-nav .gd-btn{flex:0 0 auto;min-width:104px}
+.gd-cnt{display:flex;flex-direction:column;align-items:center;gap:6px;margin:6px 0}
+.gd-cb{font:inherit;color:var(--ink,inherit);width:120px;height:120px;border-radius:50%;border:3px solid var(--gd-acc);background:var(--surface,transparent);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.gd-cb b{font-size:var(--fs-xl,1.375rem);line-height:1.1}
+.gd-cb span{font-size:var(--fs-xs,.8rem);opacity:.75}
+.gd-cb:active{transform:scale(.96)}
+/* التنقل: شريط ثابت أسفل الشاشة فوق شريط التنقل */
+.gd-nav{position:sticky;bottom:calc(var(--u-nav-full,64px) + env(safe-area-inset-bottom,0px) + 6px);z-index:20;display:flex;gap:8px;padding:8px;margin-top:8px;background:var(--surface,#fff);border:1px solid var(--gd-edge);border-radius:16px;box-shadow:0 -4px 14px rgba(0,0,0,.15)}
+.gd-nav .gd-btn{flex:1;min-height:52px;font-size:var(--fs-md,1rem)}
+.gd-ta{box-sizing:border-box;width:100%;font-family:var(--read-font,'Amiri',serif);font-size:var(--fs-md,1rem);padding:8px 10px;border-radius:12px;border:1.5px solid var(--gd-edge);background:var(--surface,transparent);color:var(--ink,inherit);resize:none;direction:rtl}
+html.rf-touch #view-guided .gd-text{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+@media (max-width:380px){.gd-durs{grid-template-columns:repeat(2,1fr)}}
+/* شريط التبويبات الثلاثة (بدون زر ↺) */
+#mod-k #homeBtn{display:none!important}
+#mod-k .app-switcher{display:flex!important;align-items:stretch!important;gap:6px!important;padding:5px 6px!important;margin-bottom:8px!important}
+#mod-k .app-switcher .app-tab{flex:1 1 0!important;min-width:0!important;min-height:0!important;height:auto!important;padding:5px 2px!important;font-size:12px!important;line-height:1.35!important;text-align:center!important;border-radius:11px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:3px}
