@@ -735,7 +735,7 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   var byId={}; if(D) D.items.forEach(function(x){ byId[x.i]=x; });
   function cite(q){ return 'أقوال الآباء الشيوخ — ص '+ard(q.p); }
-  var st={tag:'',father:'',q:''}, built=false;
+  var st={tag:'',father:'',q:'',focus:''}, built=false;
   function fathers(){ var m={}; D.items.forEach(function(x){ m[x.f]=(m[x.f]||0)+1; }); return Object.keys(m); }
   function list(){
     var q=norm(st.q);
@@ -757,7 +757,9 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
     var L=list(), n=more?(+body.dataset.n||PAGE)+PAGE:PAGE; body.dataset.n=n;
     document.getElementById('fatCount').textContent=ard(L.length)+' قولًا';
     var res=document.getElementById('fatList');
-    res.innerHTML=L.slice(0,n).map(card).join('')+(L.length>n?'<button type="button" class="fat-more" id="fatMore">عرض المزيد</button>':'')+(L.length?'':'<p class="fat-empty">لا توجد أقوال مطابقة.</p>');
+    var fx=(st.focus&&byId[st.focus])||null, FH='';
+    if(fx){ FH='<div class="fat-focus"><div class="fat-focus-h"><span>القول اللي ضغطت عليه</span><button type="button" class="fat-copy" data-unfocus="1">عرض كل الأقوال</button></div>'+card(fx)+'</div>'; L=L.filter(function(x){return x.i!==fx.i}); }
+    res.innerHTML=FH+L.slice(0,n).map(card).join('')+(L.length>n?'<button type="button" class="fat-more" id="fatMore">عرض المزيد</button>':'')+(L.length?'':'<p class="fat-empty">لا توجد أقوال مطابقة.</p>');
     var chips=document.getElementById('fatChips'); if(chips) Array.prototype.forEach.call(chips.querySelectorAll('button'),function(b){ b.classList.toggle('on',b.dataset.tag===st.tag); });
   }
   function build(){
@@ -770,16 +772,22 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
       '<div id="fatChips" class="fat-chips"><button type="button" data-tag="">الكل</button>'+D.tags.filter(function(t){return D.items.some(function(x){return x.g.indexOf(t)>=0})}).map(function(t){return '<button type="button" data-tag="'+esc(t)+'">'+esc(t)+'</button>'}).join('')+'</div>'+
       '<div id="fatCount" class="fat-count"></div><div id="fatList"></div>';
     var t=null;
-    document.getElementById('fatQ').addEventListener('input',function(e){ clearTimeout(t); var v=e.target.value; t=setTimeout(function(){ st.q=v; render(); },150); });
-    document.getElementById('fatF').addEventListener('change',function(e){ st.father=e.target.value; render(); });
+    document.getElementById('fatQ').addEventListener('input',function(e){ clearTimeout(t); var v=e.target.value; t=setTimeout(function(){ st.q=v; st.focus=''; render(); },150); });
+    document.getElementById('fatF').addEventListener('change',function(e){ st.father=e.target.value; st.focus=''; render(); });
     body.addEventListener('click',function(e){
-      var g=e.target.closest('[data-tag]'); if(g){ st.tag=g.dataset.tag===st.tag?'':g.dataset.tag; render(); if(!e.target.closest('#fatChips')) window.scrollTo(0,0); return; }
+      if(e.target.closest('[data-unfocus]')){ st.focus=''; render(); return; }
+      var g=e.target.closest('[data-tag]'); if(g){ st.focus=''; st.tag=g.dataset.tag===st.tag?'':g.dataset.tag; render(); if(!e.target.closest('#fatChips')) window.scrollTo(0,0); return; }
       if(e.target.closest('#fatMore')){ render(true); return; }
       var c=e.target.closest('[data-copy]'); if(c){ var x=byId[c.dataset.copy]; var s='«'+x.t+'»\n— '+x.f+' ('+cite(x)+')'; try{ navigator.clipboard.writeText(s); c.textContent='تم النسخ'; setTimeout(function(){c.textContent='نسخ'},1400);}catch(er){} }
     });
     built=true; render();
   }
   window.__fatInit=function(){ if(!built) build(); };
+  window.__fatFocus=function(id){
+    try{ if(!D||!byId[id]) return false; if(!built) build(); st.tag='';st.father='';st.q='';st.focus=id;
+      var q=document.getElementById('fatQ'); if(q) q.value=''; var f=document.getElementById('fatF'); if(f) f.value='';
+      render(); return true; }catch(e){ return false; }
+  };
   window.__fathers={ready:!!D,items:D?D.items:[],byId:byId,cite:cite,src:D?D.src:null};
   /* قول اليوم: من تأمل الخلوة إن كان له قول مُسنَد، وإلا بالتدوير حسب يوم السنة — يعمل دون إنترنت */
   window.__fatherOfDay=function(date){
@@ -846,15 +854,15 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
 <script src="data-bgData.fcf82ceaa4.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="34-anon.e47481277b.js"></script>
 <script src="35-anon.47d9b0f6d2.js"></script>
-<script src="36-anon.bb5e700387.js"></script>
+<script src="36-anon.022ca3843e.js"></script>
 <script src="37-anon.c94ab4bc84.js"></script>
 <script src="38-anon.5ed3a3ba72.js"></script>
-<script src="39-anon.6753cc2bca.js"></script>
+<script src="39-anon.4d7eeb96e9.js"></script>
 <script id="js-v14" src="40-js-v14.62d136f712.js"></script>
 <script id="v55m-js" src="41-v55m-js.f2b291ece3.js"></script>
 <script id="v57-inst" src="42-v57-inst.1cb8a1f579.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v3.7';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v3.8';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" id="v62nav" href="45-v62nav.16d6ade3ea.css">
@@ -990,6 +998,9 @@ html[data-design="2"] #mod-k .deep-text{color:var(--ink)}
 #page-fat .fat-chips button.on{background:var(--s-accent);color:var(--s-btn-ink);border-color:var(--s-accent)}
 html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,#D9AE4E);color:var(--tc-2c0c13,#2c0c13);border-color:var(--tc-d9ae4e,#D9AE4E)}
 #page-fat .fat-count{font:600 12px 'Cairo',sans-serif;opacity:.7;margin:0 4px 4px;color:var(--s-page-ink)}
+#page-fat .fat-focus{border:2px solid var(--gold,#c9a24b);border-radius:18px;padding:6px 10px 10px;margin:10px 0 18px}
+#page-fat .fat-focus-h{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.85em;opacity:.9;padding:6px 4px 0}
+#page-fat .fat-focus .fat-card{margin:6px 0 0}
 #page-fat .fat-card{background:var(--s-card);border:1px solid var(--s-card-border);color:var(--s-card-ink);border-radius:16px;padding:16px;margin:10px 0}
 #page-fat .fat-q{font:500 calc(var(--fs-lg,18px) + 1px)/1.95 'Amiri',serif;margin:0 0 10px}
 #page-fat .fat-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font:600 13px 'Cairo',sans-serif;opacity:.85;margin-bottom:8px}
