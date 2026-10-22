@@ -21,6 +21,20 @@ try{Object.defineProperty(window,'localStorage',{get:function(){return S},config
     var AMB={id:'amber',name:'عنبر القلّاية (الأصلي)',sw:['#0f0d0b','#1a1613','#e8a33d'],map:{"#071530":"#0f0d0b","#0a1e3f":"#14110e","#060f24":"#0a0908","#0b1b33":"#120f0d","#13294a":"#1a1613","#10294f":"#1b1713","#173563":"#221c17","#20437a":"#2e261f","#9fb0cc":"#b5a78e","#b9c4dc":"#c9bca4","#8291ab":"#9a8d77","#8a97b5":"#a29581","#c9d3e6":"#dcd0b9","#faf6ec":"#f1e7d4","#c9a44c":"#e8a33d","#d9ae4e":"#eeb04e","#c9a24a":"#e8a33d","#d8ae55":"#eeb04e","#d9b45c":"#eeb458","#e8c468":"#f3c27a","#e8c77a":"#f3c985","#f0dfae":"#ffe2a8"}};
     D.combos['qalaya/1']=[AMB].concat(cl.map(function(t){ return t.id==='orig'?{id:'navy',name:'كحلي وذهبي',sw:t.sw,map:t.map}:t; }));
   })();
+  /* v6.0.5: ثيمات إضافية للكلاسيكي — تُولَّد بتدوير درجة اللون مع الحفاظ على سطوع كل لون في الثيم الأصلي */
+  (function(){
+    function r2h(h){ h=h.replace('#',''); return [parseInt(h.substr(0,2),16)/255,parseInt(h.substr(2,2),16)/255,parseInt(h.substr(4,2),16)/255]; }
+    function toHsl(c){ var r=c[0],g=c[1],b=c[2],mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,h=0,s=0,d=mx-mn; if(d){ s=l>.5?d/(2-mx-mn):d/(mx+mn); h=mx===r?(g-b)/d+(g<b?6:0):mx===g?(b-r)/d+2:(r-g)/d+4; h*=60; } return [h,s,l]; }
+    function frH(h,s,l){ h=((h%360)+360)%360/360; function f(p,q,t){ if(t<0)t+=1; if(t>1)t-=1; return t<1/6?p+(q-p)*6*t:t<1/2?q:t<2/3?p+(q-p)*(2/3-t)*6:p; } var q=l<.5?l*(1+s):l+s-l*s,p=2*l-q,o=[f(p,q,h+1/3),f(p,q,h),f(p,q,h-1/3)]; return '#'+o.map(function(v){ v=Math.round(v*255); return (v<16?'0':'')+v.toString(16); }).join(''); }
+    function gen(keys,hue,f,acc){ var m={}; keys.forEach(function(k){ var x=toHsl(r2h(k)); m[k]=frH(hue,Math.min(1,x[1]*f),x[2]); }); if(acc){ Object.keys(acc).forEach(function(k){ m[k]=acc[k]; }); } return m; }
+    var DK=['#071530','#0a1e3f','#060f24','#0b1b33','#13294a','#10294f','#173563','#20437a','#9fb0cc','#b9c4dc','#8291ab','#8a97b5','#c9d3e6','#faf6ec'];
+    var LT=['#7a1f2b','#6e1b26','#8c3240','#3a0f18','#2c0c13','#8a1f2b'];
+    var dark=[['ocean','أزرق المحيط',198,.95],['plum','برقوق',285,.7],['espresso','إسبريسو',24,.6],['slate','رمادي أزرق',215,.35],['indigo','نيلي',245,.85],['olive','زيتوني',78,.6]];
+    var light=[['ocean','أزرق المحيط',200,.9],['rose','وردي',345,.8],['indigo','نيلي',250,.9],['olive','زيتوني',85,.7],['copper','نحاسي',22,.9],['slate','رمادي أزرق',212,.4],['plum','برقوق',300,.7]];
+    var d1=D.combos['classic/1'], d2=D.combos['classic/2'];
+    dark.forEach(function(t){ var m=gen(DK,t[2],t[3]); d1.push({id:'n-'+t[0],name:t[1],sw:[m['#071530'],m['#173563'],'#c9a44c'],map:m}); });
+    light.forEach(function(t){ var m=gen(LT,t[2],t[3]), bg=frH(t[2],Math.min(.6,.5*t[3]+.15),.16), ink=frH(t[2],.45,.13); d2.push({id:'n-'+t[0],name:t[1],sw:[bg,'#FFFBF2',m['#7a1f2b']],colors:{bg:bg,surface:'#FFFBF2',ink:ink},map:m}); });
+  })();
   /* v6.0.3: سطح وحدة القراءات (#0f2346) يتبع ثيم كل تصميم بدل أن يبقى كحليًّا */
   Object.keys(D.combos).forEach(function(k){ (D.combos[k]||[]).forEach(function(t){ var m=t.map; if(m&&!m['#0f2346']){ var v=m['#10294f']||m['#0a1e3f']; if(v) m['#0f2346']=v; } }); });
   /* ضبط تلقائي للتباين: أي ثيم يُنتج نصًّا أقل من 4.6:1 على خلفية صفحته يُدرَّج لونه حتى يستوفي الحد */
@@ -51,7 +65,7 @@ try{Object.defineProperty(window,'localStorage',{get:function(){return S},config
   })();
   var KEY='rafeeq_v73_themes', root=document.documentElement, ready=false, setProps=[];
   var LAYOUT_NAME={classic:'الكلاسيكي',path:'الدرب',qalaya:'القلّاية',ayqona:'الأيقونة',agpeya:'الأجبية'};
-  function okL(l){ return l==='path'||l==='qalaya'||l==='ayqona'||l==='agpeya'; }
+  function okL(l){ return false; } /* v6.0.5: كلاسيكي فقط */
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'null'); }catch(e){ return null; } }
   function sel(){ var s=jget(KEY); s=(s&&typeof s==='object')?s:{}; return s; }
   function prefsLayout(){ var p=jget('rafeeq_v14_prefs'), l=p&&p.layout; if(l==='index'||l==='makhtuta') l='agpeya'; return okL(l)?l:'classic'; }
@@ -652,6 +666,7 @@ body.v14-khalwa #v14Strip{display:block}
       <span class="settings-fval" id="fontVal">100%</span>
       <button class="settings-fbtn" id="fontInc" aria-label="تكبير الخط">A+</button>
     </div>
+    <input type="range" id="fontRange" class="settings-range" min="70" max="200" step="5" value="100" aria-label="حجم الخط">
   </div>
 
   <div class="settings-section" id="lineSpacingSection">
@@ -673,6 +688,12 @@ body.v14-khalwa #v14Strip{display:block}
       <button class="settings-mbtn" data-ff="'Markazi Text',serif" style="font-family:'Markazi Text',serif">مركزي</button>
       <button class="settings-mbtn" data-ff="'Cairo',sans-serif" style="font-family:'Cairo',sans-serif">القاهرة</button>
       <button class="settings-mbtn" data-ff="'Tajawal',sans-serif" style="font-family:'Tajawal',sans-serif">تجوّل</button>
+      <button class="settings-mbtn" data-ff="'Harmattan',serif" style="font-family:'Harmattan',serif">هرمتان</button>
+      <button class="settings-mbtn" data-ff="'Amiri Quran',serif" style="font-family:'Amiri Quran',serif">أميري قرآن</button>
+      <button class="settings-mbtn" data-ff="'Vazirmatn',sans-serif" style="font-family:'Vazirmatn',sans-serif">وزير</button>
+      <button class="settings-mbtn" data-ff="'Mada',sans-serif" style="font-family:'Mada',sans-serif">مدى</button>
+      <button class="settings-mbtn" data-ff="'Changa',sans-serif" style="font-family:'Changa',sans-serif">تشانجا</button>
+      <button class="settings-mbtn" data-ff="'Lemonada',sans-serif" style="font-family:'Lemonada',sans-serif">ليمونادا</button>
     </div>
   </div>
 
@@ -869,11 +890,11 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
   window.__khalwaYear={ready:!!D,days:D?Object.keys(D).length:0,copticOf:copticOf,keyOf:keyOf,entry:entry,week:week,weekIdx:weekIdx,toVariants:toVariants,kinds:KINDS,months:COPT};
 })();
 </script>
-<script src="app5.31ea29b220.js"></script><script src="data-bibleData.35f8d6cb7a.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+<script src="app5.38eaaecff6.js"></script><script src="data-bibleData.35f8d6cb7a.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="data-bgData.fcf82ceaa4.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
-<script src="app6.6ca8d26d06.js"></script>
+<script src="app6.1b7b4550a6.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v6.0.4';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v6.1.0';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" href="app7.4057293345.css"><script src="app8.9f5c68a975.js"></script><link rel="stylesheet" href="app9.7e1cc2f51c.css"><script src="app10.a6e6a3b3da.js"></script>
@@ -1471,6 +1492,6 @@ html[data-theme="light"] body #mod-k .meditation .mtitle,html[data-theme="light"
   window.addEventListener('hashchange',function(ev){ if(Date.now()<guardUntil) ev.stopImmediatePropagation(); },true);
   window.__edgeGuard={state:function(){ return last; }};
 })();
-</script><script src="data-xrData.850db9ab44.js"></script><script>(function(){var s=document.createElement('script');s.id="xrData";s.type='text/plain';s.textContent=__RF_DATA["xrData"];delete __RF_DATA["xrData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script src="app17.328746b1c6.js"></script><link rel="stylesheet" href="app18.cbc946ebe5.css"><script src="app19.0a077523c7.js"></script><link rel="stylesheet" href="app20.8394631b4a.css"><script src="app21.c448f82dcd.js"></script><link rel="stylesheet" href="app22.c5f6bd0e6e.css"><script src="app23.a0177f6595.js"></script><link rel="stylesheet" href="app24.e77826792f.css"><script src="app25.5e4263cabd.js"></script><link rel="stylesheet" href="app26.1f631de130.css"><script src="app27.25fdf95b66.js"></script><link rel="stylesheet" href="app28.70b0f30339.css"><script src="app29.4ad3a39f41.js"></script><link rel="stylesheet" href="app30.96a16fc23c.css"><script src="data-ervHeads.92f1ee6f1b.js"></script><script src="data-ervData.c4d9b8e355.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+</script><script src="data-xrData.850db9ab44.js"></script><script>(function(){var s=document.createElement('script');s.id="xrData";s.type='text/plain';s.textContent=__RF_DATA["xrData"];delete __RF_DATA["xrData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script src="app17.328746b1c6.js"></script><link rel="stylesheet" href="app18.cbc946ebe5.css"><script src="app19.0a077523c7.js"></script><link rel="stylesheet" href="app20.8394631b4a.css"><script src="app21.c448f82dcd.js"></script><link rel="stylesheet" href="app22.c5f6bd0e6e.css"><script src="app23.75fff8949e.js"></script><link rel="stylesheet" href="app24.e77826792f.css"><script src="app25.5e4263cabd.js"></script><link rel="stylesheet" href="app26.1f631de130.css"><script src="app27.25fdf95b66.js"></script><link rel="stylesheet" href="app28.70b0f30339.css"><script src="app29.4ad3a39f41.js"></script><link rel="stylesheet" href="app30.aa4465daca.css"><script src="data-ervHeads.92f1ee6f1b.js"></script><script src="data-ervData.c4d9b8e355.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 </body>
 </html>
