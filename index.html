@@ -21,6 +21,8 @@ try{Object.defineProperty(window,'localStorage',{get:function(){return S},config
     var AMB={id:'amber',name:'عنبر القلّاية (الأصلي)',sw:['#0f0d0b','#1a1613','#e8a33d'],map:{"#071530":"#0f0d0b","#0a1e3f":"#14110e","#060f24":"#0a0908","#0b1b33":"#120f0d","#13294a":"#1a1613","#10294f":"#1b1713","#173563":"#221c17","#20437a":"#2e261f","#9fb0cc":"#b5a78e","#b9c4dc":"#c9bca4","#8291ab":"#9a8d77","#8a97b5":"#a29581","#c9d3e6":"#dcd0b9","#faf6ec":"#f1e7d4","#c9a44c":"#e8a33d","#d9ae4e":"#eeb04e","#c9a24a":"#e8a33d","#d8ae55":"#eeb04e","#d9b45c":"#eeb458","#e8c468":"#f3c27a","#e8c77a":"#f3c985","#f0dfae":"#ffe2a8"}};
     D.combos['qalaya/1']=[AMB].concat(cl.map(function(t){ return t.id==='orig'?{id:'navy',name:'كحلي وذهبي',sw:t.sw,map:t.map}:t; }));
   })();
+  /* v6.0.3: سطح وحدة القراءات (#0f2346) يتبع ثيم كل تصميم بدل أن يبقى كحليًّا */
+  Object.keys(D.combos).forEach(function(k){ (D.combos[k]||[]).forEach(function(t){ var m=t.map; if(m&&!m['#0f2346']){ var v=m['#10294f']||m['#0a1e3f']; if(v) m['#0f2346']=v; } }); });
   /* ضبط تلقائي للتباين: أي ثيم يُنتج نصًّا أقل من 4.6:1 على خلفية صفحته يُدرَّج لونه حتى يستوفي الحد */
   (function(){
     function rgb(h){ h=h.replace('#',''); if(h.length===3) h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2]; return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)]; }
@@ -121,7 +123,7 @@ try{Object.defineProperty(window,'localStorage',{get:function(){return S},config
 var dark=m==='dark'||(m==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);
 document.documentElement.setAttribute('data-design',dark?'1':'2');document.documentElement.setAttribute('data-theme',dark?'dark':'light');}catch(e){}})();
 </script>
-<link rel="stylesheet" href="app2.9a89d68162.css">
+<link rel="stylesheet" href="app2.818d6f13a9.css">
 
 <style id="v29top">
 /* v29: ترتيب الشريط العلوي — العنوان يمينًا، التاريخ في الوسط بلا إطار، الأيقونات الصغيرة يسارًا */
@@ -869,9 +871,9 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
 </script>
 <script src="app5.31ea29b220.js"></script><script src="data-bibleData.35f8d6cb7a.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="data-bgData.fcf82ceaa4.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
-<script src="app6.052659b373.js"></script>
+<script src="app6.b36353fc35.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v6.0.2';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v6.0.3';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" href="app7.4057293345.css"><script src="app8.9f5c68a975.js"></script><link rel="stylesheet" href="app9.7e1cc2f51c.css"><script src="app10.a6e6a3b3da.js"></script>
@@ -1469,6 +1471,6 @@ html[data-theme="light"] body #mod-k .meditation .mtitle,html[data-theme="light"
   window.addEventListener('hashchange',function(ev){ if(Date.now()<guardUntil) ev.stopImmediatePropagation(); },true);
   window.__edgeGuard={state:function(){ return last; }};
 })();
-</script><script src="data-xrData.850db9ab44.js"></script><script>(function(){var s=document.createElement('script');s.id="xrData";s.type='text/plain';s.textContent=__RF_DATA["xrData"];delete __RF_DATA["xrData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script src="app17.328746b1c6.js"></script><link rel="stylesheet" href="app18.cbc946ebe5.css"><script src="app19.0a077523c7.js"></script><link rel="stylesheet" href="app20.8394631b4a.css"><script src="app21.c448f82dcd.js"></script><link rel="stylesheet" href="app22.c5f6bd0e6e.css"><script src="app23.a0177f6595.js"></script><link rel="stylesheet" href="app24.e77826792f.css"><script src="app25.5e4263cabd.js"></script><link rel="stylesheet" href="app26.1f631de130.css"><script src="app27.25fdf95b66.js"></script><link rel="stylesheet" href="app28.70b0f30339.css"><script src="app29.4ad3a39f41.js"></script><link rel="stylesheet" href="app30.95fdaf4cb8.css"><script src="data-ervHeads.92f1ee6f1b.js"></script><script src="data-ervData.c4d9b8e355.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+</script><script src="data-xrData.850db9ab44.js"></script><script>(function(){var s=document.createElement('script');s.id="xrData";s.type='text/plain';s.textContent=__RF_DATA["xrData"];delete __RF_DATA["xrData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script src="app17.328746b1c6.js"></script><link rel="stylesheet" href="app18.cbc946ebe5.css"><script src="app19.0a077523c7.js"></script><link rel="stylesheet" href="app20.8394631b4a.css"><script src="app21.c448f82dcd.js"></script><link rel="stylesheet" href="app22.c5f6bd0e6e.css"><script src="app23.a0177f6595.js"></script><link rel="stylesheet" href="app24.e77826792f.css"><script src="app25.5e4263cabd.js"></script><link rel="stylesheet" href="app26.1f631de130.css"><script src="app27.25fdf95b66.js"></script><link rel="stylesheet" href="app28.70b0f30339.css"><script src="app29.4ad3a39f41.js"></script><link rel="stylesheet" href="app30.1396da5e67.css"><script src="data-ervHeads.92f1ee6f1b.js"></script><script src="data-ervData.c4d9b8e355.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 </body>
 </html>
