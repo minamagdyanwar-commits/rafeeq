@@ -127,11 +127,48 @@
     b.addEventListener('click',function(e){ e.stopPropagation(); openSyn(); });
     var after=anchor&&anchor.nextElementSibling; if(after&&after.tagName==='BUTTON') after.insertAdjacentElement('afterend',b); else more.appendChild(b);
   }
+
+  /* ---------- «القراءات»: خانة التذكار تعرض كل قديسي اليوم وتفتح السنكسار ---------- */
+  function nm(x){ return String(x).replace(/[ًٌٍَُِّْ]/g,'').replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ى/g,'ي'); }
+  function readCoptic(){
+    var t=document.getElementById('copticOut'); if(!t) return null;
+    var s=(t.textContent||'').replace(/[٠-٩]/g,function(d){ return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); });
+    var m=s.match(/(\d+)\s+([^\s\d]+)/); if(!m) return null;
+    var name=nm(m[2]), idx=-1;
+    CM.forEach(function(c,i){ if(nm(c)===name) idx=i; });
+    return idx<0?null:{m:idx+1,d:+m[1]};
+  }
+  var guard=false, last=null;
+  function paintCommem(){
+    var box=document.getElementById('commemText'), c=readCoptic(); if(!box||!c) return;
+    last=c;
+    loadMonth(c.m,function(list){
+      var x=dayOf(list||[],c.d); if(!x||!x.t||!x.t.length) return;
+      var cur=readCoptic(); if(!cur||cur.m!==c.m||cur.d!==c.d) return;
+      var h='<b>تذكار اليوم — '+ard(c.d)+' '+CM[c.m-1]+'</b><ul class="commem-list">'+x.t.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join('')+'</ul><small class="commem-go">اضغط لقراءة السنكسار ←</small>';
+      if(box.__syn===h&&box.innerHTML===h) return;
+      guard=true; box.__syn=h; box.innerHTML=h; guard=false;
+      var cm=box.closest('.commem'); if(cm) cm.classList.add('commem-syn');
+    });
+  }
+  function hookCommem(){
+    var box=document.getElementById('commemText'); if(!box||box.__hk) return; box.__hk=1;
+    var cm=box.closest('.commem'); if(cm){ cm.setAttribute('role','button'); cm.tabIndex=0;
+      var go=function(){ var c=readCoptic(); if(c) openSyn(c.m,c.d); };
+      cm.addEventListener('click',go); cm.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } }); }
+    var t=0, q=function(){ if(guard) return; clearTimeout(t); t=setTimeout(paintCommem,60); };
+    if(window.MutationObserver){
+      new MutationObserver(q).observe(box,{childList:true,subtree:true,characterData:true});
+      var co=document.getElementById('copticOut'); if(co) new MutationObserver(q).observe(co,{childList:true,subtree:true,characterData:true});
+    }
+    paintCommem();
+  }
   function start(){
+    hookCommem();
     paintCard();
     var home=document.getElementById('page-home');
     if(home&&window.MutationObserver){ var t=0; new MutationObserver(function(){ clearTimeout(t); t=setTimeout(paintCard,150); }).observe(home,{childList:true,subtree:true}); }
-    if(window.MutationObserver) new MutationObserver(hookMore).observe(document.body,{childList:true,subtree:true});
+    if(window.MutationObserver) new MutationObserver(function(){ hookMore(); hookCommem(); }).observe(document.body,{childList:true,subtree:true});
     document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeSyn(); });
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();

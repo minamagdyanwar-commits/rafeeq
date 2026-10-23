@@ -28,3 +28,9 @@ html[data-design="1"] .syn{background:#10131f;color:#f1ead8}
 #synRes button span{display:block;opacity:.8;font-size:.92rem;line-height:1.6}
 body.syn-open{overflow:hidden}
 .syn-beta{display:inline-block;margin-inline-start:6px;padding:1px 8px;border-radius:999px;font-size:.65rem;font-weight:700;vertical-align:middle;background:rgba(201,164,76,.25);color:inherit}
+
+/* القراءات: خانة التذكار */
+.commem.commem-syn{cursor:pointer;align-items:flex-start}
+.commem .commem-list{margin:6px 0 4px;padding:0 18px 0 0;line-height:1.8;font-weight:600}
+.commem .commem-list li{margin:0}
+.commem .commem-go{display:block;margin-top:4px;opacity:.75;font-weight:600}
