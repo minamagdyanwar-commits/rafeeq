@@ -1,0 +1,20 @@
+/* السنكسار: قراءة سنكسار اليوم القبطي، مع تصفّح الأيام والبحث */
+#page-syn .syn-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0 10px;color:var(--s-page-ink)}
+#page-syn .syn-nav button{font:700 22px 'Cairo',sans-serif;width:44px;height:44px;border-radius:12px;border:1px solid var(--s-card-border,#888);background:var(--s-card,transparent);color:var(--s-card-ink,inherit);cursor:pointer}
+#page-syn .syn-ttl{text-align:center;display:flex;flex-direction:column}
+#page-syn .syn-ttl b{font:800 19px 'Cairo',sans-serif}
+#page-syn .syn-ttl small{font:600 13px 'Cairo',sans-serif;opacity:.8}
+#page-syn .syn-pick{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+#page-syn .syn-pick select,#page-syn .syn-pick button,#page-syn .syn-q{font:600 14px 'Cairo',sans-serif;padding:8px 10px;border-radius:10px;border:1px solid var(--s-card-border,#888);background:var(--s-card,transparent);color:var(--s-card-ink,inherit)}
+#page-syn .syn-pick button{cursor:pointer}
+#page-syn .syn-pick button.on{background:var(--s-accent,#c9a13b);color:var(--s-btn-ink,#1a1a1a)}
+#page-syn .syn-q{width:100%;box-sizing:border-box;margin-bottom:10px}
+#page-syn .syn-card{padding:14px 14px 6px;border-radius:14px;border:1px solid var(--s-card-border,#888);background:var(--s-card,transparent);color:var(--s-card-ink,inherit);margin-bottom:10px}
+#page-syn .syn-card h3{font:800 16px 'Cairo',sans-serif;margin:0 0 8px}
+#page-syn .syn-card ul{margin:0 0 8px;padding:0 18px 0 0}
+#page-syn .syn-card li{font:600 15px/1.8 'Cairo',sans-serif}
+#page-syn .syn-card p{font:500 17px/2.1 'Cairo',sans-serif;margin:0 0 12px;text-align:justify}
+#page-syn .syn-res{display:block;width:100%;text-align:right;margin-bottom:8px;padding:10px 12px;border-radius:12px;border:1px solid var(--s-card-border,#888);background:var(--s-card,transparent);color:var(--s-card-ink,inherit);cursor:pointer;font:500 14px/1.7 'Cairo',sans-serif}
+#page-syn .syn-res b{display:block;font-weight:800}
+#page-syn .syn-res mark{background:var(--s-accent,#c9a13b);color:var(--s-btn-ink,#1a1a1a);border-radius:4px}
+#page-syn .syn-note{font:500 12px/1.7 'Cairo',sans-serif;opacity:.7;text-align:center;margin:8px 0 24px;color:var(--s-page-ink)}
