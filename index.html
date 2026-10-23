@@ -107,13 +107,26 @@ try{Object.defineProperty(window,'localStorage',{get:function(){return S},config
       dkTheme('forest','أخضر ليلي',['#0a1510','#101e17','#060d0a','#0c1812','#162a20','#122219','#1b3326','#295240'],'#8fd6b3')
     ];
   })();
+
+  /* v6.8: ثلاثة تصميمات بخلفيات صور للرئيسية (حامل الصليب / الإكليل / المجد)، لكل منها ثيم فاتح وداكن */
+  (function(){
+    var DK=['#071530','#0a1e3f','#060f24','#0b1b33','#13294a','#10294f','#173563','#20437a'];
+    function P(id,name,bg,surface,ink,acc,dk,lt){ return {id:id,name:name,sw:[bg,surface,acc],colors:{bg:bg,surface:surface,ink:ink},map:{'#7a1f2b':acc,'#6e1b26':dk,'#8c3240':lt,'#8a1f2b':acc,'#3a0f18':bg,'#2c0c13':bg}}; }
+    function Q(id,name,bgs,acc){ var m={}; DK.forEach(function(k,i){ m[k]=bgs[i]; }); m['#c9a44c']=acc; m['#9fb0cc']='#d8cfd0'; m['#b9c4dc']='#ece4e4'; m['#8291ab']='#a79a9c'; m['#8a97b5']='#b0a4a6'; m['#c9d3e6']='#f5eeee'; return {id:id,name:name,sw:[bgs[0],bgs[6],acc],map:m}; }
+    D.combos['bearer/2']=[P('bearer','حامل الصليب','#0b0506','#F6EDE9','#241214','#B0202A','#8f1a22','#cf4650')];
+    D.combos['bearer/1']=[Q('bearer-n','حامل الصليب',['#070304','#0f0708','#030102','#0a0506','#180c0d','#130909','#1e1011','#331a1c'],'#E0453F')];
+    D.combos['crown/2']=[P('crown','الإكليل','#1a0a2e','#F6EEF8','#241033','#C21F6B','#9e1a58','#dc4a8c')];
+    D.combos['crown/1']=[Q('crown-n','الإكليل',['#12061f','#1b0b30','#0b0414','#150823','#24103f','#1f0d37','#2d1550','#432278'],'#F0488F')];
+    D.combos['glory/2']=[P('glory','المجد','#2a120c','#FBF1E6','#2B160D','#C9631A','#a65014','#e08540')];
+    D.combos['glory/1']=[Q('glory-n','المجد',['#1a0c08','#26120b','#0f0705','#1e0f09','#331a10','#2b160d','#40210f','#5c3016'],'#F5A04A')];
+  })();
   var KEY='rafeeq_v73_themes', DKEY='rafeeq_v76_design', root=document.documentElement, ready=false, setProps=[];
-  var LAYOUT_NAME={cross:'الصليب',church:'الكنيسة',classic:'الكلاسيكي',path:'الدرب',qalaya:'القلّاية',ayqona:'الأيقونة',agpeya:'الأجبية'};
+  var LAYOUT_NAME={bearer:'حامل الصليب',crown:'الإكليل',glory:'المجد',cross:'الصليب',church:'الكنيسة',classic:'الكلاسيكي',path:'الدرب',qalaya:'القلّاية',ayqona:'الأيقونة',agpeya:'الأجبية'};
   function okL(l){ return false; } /* v6.0.5: كلاسيكي فقط */
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'null'); }catch(e){ return null; } }
   function sel(){ var s=jget(KEY); s=(s&&typeof s==='object')?s:{}; return s; }
   function prefsLayout(){ var p=jget('rafeeq_v14_prefs'), l=p&&p.layout; if(l==='index'||l==='makhtuta') l='agpeya'; return okL(l)?l:'classic'; }
-  function designPref(){ try{ var v=localStorage.getItem(DKEY); return v==='classic'||v==='cross'?v:'church'; }catch(e){ return 'church'; } }
+  function designPref(){ try{ var v=localStorage.getItem(DKEY); return /^(classic|cross|bearer|crown|glory)$/.test(v)?v:'church'; }catch(e){ return 'church'; } }
   function layoutNow(){ return designPref(); }
   function modeSetting(){ var s=jget('khalwa_settings_v80')||{}; var m=s.themeMode; if(m==='light'||m==='dark'||m==='auto') return m; return s.design==='1'?'dark':'light'; }
   function designNow(){ if(layoutNow()==='qalaya') return '1'; var m=modeSetting(); if(m==='dark') return '1'; if(m==='light') return '2'; try{ return (window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'1':'2'; }catch(e){ return '2'; } }
@@ -141,13 +154,13 @@ try{Object.defineProperty(window,'localStorage',{get:function(){return S},config
   }
   function set(layout,design,id){ var s=sel(); s[layout]=s[layout]||{}; s[layout][design]=id; try{ localStorage.setItem(KEY,JSON.stringify(s)); }catch(e){} apply(); }
   function reset(){ try{ localStorage.removeItem(KEY); localStorage.removeItem(DKEY); }catch(e){} apply(); }
-  function setDesign(v){ try{ localStorage.setItem(DKEY,v==='classic'||v==='cross'?v:'church'); }catch(e){} apply(); }
+  function setDesign(v){ try{ localStorage.setItem(DKEY,/^(classic|cross|bearer|crown|glory)$/.test(v)?v:'church'); }catch(e){} apply(); }
   // ---------- واجهة الإعدادات ----------
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
   function paintUI(){
     var box=document.getElementById('themesBox'); if(!box) return;
     var layout=layoutNow(), now=designNow(), h='';
-    h+='<div class="settings-subhead">التصميم</div><div class="rf-th-grid rf-dz">'+[['church','🕍 كنيسة'],['cross','✝️ الصليب'],['classic','📜 كلاسيكي']].map(function(d){ return '<button type="button" class="settings-mbtn rf-dzb'+(layout===d[0]?' active':'')+'" data-dz="'+d[0]+'" aria-pressed="'+(layout===d[0])+'"><span class="rf-nm">'+d[1]+'</span></button>'; }).join('')+'</div>';
+    h+='<div class="settings-subhead">التصميم</div><div class="rf-th-grid rf-dz">'+[['church','🕍 كنيسة'],['cross','✝️ الصليب'],['bearer','🩸 حامل الصليب'],['crown','👑 الإكليل'],['glory','☀️ المجد'],['classic','📜 كلاسيكي']].map(function(d){ return '<button type="button" class="settings-mbtn rf-dzb'+(layout===d[0]?' active':'')+'" data-dz="'+d[0]+'" aria-pressed="'+(layout===d[0])+'"><span class="rf-nm">'+d[1]+'</span></button>'; }).join('')+'</div>';
     h+='<div class="rf-th-note">ثيمات «'+LAYOUT_NAME[layout]+'» الجاهزة — لكل وضع (فاتح / داكن) ثيمه المستقل، والتغيير فوري ومحفوظ على جهازك.</div>';
     [['2','فاتح ☀️'],['1','داكن 🌙']].forEach(function(m){
       var L=list(layout,m[0]); if(!L.length) return; var c=cur(layout,m[0]);
@@ -941,7 +954,7 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
 <script src="data-bgData.8b050226a6.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="app6.050af95c79.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v6.7.0';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v6.8.0';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" href="app7.87be3efc9e.css"><script src="app8.7fd92ebc24.js"></script><link rel="stylesheet" href="app9.2eaed645e4.css"><script src="app10.5e406585a9.js"></script>
@@ -1543,6 +1556,7 @@ html[data-theme="light"] body #mod-k .meditation .mtitle,html[data-theme="light"
 <script src="app31.92fac631a1.js"></script><link rel="stylesheet" href="app30.512836eef0.css">
 <link rel="stylesheet" href="app31.b6b8b4229d.css">
 <link rel="stylesheet" href="app32.90acad379c.css">
-<link rel="stylesheet" href="app33.70be288242.css"><script src="data-ervHeads.6e154af5e5.js"></script><script src="data-ervData.7063836d9e.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+<link rel="stylesheet" href="app33.70be288242.css">
+<link rel="stylesheet" href="app34.2eddfa8eaf.css"><script src="data-ervHeads.6e154af5e5.js"></script><script src="data-ervData.7063836d9e.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 </body>
 </html>
