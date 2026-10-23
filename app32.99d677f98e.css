@@ -53,3 +53,44 @@ html[data-rf-theme="classic/1/church"] #page-home .hm-prog .hm-h span{color:var(
 html[data-rf-theme="classic/1/church"] #page-home .hm-i{background:linear-gradient(180deg,#34234a,#241833);color:var(--ch-gold-hi)}
 html[data-rf-theme="classic/1/church"] #page-home .hm-ck{border-color:var(--ch-gold)}
 html[data-rf-theme="classic/1/church"] #uNav{background-color:#0d0816}
+
+/* ===== تعميم الطابع الكنسي على باقي الشاشات ===== */
+html[data-rf-theme$="/church"] :is(.u-page .card,.u-page .u-card,.u-page .fat-card,.u-page .acc-card,.u-page .datecard,.u-page .readingcard,.u-page .medcard,.u-page .extra-block,.u-page .content-card,.u-page .tk-say,.u-page .hour-trigger){
+  border:1.5px solid var(--ch-gold);border-radius:20px 20px 16px 16px;position:relative;
+  box-shadow:0 0 0 3px rgba(201,164,76,.14),0 0 0 5px rgba(201,164,76,.45) inset,0 12px 26px -14px rgba(0,0,0,.6)}
+html[data-rf-theme="classic/2/church"] :is(.u-page .card,.u-page .u-card,.u-page .fat-card,.u-page .acc-card,.u-page .datecard,.u-page .readingcard,.u-page .medcard,.u-page .extra-block,.u-page .content-card){
+  background-image:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0) 38%)}
+/* عناوين الأقسام داخل الصفحات */
+html[data-rf-theme$="/church"] :is(.u-page h2,.u-page h3,.content-head h2,.acc-title){color:var(--ch-red);font-weight:800}
+html[data-rf-theme="classic/1/church"] :is(.u-page h2,.u-page h3,.content-head h2,.acc-title){color:var(--ch-gold-hi)}
+html[data-rf-theme$="/church"] .u-page>h2::after,html[data-rf-theme$="/church"] .content-head h2::after{content:"";display:block;height:14px;margin:6px auto 0;background:var(--ch-ornament) center/120px 14px no-repeat;opacity:.8}
+/* الشرائح والتبويبات */
+html[data-rf-theme$="/church"] :is(.part-btn,.sub-chip,.tab,.week-chip,.hour-btn,.pill,.v70chip,.wake-chip,.fat-chips button){
+  border:1.5px solid var(--ch-gold);border-radius:999px;transition:background .2s,box-shadow .2s,transform .15s}
+html[data-rf-theme$="/church"] :is(.part-btn,.sub-chip,.tab,.week-chip,.hour-btn,.pill,.v70chip,.fat-chips button):is(.active,.on,[aria-selected=true],[aria-pressed=true]){
+  background:linear-gradient(180deg,var(--ch-gold-hi),var(--ch-gold) 60%,var(--ch-gold-lo))!important;color:#2b1d12!important;border-color:var(--ch-gold-lo);box-shadow:0 0 14px rgba(235,203,126,.5)}
+/* الأزرار الأساسية */
+html[data-rf-theme$="/church"] :is(.u-btn,.btn,.l-btn,#tkSend,.today-btn,.suggest-now-btn){
+  background:linear-gradient(180deg,#b8362f,var(--ch-red) 55%,#7c1f1a);color:#fff6dc!important;border:1.5px solid var(--ch-gold);border-radius:14px;
+  box-shadow:0 0 0 2px rgba(201,164,76,.22),0 8px 16px -8px rgba(0,0,0,.7);text-shadow:0 1px 0 rgba(0,0,0,.35)}
+html[data-rf-theme$="/church"] :is(.u-btn,.btn,.l-btn,#tkSend,.today-btn):active{transform:translateY(1px) scale(.98)}
+/* الحقول */
+html[data-rf-theme$="/church"] :is(textarea,input[type=text],input[type=search],input[type=date],select){
+  border:1.5px solid var(--ch-gold)!important;border-radius:12px;background-color:#fffaf0}
+html[data-rf-theme="classic/1/church"] :is(textarea,input[type=text],input[type=search],input[type=date],select){background-color:#1c1228;color:#F6ECD6}
+html[data-rf-theme$="/church"] :is(textarea,input,select):focus{outline:3px solid rgba(235,203,126,.7);outline-offset:1px}
+/* صوت الله: فقاعات */
+html[data-rf-theme$="/church"] .tk-say{border-radius:20px 20px 6px 20px}
+/* الإعدادات والقوائم المنبثقة */
+html[data-rf-theme$="/church"] :is(.settings-panel,.u-sheet-card){border:1.5px solid var(--ch-gold);box-shadow:0 0 0 4px rgba(201,164,76,.2),0 -16px 40px -12px rgba(0,0,0,.7)}
+html[data-rf-theme$="/church"] .settings-subhead{color:var(--ch-gold-lo);border-bottom:1px solid rgba(201,164,76,.45);padding-bottom:4px}
+/* وضع القيادة */
+html[data-rf-theme$="/church"] .dm{background:radial-gradient(ellipse 110% 50% at 50% -6%,rgba(235,203,126,.22),transparent 60%),var(--ch-cross),linear-gradient(180deg,#141d3a,#0b1022 70%);background-size:auto,72px 72px,auto}
+html[data-rf-theme$="/church"] .dm-hour{color:var(--ch-gold-hi)}
+html[data-rf-theme$="/church"] .dm-play{background:radial-gradient(circle at 35% 30%,#fff1c2,var(--ch-gold) 55%,var(--ch-gold-lo));box-shadow:0 0 0 5px rgba(201,164,76,.25),0 0 28px rgba(235,203,126,.55)}
+html[data-rf-theme$="/church"] .dm-b{border-color:var(--ch-gold)}
+html[data-rf-theme$="/church"] .dm-tb{border:1.5px solid var(--ch-gold);border-radius:999px}
+html[data-rf-theme$="/church"] .dm-tb.on{background:rgba(201,164,76,.25);color:var(--ch-gold-hi)}
+html[data-rf-theme$="/church"] .dm-bar i{background:linear-gradient(90deg,var(--ch-gold-lo),var(--ch-gold-hi));box-shadow:0 0 10px rgba(235,203,126,.7)}
+
+html[data-rf-theme$="/church"] .dm select{background-color:#1c2342;color:#F6ECD6}
