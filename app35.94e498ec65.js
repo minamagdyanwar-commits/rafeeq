@@ -64,7 +64,7 @@
     }else{
       var x=D.m[st.m].d[st.d-1]||{h:[],p:[]};
       var c=coptic(new Date()),isT=c.m-1===st.m&&c.d===st.d;
-      h+='<div class="syn-nav"><button type="button" data-sy="next" aria-label="اليوم التالي">›</button><div class="syn-ttl"><b>'+ard(st.d)+' '+CM[st.m]+'</b><small>'+(isT?'اليوم · ':'')+'السنكسار</small></div><button type="button" data-sy="prev" aria-label="اليوم السابق">‹</button></div>';
+      h+='<div class="syn-nav"><button type="button" data-sy="prev" aria-label="اليوم السابق">›</button><div class="syn-ttl"><b>'+ard(st.d)+' '+CM[st.m]+'</b><small>'+(isT?'اليوم · ':'')+'السنكسار</small></div><button type="button" data-sy="next" aria-label="اليوم التالي">‹</button></div>';
       if(x.h&&x.h.length)h+='<div class="syn-card"><h3>تذكارات اليوم</h3><ul>'+x.h.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>';
       h+='<div class="syn-card">'+(x.p&&x.p.length?x.p.map(function(p){return '<p>'+esc(p)+'</p>'}).join(''):'<p>لا يوجد نص لهذا اليوم.</p>')+'</div>';
     }
