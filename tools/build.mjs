@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* يعيد تهشير الملفات الثابتة (app*, data-*, store*) ويحدّث index.html و sw.js.
-   الاستخدام:  node tools/build.mjs [--bump]   (--bump يرفع رقم الإصدار الأخير)
+   الاستخدام:  node tools/build.mjs [--bump | --version X.Y.Z]
    - الملف الذي تغيّر محتواه يأخذ هاش جديدًا (10 خانات) ويُحذف اسمه القديم.
    - قائمة FILES واسم الكاش VER في sw.js تُولَّد من جديد. */
 import { readFileSync, writeFileSync, readdirSync, renameSync, unlinkSync, existsSync } from 'node:fs';
@@ -37,9 +37,14 @@ const files = [...new Set([...refs, ...FIXED.filter(f => existsSync(p(f)))])].so
 
 let sw = readFileSync(p('sw.js'), 'utf8');
 let [, a, b, c] = /rafeeq-v(\d+)\.(\d+)\.(\d+)-/.exec(sw).map(Number);
-if (process.argv.includes('--bump')) c++;
+const vi = process.argv.indexOf('--version');
+if (vi > 0) [a, b, c] = process.argv[vi + 1].split('.').map(Number);
+else if (process.argv.includes('--bump')) c++;
 const all = sha(files.filter(f => f !== 'index.html').map(f => f + sha(readFileSync(p(f)))).join('') + sha(readFileSync(p('index.html')))).slice(0, 10);
 sw = sw.replace(/const VER='[^']*';/, `const VER='rafeeq-v${a}.${b}.${c}-${all}';`)
        .replace(/const FILES=\[[^\]]*\];/, `const FILES=${JSON.stringify(['./', ...files.map(f => './' + f)])};`);
 writeFileSync(p('sw.js'), sw);
+/* رقم الإصدار الظاهر في الإعدادات (index.html) يتبع sw.js */
+html = readFileSync(p('index.html'), 'utf8').replace(/var V='v[\d.]+';/, `var V='v${a}.${b}.${c}';`);
+writeFileSync(p('index.html'), html);
 console.log(`v${a}.${b}.${c}  ملفات: ${files.length}  أُعيدت تسميتها: ${renames.size}  كاش: ${all}`);
