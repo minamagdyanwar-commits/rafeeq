@@ -33,7 +33,8 @@ writeFileSync(p('index.html'), html);
 const refs = new Set([...html.matchAll(/(?:src|href)="([^"#?]+)"/g)].map(m => m[1]).filter(f => existsSync(p(f)) && !f.includes('/')));
 const orphans = readdirSync(root).filter(f => HASHED.test(f) && !refs.has(f));
 if (orphans.length) console.warn('ملفات مهشّرة غير مذكورة في index.html:', orphans.join(', '));
-const files = [...new Set([...refs, ...FIXED.filter(f => existsSync(p(f)))])].sort();
+const synFiles = readdirSync(root).filter(f => /^syn-m\d\d\.js$/.test(f));
+const files = [...new Set([...refs, ...FIXED.filter(f => existsSync(p(f))), ...synFiles])].sort();
 
 let sw = readFileSync(p('sw.js'), 'utf8');
 let [, a, b, c] = /rafeeq-v(\d+)\.(\d+)\.(\d+)-/.exec(sw).map(Number);
