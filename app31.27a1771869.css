@@ -1,0 +1,45 @@
+/* v6.2 — طبقة صقل التصميم: عمق وحركة وتدرّج دون المساس بنظام الثيمات (تعتمد على --gold و currentColor فقط) */
+#uTop{background-image:linear-gradient(180deg,rgba(255,255,255,.04),transparent 70%);box-shadow:0 1px 0 rgba(217,174,78,.35),0 8px 24px -12px rgba(0,0,0,.55)}
+#uTop .acts button{transition:transform .18s ease,background-color .18s ease,box-shadow .18s ease}
+#uTop .acts button:active{transform:scale(.92)}
+#uTop .acts button:hover{box-shadow:0 0 0 3px rgba(217,174,78,.18)}
+
+#page-home .hm-card{position:relative;overflow:hidden;border-radius:20px;
+  box-shadow:0 1px 0 rgba(255,255,255,.65) inset,0 10px 28px -14px rgba(0,0,0,.55),0 2px 6px -2px rgba(0,0,0,.25);
+  animation:rf-rise .5s cubic-bezier(.2,.8,.2,1) both}
+#page-home .hm-card:nth-of-type(2){animation-delay:.07s}
+#page-home .hm-card:nth-of-type(3){animation-delay:.14s}
+#page-home .hm-card:nth-of-type(4){animation-delay:.21s}
+@keyframes rf-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* شريط تقدّم اليوم */
+#page-home .hm-prog{--p:0;padding-top:20px}
+#page-home .hm-prog::before,#page-home .hm-prog::after{content:"";position:absolute;top:0;inset-inline:0;height:5px}
+#page-home .hm-prog::before{background:rgba(0,0,0,.08)}
+#page-home .hm-prog::after{inset-inline-end:auto;width:calc(var(--p)*100%);
+  background:linear-gradient(90deg,#9C7A2E,#E3C46A 60%,#F3DC96);border-radius:0 0 4px 0;
+  transition:width .6s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 12px rgba(227,196,106,.7)}
+html[dir=rtl] #page-home .hm-prog::after{border-radius:0 0 0 4px}
+#page-home .hm-prog .hm-h span{font-weight:700;color:var(--gold);background:rgba(156,122,46,.12);padding:2px 10px;border-radius:999px;font-variant-numeric:tabular-nums}
+#page-home .hm-prog li{transition:opacity .3s ease}
+#page-home .hm-prog li[data-done="1"] .hm-go span{opacity:.55;text-decoration:line-through;text-decoration-thickness:1px}
+#page-home .hm-ck{transition:transform .18s cubic-bezier(.3,1.6,.5,1),background-color .2s ease,box-shadow .2s ease}
+#page-home .hm-ck:active{transform:scale(.85)}
+#page-home .hm-ck[aria-pressed=true]{box-shadow:0 0 0 4px rgba(156,122,46,.2);transform:scale(1.04)}
+#page-home .hm-prog.rf-complete{box-shadow:0 0 0 2px rgba(227,196,106,.9),0 0 32px -4px rgba(227,196,106,.65),0 10px 28px -14px rgba(0,0,0,.55)}
+#page-home .hm-prog.rf-complete .hm-h span{background:linear-gradient(90deg,#9C7A2E,#E3C46A);color:#2b1d12}
+
+/* بلاطات الدخول السريع */
+#page-home .hm-t{transition:transform .18s ease}
+#page-home .hm-t:active{transform:scale(.94)}
+#page-home .hm-i{transition:transform .25s ease,box-shadow .2s ease;box-shadow:0 8px 18px -10px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.7) inset}
+#page-home .hm-t:hover .hm-i{transform:translateY(-3px) scale(1.06);box-shadow:0 14px 22px -10px rgba(0,0,0,.65),0 1px 0 rgba(255,255,255,.7) inset}
+
+/* شريط التنقل السفلي */
+#uNav{-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);box-shadow:0 -10px 30px -14px rgba(0,0,0,.65),0 -1px 0 rgba(217,174,78,.3)}
+#uNav button{transition:color .2s ease,transform .18s ease}
+#uNav button:active{transform:scale(.9)}
+
+/* إتاحة */
+#page-home button:focus-visible,#uTop button:focus-visible,#uNav button:focus-visible{outline:3px solid #E3C46A;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){#page-home .hm-card{animation:none}#page-home *{transition:none!important}}
