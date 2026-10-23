@@ -43,3 +43,10 @@ html[dir=rtl] #page-home .hm-prog::after{border-radius:0 0 0 4px}
 /* إتاحة */
 #page-home button:focus-visible,#uTop button:focus-visible,#uNav button:focus-visible{outline:3px solid #E3C46A;outline-offset:2px}
 @media (prefers-reduced-motion:reduce){#page-home .hm-card{animation:none}#page-home *{transition:none!important}}
+
+/* وضع القيادة: حجم الخط يتبع زرّي أ− / أ+ */
+.dm{--dmfs:1}
+.dm .dm-text{font-size:calc(clamp(26px,7.2vw,40px)*var(--dmfs))}
+.dm .dm-tools{flex-wrap:wrap;gap:6px}
+.dm .dm-tb{min-height:40px}
+.dm .dm-w.on{outline:2px solid rgba(255,217,120,.45);outline-offset:3px;border-radius:6px}
