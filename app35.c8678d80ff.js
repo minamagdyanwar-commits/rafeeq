@@ -114,6 +114,7 @@
     var list=[];if(base&&base!=='-- --')list.push(base);
     (x.h||[]).forEach(function(t){t=cleanHead(t);if(t&&!list.some(function(u){return sameT(t,u)||sameT(u,t)}))list.push(t)});
     if(!list.length)return;
+    var more=list.length>6?list.length-6:0;list=list.slice(0,6).map(function(t){return t.length>90?t.slice(0,88).replace(/\s+\S*$/,'')+'…':t});if(more)list.push('+ '+ard(more)+' تذكارات أخرى');
     el.innerHTML=list.map(function(t){return '<span class="syn-cm">'+esc(t)+'</span>'}).join('')+'<small class="syn-cm-go">افتح السنكسار ‹</small>';
     box.classList.add('syn-link');box.setAttribute('role','button');box.setAttribute('tabindex','0');
     box.setAttribute('aria-label','تذكارات اليوم — افتح السنكسار');
