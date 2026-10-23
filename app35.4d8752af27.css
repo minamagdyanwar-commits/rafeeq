@@ -18,3 +18,8 @@
 #page-syn .syn-res b{display:block;font-weight:800}
 #page-syn .syn-res mark{background:var(--s-accent,#c9a13b);color:var(--s-btn-ink,#1a1a1a);border-radius:4px}
 #page-syn .syn-note{font:500 12px/1.7 'Cairo',sans-serif;opacity:.7;text-align:center;margin:8px 0 24px;color:var(--s-page-ink)}
+
+.commem.syn-link{cursor:pointer}
+.commem.syn-link #commemText{display:flex;flex-direction:column;gap:3px}
+.commem .syn-cm{font-weight:700;line-height:1.5}
+.commem .syn-cm-go{opacity:.7;font-size:.8em;margin-top:2px}

@@ -92,4 +92,34 @@
     };
   }
   window.__synInit=function(){if(!load()){render();return}if(!st._init){today();st._init=1}render()};
+
+  var KW=/^(?:[\d\u0660-\u0669]+\s*[-\u2013]\s*)?(استشهاد|استشهان|نياحة|نياحه|تذكار|نقل|ظهور|عيد|تكريس|تدشين|رئاسة|شفاء|معجزة|بشارة|ميلاد|اجتماع|مجمع|إصعاد|اصعاد|قيامة|وفاة|رقاد|تجلي|ثاني|ثالث|رابع|دخول|ختان|عماد|دفن|اكتشاف|استعلان|إعلان|اعلان|ذكرى|تقديم|صوم)/;
+  function cleanHead(t){
+    t=String(t).replace(/[\u00a0\u200f\u200e]/g,' ').replace(/\s+/g,' ').trim();
+    t=t.replace(/[\s\d\u0660-\u0669٠]+$/,'').replace(/[\s\u064d\u064c!|\u0345]+$/,'').trim();
+    if(t.length<8||t.length>110||!KW.test(t)||/في مثل هذا/.test(t))return '';
+    t=t.replace(/استشهان/g,'استشهاد');
+    var ar=(t.match(/[\u0600-\u06ff]/g)||[]).length;
+    return ar/t.length>0.8?t:'';
+  }
+  function sameT(a,b){
+    var x=norm(a).split(/\s+/).filter(function(w){return w.length>2}),y=norm(b);
+    if(!x.length)return false;var h=x.filter(function(w){return y.indexOf(w)>=0}).length;return h/x.length>=0.6;
+  }
+  window.__synC=function(el,m,d){
+    if(!el||!load())return;
+    var x=(D.m[m-1]&&D.m[m-1].d[d-1])||{},box=el.closest?el.closest('.commem'):el.parentNode;
+    if(!box)return;
+    var bb=el.querySelector('b'),base=bb?bb.textContent.trim():'';
+    var list=[];if(base&&base!=='-- --')list.push(base);
+    (x.h||[]).forEach(function(t){t=cleanHead(t);if(t&&!list.some(function(u){return sameT(t,u)||sameT(u,t)}))list.push(t)});
+    if(!list.length)return;
+    var more=list.length>6?list.length-6:0;list=list.slice(0,6).map(function(t){return t.length>90?t.slice(0,88).replace(/\s+\S*$/,'')+'…':t});if(more)list.push('+ '+ard(more)+' تذكارات أخرى');
+    el.innerHTML=list.map(function(t){return '<span class="syn-cm">'+esc(t)+'</span>'}).join('')+'<small class="syn-cm-go">افتح السنكسار ‹</small>';
+    box.classList.add('syn-link');box.setAttribute('role','button');box.setAttribute('tabindex','0');
+    box.setAttribute('aria-label','تذكارات اليوم — افتح السنكسار');
+    box.onclick=function(){st.m=m-1;st.d=d;st.mov=0;st.q='';st._init=1;if(window.__rafeeq)window.__rafeeq.show('syn',{top:1})};
+    box.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();box.onclick()}};
+  };
+  if(window.__rdDay)window.__synC(document.getElementById('commemText'),window.__rdDay[0],window.__rdDay[1]);
 })();
