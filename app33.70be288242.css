@@ -71,3 +71,20 @@ html[data-rf-theme^="cross/"] .dm-b{border-radius:50%}
 html[data-rf-theme^="cross/"] .dm-bar i{background:var(--cx-acc)}
 
 html[data-rf-theme^="cross/"] #uFab{background:var(--cx-acc)!important;color:#fff!important;border-radius:50%;box-shadow:0 8px 18px -8px rgba(0,0,0,.6)}
+
+/* صليب كبير واحد أعلى الرئيسية */
+html[data-rf-theme^="cross/"]{--cx-big:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 32'%3E%3Cpath d='M10.4 0h3.2v9h8.4v3.4h-8.4V32h-3.2V12.4H2V9h8.4z'/%3E%3C/svg%3E")}
+html[data-rf-theme^="cross/"] #page-home .u-wrap::before{content:"";display:block;width:62px;height:84px;margin:10px auto 8px;
+  background:linear-gradient(160deg,var(--cx-hero1,#5a5a5a),var(--cx-hero2,#1a1a1a));-webkit-mask:var(--cx-big) center/contain no-repeat;mask:var(--cx-big) center/contain no-repeat;
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.28))}
+html[data-rf-theme^="cross/2/"]{--cx-hero1:var(--cx-acc);--cx-hero2:var(--tc-6e1b26,var(--cx-acc))}
+html[data-rf-theme^="cross/1/"]{--cx-acc:var(--tc-c9a44c,#D4AF37);--cx-hero1:#F6E3A0;--cx-hero2:var(--tc-c9a44c,#D4AF37)}
+html[data-rf-theme^="cross/1/"] #page-home .u-wrap::before{filter:drop-shadow(0 0 18px rgba(212,175,55,.45))}
+/* أسود وذهب: كروت داكنة بإطار ذهبي رفيع ونصوص دافئة؛ أزرار ذهبية بنص داكن */
+html[data-rf-theme^="cross/1/"]{--cx-line:rgba(212,175,55,.28)}
+html[data-rf-theme^="cross/1/"] :is(.u-btn,.btn,.l-btn,#tkSend,.today-btn,.suggest-now-btn,#uFab){color:#111!important}
+html[data-rf-theme^="cross/1/"] #page-home .hm-i{color:#111;background:linear-gradient(145deg,#F6E3A0,var(--cx-acc))}
+html[data-rf-theme^="cross/1/"] #page-home .hm-prog .hm-h span{color:#111}
+html[data-rf-theme^="cross/1/"] #page-home .hm-ck[aria-pressed=true]::after{background:#111}
+html[data-rf-theme^="cross/1/"] :is(.part-btn,.sub-chip,.tab,.week-chip,.hour-btn,.pill,.v70chip,.fat-chips button):is(.active,.on,[aria-selected=true],[aria-pressed=true]){color:#111!important}
+html[data-rf-theme^="cross/1/"] #page-home .hm-card{border-color:var(--cx-line)}
