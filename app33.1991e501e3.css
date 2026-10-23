@@ -1,0 +1,80 @@
+/* v6.6 — تصميم «الصليب»: هندسة حادة وبسيطة، أحمر قانٍ وذهب على عاجي، وأزرار الرئيسية في صفّ صليب.
+   يعمل فقط حين يكون التصميم المختار cross (html[data-rf-theme^="cross/"]). */
+html[data-rf-theme^="cross/"]{
+  --cx-acc:var(--tc-7a1f2b,#B3261E);--cx-gold:#C9A44C;--cx-line:rgba(0,0,0,.14);
+  --cx-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M10 2h4v7h7v4h-7v9h-4v-9H3V9h7z'/%3E%3C/svg%3E");
+}
+html[data-rf-theme="cross/1"] ,html[data-rf-theme^="cross/1/"]{--cx-line:rgba(255,255,255,.16)}
+html[data-rf-theme^="cross/2/"] body{background:var(--bg)!important}
+html[data-rf-theme^="cross/1/"] body{background:var(--tc-071530,#0d0d0d)!important}
+
+/* الهيدر: سطر نظيف + صليب صغير قبل العنوان + خط أحمر سفلي */
+html[data-rf-theme^="cross/"] #uTop{background-image:none;border-bottom:3px solid var(--cx-acc);border-radius:0;box-shadow:0 6px 18px -12px rgba(0,0,0,.5)}
+html[data-rf-theme^="cross/2/"] #uTop{background-color:#fff}
+html[data-rf-theme^="cross/1/"] #uTop{background-color:var(--tc-060f24,#050505)}
+html[data-rf-theme^="cross/"] #uTitle::before{content:"";display:inline-block;width:.78em;height:.78em;margin-inline-end:.4em;vertical-align:-.04em;background:var(--cx-acc);-webkit-mask:var(--cx-mask) center/contain no-repeat;mask:var(--cx-mask) center/contain no-repeat}
+html[data-rf-theme^="cross/2/"] #uTitle{color:#1B1B1B;text-shadow:none}
+html[data-rf-theme^="cross/2/"] #uSub{color:#5b5b5b}
+html[data-rf-theme^="cross/"] #uTop .acts button{border-radius:4px;border-color:var(--cx-line)}
+
+/* الكروت: مسطّحة بحدّ رفيع وشريط أحمر عمودي عند الحافة */
+html[data-rf-theme^="cross/"] :is(#page-home .hm-card,.u-page .card,.u-page .u-card,.u-page .fat-card,.u-page .acc-card,.u-page .datecard,.u-page .readingcard,.u-page .medcard,.u-page .extra-block,.u-page .content-card){
+  position:relative;border:1px solid var(--cx-line);border-radius:6px;overflow:hidden;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 10px 24px -16px rgba(0,0,0,.45);background-image:none;animation:none}
+html[data-rf-theme^="cross/"] :is(#page-home .hm-card,.u-page .card,.u-page .u-card,.u-page .fat-card,.u-page .content-card)::after{
+  content:"";position:absolute;top:0;bottom:0;inset-inline-start:0;width:5px;background:var(--cx-acc)}
+html[data-rf-theme^="cross/"] #page-home .hm-prog::after,html[data-rf-theme^="cross/"] #page-home .hm-prog::before{display:none}
+html[data-rf-theme^="cross/1/"] #page-home .hm-card{background-color:var(--tc-173563,#161616);color:#efe9dc}
+html[data-rf-theme^="cross/1/"] #page-home .hm-card :is(li,span,button,p,div){color:inherit}
+/* عناوين الكروت: خط + صليب صغير */
+html[data-rf-theme^="cross/"] #page-home .hm-h{display:flex;align-items:center;gap:10px}
+html[data-rf-theme^="cross/"] #page-home .hm-h b{color:var(--cx-acc);font-weight:800}
+html[data-rf-theme^="cross/1/"] #page-home .hm-h b{color:var(--cx-gold)}
+
+/* شريط التقدّم: خط أفقي سميك + عمود نسبي (صليب يمتلئ) */
+html[data-rf-theme^="cross/"] #page-home .hm-prog{--p:0}
+html[data-rf-theme^="cross/"] #page-home .hm-prog .hm-h span{background:var(--cx-acc);color:#fff;border-radius:4px;padding:2px 12px;font-weight:800}
+html[data-rf-theme^="cross/"] #page-home .hm-prog ul{position:relative}
+html[data-rf-theme^="cross/"] #page-home .hm-ck{border-radius:4px;border-color:var(--cx-acc)}
+html[data-rf-theme^="cross/"] #page-home .hm-ck[aria-pressed=true]{background:var(--cx-acc);box-shadow:none;transform:none;position:relative}
+html[data-rf-theme^="cross/"] #page-home .hm-ck[aria-pressed=true]::after{content:"";position:absolute;inset:6px;background:#fff;-webkit-mask:var(--cx-mask) center/contain no-repeat;mask:var(--cx-mask) center/contain no-repeat}
+html[data-rf-theme^="cross/"] #page-home .hm-prog.rf-complete{box-shadow:0 0 0 2px var(--cx-gold),0 0 26px -2px rgba(201,164,76,.75)}
+
+/* أزرار الدخول السريع: ترتيب صليب (+) */
+html[data-rf-theme^="cross/"] #page-home .hm-grid.hm-ns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,auto);gap:8px 6px;width:min(100%,330px);margin-inline:auto;margin-bottom:20px}
+html[data-rf-theme^="cross/"] #page-home .hm-ns .hm-t:nth-child(1){grid-column:2;grid-row:2}
+html[data-rf-theme^="cross/"] #page-home .hm-ns .hm-t:nth-child(2){grid-column:2;grid-row:1}
+html[data-rf-theme^="cross/"] #page-home .hm-ns .hm-t:nth-child(3){grid-column:2;grid-row:3}
+html[data-rf-theme^="cross/"] #page-home .hm-ns .hm-t:nth-child(4){grid-column:1;grid-row:2}
+html[data-rf-theme^="cross/"] #page-home .hm-ns .hm-t:nth-child(5){grid-column:3;grid-row:2}
+html[data-rf-theme^="cross/"] #page-home .hm-t{flex:none;min-height:0}
+html[data-rf-theme^="cross/"] #page-home .hm-i{border-radius:6px;background:var(--cx-acc);color:#fff;border:0;box-shadow:0 8px 16px -10px rgba(0,0,0,.6)}
+html[data-rf-theme^="cross/"] #page-home .hm-ns .hm-t:nth-child(1) .hm-i{background:var(--cx-gold);color:#1B1B1B;box-shadow:0 0 0 3px rgba(201,164,76,.35),0 8px 16px -10px rgba(0,0,0,.6)}
+html[data-rf-theme^="cross/"] #page-home .hm-l{font-weight:800}
+html[data-rf-theme^="cross/2/"] #page-home .hm-l{color:#1B1B1B}
+html[data-rf-theme^="cross/1/"] #page-home .hm-l{color:#efe9dc}
+
+/* الشرائح والأزرار */
+html[data-rf-theme^="cross/"] :is(.part-btn,.sub-chip,.tab,.week-chip,.hour-btn,.pill,.v70chip,.fat-chips button){border:1.5px solid var(--cx-acc);border-radius:4px}
+html[data-rf-theme^="cross/"] :is(.part-btn,.sub-chip,.tab,.week-chip,.hour-btn,.pill,.v70chip,.fat-chips button):is(.active,.on,[aria-selected=true],[aria-pressed=true]){background:var(--cx-acc)!important;color:#fff!important}
+html[data-rf-theme^="cross/"] :is(.u-btn,.btn,.l-btn,#tkSend,.today-btn,.suggest-now-btn){background:var(--cx-acc);color:#fff!important;border:0;border-radius:4px;box-shadow:0 6px 14px -8px rgba(0,0,0,.6)}
+html[data-rf-theme^="cross/"] :is(textarea,input[type=text],input[type=search],input[type=date],select){border:1.5px solid var(--cx-line)!important;border-radius:4px}
+html[data-rf-theme^="cross/"] :is(textarea,input,select):focus{outline:3px solid rgba(179,38,30,.35)}
+
+/* التنقل السفلي: صليب صغير فوق العنصر النشط */
+html[data-rf-theme^="cross/"] #uNav{border-radius:0;border-top:3px solid var(--cx-acc);-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-rf-theme^="cross/2/"] #uNav{background:#fff!important}
+html[data-rf-theme^="cross/2/"] #uNav button{color:#6b6b6b}
+html[data-rf-theme^="cross/1/"] #uNav{background:var(--tc-060f24,#050505)!important}
+html[data-rf-theme^="cross/1/"] #uNav button{color:#bdb6a8}
+html[data-rf-theme^="cross/"] #uNav button.on{color:var(--cx-acc)!important;position:relative}
+html[data-rf-theme^="cross/1/"] #uNav button.on{color:var(--cx-gold)!important}
+html[data-rf-theme^="cross/"] #uNav button.on::before{content:"";position:absolute;top:-7px;left:50%;width:12px;height:12px;margin-left:-6px;background:currentColor;-webkit-mask:var(--cx-mask) center/contain no-repeat;mask:var(--cx-mask) center/contain no-repeat}
+
+/* وضع القيادة */
+html[data-rf-theme^="cross/"] .dm{background:#0d0d0d}
+html[data-rf-theme^="cross/"] .dm-play{background:var(--cx-acc);color:#fff;border-color:var(--cx-acc);box-shadow:0 0 0 5px rgba(179,38,30,.3)}
+html[data-rf-theme^="cross/"] .dm-b,html[data-rf-theme^="cross/"] .dm-tb{border-radius:6px}
+html[data-rf-theme^="cross/"] .dm-bar i{background:var(--cx-acc)}
+
+html[data-rf-theme^="cross/"] #uFab{background:var(--cx-acc)!important;color:#fff!important;border-radius:6px;box-shadow:0 8px 18px -8px rgba(0,0,0,.6)}
