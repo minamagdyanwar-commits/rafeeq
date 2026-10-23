@@ -192,6 +192,22 @@ def main(src,out):
             if re.search(r'[\.؟!:]$',l) or re.search(r'(آمين|أمين)\s*\.?$',l): paras.append(buf);buf=''
         if buf: paras.append(buf)
         data.setdefault(mi,[]).append({'d':d,'t':titles,'b':'\n'.join(paras)})
+    # تصحيحات يدوية مراجَعة: «شهر-يوم ::: القديم ⟹ الجديد» في tools/syn-fixes.txt
+    fx=os.path.join(os.path.dirname(os.path.abspath(__file__)),'syn-fixes.txt'); nfix=0; nmiss=[]
+    if os.path.exists(fx):
+        for ln in open(fx,encoding='utf-8'):
+            if ' ::: ' not in ln or ' ⟹ ' not in ln: continue
+            key,rest=ln.rstrip('\n').split(' ::: ',1); old,new=rest.split(' ⟹ ',1)
+            mm,dd=key.split('-'); mm=int(mm)-1; dd=int(dd)
+            for x in data.get(mm,[]):
+                if x['d']==dd:
+                    ok=False
+                    if old in x['b']: x['b']=x['b'].replace(old,new,1); ok=True
+                    for k,t in enumerate(x['t']):
+                        if old in t: x['t'][k]=t.replace(old,new,1); ok=True
+                    if ok: nfix+=1
+                    else: nmiss.append(key+' '+old[:30])
+    print('تصحيحات مطبّقة:',nfix,'| لم تُطبَّق:',len(nmiss),nmiss[:5])
     os.makedirs(out,exist_ok=True)
     hdr='/* بيانات السنكسار — مستخرجة آليًا (OCR) من كتاب «السنكسار» إعداد اللجنة المجمعية للطقوس، مكتبة دير السيدة العذراء السريان ٢٠١٢. غير مراجعة. تُولَّد بـ tools/syn-import.py */\n'
     total=0
