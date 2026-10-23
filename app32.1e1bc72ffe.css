@@ -1,0 +1,95 @@
+/* v6.3 — ثيم «الكنيسة الأرثوذكسية»: لازورد وذهب وقباب وأقواس وصليب قبطي.
+   يعمل فقط حين يكون الثيم المختار church (html[data-rf-theme$="/church"])؛ باقي الثيمات لا تتأثر. */
+html[data-rf-theme$="/church"]{
+  --ch-gold:#C9A44C;--ch-gold-hi:#EBCB7E;--ch-gold-lo:#8F6F27;--ch-red:#9E2B25;--ch-lapis:#1E2B4F;--ch-parch:#F8F0DC;
+  --ch-cross:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23C9A44C' stroke-opacity='.16' stroke-width='1.4'%3E%3Cpath d='M36 22v28M22 36h28'/%3E%3Cpath d='M32 22h8M32 50h8M22 32v8M50 32v8'/%3E%3Ccircle cx='36' cy='36' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  --ch-ornament:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='14' viewBox='0 0 120 14'%3E%3Cg fill='none' stroke='%23C9A44C' stroke-width='1.2'%3E%3Cpath d='M0 7h46M74 7h46'/%3E%3Cpath d='M60 1v12M54 7h12'/%3E%3Cpath d='M57 1h6M57 13h6M54 4v6M66 4v6' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* الخلفية: قبة مضيئة + نقش صلبان قبطية خافت */
+html[data-rf-theme$="/church"] body{background-color:var(--bg,#1E2B4F);
+  background-image:radial-gradient(ellipse 120% 38% at 50% -4%,rgba(235,203,126,.20),transparent 62%),linear-gradient(180deg,rgba(0,0,0,.0),rgba(0,0,0,.28))}
+
+/* الهيدر: قبة بخط ذهبي مزدوج وميدالية الصليب */
+html[data-rf-theme$="/church"] #uTop{border-bottom:0;border-radius:0 0 28px 28px / 0 0 18px 18px;
+  background-image:linear-gradient(180deg,rgba(235,203,126,.10),transparent 80%);
+  box-shadow:0 2px 0 var(--ch-gold),0 5px 0 rgba(201,164,76,.35),0 14px 28px -12px rgba(0,0,0,.7)}
+html[data-rf-theme$="/church"] #uTitle{letter-spacing:.2px;text-shadow:0 1px 0 rgba(0,0,0,.5),0 0 18px rgba(235,203,126,.25)}
+
+/* الكروت: رق مع إطار ذهبي مزدوج وزخرفة صليب في العنوان */
+html[data-rf-theme$="/church"] #page-home .hm-card{border-radius:22px 22px 18px 18px;border:1.5px solid var(--ch-gold);
+  background-image:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0) 40%);
+  box-shadow:0 0 0 4px rgba(201,164,76,.14),0 0 0 5.5px rgba(201,164,76,.55) inset,0 0 0 7px var(--ch-parch) inset,0 14px 30px -14px rgba(0,0,0,.65)}
+html[data-rf-theme$="/church"] #page-home .hm-h{position:relative;padding-bottom:16px;margin-bottom:6px}
+html[data-rf-theme$="/church"] #page-home .hm-h::after{content:"";position:absolute;inset-inline:0;bottom:0;height:14px;background:var(--ch-ornament) center/120px 14px no-repeat;opacity:.85}
+html[data-rf-theme$="/church"] #page-home .hm-h b{color:var(--ch-red);font-weight:800}
+
+/* شريط التقدّم: ورق ذهب + هالة عند الاكتمال */
+html[data-rf-theme$="/church"] #page-home .hm-prog::after{background:linear-gradient(90deg,var(--ch-gold-lo),var(--ch-gold-hi) 55%,#fff1c2);box-shadow:0 0 14px rgba(235,203,126,.8)}
+html[data-rf-theme$="/church"] #page-home .hm-prog .hm-h span{color:var(--ch-gold-lo);background:rgba(201,164,76,.16);box-shadow:0 0 0 1px var(--ch-gold) inset}
+html[data-rf-theme$="/church"] #page-home .hm-prog.rf-complete{box-shadow:0 0 0 4px rgba(235,203,126,.35),0 0 38px 2px rgba(235,203,126,.7),0 14px 30px -14px rgba(0,0,0,.65)}
+html[data-rf-theme$="/church"] #page-home .hm-ck{border-color:var(--ch-gold-lo)}
+html[data-rf-theme$="/church"] #page-home .hm-ck[aria-pressed=true]{background:radial-gradient(circle at 35% 30%,#fff1c2,var(--ch-gold) 60%,var(--ch-gold-lo));box-shadow:0 0 0 4px rgba(201,164,76,.25),0 0 14px rgba(235,203,126,.7)}
+
+/* أزرار الدخول السريع: محاريب مقوّسة */
+html[data-rf-theme$="/church"] #page-home .hm-i{border-radius:999px 999px 20px 20px;border:1.5px solid var(--ch-gold);
+  background:linear-gradient(180deg,#fffaf0,var(--ch-parch));color:var(--ch-red);
+  box-shadow:0 0 0 3px rgba(201,164,76,.38),0 10px 18px -10px rgba(0,0,0,.7)}
+html[data-rf-theme$="/church"] #page-home .hm-t:hover .hm-i{box-shadow:0 0 0 3px rgba(235,203,126,.5),0 0 20px rgba(235,203,126,.6),0 14px 22px -10px rgba(0,0,0,.7)}
+html[data-rf-theme$="/church"] #page-home .hm-l{color:var(--ch-gold-hi)}
+
+/* التنقل السفلي */
+html[data-rf-theme$="/church"] #uNav{border-top:2px solid var(--ch-gold);border-radius:18px 18px 0 0;box-shadow:0 -1px 0 rgba(201,164,76,.4),0 -12px 28px -12px rgba(0,0,0,.7)}
+html[data-rf-theme$="/church"] #uNav button.on{color:var(--ch-gold-hi);text-shadow:0 0 12px rgba(235,203,126,.55)}
+
+/* الوضع الداكن: لازورد ليلي بنفسجي وكروت داكنة بإطار ذهبي (بدل الرق الفاتح) */
+html[data-rf-theme="classic/1/church"] body{background-color:#120C1C}
+html[data-rf-theme="classic/1/church"] #uTop{background-color:#0d0816}
+html[data-rf-theme="classic/1/church"] #page-home .hm-card{background-color:#241833;background-image:linear-gradient(180deg,rgba(235,203,126,.08),rgba(255,255,255,0) 45%);color:#F6ECD6;
+  box-shadow:0 0 0 4px rgba(201,164,76,.12),0 0 0 5.5px rgba(201,164,76,.5) inset,0 0 0 7px #241833 inset,0 14px 30px -14px rgba(0,0,0,.8)}
+html[data-rf-theme="classic/1/church"] #page-home .hm-card :is(li,span,button,p,div){color:inherit}
+html[data-rf-theme="classic/1/church"] #page-home .hm-h b{color:var(--ch-gold-hi)}
+html[data-rf-theme="classic/1/church"] #page-home .hm-prog .hm-h span{color:var(--ch-gold-hi);background:rgba(201,164,76,.18)}
+html[data-rf-theme="classic/1/church"] #page-home .hm-i{background:linear-gradient(180deg,#34234a,#241833);color:var(--ch-gold-hi)}
+html[data-rf-theme="classic/1/church"] #page-home .hm-ck{border-color:var(--ch-gold)}
+html[data-rf-theme="classic/1/church"] #uNav{background-color:#0d0816}
+
+/* ===== تعميم الطابع الكنسي على باقي الشاشات ===== */
+html[data-rf-theme$="/church"] :is(.u-page .card,.u-page .u-card,.u-page .fat-card,.u-page .acc-card,.u-page .datecard,.u-page .readingcard,.u-page .medcard,.u-page .extra-block,.u-page .content-card,.u-page .tk-say,.u-page .hour-trigger){
+  border:1.5px solid var(--ch-gold);border-radius:20px 20px 16px 16px;position:relative;
+  box-shadow:0 0 0 3px rgba(201,164,76,.14),0 0 0 5px rgba(201,164,76,.45) inset,0 12px 26px -14px rgba(0,0,0,.6)}
+html[data-rf-theme="classic/2/church"] :is(.u-page .card,.u-page .u-card,.u-page .fat-card,.u-page .acc-card,.u-page .datecard,.u-page .readingcard,.u-page .medcard,.u-page .extra-block,.u-page .content-card){
+  background-image:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,0) 38%)}
+/* عناوين الأقسام داخل الصفحات */
+html[data-rf-theme$="/church"] :is(.u-page h2,.u-page h3,.content-head h2,.acc-title){color:var(--ch-red);font-weight:800}
+html[data-rf-theme="classic/1/church"] :is(.u-page h2,.u-page h3,.content-head h2,.acc-title){color:var(--ch-gold-hi)}
+html[data-rf-theme$="/church"] .u-page>h2::after,html[data-rf-theme$="/church"] .content-head h2::after{content:"";display:block;height:14px;margin:6px auto 0;background:var(--ch-ornament) center/120px 14px no-repeat;opacity:.8}
+/* الشرائح والتبويبات */
+html[data-rf-theme$="/church"] :is(.part-btn,.sub-chip,.tab,.week-chip,.hour-btn,.pill,.v70chip,.wake-chip,.fat-chips button){
+  border:1.5px solid var(--ch-gold);border-radius:999px;transition:background .2s,box-shadow .2s,transform .15s}
+html[data-rf-theme$="/church"] :is(.part-btn,.sub-chip,.tab,.week-chip,.hour-btn,.pill,.v70chip,.fat-chips button):is(.active,.on,[aria-selected=true],[aria-pressed=true]){
+  background:linear-gradient(180deg,var(--ch-gold-hi),var(--ch-gold) 60%,var(--ch-gold-lo))!important;color:#2b1d12!important;border-color:var(--ch-gold-lo);box-shadow:0 0 14px rgba(235,203,126,.5)}
+/* الأزرار الأساسية */
+html[data-rf-theme$="/church"] :is(.u-btn,.btn,.l-btn,#tkSend,.today-btn,.suggest-now-btn){
+  background:linear-gradient(180deg,#b8362f,var(--ch-red) 55%,#7c1f1a);color:#fff6dc!important;border:1.5px solid var(--ch-gold);border-radius:14px;
+  box-shadow:0 0 0 2px rgba(201,164,76,.22),0 8px 16px -8px rgba(0,0,0,.7);text-shadow:0 1px 0 rgba(0,0,0,.35)}
+html[data-rf-theme$="/church"] :is(.u-btn,.btn,.l-btn,#tkSend,.today-btn):active{transform:translateY(1px) scale(.98)}
+/* الحقول */
+html[data-rf-theme$="/church"] :is(textarea,input[type=text],input[type=search],input[type=date],select){
+  border:1.5px solid var(--ch-gold)!important;border-radius:12px;background-color:#fffaf0}
+html[data-rf-theme="classic/1/church"] :is(textarea,input[type=text],input[type=search],input[type=date],select){background-color:#1c1228;color:#F6ECD6}
+html[data-rf-theme$="/church"] :is(textarea,input,select):focus{outline:3px solid rgba(235,203,126,.7);outline-offset:1px}
+/* صوت الله: فقاعات */
+html[data-rf-theme$="/church"] .tk-say{border-radius:20px 20px 6px 20px}
+/* الإعدادات والقوائم المنبثقة */
+html[data-rf-theme$="/church"] :is(.settings-panel,.u-sheet-card){border:1.5px solid var(--ch-gold);box-shadow:0 0 0 4px rgba(201,164,76,.2),0 -16px 40px -12px rgba(0,0,0,.7)}
+html[data-rf-theme$="/church"] .settings-subhead{color:var(--ch-gold-lo);border-bottom:1px solid rgba(201,164,76,.45);padding-bottom:4px}
+/* وضع القيادة */
+html[data-rf-theme$="/church"] .dm{background:radial-gradient(ellipse 110% 50% at 50% -6%,rgba(235,203,126,.22),transparent 60%),linear-gradient(180deg,#141d3a,#0b1022 70%)}
+html[data-rf-theme$="/church"] .dm-hour{color:var(--ch-gold-hi)}
+html[data-rf-theme$="/church"] .dm-play{background:radial-gradient(circle at 35% 30%,#fff1c2,var(--ch-gold) 55%,var(--ch-gold-lo));box-shadow:0 0 0 5px rgba(201,164,76,.25),0 0 28px rgba(235,203,126,.55)}
+html[data-rf-theme$="/church"] .dm-b{border-color:var(--ch-gold)}
+html[data-rf-theme$="/church"] .dm-tb{border:1.5px solid var(--ch-gold);border-radius:999px}
+html[data-rf-theme$="/church"] .dm-tb.on{background:rgba(201,164,76,.25);color:var(--ch-gold-hi)}
+html[data-rf-theme$="/church"] .dm-bar i{background:linear-gradient(90deg,var(--ch-gold-lo),var(--ch-gold-hi));box-shadow:0 0 10px rgba(235,203,126,.7)}
+
+html[data-rf-theme$="/church"] .dm select{background-color:#1c2342;color:#F6ECD6}
