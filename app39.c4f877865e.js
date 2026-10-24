@@ -33,10 +33,18 @@ window.__progCard=function(){var s=load(),st=started(s),id=st.filter(function(i)
 function paintHub(){var h=document.getElementById('progHub');if(!h)return;var s=load(),st=started(s).filter(function(i){return !finished(s,i)}).slice(0,3);
   var list=st.length?st:['joseph','peter','psalms'];
   h.innerHTML='<h3>🏔 رحلاتي</h3><p>'+(st.length?'تابع من حيث وقفت.':'ابدأ رحلة: كل يوم قراءة وتأمل وسؤال ومهمة صغيرة.')+'</p>'+list.map(function(i){return card(s,i)}).join('')+'<button type="button" class="pg-all" data-prog="hub">كل الرحلات ('+ar(IDS().length)+') والشارات ‹</button>'}
-function mountHub(){var v=document.getElementById('view-meditation');if(!v)return;
-  var tb=document.getElementById('tabMeditation');if(tb&&tb.textContent.indexOf('الرحلات')<0)tb.textContent='🏔 الرحلات';
-  if(!document.getElementById('progHub')){var h=document.createElement('div');h.id='progHub';v.insertBefore(h,v.firstChild);paintHub();
-    var sp=document.createElement('div');sp.id='progOldTitle';sp.textContent='تأمل اليوم';h.after(sp)}}
+function V(i){return document.getElementById(i)}
+function showJourneys(){var ag=V('view-agpeya'),md=V('view-meditation'),gd=V('view-guided'),jv=V('view-journeys');if(!jv)return;
+  [ag,md,gd].forEach(function(e){if(e)e.style.display='none'});jv.style.display='';
+  ['tabAgpeya','tabMeditation','tabGuided'].forEach(function(i){var e=V(i);e&&e.classList.remove('active')});var t=V('tabJourneys');t&&t.classList.add('active');
+  paintHub();try{window.scrollTo(0,0)}catch(e){}try{window.__F&&window.__F.updatePrayBar&&window.__F.updatePrayBar()}catch(e){}}
+function mountHub(){var md=V('view-meditation');if(!md)return;
+  var tm=V('tabMeditation');if(tm&&tm.textContent.indexOf('التأملات اليومية')>=0)tm.textContent='📖 التأملات';
+  var tg=V('tabGuided');if(tg&&tg.textContent.indexOf('الفردية')>=0)tg.textContent='🕯 الخلوة';
+  if(!V('view-journeys')){var jv=document.createElement('div');jv.id='view-journeys';jv.style.display='none';var h=document.createElement('div');h.id='progHub';jv.appendChild(h);md.parentNode.insertBefore(jv,md)}
+  if(!V('tabJourneys')&&tm){var t=document.createElement('div');t.className='app-tab';t.id='tabJourneys';t.setAttribute('role','button');t.tabIndex=0;t.textContent='🏔 رحلاتي';
+    t.addEventListener('click',showJourneys);t.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showJourneys()}});tm.parentNode.insertBefore(t,tm)}
+  var sw=window.switchApp;if(typeof sw==='function'&&!sw.__pg){var f=function(x){var jv=V('view-journeys');if(jv)jv.style.display='none';var t=V('tabJourneys');t&&t.classList.remove('active');return sw.apply(this,arguments)};f.__pg=1;window.switchApp=f}}
 /* ---------- الدرب ---------- */
 var H=74,ST=180;
 function pos(i,W,n){var x=W*(.5+.3*Math.sin((i-1)*.85)),y=ST+(n-i)*H+40;return [x,y]}
@@ -120,5 +128,5 @@ document.addEventListener('click',function(e){var t=e.target,b;if(!t.closest)ret
   if(b=t.closest('[data-pgreset]')){if(confirm('هتبدأ الرحلة من اليوم الأول وتتمسح إجاباتك. متأكد؟')){var s2=load();s2[active]={done:{},notes:{}};save(s2);render(true)}return}
 },true);
 document.addEventListener('input',function(e){if(e.target&&e.target.id==='pdNote'){var ok=q('[data-pgok]');if(!ok)return;var d=+ok.getAttribute('data-pgok'),s=load();s[active].notes[d]=e.target.value;save(s)}});
-window.__prog={open:function(id){active=id||'joseph';render(true)},hub:hubPage,day:openDay,close:closePage};
+window.__prog={tab:showJourneys,open:function(id){active=id||'joseph';render(true)},hub:hubPage,day:openDay,close:closePage};
 })();

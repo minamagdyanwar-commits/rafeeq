@@ -72,7 +72,6 @@
 #progHub{margin:0 auto 14px;max-width:1180px;padding:14px 16px;border:1px solid rgba(201,164,76,.3);border-radius:13px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015))}
 #progHub h3{margin:0 0 4px;font-size:1.05rem;color:var(--gold-300,#e3c476)}
 #progHub>p{margin:0 0 12px;font-size:.85rem;opacity:.8}
-#progOldTitle{max-width:1180px;margin:18px auto 8px;font-size:.9rem;opacity:.7;text-align:center}
 .pg-hubp h3{margin:18px 0 8px;font-size:15px;color:var(--nh-acc,#d2b98a)}
 .pg-tabs{display:flex;gap:6px;margin:6px 0 4px}
 .pg-tabs button{flex:1;background:var(--nh-card,#1b222a);color:var(--nh-ink,#efe6d2);border:1px solid var(--nh-line,rgba(255,255,255,.25));border-radius:20px;padding:8px 4px;font:inherit;font-size:14px;cursor:pointer}
