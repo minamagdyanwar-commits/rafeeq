@@ -21,6 +21,17 @@ function lastTs(s,id){var m=0;for(var k in s[id].done)m=Math.max(m,s[id].done[k]
 function lastId(s){var best=null,t=0;IDS().forEach(function(i){var m=lastTs(s,i);if(m>t){t=m;best=i}});return best}
 function finished(s,id){return cur(s,id)>N(id)}
 var active='joseph',tab='mine';
+/* معايرة ألوان النص على ألوان التصميم الحالي: لون التشديد للنص، ولون النص فوق الأسطح الملوّنة */
+function calib(){try{var d=document.documentElement,pr=document.createElement('div');pr.style.cssText='position:fixed;left:-9px;top:0;width:1px;height:1px';document.body.appendChild(pr);
+  function res(v,fb){pr.style.color='';pr.style.backgroundColor='';pr.style.color='var('+v+','+fb+')';var m=getComputedStyle(pr).color.match(/[\d.]+/g)||[0,0,0];return {r:+m[0],g:+m[1],b:+m[2],a:m[3]==null?1:+m[3]}}
+  function lum(c){function f(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)}return .2126*f(c.r)+.7152*f(c.g)+.0722*f(c.b)}
+  function cr(a,b){var x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
+  function over(f,b){return {r:f.r*f.a+b.r*(1-f.a),g:f.g*f.a+b.g*(1-f.a),b:f.b*f.a+b.b*(1-f.a),a:1}}
+  function mix(a,b,t){return {r:a.r+(b.r-a.r)*t,g:a.g+(b.g-a.g)*t,b:a.b+(b.b-a.b)*t,a:1}}
+  var acc=res('--nh-acc','#d2b98a'),bg=res('--nh-bg','#0f1318'),card=over(res('--nh-card','#1b222a'),bg),ink=res('--nh-ink','#efe6d2');pr.remove();
+  var t=0,a=acc;while(t<=1&&Math.min(cr(a,bg),cr(a,card))<4.6){t+=.1;a=mix(acc,ink,t)}
+  d.style.setProperty('--pg-a','rgb('+(a.r|0)+','+(a.g|0)+','+(a.b|0)+')');
+  var w={r:255,g:255,b:255},k={r:26,g:18,b:6};d.style.setProperty('--pg-on',cr(w,acc)>=cr(k,acc)?'#fff':'#1a1206')}catch(e){}}
 /* ---------- بطاقات ---------- */
 function card(s,id){var p=PG()[id];if(!p)return'';var n=N(id),c=cur(s,id),dn=doneCount(s,id),pct=Math.round(dn*100/n);
   return '<button type="button" class="pg-card'+(finished(s,id)?' fin':'')+'" data-prog="'+id+'"><i>'+p.icon+'</i><span><b>'+esc(p.title)+'</b><small>'+esc(p.sub)+'</small>'+(dn?'<u><s style="width:'+pct+'%"></s></u>':'')+'<em>'+(dn===0?ar(n)+' يومًا'+(p.season?' · '+esc(p.season):''):(finished(s,id)?'🏅 أتممتَ الرحلة':'اليوم '+ar(c)+' من '+ar(n)))+'</em></span><strong>‹</strong></button>'}
@@ -30,7 +41,7 @@ window.__progCard=function(){var s=load(),st=started(s),id=st.filter(function(i)
   var c=cur(s,id),n=N(id);
   return '<button type="button" class="pg-home" data-prog="hub"><i>'+p.icon+'</i><span><b>رحلاتي</b><small>'+esc(p.short)+' — '+(c>n?'أتممتها 🏅':'اليوم '+ar(c)+' من '+ar(n))+'</small></span><em>‹</em></button>'};
 /* ---------- المركز داخل الأجبية ---------- */
-function paintHub(){var h=document.getElementById('progHub');if(!h)return;var s=load(),st=started(s).filter(function(i){return !finished(s,i)}).slice(0,3);
+function paintHub(){var h=document.getElementById('progHub');if(!h)return;calib();var s=load(),st=started(s).filter(function(i){return !finished(s,i)}).slice(0,3);
   var list=st.length?st:['joseph','peter','psalms'];
   h.innerHTML='<h3>🏔 رحلاتي</h3><p>'+(st.length?'تابع من حيث وقفت.':'ابدأ رحلة: كل يوم قراءة وتأمل وسؤال ومهمة صغيرة.')+'</p>'+list.map(function(i){return card(s,i)}).join('')+'<button type="button" class="pg-all" data-prog="hub">كل الرحلات ('+ar(IDS().length)+') والشارات ‹</button>'}
 function V(i){return document.getElementById(i)}
@@ -48,7 +59,7 @@ function mountHub(){var md=V('view-meditation');if(!md)return;
 /* ---------- الدرب ---------- */
 var H=74,ST=180;
 function pos(i,W,n){var x=W*(.5+.3*Math.sin((i-1)*.85)),y=ST+(n-i)*H+40;return [x,y]}
-function render(open){
+function render(open){calib();
   var p=PG()[active],s=load(),n=N(active),c=cur(s,active),dn=doneCount(s,active),pct=Math.round(100*dn/n),W=Math.min(window.innerWidth,520),totalH=ST+n*H+120;
   var pts=[];for(var i=1;i<=n;i++)pts.push(pos(i,W,n));
   var path='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);
@@ -70,7 +81,7 @@ function render(open){
 function pgBox(){var e=document.getElementById('progPage');if(!e){e=document.createElement('div');e.id='progPage';e.setAttribute('role','dialog');e.setAttribute('aria-modal','true');document.body.appendChild(e)}return e}
 /* ---------- شاشة «رحلاتي» ---------- */
 function badges(s){var out='';IDS().forEach(function(i){var p=PG()[i],ok=finished(s,i);out+='<div class="pg-bd'+(ok?' on':'')+'" title="'+esc(p.title)+'"><i>'+(ok?p.icon:'🔒')+'</i><small>'+esc(p.short)+'</small></div>'});return out}
-function hubPage(t){if(t)tab=t;var s=load(),all=IDS(),st=started(s),run=st.filter(function(i){return !finished(s,i)}),fin=st.filter(function(i){return finished(s,i)});
+function hubPage(t){calib();if(t)tab=t;var s=load(),all=IDS(),st=started(s),run=st.filter(function(i){return !finished(s,i)}),fin=st.filter(function(i){return finished(s,i)});
   var days=0;all.forEach(function(i){days+=doneCount(s,i)});
   var body='';
   if(tab==='mine'){
@@ -84,7 +95,7 @@ function hubPage(t){if(t)tab=t;var s=load(),all=IDS(),st=started(s),run=st.filte
   var e=pgBox();e.innerHTML='<button type="button" class="pg-x" data-pgclose="1" aria-label="إغلاق">✕</button><div class="pg-hubp"><h2>🏔 رحلات الكتاب المقدس</h2><div class="pg-tabs">'+tabs+'</div>'+body+'</div>';e.className='prg-page on';document.body.classList.add('nh-lock');e.scrollTop=0}
 function closePage(){var p=document.getElementById('progPage');if(p)p.classList.remove('on');var d=document.getElementById('progDay');if(d)d.classList.remove('on');if(!document.querySelector('#nhPage.on'))document.body.classList.remove('nh-lock');paintHub()}
 /* ---------- بطاقة اليوم ---------- */
-function openDay(d){var p=PG()[active],s=load(),c=cur(s,active),n=N(active);if(d>c){var t=F().toast;t&&t('كمّل اليوم '+ar(c)+' الأول');return}
+function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(active);if(d>c){var t=F().toast;t&&t('كمّل اليوم '+ar(c)+' الأول');return}
   var it=p.days[d-1],b=F().bible,done=!!s[active].done[d],st=stageOf(p,d),L=p.labels;
   var el=document.getElementById('progDay');if(!el){el=document.createElement('div');el.id='progDay';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');document.body.appendChild(el)}
   function sec(lbl,txt){return txt?'<section class="pd-r"><h4>'+esc(lbl)+'</h4><p>'+esc(txt)+'</p></section>':''}
