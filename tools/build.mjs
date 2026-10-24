@@ -12,7 +12,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const p = f => join(root, f);
 const sha = b => createHash('sha1').update(b).digest('hex');
 const HASHED = /^((?:app|data-|store)[A-Za-z0-9-]*)\.([0-9a-f]{10})\.(js|css)$/;
-const FIXED = ['index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'bg-bearer.jpg', 'bg-crown.jpg', 'bg-glory.jpg'];
+const FIXED = ['index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'bg-bearer.jpg', 'bg-crown.jpg', 'bg-glory.jpg', 'bg-shroud.jpg', 'bg-holy.jpg', 'bg-lamp.jpg', 'bg-royal.jpg'];
 
 let html = readFileSync(p('index.html'), 'utf8');
 const renames = new Map();
