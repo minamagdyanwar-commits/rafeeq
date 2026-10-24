@@ -27,44 +27,36 @@ function info(){
   return i}
 function act(it){ if(it.type==='hour')return 'data-act="hour" data-key="'+esc(it.gid)+'"'; if(it.type==='read')return 'data-act="read"'; if(it.type==='med')return 'data-act="meditation"'; if(it.type==='exam')return 'data-act="exam"'; return 'data-act="agpeya"'}
 function rowsItems(i,cls){return i.items.map(function(it){return '<button type="button" class="'+cls+(it.done?' on':'')+'" '+act(it)+'><i></i><span>'+esc(it.label)+'</span></button>'}).join('')}
-/* ---------------- الكفن: الدرب ---------------- */
-function homeShroud(i){
+/* ---------------- محتوى الورقة (يطلع بسحبة لفوق) لكل تصميم ---------------- */
+var TAG={shroud:'اقترب من الصليب خطوة اليوم',holy:'قدس الأقداس — اجلس في حضرته',lamp:'سراجٌ لرجلي كلامك',royal:'إكليل الحياة لمن يغلب'};
+var WL=['ح','ن','ث','ر','خ','ج','س'];
+function nextHour(i){return i.hours.filter(function(h){return h.k===i.sug})[0]||i.hours[0]}
+function bodyShroud(i){
   var rail=i.hours.map(function(h,n){var c=h.done?' done':(h.k===i.sug?' now':'');
     return '<li class="st'+c+'"><button type="button" data-act="hour" data-key="'+h.k+'"><i class="nd">'+(h.done?'✓':ar(n+1))+'</i><span class="tx"><b>'+esc(h.label)+'</b><small>'+esc(h.time)+'</small></span><em>'+(h.done?'تمّت':(h.k===i.sug?'الآن':''))+'</em></button></li>'}).join('');
-  return '<header class="nh-hero"><small>'+esc(i.dt)+'</small><h1>'+esc(i.wd)+'</h1><p>اقترب من الصليب خطوة اليوم</p></header>'+
-  '<section class="nh-rail"><h2>درب اليوم</h2><ol>'+rail+'</ol><button type="button" class="nh-more" data-nh="week">شريط الأسبوع ‹</button></section>'+
-  '<section class="nh-linen"><div class="nh-fold">'+rowsItems(i,'nh-chk').replace(/<i><\/i>/g,'<i></i>')+'</div></section>'+
+  return '<section class="nh-rail"><h2>درب اليوم</h2><ol>'+rail+'</ol><button type="button" class="nh-more" data-nh="week">شريط الأسبوع ‹</button></section>'+
+  '<section class="nh-linen"><div>'+rowsItems(i,'nh-chk')+'</div></section>'+
   '<section class="nh-linen nh-vs"><small>كلمة اليوم</small><p>'+esc(i.verse)+'</p><em>'+esc(i.vref)+'</em></section>'}
-/* ---------------- قدس الأقداس: التركيز ---------------- */
-function homeHoly(i){
-  var cur=i.hours.filter(function(h){return h.k===i.sug})[0]||i.hours[0];
-  var r=46,c=2*Math.PI*r,off=c*(1-i.pct/100);
+function bodyHoly(i){
+  var cur=nextHour(i),r=46,c=2*Math.PI*r,off=c*(1-i.pct/100);
   var chips=i.hours.map(function(h){return '<button type="button" class="hy-chip'+(h.done?' done':'')+(h.k===cur.k?' now':'')+'" data-act="hour" data-key="'+h.k+'">'+esc(h.label)+'</button>'}).join('');
-  return '<header class="hy-top"><small>'+esc(i.wd)+' · '+esc(i.dt)+'</small></header>'+
-  '<section class="hy-core"><button type="button" class="hy-orb" data-act="hour" data-key="'+cur.k+'" aria-label="ابدأ صلاة '+esc(cur.label)+'"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+r+'" class="trk"/><circle cx="50" cy="50" r="'+r+'" class="prg" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><span class="cx">✝</span></button>'+
+  return '<section class="hy-core"><button type="button" class="hy-orb" data-act="hour" data-key="'+cur.k+'" aria-label="ابدأ صلاة '+esc(cur.label)+'"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+r+'" class="trk"/><circle cx="50" cy="50" r="'+r+'" class="prg" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><span class="cx">✝</span></button>'+
   '<small class="hy-k">الآن</small><h1>صلاة '+esc(cur.label)+'</h1><p>'+esc(cur.time)+'</p><button type="button" class="hy-go" data-nh="room">ادخل غرفة الصلاة</button></section>'+
-  '<div class="hy-hours">'+chips+'</div>'+
-  '<section class="hy-verse"><p>«'+esc(i.verse)+'»</p><small>'+esc(i.vref)+'</small></section>'}
-/* ---------------- سراج الكلمة: الكتاب المفتوح ---------------- */
-function homeLamp(i){
+  '<div class="hy-hours">'+chips+'</div><section class="hy-verse"><p>«'+esc(i.verse)+'»</p><small>'+esc(i.vref)+'</small></section>'}
+function bodyLamp(i){
   var flame=Math.max(.35,i.pct/100);
-  return '<header class="lp-top"><small>'+esc(i.wd)+' · '+esc(i.dt)+'</small><h1>سراجٌ لرجلي كلامك</h1></header>'+
-  '<section class="lp-book"><div class="lp-pg lp-l"><small>كلمة اليوم</small><p>'+esc(i.verse)+'</p><em>'+esc(i.vref)+'</em></div><div class="lp-pg lp-r"><small>اليوم</small>'+rowsItems(i,'lp-row')+'</div></section>'+
+  return '<section class="lp-book"><div class="lp-pg lp-l"><small>كلمة اليوم</small><p>'+esc(i.verse)+'</p><em>'+esc(i.vref)+'</em></div><div class="lp-pg lp-r"><small>اليوم</small>'+rowsItems(i,'lp-row')+'</div></section>'+
   '<section class="lp-lamp"><div class="fl" style="--f:'+flame+'"></div><span>'+ar(i.done)+' من '+ar(i.total)+' — شعلة سراجك</span></section>'+
   '<section class="lp-tabs"><button type="button" data-act="read"><b>قراءات</b><small>اليوم</small></button><button type="button" data-act="meditation"><b>تأمل</b><small>خلوة</small></button><button type="button" data-act="fat"><b>الآباء</b><small>قول اليوم</small></button><button type="button" data-nh="shelf"><b>المكتبة</b><small>سراجي</small></button></section>'}
-/* ---------------- الملك المتوّج: إكليلي ---------------- */
-function homeRoyal(i){
-  var r=70,c=2*Math.PI*r,off=c*(1-i.pct/100),jw='';
-  for(var n=0;n<7;n++){jw+='<i class="'+(n<Math.min(7,i.streak)?'on':'')+'"></i>'}
-  return '<header class="ry-top"><small>'+esc(i.wd)+' · '+esc(i.dt)+'</small></header>'+
-  '<section class="ry-crown"><div class="rays"></div><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="'+r+'" class="trk"/><circle cx="80" cy="80" r="'+r+'" class="prg" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><div class="mid"><b>'+ar(i.pct)+'٪</b><small>إكليل اليوم</small></div></section>'+
-  '<section class="ry-str"><b>'+ar(i.streak)+'</b><span>يوم متتالٍ</span><div class="jw">'+jw+'</div><button type="button" data-nh="crown">إكليلي ‹</button></section>'+
-  '<section class="ry-list">'+rowsItems(i,'ry-row')+'</section>'+
-  '<section class="ry-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section>'}
-var HOME={shroud:homeShroud,holy:homeHoly,lamp:homeLamp,royal:homeRoyal};
+function bodyRoyal(i){
+  var r=70,c=2*Math.PI*r,off=c*(1-i.pct/100),w=weekDays(),jw=w.map(function(x,n){var on=x.s>0;return '<span class="dy'+(on?' on':'')+(n===6?' td':'')+'"><i>'+(on?'✓':'')+'</i><small>'+WL[x.dow]+'</small></span>'}).join('');
+  return '<section class="ry-crown"><div class="rays"></div><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="'+r+'" class="trk"/><circle cx="80" cy="80" r="'+r+'" class="prg" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><div class="mid"><b dir="ltr">'+ar(i.pct)+'%</b><small>إكليل اليوم</small></div></section>'+
+  '<section class="ry-str"><div class="sn"><b>'+ar(i.streak)+'</b><span>يوم متتالٍ</span></div><button type="button" data-nh="crown">إكليلي ‹</button><div class="jw">'+jw+'</div></section>'+
+  '<section class="ry-list">'+rowsItems(i,'ry-row')+'</section><section class="ry-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section>'}
+var BODY={shroud:bodyShroud,holy:bodyHoly,lamp:bodyLamp,royal:bodyRoyal};
 /* ---------------- الصفحات الجديدة ---------------- */
 function weekDays(){var f=F(),out=[],d=new Date(),W=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
-  for(var n=6;n>=0;n--){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()-n),s=0;try{s=f.dayScore(key(x))||0}catch(e){}out.push({w:W[x.getDay()],d:x.getDate(),s:s})}
+  for(var n=6;n>=0;n--){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()-n),s=0;try{s=f.dayScore(key(x))||0}catch(e){}out.push({w:W[x.getDay()],dow:x.getDay(),d:x.getDate(),s:s})}
   return out}
 function pageWeek(i){var w=weekDays();
   return '<h2>شريط الأسبوع</h2><p class="pg-sub">كل يوم طيّة في كفن الأسبوع — كلما أكملت زادت امتلاءً</p><div class="wk">'+w.map(function(x){var p=Math.min(100,Math.round(x.s*(x.s<=1?100:1)));return '<div class="fold"><i style="--p:'+p+'%"></i><b>'+ar(x.d)+'</b><small>'+x.w+'</small></div>'}).join('')+'</div>'+
@@ -78,7 +70,7 @@ function pageShelf(i){
   return '<h2>مكتبة السراج</h2><p class="pg-sub">رفّ كتبك اليومي</p><div class="shelf">'+spines.map(function(s,n){return '<button type="button" class="bk b'+(n%4)+'" data-act="'+s[1]+'" data-nhclose="1"><b>'+s[0]+'</b><small>'+s[2]+'</small></button>'}).join('')+'</div><div class="pg-verse"><small>آية اليوم</small><p>'+esc(i.verse)+'</p><em>'+esc(i.vref)+'</em></div>'}
 function pageCrown(i){
   var M=[[1,'بذرة'],[3,'ثلاثة أيام'],[7,'أسبوع'],[14,'أسبوعان'],[30,'شهر'],[60,'شهران'],[100,'مئة يوم']];
-  return '<h2>إكليلي</h2><p class="pg-sub">سلسلة الأمانة: '+ar(i.streak)+' يوم</p><div class="med">'+M.map(function(m){var on=i.streak>=m[0];return '<div class="md'+(on?' on':'')+'"><i>'+(on?'♛':'◇')+'</i><b>'+ar(m[0])+'</b><small>'+m[1]+'</small></div>'}).join('')+'</div>'+
+  return '<h2>إكليلي</h2><p class="pg-sub">سلسلة الأمانة: '+ar(i.streak)+' يوم</p><div class="med">'+M.map(function(m){var on=i.streak>=m[0];return '<div class="md'+(on?' on':'')+'"><i>'+(on?'♛':'○')+'</i><b>'+ar(m[0])+'</b><small>'+m[1]+'</small></div>'}).join('')+'</div>'+
   '<div class="pg-card"><small>إنجاز اليوم</small><b>'+ar(i.pct)+'٪</b></div>'}
 var PAGES={week:pageWeek,room:pageRoom,shelf:pageShelf,crown:pageCrown};
 function openPage(n){var d=des();if(!d)return;var i=info(),p=document.getElementById('nhPage');
@@ -86,16 +78,51 @@ function openPage(n){var d=des();if(!d)return;var i=info(),p=document.getElement
   p.className='nh-page nh-'+d;p.innerHTML='<button type="button" class="nh-x" data-nhclose="1" aria-label="إغلاق">✕</button><div class="nh-pc">'+PAGES[n](i)+'</div>';
   requestAnimationFrame(function(){p.classList.add('on')});document.body.classList.add('nh-lock')}
 function closePage(){var p=document.getElementById('nhPage');if(p)p.classList.remove('on');document.body.classList.remove('nh-lock')}
-/* ---------------- الرسم ---------------- */
-var last='';
+/* ---------------- الغلاف (الصورة) + الورقة المنزلقة ---------------- */
+var open_=false,drag=null,lastBody='',lastPk='';
+function metrics(){var t=document.getElementById('uTop'),n=document.getElementById('uNav'),r=document.documentElement.style;
+  r.setProperty('--nh-top',((t?t.getBoundingClientRect().bottom:60)|0)+'px');r.setProperty('--nh-nav',((n?n.getBoundingClientRect().height:62)|0)+'px')}
+function setOpen(v){open_=!!v;var e=document.getElementById('nhHome');if(!e)return;e.classList.toggle('open',open_);document.documentElement.toggleAttribute('data-nho',open_);var b=q('.nh-body',e);if(b&&!open_)b.scrollTop=0}
 function paint(){
   var d=des(),w=q('#page-home .u-wrap'),el=document.getElementById('nhHome');
   document.documentElement.setAttribute('data-nh',d||'');
-  if(!d||!w){if(el)el.remove();last='';return}
-  var h=HOME[d](info());
-  if(!el){el=document.createElement('section');el.id='nhHome';w.insertBefore(el,w.firstChild);last=''}
-  el.className='nh nh-'+d;
-  if(h!==last){el.innerHTML=h;last=h}
+  if(!d||!w){if(el)el.remove();lastBody='';lastPk='';return}
+  metrics();
+  var i=info(),nx=nextHour(i);
+  if(!el){el=document.createElement('section');el.id='nhHome';w.insertBefore(el,w.firstChild);lastBody='';lastPk='';el.innerHTML=
+    '<div class="nh-cover"><div class="cv"></div></div><div class="nh-sheet"><button type="button" class="nh-grab" aria-label="عرض يومك"><i></i></button><div class="nh-peek"></div><div class="nh-body"></div></div>';
+    bind(el)}
+  el.className='nh nh-'+d+(open_?' open':'');
+  var cv='<small>'+esc(i.dt)+'</small><h1>'+esc(i.wd)+'</h1><p>'+esc(TAG[d])+'</p>';
+  var cvEl=q('.cv',el);if(cvEl.dataset.h!==cv){cvEl.innerHTML=cv;cvEl.dataset.h=cv}
+  var pk='<div class="pk"><span class="pk-t"><b class="t1">اسحب لأعلى لعرض يومك</b><b class="t2">اسحب لأسفل لرؤية الصورة</b></span><button type="button" class="pk-go" data-act="hour" data-key="'+nx.k+'">صلاة '+esc(nx.label)+' ‹</button><em>'+ar(i.done)+' من '+ar(i.total)+'</em></div>';
+  if(pk!==lastPk){q('.nh-peek',el).innerHTML=pk;lastPk=pk}
+  var h=BODY[d](i);if(h!==lastBody){var bd=q('.nh-body',el),st=bd.scrollTop;bd.innerHTML=h;bd.scrollTop=st;lastBody=h}
+}
+function bind(el){
+  var sh=q('.nh-sheet',el),bd=q('.nh-body',el),y0=0,y=0,mode='',t0=0;
+  function tr(v){sh.style.transform=v==null?'':'translateY('+v+'px)'}
+  function range(){return sh.offsetHeight-(q('.nh-peek',el).offsetHeight+q('.nh-grab',el).offsetHeight)}
+  el.addEventListener('touchstart',function(e){if(e.touches.length!==1)return;var t=e.target;
+    if(!t.closest('.nh-sheet')){y0=e.touches[0].clientY;mode='cover';t0=Date.now();return}
+    if(t.closest('.nh-grab,.nh-peek')&&!t.closest('button:not(.nh-grab)')||(!open_&&!t.closest('.pk-go'))){y0=e.touches[0].clientY;mode='grab';t0=Date.now();y=0;sh.style.transition='none';return}
+    if(open_){y0=e.touches[0].clientY;mode='body';t0=Date.now();y=0}
+  },{passive:true});
+  el.addEventListener('touchmove',function(e){if(!mode)return;var dy=e.touches[0].clientY-y0;
+    if(mode==='cover'){return}
+    if(mode==='body'){if(bd.scrollTop>0||dy<=0){mode='';return}mode='grab';sh.style.transition='none'}
+    if(mode==='grab'){y=dy;var R=range();tr(open_?Math.max(0,Math.min(R,dy)):Math.max(0,Math.min(R,R+dy)));if(e.cancelable)e.preventDefault()}
+  },{passive:false});
+  el.addEventListener('touchend',function(e){var m=mode;mode='';
+    if(m==='cover'){var d=(e.changedTouches[0]||{}).clientY-y0;if(d<-40)setOpen(true);return}
+    if(m!=='grab'){return}
+    sh.style.transition='';tr(null);var fast=Date.now()-t0<260,mv=Math.abs(y)>8;
+    if(!mv){return}
+    if(open_)setOpen(!(y>60||(fast&&y>20)));else setOpen(y<-60||(fast&&y<-20))
+  },{passive:true});
+  q('.nh-grab',el).addEventListener('click',function(){setOpen(!open_)});
+  q('.nh-peek',el).addEventListener('click',function(e){if(!e.target.closest('button'))setOpen(true)});
+  q('.cv',el).parentNode.addEventListener('click',function(){if(open_)setOpen(false)});
 }
 document.addEventListener('click',function(e){
   var t=e.target.closest&&e.target.closest('body [data-nh]');
@@ -104,7 +131,8 @@ document.addEventListener('click',function(e){
   if(c)closePage();
   setTimeout(paint,350)
 },true);
-new MutationObserver(function(){closePage();paint()}).observe(document.documentElement,{attributes:true,attributeFilter:['data-rf-theme','data-pg']});
+new MutationObserver(function(m){var pg=document.documentElement.getAttribute('data-pg');closePage();if(pg==='home')setOpen(false);paint()}).observe(document.documentElement,{attributes:true,attributeFilter:['data-rf-theme','data-pg']});
+window.addEventListener('resize',function(){paint()});
 setInterval(function(){if(!document.hidden)paint()},2500);
 window.addEventListener('pageshow',paint);
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',paint);else paint();
