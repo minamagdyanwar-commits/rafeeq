@@ -23,3 +23,5 @@
 .commem.syn-link #commemText{display:flex;flex-direction:column;gap:3px}
 .commem .syn-cm{font-weight:700;line-height:1.5}
 .commem .syn-cm-go{opacity:.7;font-size:.8em;margin-top:2px}
+.settings-close,#uDay.dchip{position:relative}
+.settings-close::before,#uDay.dchip::before{content:"";position:absolute;inset:-9px}
