@@ -120,13 +120,28 @@ try{Object.defineProperty(window,'localStorage',{get:function(){return S},config
     D.combos['glory/2']=[P('glory','المجد','#2a120c','#FBF1E6','#2B160D','#C9631A','#a65014','#e08540')];
     D.combos['glory/1']=[Q('glory-n','المجد',['#1a0c08','#26120b','#0f0705','#1e0f09','#331a10','#2b160d','#40210f','#5c3016'],'#F5A04A')];
   })();
+
+  /* v6.9: أربعة تصاميم بفكرة وصفحات خاصة (الكفن · قدس الأقداس · سراج الكلمة · الملك المتوّج) */
+  (function(){
+    var DK=['#071530','#0a1e3f','#060f24','#0b1b33','#13294a','#10294f','#173563','#20437a'];
+    function P(id,name,bg,surface,ink,acc,dk,lt){ return {id:id,name:name,sw:[bg,surface,acc],colors:{bg:bg,surface:surface,ink:ink},map:{'#7a1f2b':acc,'#6e1b26':dk,'#8c3240':lt,'#8a1f2b':acc,'#3a0f18':bg,'#2c0c13':bg}}; }
+    function Q(id,name,bgs,acc){ var m={}; DK.forEach(function(k,i){ m[k]=bgs[i]; }); m['#c9a44c']=acc; m['#9fb0cc']='#d8cfd0'; m['#b9c4dc']='#ece4e4'; m['#8291ab']='#a79a9c'; m['#8a97b5']='#b0a4a6'; m['#c9d3e6']='#f5eeee'; return {id:id,name:name,sw:[bgs[0],bgs[6],acc],map:m}; }
+    D.combos['shroud/2']=[P('shroud','الكفن','#d9d3c7','#F5F0E5','#2B2218','#7B5A38','#5A4128','#9a7a55')];
+    D.combos['shroud/1']=[Q('shroud-n','الكفن',['#0f1318','#161c23','#0a0d11','#121820','#1b222a','#182029','#222b35','#34404d'],'#D2B98A')];
+    D.combos['holy/2']=[P('holy','قدس الأقداس','#F3ECD8','#FFFAEB','#1B1507','#A8791A','#7E5A10','#c99a38')];
+    D.combos['holy/1']=[Q('holy-n','قدس الأقداس',['#040302','#0b0805','#020201','#070503','#14100a','#100c07','#1c160c','#30250f'],'#F0C155')];
+    D.combos['lamp/2']=[P('lamp','سراج الكلمة','#F6E3BD','#FFF5D8','#3B2511','#CF7A14','#9A540A','#e69a3c')];
+    D.combos['lamp/1']=[Q('lamp-n','سراج الكلمة',['#1c1108','#26170b','#120a04','#201309','#2b1b0e','#271709','#3a2411','#573517'],'#F5A73B')];
+    D.combos['royal/2']=[P('royal','الملك المتوّج','#EFE5E6','#FFF8F6','#2A0F14','#9D1F2E','#6E1320','#c2475a')];
+    D.combos['royal/1']=[Q('royal-n','الملك المتوّج',['#080506','#12090b','#050304','#0d0709','#1a0d10','#150a0d','#241216','#3a1d23'],'#D9AB3C')];
+  })();
   var KEY='rafeeq_v73_themes', DKEY='rafeeq_v76_design', root=document.documentElement, ready=false, setProps=[];
-  var LAYOUT_NAME={bearer:'حامل الصليب',crown:'الإكليل',glory:'المجد',cross:'الصليب',church:'الكنيسة',classic:'الكلاسيكي',path:'الدرب',qalaya:'القلّاية',ayqona:'الأيقونة',agpeya:'الأجبية'};
+  var LAYOUT_NAME={shroud:'الكفن',holy:'قدس الأقداس',lamp:'سراج الكلمة',royal:'الملك المتوّج',bearer:'حامل الصليب',crown:'الإكليل',glory:'المجد',cross:'الصليب',church:'الكنيسة',classic:'الكلاسيكي',path:'الدرب',qalaya:'القلّاية',ayqona:'الأيقونة',agpeya:'الأجبية'};
   function okL(l){ return false; } /* v6.0.5: كلاسيكي فقط */
   function jget(k){ try{ return JSON.parse(localStorage.getItem(k)||'null'); }catch(e){ return null; } }
   function sel(){ var s=jget(KEY); s=(s&&typeof s==='object')?s:{}; return s; }
   function prefsLayout(){ var p=jget('rafeeq_v14_prefs'), l=p&&p.layout; if(l==='index'||l==='makhtuta') l='agpeya'; return okL(l)?l:'classic'; }
-  function designPref(){ try{ var v=localStorage.getItem(DKEY); return /^(classic|cross|bearer|crown|glory)$/.test(v)?v:'church'; }catch(e){ return 'church'; } }
+  function designPref(){ try{ var v=localStorage.getItem(DKEY); return /^(classic|cross|bearer|crown|glory|shroud|holy|lamp|royal)$/.test(v)?v:'church'; }catch(e){ return 'church'; } }
   function layoutNow(){ return designPref(); }
   function modeSetting(){ var s=jget('khalwa_settings_v80')||{}; var m=s.themeMode; if(m==='light'||m==='dark'||m==='auto') return m; return s.design==='1'?'dark':'light'; }
   function designNow(){ if(layoutNow()==='qalaya') return '1'; var m=modeSetting(); if(m==='dark') return '1'; if(m==='light') return '2'; try{ return (window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'1':'2'; }catch(e){ return '2'; } }
@@ -154,13 +169,13 @@ try{Object.defineProperty(window,'localStorage',{get:function(){return S},config
   }
   function set(layout,design,id){ var s=sel(); s[layout]=s[layout]||{}; s[layout][design]=id; try{ localStorage.setItem(KEY,JSON.stringify(s)); }catch(e){} apply(); }
   function reset(){ try{ localStorage.removeItem(KEY); localStorage.removeItem(DKEY); }catch(e){} apply(); }
-  function setDesign(v){ try{ localStorage.setItem(DKEY,/^(classic|cross|bearer|crown|glory)$/.test(v)?v:'church'); }catch(e){} apply(); }
+  function setDesign(v){ try{ localStorage.setItem(DKEY,/^(classic|cross|bearer|crown|glory|shroud|holy|lamp|royal)$/.test(v)?v:'church'); }catch(e){} apply(); }
   // ---------- واجهة الإعدادات ----------
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
   function paintUI(){
     var box=document.getElementById('themesBox'); if(!box) return;
     var layout=layoutNow(), now=designNow(), h='';
-    h+='<div class="settings-subhead">التصميم</div><div class="rf-th-grid rf-dz">'+[['church','🕍 كنيسة'],['cross','✝️ الصليب'],['bearer','🩸 حامل الصليب'],['crown','👑 الإكليل'],['glory','☀️ المجد'],['classic','📜 كلاسيكي']].map(function(d){ return '<button type="button" class="settings-mbtn rf-dzb'+(layout===d[0]?' active':'')+'" data-dz="'+d[0]+'" aria-pressed="'+(layout===d[0])+'"><span class="rf-nm">'+d[1]+'</span></button>'; }).join('')+'</div>';
+    h+='<div class="settings-subhead">التصميم</div><div class="rf-th-grid rf-dz">'+[['church','🕍 كنيسة'],['cross','✝️ الصليب'],['bearer','🩸 حامل الصليب'],['crown','👑 الإكليل'],['glory','☀️ المجد'],['shroud','🕊 الكفن'],['holy','✨ قدس الأقداس'],['lamp','🏮 سراج الكلمة'],['royal','♛ الملك المتوّج'],['classic','📜 كلاسيكي']].map(function(d){ return '<button type="button" class="settings-mbtn rf-dzb'+(layout===d[0]?' active':'')+'" data-dz="'+d[0]+'" aria-pressed="'+(layout===d[0])+'"><span class="rf-nm">'+d[1]+'</span></button>'; }).join('')+'</div>';
     h+='<div class="rf-th-note">ثيمات «'+LAYOUT_NAME[layout]+'» الجاهزة — لكل وضع (فاتح / داكن) ثيمه المستقل، والتغيير فوري ومحفوظ على جهازك.</div>';
     [['2','فاتح ☀️'],['1','داكن 🌙']].forEach(function(m){
       var L=list(layout,m[0]); if(!L.length) return; var c=cur(layout,m[0]);
@@ -953,9 +968,9 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
 </script>
 <script src="app5.22dfb995e0.js"></script><script src="data-bibleData.74b20dd144.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="data-bgData.8b050226a6.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
-<script src="app6.9923f1c2b2.js"></script>
+<script src="app6.72016d45a2.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v6.8.21';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v6.8.26';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" href="app7.87be3efc9e.css"><script src="app8.7fd92ebc24.js"></script><link rel="stylesheet" href="app9.2eaed645e4.css"><script src="app10.5e406585a9.js"></script>
@@ -1558,7 +1573,8 @@ html[data-theme="light"] body #mod-k .meditation .mtitle,html[data-theme="light"
 <link rel="stylesheet" href="app31.b6b8b4229d.css">
 <link rel="stylesheet" href="app32.90acad379c.css">
 <link rel="stylesheet" href="app33.70be288242.css">
-<link rel="stylesheet" href="app34.2eddfa8eaf.css"><script src="data-ervHeads.6e154af5e5.js"></script><script src="data-ervData.7063836d9e.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+<link rel="stylesheet" href="app34.2eddfa8eaf.css">
+<link rel="stylesheet" href="app36.793c47d34e.css"><script src="app36.a7064cc7c0.js"></script><script src="data-ervHeads.6e154af5e5.js"></script><script src="data-ervData.7063836d9e.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <link rel="stylesheet" href="app35.9456d7a138.css"><script src="data-synData.3c9e0cb56a.js"></script><script>(function(){var s=document.createElement('script');s.id="synData";s.type='text/plain';s.textContent=__RF_DATA["synData"];delete __RF_DATA["synData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script src="app35.f001e5d2b5.js"></script>
 </body>
 </html>
