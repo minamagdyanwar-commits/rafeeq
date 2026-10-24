@@ -35,7 +35,7 @@ function info(){
   i.done=i.items.filter(function(x){return x.done}).length;i.total=i.items.length||1;
   i.pct=Math.round(100*i.done/i.total);i.today=today;
   return i}
-function act(it){ if(it.type==='hour')return 'data-act="hour" data-key="'+esc(it.gid)+'"'; if(it.type==='read')return 'data-act="read"'; if(it.type==='med')return 'data-act="meditation"'; if(it.type==='exam')return 'data-act="exam"'; return 'data-act="agpeya"'}
+function act(it){ if(it.type==='hour')return 'data-act="hour" data-key="'+esc(it.gid)+'"'; if(it.type==='read')return 'data-act="read"'; if(it.type==='med')return 'data-act="meditation"'; if(it.type==='exam')return 'data-act="exam"'; if(it.type==='prog')return 'data-prog="cur"'; return 'data-act="agpeya"'}
 function rowsItems(i,cls){return i.items.map(function(it){return '<button type="button" class="'+cls+(it.done?' on':'')+'" '+act(it)+'><i></i><span>'+esc(it.label)+'</span></button>'}).join('')}
 /* ---------------- محتوى الورقة (يطلع بسحبة لفوق) لكل تصميم ---------------- */
 var TAG={bearer:'من أراد أن يتبعني فليحمل صليبه',crown:'اثبت إلى الموت فسأعطيك إكليل الحياة',glory:'قومي استنيري فقد جاء نورك',shroud:'اقترب من الصليب خطوة اليوم',holy:'قدس الأقداس — اجلس في حضرته',lamp:'سراجٌ لرجلي كلامك',royal:'إكليل الحياة لمن يغلب'};

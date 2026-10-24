@@ -113,6 +113,11 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
   if(!it[1]){paint('');return}
   if(b&&b.load)b.load().then(function(){paint(psalmHtml())},function(){paint('<b>'+esc(it[1])+'</b>')});else paint('<b>'+esc(it[1])+'</b>')}
 function closeDay(){var el=document.getElementById('progDay');if(el)el.classList.remove('on')}
+/* ---------- ربط «يومي» ---------- */
+function activeId(s){var st=started(s).filter(function(i){return !finished(s,i)});return st[0]||null}
+function doneOn(dk){var s=load(),f=F().dkey;if(!f)return false;for(var i=0,ids=IDS();i<ids.length;i++){for(var k in s[ids[i]].done){try{if(f(new Date(s[ids[i]].done[k]))===dk)return true}catch(e){}}}return false}
+function status(dk){var s=load(),id=activeId(s);if(!id)return null;var p=PG()[id];return {id:id,label:'رحلتي: '+p.short+' — اليوم '+ar(cur(s,id)),done:doneOn(dk)}}
+function openCurrent(){var s=load(),id=activeId(s);if(!id){hubPage('all');return}active=id;render(true);openDay(Math.min(cur(s,id),N(id)))}
 /* ---------- قائمة «المزيد» والرئيسية ---------- */
 function injectMore(){var box=q('#uSheet .v14-more');if(!box||q('[data-prog="hub"]',box))return;
   var h4=document.createElement('h4');h4.textContent='رحلات';var b=document.createElement('button');b.type='button';b.setAttribute('data-prog','hub');
@@ -124,7 +129,7 @@ new MutationObserver(boot).observe(document.body,{childList:true,subtree:true});
 document.addEventListener('DOMContentLoaded',boot);setTimeout(boot,600);
 /* ---------- الأحداث ---------- */
 document.addEventListener('click',function(e){var t=e.target,b;if(!t.closest)return;
-  if(b=t.closest('[data-prog]')){e.preventDefault();e.stopPropagation();var id=b.getAttribute('data-prog');try{F().closeSheet()}catch(x){};if(id==='hub'||!PG()[id]){hubPage(started(load()).length?'mine':'all')}else{active=id;render(true)}return}
+  if(b=t.closest('[data-prog]')){e.preventDefault();e.stopPropagation();var id=b.getAttribute('data-prog');try{F().closeSheet()}catch(x){};if(id==='cur'){openCurrent()}else if(id==='hub'||!PG()[id]){hubPage(started(load()).length?'mine':'all')}else{active=id;render(true)}return}
   if(b=t.closest('[data-pgtab]')){hubPage(b.getAttribute('data-pgtab'));return}
   if(b=t.closest('[data-pgclose]')){closePage();return}
   if(b=t.closest('[data-pgback]')){closeDay();render(false);return}
@@ -139,5 +144,5 @@ document.addEventListener('click',function(e){var t=e.target,b;if(!t.closest)ret
   if(b=t.closest('[data-pgreset]')){if(confirm('هتبدأ الرحلة من اليوم الأول وتتمسح إجاباتك. متأكد؟')){var s2=load();s2[active]={done:{},notes:{}};save(s2);render(true)}return}
 },true);
 document.addEventListener('input',function(e){if(e.target&&e.target.id==='pdNote'){var ok=q('[data-pgok]');if(!ok)return;var d=+ok.getAttribute('data-pgok'),s=load();s[active].notes[d]=e.target.value;save(s)}});
-window.__prog={tab:showJourneys,open:function(id){active=id||'joseph';render(true)},hub:hubPage,day:openDay,close:closePage};
+window.__prog={status:status,doneOn:doneOn,openCurrent:openCurrent,tab:showJourneys,open:function(id){active=id||'joseph';render(true)},hub:hubPage,day:openDay,close:closePage};
 })();
