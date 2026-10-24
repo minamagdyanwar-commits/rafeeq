@@ -71,7 +71,7 @@
 .pg-card strong{font-size:22px;color:var(--pg-a,var(--nh-acc,#d2b98a))}
 #progHub{margin:0 auto 14px;max-width:1180px;padding:14px 16px;border:1px solid rgba(201,164,76,.3);border-radius:13px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015))}
 #progHub h3{margin:0 0 4px;font-size:1.05rem;color:var(--pg-a,var(--nh-acc,#d2b98a))}
-#progHub>p{margin:0 0 12px;font-size:.85rem;opacity:.8}
+#progHub>p{margin:0 0 12px;font-size:.85rem;color:var(--nh-soft,inherit)!important;opacity:1}
 .pg-hubp h3{margin:18px 0 8px;font-size:15px;color:var(--pg-a,var(--nh-acc,#d2b98a))}
 .pg-tabs{display:flex;gap:6px;margin:6px 0 4px}
 .pg-tabs button{flex:1;background:var(--nh-card,#1b222a);color:var(--nh-ink,#efe6d2);border:1px solid var(--nh-line,rgba(255,255,255,.25));border-radius:20px;padding:8px 4px;font:inherit;font-size:14px;cursor:pointer}
@@ -94,3 +94,9 @@ html[data-nh=""]{--nh-bg:#0f1318;--nh-card:rgba(255,255,255,.07);--nh-ink:#efe6d
 html[data-nh=""][data-design="2"]{--nh-bg:#f4efe4;--nh-card:#fffaf0;--nh-ink:#2b2218;--nh-soft:rgba(43,34,24,.72);--nh-acc:#7a4e0f;--nh-line:rgba(122,78,15,.38)}
 html[data-nh=""] body #mod-k .app-switcher .app-tab.active{background:linear-gradient(135deg,#d2b98a,#b9965a)!important;color:#1a1206!important;border-color:#e8d3a2!important}
 html[data-nh=""][data-design="2"] body #mod-k .app-switcher .app-tab.active{background:#7a4e0f!important;color:#fff!important;border-color:#7a4e0f!important}
+/* classic وchurch: صفحاتهما داكنة في الوضعين، فنثبّت ألوانًا داكنة وننقذ نص التبويبات */
+html[data-nh=""][data-rf-theme^="classic/"],html[data-nh=""][data-rf-theme^="church/"]{--nh-bg:#0f1318;--nh-card:rgba(255,255,255,.07);--nh-ink:#efe6d2;--nh-soft:rgba(239,230,210,.72);--nh-acc:#d2b98a;--nh-line:rgba(210,185,138,.38)}
+html[data-nh=""][data-rf-theme^="classic/"] body #mod-k .app-switcher .app-tab:not(.active),html[data-nh=""][data-rf-theme^="church/"] body #mod-k .app-switcher .app-tab:not(.active){color:#efe6d2!important;background:rgba(255,255,255,.07)!important}
+html[data-nh=""][data-rf-theme^="classic/"] body #mod-k .app-switcher .app-tab.active,html[data-nh=""][data-rf-theme^="church/"] body #mod-k .app-switcher .app-tab.active{background:linear-gradient(135deg,#d2b98a,#b9965a)!important;color:#1a1206!important;border-color:#e8d3a2!important}
+/* التصاميم الجديدة في الوضع الفاتح: أقراص تبويبات فاتحة بنص داكن مهما كان لون الشريط */
+html[data-nh]:not([data-nh=""])[data-design="2"] body #mod-k .app-switcher .app-tab:not(.active){background:rgba(255,255,255,.62)!important;color:var(--nh-ink)!important;border-color:var(--nh-line)!important}
