@@ -268,7 +268,9 @@ html[data-nh="glory"] :is(.u-btn,.btn,.l-btn,#tkSend,.today-btn,#uFab){backgroun
 html[data-nh]{--page-text:var(--nh-ink)!important;--page-text-soft:var(--nh-soft)!important}
 html[data-nh][data-design="2"]{--cream:var(--nh-ink)}
 html[data-nh][data-design="2"] body{color:var(--nh-ink)!important}
-html[data-nh][data-design="2"]:not([data-pg="home"]) #uTop :is(#uTitle,#uSub,.brand,.dchip,.dc-i,.sub){color:var(--nh-ink)}
+html:is([data-nh="shroud"],[data-nh="holy"],[data-nh="lamp"],[data-nh="royal"])[data-design="2"]:not([data-pg="home"]) #uTop :is(#uTitle,#uSub,.brand,.dchip,.dc-i,.sub){color:var(--nh-ink)}
+html:is([data-nh="bearer"],[data-nh="crown"],[data-nh="glory"])[data-design="2"] #uTop :is(#uTitle,#uSub,.brand,.dchip,.dc-i,.sub,span,b){color:#fff!important;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+html:is([data-nh="bearer"],[data-nh="crown"],[data-nh="glory"])[data-design="2"] #uTop .acts button{color:#fff;border-color:rgba(255,255,255,.5)}
 html[data-nh][data-design="2"] .u-page :is(h1,h2,h3,.u-h3,.fat-count,.fat-src,.streak-badge,.tk-intro,.tk-intro+*,.suggest-now-text){color:var(--nh-ink)}
 html[data-nh][data-design="2"] .u-page :is(p,small,.u-sub){color:var(--nh-soft)}
 html[data-nh][data-design="2"] :is(.app-tab,.fat-chips button,.tab,.sub-chip,.week-chip,.v70chip,.tk-chips button,.tk-emob,.tkx-g span){color:var(--nh-ink)}
@@ -278,3 +280,7 @@ html[data-nh][data-design="2"] :is(#mod-m,#mod-k,#mod-r,#mod-g,#mod-b){--page-te
 html[data-nh][data-design="2"] #mod-k .app-tab{color:var(--nh-ink)}
 html[data-nh] #mod-k .app-tab.active,html[data-nh] #mod-k .app-tab.on{color:#fff!important;background:var(--nh-acc)!important}
 #nhHome .br-next small,#nhHome .br-next span,#nhHome .br-next b{color:#fff!important}
+html[data-nh][data-design="1"] :is(.app-tab,.fat-chips button,.tab,.sub-chip,.week-chip,.part-btn,.pill,.hour-btn,.tkx-g button,#mod-k .app-tab):is(.on,.active,[aria-selected=true],[aria-pressed=true]){color:#1a1206!important}
+html[data-nh][data-design="2"] :is(.app-tab,.fat-chips button,.tab,.sub-chip,.week-chip,.part-btn,.pill,.hour-btn,.tkx-g button,#mod-k .app-tab):is(.on,.active,[aria-selected=true],[aria-pressed=true]){background:var(--nh-acc2)!important}
+#nhHome .pk em{color:var(--nh-acc2)}html[data-nh][data-design="1"] #nhHome .pk em{color:var(--nh-acc)}
+html[data-rf-theme^="royal/2"] #nhHome :is(.mid b,.sn b,.ry-str button){color:#7a5410}
