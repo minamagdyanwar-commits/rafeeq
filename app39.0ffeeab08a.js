@@ -1,3 +1,20 @@
+/* تظليل الجمل بالضغط المطوّل على نطاق التطبيق كله: المحدِّد وبيانات المصدر (يقرؤهما محرك التظليل في app23) */
+(function(){
+var ROOTS='#page-talk,#page-msg,#page-fat,#page-exam,#page-syn,#page-cal,#page-favs,#page-trk,#page-home,#view-agpeya,#progDay,#nhPage';
+var TAGS='p,blockquote,li,.tk-say,.mg-p,.fat-q,.fat-c,.verse,.intro,.syn-note,.mg-feast,.coptic-note,.acc-sub,.u-note,.opening-note,.bv-pstitle';
+window.__hlSel=':is('+ROOTS+') :is('+TAGS+'):not(button *,a *,summary *,label *,textarea *,input *,select *,#v302Bar *,#v299Sheet *,.nh-peek *,.nh-grab *)';
+var NAMES=[['#progDay','رحلتي'],['#page-talk','صوت الله'],['#page-msg','رسالة من يسوع'],['#page-fat','أقوال الآباء'],['#page-exam','محاسبة النفس'],['#page-syn','السنكسار'],['#page-cal','التقويم القبطي'],['#page-favs','المفضلات'],['#view-agpeya','الأجبية'],['#nhPage','الرئيسية'],['#page-home','الرئيسية']];
+function tx(e){return e?String(e.textContent||'').replace(/\s+/g,' ').trim().slice(0,60):''}
+window.__hlMeta=function(x){try{if(!x||x.closest('#page-read,#view-meditation,#view-guided'))return null;
+  var h='',r='',c='';
+  if(x.closest('.bible-text')){h='الكتاب المقدس';r=tx(document.querySelector('.rd-title'));var v=x.getAttribute&&x.getAttribute('data-v');if(v)r+=(r?': ':'')+v}
+  else{for(var i=0;i<NAMES.length;i++){if(x.closest(NAMES[i][0])){h=NAMES[i][1];break}}
+    if(x.closest('#page-trk'))h='الكتاب المقدس';
+    var hd=document.querySelector('#progDay h2');
+    if(x.closest('#progDay')&&hd)r=tx(hd);
+    else{var sc=x.closest('section,article,.u-card,.card,.mg-card,.fat-card');var t=sc&&sc.querySelector('h1,h2,h3,h4,cite,.verse-ref,.ref');if(t&&!x.contains(t))r=tx(t)}}
+  return h?{h:h,c:c,r:r}:null}catch(e){return null}};
+})();
 /* v6.13 — رحلات الكتاب المقدس والكنيسة: درب صعود بمحطات، لكل يوم قراءة وموقف ودرس وسؤال ومهمة. شاشة «رحلاتي» وشارات الإتمام. كل شيء على جهازك. */
 (function(){
 "use strict";

@@ -100,3 +100,8 @@ html[data-nh=""][data-rf-theme^="classic/"] body #mod-k .app-switcher .app-tab:n
 html[data-nh=""][data-rf-theme^="classic/"] body #mod-k .app-switcher .app-tab.active,html[data-nh=""][data-rf-theme^="church/"] body #mod-k .app-switcher .app-tab.active{background:linear-gradient(135deg,#d2b98a,#b9965a)!important;color:#1a1206!important;border-color:#e8d3a2!important}
 /* التصاميم الجديدة في الوضع الفاتح: أقراص تبويبات فاتحة بنص داكن مهما كان لون الشريط */
 html[data-nh]:not([data-nh=""])[data-design="2"] body #mod-k .app-switcher .app-tab:not(.active){background:rgba(255,255,255,.62)!important;color:var(--nh-ink)!important;border-color:var(--nh-line)!important}
+
+/* التظليل بالضغط المطوّل في كل الصفحات: منع التحديد الأصلي على اللمس، ورفع شريط الخيارات فوق شاشات الرحلات */
+html.rf-touch :is(#page-talk,#page-msg,#page-fat,#page-exam,#page-syn,#page-cal,#page-favs,#page-trk,#view-agpeya,#progDay,#nhPage) :is(p,blockquote,li,.tk-say,.mg-p,.fat-q,.fat-c,.verse,.intro,.syn-note,.mg-feast,.coptic-note,.acc-sub,.u-note,.opening-note,.bv-pstitle):not(button *,a *,summary *,label *,textarea *,input *,select *){-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+#v302Bar{z-index:100020!important}
+#v299Sheet{z-index:100030!important}
