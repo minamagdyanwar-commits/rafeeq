@@ -1,7 +1,7 @@
 /* v6.9 — أربعة تصاميم بفكرة وصفحات مختلفة: الكفن (الدرب) · قدس الأقداس (غرفة الصلاة) · سراج الكلمة (المكتبة) · الملك المتوّج (إكليلي) */
 (function(){
 "use strict";
-var DS={shroud:'الكفن',holy:'قدس الأقداس',lamp:'سراج الكلمة',royal:'الملك المتوّج'};
+var DS={shroud:'الكفن',holy:'قدس الأقداس',lamp:'سراج الكلمة',royal:'الملك المتوّج',bearer:'حامل الصليب',crown:'الإكليل',glory:'المجد'};
 var HK=['bakr','thalitha','sadisa','tasi3a','ghouroub','noum'];
 var AR='٠١٢٣٤٥٦٧٨٩';
 function ar(n){return String(n).replace(/\d/g,function(d){return AR[d]})}
@@ -28,7 +28,7 @@ function info(){
 function act(it){ if(it.type==='hour')return 'data-act="hour" data-key="'+esc(it.gid)+'"'; if(it.type==='read')return 'data-act="read"'; if(it.type==='med')return 'data-act="meditation"'; if(it.type==='exam')return 'data-act="exam"'; return 'data-act="agpeya"'}
 function rowsItems(i,cls){return i.items.map(function(it){return '<button type="button" class="'+cls+(it.done?' on':'')+'" '+act(it)+'><i></i><span>'+esc(it.label)+'</span></button>'}).join('')}
 /* ---------------- محتوى الورقة (يطلع بسحبة لفوق) لكل تصميم ---------------- */
-var TAG={shroud:'اقترب من الصليب خطوة اليوم',holy:'قدس الأقداس — اجلس في حضرته',lamp:'سراجٌ لرجلي كلامك',royal:'إكليل الحياة لمن يغلب'};
+var TAG={bearer:'من أراد أن يتبعني فليحمل صليبه',crown:'اثبت إلى الموت فسأعطيك إكليل الحياة',glory:'قومي استنيري فقد جاء نورك',shroud:'اقترب من الصليب خطوة اليوم',holy:'قدس الأقداس — اجلس في حضرته',lamp:'سراجٌ لرجلي كلامك',royal:'إكليل الحياة لمن يغلب'};
 var WL=['ح','ن','ث','ر','خ','ج','س'];
 function nextHour(i){return i.hours.filter(function(h){return h.k===i.sug})[0]||i.hours[0]}
 function bodyShroud(i){
@@ -53,7 +53,27 @@ function bodyRoyal(i){
   return '<section class="ry-crown"><div class="rays"></div><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="'+r+'" class="trk"/><circle cx="80" cy="80" r="'+r+'" class="prg" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><div class="mid"><b dir="ltr">'+ar(i.pct)+'%</b><small>إكليل اليوم</small></div></section>'+
   '<section class="ry-str"><div class="sn"><b>'+ar(i.streak)+'</b><span>يوم متتالٍ</span></div><button type="button" data-nh="crown">إكليلي ‹</button><div class="jw">'+jw+'</div></section>'+
   '<section class="ry-list">'+rowsItems(i,'ry-row')+'</section><section class="ry-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section>'}
-var BODY={shroud:bodyShroud,holy:bodyHoly,lamp:bodyLamp,royal:bodyRoyal};
+/* ---- حامل الصليب: الخطوة التالية + مربعات الساعات + أحمال اليوم ---- */
+function bodyBearer(i){
+  var nx=nextHour(i),tiles=i.hours.map(function(h,n){return '<button type="button" class="tl'+(h.done?' done':(h.k===i.sug?' now':''))+'" data-act="hour" data-key="'+h.k+'"><b>'+ar(n+1)+'</b><span>'+esc(h.label)+'</span><small>'+(h.done?'✓ تمّت':esc(h.time))+'</small></button>'}).join('');
+  return '<section class="br-next"><div><small>الخطوة التالية</small><b>صلاة '+esc(nx.label)+'</b><span>'+esc(nx.time)+'</span></div><button type="button" data-act="hour" data-key="'+nx.k+'">ابدأ</button></section>'+
+  '<section class="br-grid">'+tiles+'</section><section class="br-loads"><h2>أحمال اليوم</h2>'+rowsItems(i,'br-row')+'</section>'+
+  '<section class="br-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section><button type="button" class="br-more" data-nh="steps">طريق الأسبوع ‹</button>'}
+/* ---- الإكليل: إكليل الأيام الثلاثين ---- */
+function monthBeads(){var f=F(),d=new Date(),out=[];for(var n=29;n>=0;n--){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()-n),s=0;try{s=f.dayScore(key(x))||0}catch(e){}out.push(s>0)}return out}
+function wreathSvg(size,rr,beads,r0){var c=size/2,h='<svg viewBox="0 0 '+size+' '+size+'" aria-hidden="true">';beads.forEach(function(on,n){var a=-Math.PI/2+n*2*Math.PI/beads.length;h+='<circle cx="'+(c+rr*Math.cos(a)).toFixed(1)+'" cy="'+(c+rr*Math.sin(a)).toFixed(1)+'" r="'+(n===beads.length-1?r0*1.35:r0)+'" class="bd'+(on?' on':'')+(n===beads.length-1?' td':'')+'"/>'});return h+'</svg>'}
+function bodyCrown(i){
+  var beads=monthBeads(),chips=i.hours.map(function(h){return '<button type="button" class="cr-chip'+(h.done?' done':'')+(h.k===i.sug?' now':'')+'" data-act="hour" data-key="'+h.k+'">'+esc(h.label)+'</button>'}).join('');
+  return '<section class="cr-wreath">'+wreathSvg(220,88,beads,7)+'<div class="mid"><b dir="ltr">'+ar(i.pct)+'%</b><small>اليوم</small><em>'+ar(i.streak)+' يوم متتالٍ</em></div></section>'+
+  '<div class="cr-chips">'+chips+'</div><section class="cr-list">'+rowsItems(i,'cr-row')+'</section>'+
+  '<section class="cr-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section><button type="button" class="cr-more" data-nh="wreath">إكليل الشهر ‹</button>'}
+/* ---- المجد: مسار الشمس ---- */
+function bodyGlory(i){
+  var N=i.hours.length,idx=Math.max(0,i.hours.map(function(h){return h.k}).indexOf(i.sug)),pts=i.hours.map(function(h,n){var a=Math.PI*(1-n/(N-1)),x=50+42*Math.cos(a),y=8+84*Math.sin(a);
+    return '<button type="button" class="sp'+(h.done?' done':(n===idx?' now':''))+'" style="left:'+x.toFixed(1)+'%;bottom:'+y.toFixed(1)+'%" data-act="hour" data-key="'+h.k+'"><i>'+(h.done?'✓':ar(n+1))+'</i><span>'+esc(h.label)+'</span></button>'}).join('');
+  return '<section class="gl-arc"><div class="ground"></div>'+pts+'<div class="gl-mid"><b dir="ltr">'+ar(i.pct)+'%</b><small>مجد اليوم</small></div></section>'+
+  '<section class="gl-pills">'+rowsItems(i,'gl-row')+'</section><section class="gl-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section><button type="button" class="gl-more" data-nh="sun">أشعة الأسبوع ‹</button>'}
+var BODY={bearer:bodyBearer,crown:bodyCrown,glory:bodyGlory,shroud:bodyShroud,holy:bodyHoly,lamp:bodyLamp,royal:bodyRoyal};
 /* ---------------- الصفحات الجديدة ---------------- */
 function weekDays(){var f=F(),out=[],d=new Date(),W=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
   for(var n=6;n>=0;n--){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()-n),s=0;try{s=f.dayScore(key(x))||0}catch(e){}out.push({w:W[x.getDay()],dow:x.getDay(),d:x.getDate(),s:s})}
@@ -72,7 +92,10 @@ function pageCrown(i){
   var M=[[1,'بذرة'],[3,'ثلاثة أيام'],[7,'أسبوع'],[14,'أسبوعان'],[30,'شهر'],[60,'شهران'],[100,'مئة يوم']];
   return '<h2>إكليلي</h2><p class="pg-sub">سلسلة الأمانة: '+ar(i.streak)+' يوم</p><div class="med">'+M.map(function(m){var on=i.streak>=m[0];return '<div class="md'+(on?' on':'')+'"><i>'+(on?'♛':'○')+'</i><b>'+ar(m[0])+'</b><small>'+m[1]+'</small></div>'}).join('')+'</div>'+
   '<div class="pg-card"><small>إنجاز اليوم</small><b>'+ar(i.pct)+'٪</b></div>'}
-var PAGES={week:pageWeek,room:pageRoom,shelf:pageShelf,crown:pageCrown};
+function pageSteps(i){var w=weekDays();return '<h2>طريق الأسبوع</h2><p class="pg-sub">كل يوم خطوة على الدرب — طول الشريط بقدر ما حملته</p><div class="stp">'+w.map(function(x){var p=Math.min(100,Math.round(x.s*(x.s<=1?100:1)));return '<div class="rw"><b>'+x.w+'</b><i><u style="width:'+Math.max(4,p)+'%"></u></i><small>'+ar(x.d)+'</small></div>'}).join('')+'</div><div class="pg-card"><small>اليوم</small><b>'+ar(i.done)+' من '+ar(i.total)+'</b></div><div class="pg-card"><small>أيام متتالية</small><b>'+ar(i.streak)+'</b></div>'}
+function pageWreath(i){return '<h2>إكليل الشهر</h2><p class="pg-sub">ثلاثون يومًا — كل خرزة يوم صلّيت فيه</p><div class="cr-big">'+wreathSvg(260,104,monthBeads(),8)+'<div class="mid"><b>'+ar(i.streak)+'</b><small>يوم متتالٍ</small></div></div><div class="pg-card"><small>اليوم</small><b>'+ar(i.pct)+'%</b></div>'}
+function pageSun(i){var w=weekDays(),rays=w.map(function(x,n){var a=Math.PI*(1-n/6),p=Math.min(100,Math.round(x.s*(x.s<=1?100:1))),l=34+p*.5,cx=130,cy=130;return '<line x1="'+(cx+34*Math.cos(a)).toFixed(1)+'" y1="'+(cy-34*Math.sin(a)).toFixed(1)+'" x2="'+(cx+l*Math.cos(a)).toFixed(1)+'" y2="'+(cy-l*Math.sin(a)).toFixed(1)+'" class="ry"/>'}).join('');return '<h2>أشعة الأسبوع</h2><p class="pg-sub">كل شعاع يوم — يطول بقدر ما أكملت</p><svg class="sun" viewBox="0 0 260 150"><circle cx="130" cy="130" r="26"/>'+rays+'</svg><div class="pg-card"><small>اليوم</small><b>'+ar(i.pct)+'%</b></div><div class="pg-card"><small>أيام متتالية</small><b>'+ar(i.streak)+'</b></div>'}
+var PAGES={steps:pageSteps,wreath:pageWreath,sun:pageSun,week:pageWeek,room:pageRoom,shelf:pageShelf,crown:pageCrown};
 function openPage(n){var d=des();if(!d)return;var i=info(),p=document.getElementById('nhPage');
   if(!p){p=document.createElement('div');p.id='nhPage';p.setAttribute('role','dialog');p.setAttribute('aria-modal','true');document.body.appendChild(p)}
   p.className='nh-page nh-'+d;p.innerHTML='<button type="button" class="nh-x" data-nhclose="1" aria-label="إغلاق">✕</button><div class="nh-pc">'+PAGES[n](i)+'</div>';
