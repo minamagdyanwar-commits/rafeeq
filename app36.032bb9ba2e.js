@@ -2,7 +2,17 @@
 (function(){
 "use strict";
 var DS={shroud:'الكفن',holy:'قدس الأقداس',lamp:'سراج الكلمة',royal:'الملك المتوّج',bearer:'حامل الصليب',crown:'الإكليل',glory:'المجد'};
-var HK=['bakr','thalitha','sadisa','tasi3a','ghouroub','noum'];
+var ALLH=['bakr','thalitha','sadisa','tasi3a','ghouroub','noum','nos_layl_1','nos_layl_2','nos_layl_3','setar'],DEFH=['bakr','thalitha','sadisa','tasi3a','ghouroub','noum'];
+function hoursList(){var v=null;try{v=JSON.parse(localStorage.getItem('rafeeq_nh_hours')||'null')}catch(e){}
+  v=Array.isArray(v)?ALLH.filter(function(k){return v.indexOf(k)>=0}):null;return v&&v.length>=2?v:DEFH}
+function editBtn(){return '<button type="button" class="nh-edit" data-nhedit="1">⚙ تعديل الساعات المعروضة</button>'}
+function editHours(){var k=K(),cur=hoursList(),f=F();
+  var rows=ALLH.map(function(h){var H=(k.HOURS||{})[h]||{};return '<label class="nh-ck"><input type="checkbox" value="'+h+'"'+(cur.indexOf(h)>=0?' checked':'')+'><span>'+esc((H.label||h))+'</span><small>'+esc((k.HOUR_TIME||{})[h]||'')+'</small></label>'}).join('');
+  f.sheet('<h3 class="u-h3">الساعات المعروضة في الرئيسية</h3><p class="u-sub">اختر الصلوات اللي تظهر في الرئيسية (٢ على الأقل). ممكن تضيف صلوات نصف الليل والستار.</p><div id="nhHrs">'+rows+'</div><div class="row-gap"><button type="button" class="u-btn on" id="nhHrsSave">حفظ</button><button type="button" class="u-btn" id="nhHrsReset">الافتراضي</button></div>');
+  var sv=document.getElementById('nhHrsSave'),rs=document.getElementById('nhHrsReset');
+  function done(){f.closeSheet();lastBody='';lastPk='';paint()}
+  if(sv)sv.onclick=function(){var v=[].slice.call(document.querySelectorAll('#nhHrs input:checked')).map(function(i){return i.value});if(v.length<2){f.toast&&f.toast('اختر ساعتين على الأقل');return}try{localStorage.setItem('rafeeq_nh_hours',JSON.stringify(v))}catch(e){}done()};
+  if(rs)rs.onclick=function(){try{localStorage.removeItem('rafeeq_nh_hours')}catch(e){}done()}}
 var AR='٠١٢٣٤٥٦٧٨٩';
 function ar(n){return String(n).replace(/\d/g,function(d){return AR[d]})}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -16,8 +26,8 @@ function info(){
   try{i.items=f.todayItems()||[]}catch(e){}
   try{i.sug=k.getSuggestedHourKey?k.getSuggestedHourKey():'bakr'}catch(e){}
   var today=f.realKey?f.realKey():key(new Date());
-  HK.forEach(function(h){var H=(k.HOURS||{})[h]||{},done=false;try{done=!!f.hourDone(today,h)}catch(e){}
-    i.hours.push({k:h,label:(H.label||h).replace(/^صلاة\s*/,''),time:(k.HOUR_TIME||{})[h]||'',done:done})});
+  hoursList().forEach(function(h){var H=(k.HOURS||{})[h]||{},done=false;try{done=!!f.hourDone(today,h)}catch(e){}
+    i.hours.push({k:h,label:(H.label||h).replace(/^صلاة\s*/,'').split(' — ')[0],time:(k.HOUR_TIME||{})[h]||'',done:done})});
   try{i.score=f.dayScore(today)||0}catch(e){}
   try{i.streak=f.streak()||0}catch(e){}
   var v=q('.hm-verse p'),vs=q('.hm-verse small'),dd=q('.hm-date b'),ds=q('.hm-date span');
@@ -34,7 +44,7 @@ function nextHour(i){return i.hours.filter(function(h){return h.k===i.sug})[0]||
 function bodyShroud(i){
   var rail=i.hours.map(function(h,n){var c=h.done?' done':(h.k===i.sug?' now':'');
     return '<li class="st'+c+'"><button type="button" data-act="hour" data-key="'+h.k+'"><i class="nd">'+(h.done?'✓':ar(n+1))+'</i><span class="tx"><b>'+esc(h.label)+'</b><small>'+esc(h.time)+'</small></span><em>'+(h.done?'تمّت':(h.k===i.sug?'الآن':''))+'</em></button></li>'}).join('');
-  return '<section class="nh-rail"><h2>درب اليوم</h2><ol>'+rail+'</ol><button type="button" class="nh-more" data-nh="week">شريط الأسبوع ‹</button></section>'+
+  return '<section class="nh-rail"><h2>درب اليوم</h2><ol>'+rail+'</ol><button type="button" class="nh-more" data-nh="week">شريط الأسبوع ‹</button>'+editBtn()+'</section>'+
   '<section class="nh-linen"><div>'+rowsItems(i,'nh-chk')+'</div></section>'+
   '<section class="nh-linen nh-vs"><small>كلمة اليوم</small><p>'+esc(i.verse)+'</p><em>'+esc(i.vref)+'</em></section>'}
 function bodyHoly(i){
@@ -42,23 +52,23 @@ function bodyHoly(i){
   var chips=i.hours.map(function(h){return '<button type="button" class="hy-chip'+(h.done?' done':'')+(h.k===cur.k?' now':'')+'" data-act="hour" data-key="'+h.k+'">'+esc(h.label)+'</button>'}).join('');
   return '<section class="hy-core"><button type="button" class="hy-orb" data-act="hour" data-key="'+cur.k+'" aria-label="ابدأ صلاة '+esc(cur.label)+'"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+r+'" class="trk"/><circle cx="50" cy="50" r="'+r+'" class="prg" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><span class="cx">✝</span></button>'+
   '<small class="hy-k">الآن</small><h1>صلاة '+esc(cur.label)+'</h1><p>'+esc(cur.time)+'</p><button type="button" class="hy-go" data-nh="room">ادخل غرفة الصلاة</button></section>'+
-  '<div class="hy-hours">'+chips+'</div><section class="hy-verse"><p>«'+esc(i.verse)+'»</p><small>'+esc(i.vref)+'</small></section>'}
+  '<div class="hy-hours">'+chips+'</div>'+editBtn()+'<section class="hy-verse"><p>«'+esc(i.verse)+'»</p><small>'+esc(i.vref)+'</small></section>'}
 function bodyLamp(i){
   var flame=Math.max(.35,i.pct/100);
   return '<section class="lp-book"><div class="lp-pg lp-l"><small>كلمة اليوم</small><p>'+esc(i.verse)+'</p><em>'+esc(i.vref)+'</em></div><div class="lp-pg lp-r"><small>اليوم</small>'+rowsItems(i,'lp-row')+'</div></section>'+
   '<section class="lp-lamp"><div class="fl" style="--f:'+flame+'"></div><span>'+ar(i.done)+' من '+ar(i.total)+' — شعلة سراجك</span></section>'+
-  '<section class="lp-tabs"><button type="button" data-act="read"><b>قراءات</b><small>اليوم</small></button><button type="button" data-act="meditation"><b>تأمل</b><small>خلوة</small></button><button type="button" data-act="fat"><b>الآباء</b><small>قول اليوم</small></button><button type="button" data-nh="shelf"><b>المكتبة</b><small>سراجي</small></button></section>'}
+  '<section class="lp-tabs"><button type="button" data-act="read"><b>قراءات</b><small>اليوم</small></button><button type="button" data-act="meditation"><b>تأمل</b><small>خلوة</small></button><button type="button" data-act="fat"><b>الآباء</b><small>قول اليوم</small></button><button type="button" data-nh="shelf"><b>المكتبة</b><small>سراجي</small></button></section>'+editBtn()}
 function bodyRoyal(i){
   var r=70,c=2*Math.PI*r,off=c*(1-i.pct/100),w=weekDays(),jw=w.map(function(x,n){var on=x.s>0;return '<span class="dy'+(on?' on':'')+(n===6?' td':'')+'"><i>'+(on?'✓':'')+'</i><small>'+WL[x.dow]+'</small></span>'}).join('');
   return '<section class="ry-crown"><div class="rays"></div><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="'+r+'" class="trk"/><circle cx="80" cy="80" r="'+r+'" class="prg" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><div class="mid"><b dir="ltr">'+ar(i.pct)+'%</b><small>إكليل اليوم</small></div></section>'+
   '<section class="ry-str"><div class="sn"><b>'+ar(i.streak)+'</b><span>يوم متتالٍ</span></div><button type="button" data-nh="crown">إكليلي ‹</button><div class="jw">'+jw+'</div></section>'+
-  '<section class="ry-list">'+rowsItems(i,'ry-row')+'</section><section class="ry-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section>'}
+  '<section class="ry-list">'+rowsItems(i,'ry-row')+'</section><section class="ry-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section>'+editBtn()}
 /* ---- حامل الصليب: الخطوة التالية + مربعات الساعات + أحمال اليوم ---- */
 function bodyBearer(i){
   var nx=nextHour(i),tiles=i.hours.map(function(h,n){return '<button type="button" class="tl'+(h.done?' done':(h.k===i.sug?' now':''))+'" data-act="hour" data-key="'+h.k+'"><b>'+ar(n+1)+'</b><span>'+esc(h.label)+'</span><small>'+(h.done?'✓ تمّت':esc(h.time))+'</small></button>'}).join('');
   return '<section class="br-next"><div><small>الخطوة التالية</small><b>صلاة '+esc(nx.label)+'</b><span>'+esc(nx.time)+'</span></div><button type="button" data-act="hour" data-key="'+nx.k+'">ابدأ</button></section>'+
   '<section class="br-grid">'+tiles+'</section><section class="br-loads"><h2>أحمال اليوم</h2>'+rowsItems(i,'br-row')+'</section>'+
-  '<section class="br-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section><button type="button" class="br-more" data-nh="steps">طريق الأسبوع ‹</button>'}
+  '<section class="br-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section><button type="button" class="br-more" data-nh="steps">طريق الأسبوع ‹</button>'+editBtn()}
 /* ---- الإكليل: إكليل الأيام الثلاثين ---- */
 function monthBeads(){var f=F(),d=new Date(),out=[];for(var n=29;n>=0;n--){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()-n),s=0;try{s=f.dayScore(key(x))||0}catch(e){}out.push(s>0)}return out}
 function wreathSvg(size,rr,beads,r0){var c=size/2,h='<svg viewBox="0 0 '+size+' '+size+'" aria-hidden="true">';beads.forEach(function(on,n){var a=-Math.PI/2+n*2*Math.PI/beads.length;h+='<circle cx="'+(c+rr*Math.cos(a)).toFixed(1)+'" cy="'+(c+rr*Math.sin(a)).toFixed(1)+'" r="'+(n===beads.length-1?r0*1.35:r0)+'" class="bd'+(on?' on':'')+(n===beads.length-1?' td':'')+'"/>'});return h+'</svg>'}
@@ -66,13 +76,13 @@ function bodyCrown(i){
   var beads=monthBeads(),chips=i.hours.map(function(h){return '<button type="button" class="cr-chip'+(h.done?' done':'')+(h.k===i.sug?' now':'')+'" data-act="hour" data-key="'+h.k+'">'+esc(h.label)+'</button>'}).join('');
   return '<section class="cr-wreath">'+wreathSvg(220,88,beads,7)+'<div class="mid"><b dir="ltr">'+ar(i.pct)+'%</b><small>اليوم</small><em>'+ar(i.streak)+' يوم متتالٍ</em></div></section>'+
   '<div class="cr-chips">'+chips+'</div><section class="cr-list">'+rowsItems(i,'cr-row')+'</section>'+
-  '<section class="cr-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section><button type="button" class="cr-more" data-nh="wreath">إكليل الشهر ‹</button>'}
+  '<section class="cr-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section><button type="button" class="cr-more" data-nh="wreath">إكليل الشهر ‹</button>'+editBtn()}
 /* ---- المجد: مسار الشمس ---- */
 function bodyGlory(i){
-  var N=i.hours.length,idx=Math.max(0,i.hours.map(function(h){return h.k}).indexOf(i.sug)),pts=i.hours.map(function(h,n){var a=Math.PI*(1-n/(N-1)),x=50+42*Math.cos(a),y=8+84*Math.sin(a);
+  var N=i.hours.length,idx=Math.max(0,i.hours.map(function(h){return h.k}).indexOf(i.sug)),pts=i.hours.map(function(h,n){var a=Math.PI*n/(N-1),x=50+42*Math.cos(a),y=8+84*Math.sin(a);
     return '<button type="button" class="sp'+(h.done?' done':(n===idx?' now':''))+'" style="left:'+x.toFixed(1)+'%;bottom:'+y.toFixed(1)+'%" data-act="hour" data-key="'+h.k+'"><i>'+(h.done?'✓':ar(n+1))+'</i><span>'+esc(h.label)+'</span></button>'}).join('');
-  return '<section class="gl-arc"><div class="ground"></div>'+pts+'<div class="gl-mid"><b dir="ltr">'+ar(i.pct)+'%</b><small>مجد اليوم</small></div></section>'+
-  '<section class="gl-pills">'+rowsItems(i,'gl-row')+'</section><section class="gl-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section><button type="button" class="gl-more" data-nh="sun">أشعة الأسبوع ‹</button>'}
+  return '<section class="gl-arc'+(N>7?' dense':'')+'"><div class="ground"></div>'+pts+'<div class="gl-mid"><b dir="ltr">'+ar(i.pct)+'%</b><small>مجد اليوم</small></div></section>'+
+  '<section class="gl-pills">'+rowsItems(i,'gl-row')+'</section><section class="gl-verse"><p>'+esc(i.verse)+'</p><small>'+esc(i.vref)+'</small></section><button type="button" class="gl-more" data-nh="sun">أشعة الأسبوع ‹</button>'+editBtn()}
 var BODY={bearer:bodyBearer,crown:bodyCrown,glory:bodyGlory,shroud:bodyShroud,holy:bodyHoly,lamp:bodyLamp,royal:bodyRoyal};
 /* ---------------- الصفحات الجديدة ---------------- */
 function weekDays(){var f=F(),out=[],d=new Date(),W=['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
@@ -148,6 +158,7 @@ function bind(el){
   q('.cv',el).parentNode.addEventListener('click',function(){if(open_)setOpen(false)});
 }
 document.addEventListener('click',function(e){
+  if(e.target.closest&&e.target.closest('[data-nhedit]')){e.preventDefault();editHours();return}
   var t=e.target.closest&&e.target.closest('body [data-nh]');
   if(t){e.preventDefault();openPage(t.getAttribute('data-nh'));return}
   var c=e.target.closest&&e.target.closest('[data-nhclose]');
@@ -159,5 +170,5 @@ window.addEventListener('resize',function(){paint()});
 setInterval(function(){if(!document.hidden)paint()},2500);
 window.addEventListener('pageshow',paint);
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',paint);else paint();
-window.__nh={paint:paint,open:openPage,close:closePage};
+window.__nh={setOpen:setOpen,paint:paint,open:openPage,close:closePage};
 })();
