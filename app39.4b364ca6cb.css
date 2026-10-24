@@ -105,3 +105,7 @@ html[data-nh]:not([data-nh=""])[data-design="2"] body #mod-k .app-switcher .app-
 html.rf-touch :is(#page-talk,#page-msg,#page-fat,#page-exam,#page-syn,#page-cal,#page-favs,#page-trk,#view-agpeya,#progDay,#nhPage) :is(p,blockquote,li,.tk-say,.mg-p,.fat-q,.fat-c,.verse,.intro,.syn-note,.mg-feast,.coptic-note,.acc-sub,.u-note,.opening-note,.bv-pstitle):not(button *,a *,summary *,label *,textarea *,input *,select *){-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 #v302Bar{z-index:100020!important}
 #v299Sheet{z-index:100030!important}
+
+.nd.open{border-color:var(--pg-a,var(--nh-acc,#d2b98a));color:var(--nh-ink,#efe6d2)}
+.nd.td::after{content:"اليوم";position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;background:var(--nh-acc,#d2b98a);color:var(--pg-on,var(--nh-bg,#0f1318));border-radius:9px;padding:1px 7px;white-space:nowrap;font-style:normal}
+.nd.mil.td::after{transform:translateX(-50%) rotate(-45deg)}
