@@ -187,7 +187,7 @@ function fix(){document.querySelectorAll(SEL).forEach(function(e){try{if(!e.getC
     var tx=(e.textContent||'').trim();if(!tx)return;var bg=bgOf(e);if(!bg)return;var cur=rgb(getComputedStyle(e).color);
     if(cur&&cur.a>.5&&cr(cur,bg)>=4.5)return;
     if(!e.__pgo)e.__pgo=cur;
-    var c=best(e.__pgo||cur,bg);e.style.setProperty('color','rgb('+(c.r|0)+','+(c.g|0)+','+(c.b|0)+')','important');e.style.setProperty('transition','none','important')}catch(x){}})}
+    var c=best(e.__pgo||cur,bg);e.style.setProperty('color','rgb('+(c.r|0)+','+(c.g|0)+','+(c.b|0)+')','important');e.style.setProperty('transition','none','important');var L=window.__rfFixLog=window.__rfFixLog||{},sg=e.tagName.toLowerCase()+'.'+String(e.className&&e.className.baseVal!==undefined?'':e.className).split(/\s+/).filter(Boolean).slice(0,2).join('.');L[sg]=(L[sg]||0)+1}catch(x){}})}
 var t=0;function sch(){clearTimeout(t);t=setTimeout(fix,160)}
 new MutationObserver(sch).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
 new MutationObserver(sch).observe(document.documentElement,{attributes:true,attributeFilter:['data-rf-theme','data-design','data-nh','data-pg']});
