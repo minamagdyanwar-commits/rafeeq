@@ -58,12 +58,7 @@
     (t.daysBetween = function (e, n) {
       return Math.round((t.parseKey(n) - t.parseKey(e)) / 864e5);
     }));
-  var i = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
-  ((t.esc = function (t) {
-    return String(null == t ? "" : t).replace(/[&<>"']/g, function (t) {
-      return i[t];
-    });
-  }),
+  ((t.esc = RF.esc),
     (t.norm = function (t) {
       return String(t)
         .replace(/[ً-ٰٟۖ-ۭـ]/g, "")
@@ -2454,7 +2449,7 @@
     }
     function R(e) {
       try {
-        return e.toLocaleDateString("ar-EG", { day: "numeric", month: "long", year: "numeric" });
+        return RF.fmtDate(e, { day: "numeric", month: "long", year: "numeric" }) || t.dkey(e);
       } catch (n) {
         return t.dkey(e);
       }
@@ -3012,14 +3007,14 @@
     }
     function I(e) {
       try {
-        return t.parseKey(e).toLocaleDateString("ar-EG", { weekday: "long", day: "numeric", month: "long" });
+        return (RF.fmtDate(t.parseKey(e), { weekday: "long", day: "numeric", month: "long" }) || e);
       } catch (t) {
         return e;
       }
     }
     function J(e) {
       try {
-        return t.parseKey(e).toLocaleDateString("ar-EG", { day: "numeric", month: "short" });
+        return (RF.fmtDate(t.parseKey(e), { day: "numeric", month: "short" }) || e);
       } catch (t) {
         return e;
       }
@@ -4035,14 +4030,14 @@
     }
     function m(e) {
       try {
-        return t.parseKey(e).toLocaleDateString("ar-EG", { day: "numeric", month: "long" });
+        return (RF.fmtDate(t.parseKey(e), { day: "numeric", month: "long" }) || e);
       } catch (t) {
         return e;
       }
     }
     function g(e) {
       try {
-        return t.parseKey(e).toLocaleDateString("ar-EG", { day: "numeric", month: "long", year: "numeric" });
+        return (RF.fmtDate(t.parseKey(e), { day: "numeric", month: "long", year: "numeric" }) || e);
       } catch (t) {
         return e;
       }
@@ -7497,7 +7492,7 @@
         l = e.cop || "",
         u = "";
       try {
-        u = new Date().toLocaleDateString("ar-EG", { weekday: "long" });
+        u = RF.fmtDate(new Date(), { weekday: "long" });
       } catch (t) {}
       var d =
           '<div class="hm-date"><b>' +

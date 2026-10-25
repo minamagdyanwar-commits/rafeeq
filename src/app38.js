@@ -5,9 +5,9 @@
 var HK='rafeeq_talk_v1',AK='rafeeq_talk_archive_v1',FK='rafeeq_talk_favs_v1',RK='rafeeq_talk_remind_v1',GK='rafeeq_talk_gender';
 function F(){return window.__F||{}}
 function q(s,r){return (r||document).querySelector(s)}
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-function jget(k,d){try{var v=JSON.parse(localStorage.getItem(k)||'null');return v==null?d:v}catch(e){return d}}
-function jset(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function esc(s){return RF.esc(s)}
+function jget(k,d){return RF.jget(k,d)}
+function jset(k,v){RF.jset(k,v)}
 var AR='٠١٢٣٤٥٦٧٨٩';function ar(n){return RF.ar(n)}
 function toast(m){var f=F();f.toast?f.toast(m):0}
 function V(){return window.__talkVoice||{}}

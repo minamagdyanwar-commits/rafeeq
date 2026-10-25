@@ -3,7 +3,7 @@
 (function () {
   var AR = '٠١٢٣٤٥٦٧٨٩';
   var RF = window.RF = window.RF || {};
-  RF.esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
+  RF.esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); };
   RF.ar = function (n) { return String(n).replace(/\d/g, function (d) { return AR[d]; }); };
   RF.unAr = function (n) { return String(n).replace(/[٠-٩]/g, function (d) { return AR.indexOf(d); }); };
   RF.pad = function (n) { return (n < 10 ? '0' : '') + n; };

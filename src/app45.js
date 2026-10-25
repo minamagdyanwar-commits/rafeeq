@@ -14,7 +14,7 @@ function seqOf(b){var B=F().bible,bk=B.data[b],seq=[];if(!bk||!bk.c)return seq;
     for(var i=0;i<vs.length;i+=2)paras.push(vs.slice(i,i+2).join(' '));
     seq.push({title:B.label(b,ch),ref:B.label(b,ch),paras:paras})}
   return seq}
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function esc(s){return RF.esc(s)}
 function openAt(b,ch,auto,hint){var f=F(),B=f.bible;var seq=seqOf(b);if(!seq.length){f.toast&&f.toast('تعذر تجهيز القراءة');return}
   var name=B.data[b].n||'';
   window.__dmOpenSeq(seq,'الكتاب المقدس · '+name,null,Math.max(0,Math.min(seq.length-1,ch-1)));

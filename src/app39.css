@@ -132,3 +132,10 @@ html[data-nh="lamp"] #uNav button,html[data-nh="lamp"] #uNav button span,html[da
 html[data-nh="lamp"] #uNav button.on,html[data-nh="lamp"] #uNav button.on span,html[data-nh="lamp"] #uNav button.on svg{color:#ffd27a!important}
 html[data-nh="lamp"] #uTop .dchip,html[data-nh="lamp"] #uTop button{color:#f3deb7!important}
 html[data-nh="lamp"][data-design="2"] .u-tabs button:not(.on){color:#1a1206!important}
+
+/* تسميات أيقونات الرئيسية (الأجبية/الكتاب/…) تقع تحت البطاقات الفاتحة على خلفية الصفحة الداكنة: لونها فاتح (كانت داكنة على داكن) */
+html[data-rf-theme="classic/2/orig"] #v6Home .hm-t .hm-l,
+html[data-rf-theme="church/2/lapis"] #v6Home .hm-t .hm-l{color:#f3e6c8!important}
+
+/* المقدّس/فاتح: أزرار التبويب غير النشطة كانت رمادية شفافة بنص باهت (تباين ٣٫١) */
+html[data-rf-theme="holy/2/holy"] .u-tabs button:not(.on){color:#1b1507!important;background:#e4ddc8!important}
