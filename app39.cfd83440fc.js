@@ -188,3 +188,17 @@ new MutationObserver(sch).observe(document.body,{childList:true,subtree:true,att
 new MutationObserver(sch).observe(document.documentElement,{attributes:true,attributeFilter:['data-rf-theme','data-design','data-nh']});
 setTimeout(fix,900);setInterval(fix,1500);
 })();
+
+/* شريط علوي بشفافية ٥٠٪ مع تغبيش في كل التصاميم: نقرأ لونه الأصلي لكل ثيم ونحفظه كمتغير */
+(function(){
+var NEW4=/^(holy|lamp|royal|shroud)$/;
+function parse(c){var m=String(c||'').match(/^rgba?\(([^)]+)\)/);if(m){var a=m[1].split(/[ ,\/]+/).map(Number);return [a[0],a[1],a[2],a.length>3?a[3]:1]}
+  m=String(c||'').match(/^color\(srgb\s+([^)]+)\)/);if(m){var b=m[1].split(/[ \/]+/).map(Number);return [Math.round(b[0]*255),Math.round(b[1]*255),Math.round(b[2]*255),b.length>3?b[3]:1]}return null}
+function run(){var h=document.documentElement,t=document.getElementById('uTop');if(!t)return;
+  var nh=h.getAttribute('data-nh');if(nh===null||NEW4.test(nh))return;
+  h.removeAttribute('data-hdr50');var c=parse(getComputedStyle(t).backgroundColor);
+  if(c&&c[3]>.5){h.style.setProperty('--pg-hdr','rgb('+c[0]+','+c[1]+','+c[2]+')');h.setAttribute('data-hdr50','1')}}
+var tm=0;function sch(){clearTimeout(tm);tm=setTimeout(run,120)}
+new MutationObserver(sch).observe(document.documentElement,{attributes:true,attributeFilter:['data-rf-theme','data-design','data-nh','style']});
+document.addEventListener('DOMContentLoaded',sch);setTimeout(run,900);setTimeout(run,2600);
+})();
