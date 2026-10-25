@@ -31,7 +31,7 @@ function load(){var v;try{v=JSON.parse(localStorage.getItem(K)||'null')}catch(e)
 function save(s){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
 var MN=['المحطة الأولى','منتصف الرحلة','قرب القمة','القمة'];
 function mileOf(id,d){var n=N(id);for(var k=1;k<=4;k++)if(d===Math.ceil(n*k/4))return MN[k-1];return ''}
-function stageOf(p,d){return p.stages[Math.min(3,Math.floor((d-1)*4/p.days.length))]}
+function stIdx(p,d){return p.stageAt?p.stageAt[d-1]:Math.min(3,Math.floor((d-1)*4/p.days.length))} function stageOf(p,d){return p.stages[stIdx(p,d)]}
 function cur(s,id){var n=N(id);for(var i=1;i<=n;i++)if(!s[id].done[i])return i;return n+1}
 function doneCount(s,id){var n=0,m=N(id);for(var i=1;i<=m;i++)if(s[id].done[i])n++;return n}
 function lastTs(s,id){var m=0;for(var k in s[id].done)m=Math.max(m,s[id].done[k]);return m}
@@ -87,7 +87,7 @@ function render(open){calib();
   var path='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);
   for(var j=1;j<pts.length;j++){var a=pts[j-1],b=pts[j],my=(a[1]+b[1])/2;path+=' C'+a[0].toFixed(1)+' '+my.toFixed(1)+' '+b[0].toFixed(1)+' '+my.toFixed(1)+' '+b[0].toFixed(1)+' '+b[1].toFixed(1)}
   var nodes='',labels='',stPrev=-1,sdy=syncDay(active);
-  for(var d=1;d<=n;d++){var pt=pts[d-1],state=s[active].done[d]?'done':(d===c?'now':(d<c?'done':(d<=sdy?'open':'lock'))),mil=mileOf(active,d),sIdx=Math.min(3,Math.floor((d-1)*4/n));
+  for(var d=1;d<=n;d++){var pt=pts[d-1],state=s[active].done[d]?'done':(d===c?'now':(d<c?'done':(d<=sdy?'open':'lock'))),mil=mileOf(active,d),sIdx=stIdx(p,d);
     nodes+='<button type="button" class="nd '+state+(mil?' mil':'')+(sdy&&d===sdy?' td':'')+'" style="left:'+pt[0].toFixed(1)+'px;top:'+pt[1].toFixed(1)+'px" data-pgd="'+d+'" aria-label="اليوم '+d+'"><i>'+(state==='done'?'✓':ar(d))+'</i>'+(state==='now'?'<u></u>':'')+'</button>';
     var st=p.stages[sIdx];
     if(sIdx!==stPrev){labels+='<div class="'+(d===1?'lb':'sg')+'" style="top:'+(pt[1]-(d===1?66:62))+'px">'+(d===1?'<span>'+st[2]+' '+esc(st[0])+'</span>':st[2]+' '+esc(st[0])+' — '+esc(st[1]))+'</div>';stPrev=sIdx}
