@@ -3,16 +3,16 @@
 "use strict";
 var DS={shroud:'الكفن',holy:'قدس الأقداس',lamp:'سراج الكلمة',royal:'الملك المتوّج',bearer:'حامل الصليب',crown:'الإكليل',glory:'المجد'};
 var ALLH=['bakr','thalitha','sadisa','tasi3a','ghouroub','noum','nos_layl_1','nos_layl_2','nos_layl_3','setar'],DEFH=['bakr','thalitha','sadisa','tasi3a','ghouroub','noum'];
-function hoursList(){var v=null;try{v=JSON.parse(localStorage.getItem('rafeeq_nh_hours')||'null')}catch(e){}
-  v=Array.isArray(v)?ALLH.filter(function(k){return v.indexOf(k)>=0}):null;return v&&v.length>=2?v:DEFH}
+function migHours(){var f=F();if(!f.setHourGroups||!f.groupOf)return;var raw=null;try{raw=localStorage.getItem('rafeeq_nh_hours')}catch(e){}if(raw===null)return;try{var ks=JSON.parse(raw),g=[];(Array.isArray(ks)?ks:[]).forEach(function(k){var x=f.groupOf(k);x&&g.indexOf(x.id)<0&&g.push(x.id)});if(g.length>=2)f.setHourGroups(g)}catch(e){}try{localStorage.removeItem('rafeeq_nh_hours')}catch(e){}}
+function hoursList(){migHours();var f=F(),v=null;try{v=f.hourKeys&&f.hourKeys()}catch(e){}return v&&v.length>=2?v:DEFH}
 function editBtn(){return '<button type="button" class="nh-edit" data-nhedit="1">⚙ تعديل الساعات المعروضة</button>'}
-function editHours(){var k=K(),cur=hoursList(),f=F();
-  var rows=ALLH.map(function(h){var H=(k.HOURS||{})[h]||{};return '<label class="nh-ck"><input type="checkbox" value="'+h+'"'+(cur.indexOf(h)>=0?' checked':'')+'><span>'+esc((H.label||h))+'</span><small>'+esc((k.HOUR_TIME||{})[h]||'')+'</small></label>'}).join('');
-  f.sheet('<h3 class="u-h3">الساعات المعروضة في الرئيسية</h3><p class="u-sub">اختر الصلوات اللي تظهر في الرئيسية (٢ على الأقل). ممكن تضيف صلوات نصف الليل والستار.</p><div id="nhHrs">'+rows+'</div><div class="row-gap"><button type="button" class="u-btn on" id="nhHrsSave">حفظ</button><button type="button" class="u-btn" id="nhHrsReset">الافتراضي</button></div>');
+function editHours(){var k=K(),f=F(),G=f.GROUPS||[],cur=(f.prefs&&f.prefs().rule)||[];
+  var rows=G.map(function(g){return '<label class="nh-ck"><input type="checkbox" value="'+g.id+'"'+(cur.indexOf(g.id)>=0?' checked':'')+'><span>'+esc(g.label)+'</span><small>'+esc((k.HOUR_TIME||{})[g.keys[0]]||'')+'</small></label>'}).join('');
+  f.sheet('<h3 class="u-h3">الساعات المعروضة في الرئيسية</h3><p class="u-sub">اختر الصلوات اللي تظهر في الرئيسية وفي «يومي» (٢ على الأقل). نفس الاختيار في إعدادات المتابعة.</p><div id="nhHrs">'+rows+'</div><div class="row-gap"><button type="button" class="u-btn on" id="nhHrsSave">حفظ</button><button type="button" class="u-btn" id="nhHrsReset">الافتراضي</button></div>');
   var sv=document.getElementById('nhHrsSave'),rs=document.getElementById('nhHrsReset');
   function done(){f.closeSheet();lastBody='';lastPk='';paint()}
-  if(sv)sv.onclick=function(){var v=[].slice.call(document.querySelectorAll('#nhHrs input:checked')).map(function(i){return i.value});if(v.length<2){f.toast&&f.toast('اختر ساعتين على الأقل');return}try{localStorage.setItem('rafeeq_nh_hours',JSON.stringify(v))}catch(e){}done()};
-  if(rs)rs.onclick=function(){try{localStorage.removeItem('rafeeq_nh_hours')}catch(e){}done()}}
+  if(sv)sv.onclick=function(){var v=[].slice.call(document.querySelectorAll('#nhHrs input:checked')).map(function(i){return i.value});if(v.length<2){f.toast&&f.toast('اختر ساعتين على الأقل');return}f.setHourGroups(v);done()};
+  if(rs)rs.onclick=function(){f.setHourGroups(['bakr','thalitha','sadisa','tasi3a','ghouroub','noum']);done()}}
 var AR='٠١٢٣٤٥٦٧٨٩';
 function ar(n){return String(n).replace(/\d/g,function(d){return AR[d]})}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -23,7 +23,7 @@ function F(){return window.__F||{}}
 function K(){return window.__k||{}}
 function info(){
   var f=F(),k=K(),i={items:[],hours:[],sug:'bakr',score:0,streak:0,verse:'',vref:'',wd:'',dt:'',hij:''};
-  var today0=f.realKey?f.realKey():key(new Date());try{i.items=f.todayItems(today0)||[]}catch(e){}
+  var today0=f.realKey?f.realKey():key(new Date());try{i.items=(f.dayPlan?f.dayPlan(today0).items:f.todayItems(today0))||[]}catch(e){}
   try{i.sug=k.getSuggestedHourKey?k.getSuggestedHourKey():'bakr'}catch(e){}
   var today=f.realKey?f.realKey():key(new Date());
   hoursList().forEach(function(h){var H=(k.HOURS||{})[h]||{},done=false;try{done=!!f.hourDone(today,h)}catch(e){}
