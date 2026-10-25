@@ -126,3 +126,9 @@ html:is([data-nh="holy"],[data-nh="lamp"],[data-nh="royal"],[data-nh="shroud"]):
 
 /* الشريط العلوي: ٥٠٪ شفافية + تغبيش لباقي التصاميم (القديمة في كل الصفحات، والجديدة بصور خارج الرئيسية) */
 html[data-hdr50][data-nh=""] #uTop,html[data-hdr50]:not([data-nh=""]):not([data-pg="home"]) #uTop{background-color:color-mix(in srgb,var(--pg-hdr) var(--pg-hdr-a,50%),transparent)!important;background-image:none!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+
+/* المصباح: الشريط السفلي خشبي داكن في الوضعين → ألوانه الفاتحة ثابتة بغض النظر عن وضع الشاشة */
+html[data-nh="lamp"] #uNav button,html[data-nh="lamp"] #uNav button span,html[data-nh="lamp"] #uNav button svg{color:#f3deb7!important}
+html[data-nh="lamp"] #uNav button.on,html[data-nh="lamp"] #uNav button.on span,html[data-nh="lamp"] #uNav button.on svg{color:#ffd27a!important}
+html[data-nh="lamp"] #uTop .dchip,html[data-nh="lamp"] #uTop button{color:#f3deb7!important}
+html[data-nh="lamp"][data-design="2"] .u-tabs button:not(.on){color:#1a1206!important}
