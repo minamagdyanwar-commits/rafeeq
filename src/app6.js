@@ -40,6 +40,7 @@
         a(o, i),
         window.__m && window.__m.setDate && window.__m.setDate(t.dkey()),
         t.paintDay && t.paintDay(),
+        RF.act.changed(t.dkey()),
         t.refreshHome && t.refreshHome(),
         t.renderTrk && t.renderTrk(),
         t.updatePrayBar && t.updatePrayBar(),
