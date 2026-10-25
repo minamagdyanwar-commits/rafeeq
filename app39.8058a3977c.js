@@ -19,7 +19,7 @@ window.__hlMeta=function(x){try{if(!x||x.closest('#page-read,#view-meditation,#v
 (function(){
 "use strict";
 var K='rafeeq_prog_v1',AR='٠١٢٣٤٥٦٧٨٩';
-var CATS=[['person','شخصيات الكتاب','👤'],['topic','موضوعات روحية','🕊'],['church','من الكنيسة والتقليد','⛪'],['season','رحلات المواسم','📅']];
+var CATS=[['person','شخصيات الكتاب','👤'],['topic','موضوعات روحية','🕊'],['church','من الكنيسة والتقليد','⛪'],['season','رحلات المواسم','📅'],['custom','رحلاتي الخاصة','✨']];
 function ar(n){return String(n).replace(/\d/g,function(d){return AR[d]})}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function F(){return window.__F||{}}
@@ -112,7 +112,7 @@ function hubPage(t){calib();if(t)tab=t;var s=load(),all=IDS(),st=started(s),run=
     body+=run.length?'<h3>جارية</h3>'+run.map(function(i){return card(s,i)}).join(''):'<p class="pg-em">لم تبدأ رحلة بعد. اختر من «كل الرحلات».</p>';
     if(fin.length)body+='<h3>مكتملة</h3>'+fin.map(function(i){return card(s,i)}).join('');
     var sug=all.filter(function(i){return doneCount(s,i)===0}).slice(0,3);if(sug.length)body+='<h3>اقتراح لك</h3>'+sug.map(function(i){return card(s,i)}).join('')}
-  else if(tab==='all'){CATS.forEach(function(c){var ids=all.filter(function(i){return PG()[i].cat===c[0]});if(ids.length)body+='<h3>'+c[2]+' '+c[1]+'</h3>'+ids.map(function(i){return card(s,i)}).join('')})}
+  else if(tab==='all'){body+='<button type="button" class="pg-make" data-pgmake="1">✨ ابنِ رحلتك الخاصة <small>اختر موضوعًا وعدد الأيام</small></button>';CATS.forEach(function(c){var ids=all.filter(function(i){return PG()[i].cat===c[0]});if(ids.length)body+='<h3>'+c[2]+' '+c[1]+'</h3>'+ids.map(function(i){return card(s,i)}).join('')})}
   else{body+='<p class="pg-em">كل رحلة تكملها تمنحك شارة. أكمل أيامها كلها لتفتح الشارة.</p><div class="pg-bds">'+badges(s)+'</div>'}
   var tabs=[['mine','رحلاتي'],['all','كل الرحلات'],['bd','الشارات']].map(function(x){return '<button type="button" class="'+(tab===x[0]?'on':'')+'" data-pgtab="'+x[0]+'">'+x[1]+'</button>'}).join('');
   var e=pgBox();e.innerHTML='<button type="button" class="pg-x" data-pgclose="1" aria-label="إغلاق">✕</button><div class="pg-hubp"><h2>🏔 رحلات الكتاب المقدس</h2><div class="pg-tabs">'+tabs+'</div>'+body+'</div>';e.className='prg-page on';document.body.classList.add('nh-lock');e.scrollTop=0}
@@ -183,11 +183,11 @@ var BLACK={r:26,g:18,b:6},WHITE={r:255,g:255,b:255},CREAM={r:251,g:243,b:231};
 function best(cur,bg){var lightBg=lum(bg)>.4;
   if(cur&&cr(cur,bg)>=2.2){var tgt=lightBg?BLACK:WHITE;for(var t=.15;t<=.85;t+=.1){var m=mix(cur,tgt,t);if(cr(m,bg)>=4.6)return m}}
   var br=0,out=BLACK;[BLACK,WHITE,CREAM].forEach(function(c){var r=cr(c,bg);if(r>br){br=r;out=c}});return out}
-function fix(){document.querySelectorAll(SEL).forEach(function(e){try{if(!e.getClientRects().length||e.closest('#v302Bar,#dmRoot'))return;
+function fix(){document.querySelectorAll(SEL).forEach(function(e){try{if(!e.getClientRects().length||e.closest('#v302Bar,#dmRoot'))return;if(e.closest('#uNav')&&document.documentElement.getAttribute('data-nh')==='lamp')return;
     var tx=(e.textContent||'').trim();if(!tx)return;var bg=bgOf(e);if(!bg)return;var cur=rgb(getComputedStyle(e).color);
     if(cur&&cur.a>.5&&cr(cur,bg)>=4.5)return;
     if(!e.__pgo)e.__pgo=cur;
-    var c=best(e.__pgo||cur,bg);e.style.setProperty('color','rgb('+(c.r|0)+','+(c.g|0)+','+(c.b|0)+')','important');e.style.setProperty('transition','none','important')}catch(x){}})}
+    var c=best(e.__pgo||cur,bg);e.style.setProperty('color','rgb('+(c.r|0)+','+(c.g|0)+','+(c.b|0)+')','important');e.style.setProperty('transition','none','important');var L=window.__rfFixLog=window.__rfFixLog||{},sg=e.tagName.toLowerCase()+'.'+String(e.className&&e.className.baseVal!==undefined?'':e.className).split(/\s+/).filter(Boolean).slice(0,2).join('.');L[sg]=(L[sg]||0)+1}catch(x){}})}
 var t=0;function sch(){clearTimeout(t);t=setTimeout(fix,160)}
 new MutationObserver(sch).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
 new MutationObserver(sch).observe(document.documentElement,{attributes:true,attributeFilter:['data-rf-theme','data-design','data-nh','data-pg']});

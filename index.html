@@ -9,7 +9,7 @@ try{Object.defineProperty(window,'localStorage',{get:function(){return S},config
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script src="store.9a7e36b062.js"></script>
+<script src="store.9a7e36b062.js"></script><script src="store-core.30504cf0d6.js"></script>
 <script>window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__bip=e});</script>
 <script id="theme-core">/* v73 — الثيمات الداخلية: لكل تصميم (كلاسيكي / الدرب / الفهرس) × وضع (فاتح / داكن) مجموعة ثيمات جاهزة.
    الثيم = قيم متغيّرات --tc-* (يولّدها tools/themify.mjs في الـCSS بقيمة احتياطية = اللون الأصلي).
@@ -173,7 +173,7 @@ try{Object.defineProperty(window,'localStorage',{get:function(){return S},config
   function reset(){ try{ localStorage.removeItem(KEY); localStorage.removeItem(DKEY); }catch(e){} apply(); }
   function setDesign(v){ try{ localStorage.setItem(DKEY,/^(classic|cross|bearer|crown|glory|shroud|holy|lamp|royal)$/.test(v)?v:'church'); }catch(e){} apply(); }
   // ---------- واجهة الإعدادات ----------
-  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function esc(s){ return RF.esc(s); }
   function paintUI(){
     var box=document.getElementById('themesBox'); if(!box) return;
     var layout=layoutNow(), now=designNow(), h='';
@@ -851,9 +851,9 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
 (function(){
   var el=document.getElementById('fathersData'), D=null;
   try{ if(el&&el.textContent) D=JSON.parse(el.textContent); }catch(e){ D=null; }
-  var AR='٠١٢٣٤٥٦٧٨٩'; function ard(n){ return String(n).replace(/\d/g,function(d){return AR[d]}); }
+  var AR='٠١٢٣٤٥٦٧٨٩'; function ard(n){ return RF.ar(n); }
   function norm(s){ return String(s||'').replace(/[ً-ٰٟـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/\s+/g,' ').trim(); }
-  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function esc(s){ return RF.esc(s); }
   var byId={}; if(D) D.items.forEach(function(x){ byId[x.i]=x; });
   function cite(q){ return 'أقوال الآباء الشيوخ — ص '+ard(q.p); }
   var st={tag:'',father:'',q:'',focus:''}, built=false;
@@ -968,11 +968,11 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
   window.__khalwaYear={ready:!!D,days:D?Object.keys(D).length:0,copticOf:copticOf,keyOf:keyOf,entry:entry,week:week,weekIdx:weekIdx,toVariants:toVariants,kinds:KINDS,months:COPT};
 })();
 </script>
-<script src="app5.bb82707028.js"></script><script src="data-bibleData.74b20dd144.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+<script src="app5.832e65c323.js"></script><script src="data-bibleData.74b20dd144.js"></script><script>(function(){var s=document.createElement('script');s.id="bibleData";s.type='text/plain';s.textContent=__RF_DATA["bibleData"];delete __RF_DATA["bibleData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="data-bgData.8b050226a6.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
-<script src="app6.f7abe4cf90.js"></script>
+<script src="app6.5ac9dae8c1.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v6.8.71';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v6.8.79';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" href="app7.87be3efc9e.css"><script src="app8.7fd92ebc24.js"></script><link rel="stylesheet" href="app9.2eaed645e4.css"><script src="app10.5e406585a9.js"></script>
@@ -1006,7 +1006,7 @@ html body.v14-khalwa #uToast.act{display:flex!important;bottom:calc(env(safe-are
 .v69row button.p{background:var(--s-accent,var(--tc-c9a24a,#c9a24a));color:#1b0d11;font-weight:700}
 #settingsPanel .v69tourbtn{display:block;margin:14px auto 0;min-height:44px;padding:0 18px;border-radius:12px;border:1px solid currentColor;background:transparent;color:inherit;font:inherit;opacity:.85;cursor:pointer}
 </style>
-<script src="app14.23395232b1.js"></script><link rel="stylesheet" href="app15.3e2fb4ee01.css"><script src="app16.5addc4cdd4.js"></script>
+<script src="app14.23395232b1.js"></script><link rel="stylesheet" href="app15.3e2fb4ee01.css"><script src="app16.9334cc5660.js"></script>
 <style id="v71rail">/* v71 — «الدرب»: سهم إخفاء/إظهار شريط الانتقال دائمًا في منتصف ارتفاع الشاشة.
    والشريط ظاهر: السهم يلاصق حافة الشريط من جهة المحتوى (لا ينزل تحته ولا يختفي خلفه)؛ والشريط مخفي: يلاصق حافة الشاشة. */
 html[data-layout="path"] #v15RailBtn,
@@ -1277,8 +1277,8 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
 </script><script id="copcal">/* v80 — التقويم القبطي: مواسم السنة (ثابتة ومتحركة) محسوبة بالخوارزمية، صالحة 1900–2099.
    القيامة القبطية = قيامة الحساب الإسكندري (يوليانية) + 13 يومًا. كل المواسم المتحركة تُشتق منها. */
 (function(){
-  var AR='٠١٢٣٤٥٦٧٨٩'; function ard(n){ return String(n).replace(/\d/g,function(d){return AR[d]}); }
-  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  var AR='٠١٢٣٤٥٦٧٨٩'; function ard(n){ return RF.ar(n); }
+  function esc(s){ return RF.esc(s); }
   var DAYS=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
   var GM=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
   var CM=['توت','بابه','هاتور','كيهك','طوبة','أمشير','برمهات','برمودة','بشنس','بؤونة','أبيب','مسرى','النسيء'];
@@ -1570,13 +1570,13 @@ html[data-theme="light"] body #mod-k .meditation .mtitle,html[data-theme="light"
   window.addEventListener('hashchange',function(ev){ if(Date.now()<guardUntil) ev.stopImmediatePropagation(); },true);
   window.__edgeGuard={state:function(){ return last; }};
 })();
-</script><script src="data-xrData.00d7e71032.js"></script><script>(function(){var s=document.createElement('script');s.id="xrData";s.type='text/plain';s.textContent=__RF_DATA["xrData"];delete __RF_DATA["xrData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script src="app17.6e75c5b621.js"></script><link rel="stylesheet" href="app18.75199c1167.css"><script src="app37.db08da9dd5.js"></script><script src="app38.c13d2f8721.js"></script><link rel="stylesheet" href="app39.bedf0ad186.css"><script src="app40.d6b34b9a64.js"></script><script src="app41.6215b978cc.js"></script><script src="app42.8082d748a2.js"></script><script src="app43.1cd9a17c69.js"></script><script src="app44.3bf00c0847.js"></script><script src="app45.441e0f6e5a.js"></script><script src="app39.f2671cc888.js"></script><script src="app19.0e1f4da5b0.js"></script><link rel="stylesheet" href="app20.8ea0d00654.css"><script src="app21.a48a46c3dd.js"></script><link rel="stylesheet" href="app22.f34314b220.css"><script src="app23.dd91d202a0.js"></script><link rel="stylesheet" href="app24.64bef61b35.css"><script src="app25.4a81b19cf3.js"></script><link rel="stylesheet" href="app26.3b3bdec96d.css"><script src="app27.7f5462b78d.js"></script><link rel="stylesheet" href="app28.1728c18c2a.css"><script src="app29.b8cd161884.js"></script>
+</script><script src="data-xrData.00d7e71032.js"></script><script>(function(){var s=document.createElement('script');s.id="xrData";s.type='text/plain';s.textContent=__RF_DATA["xrData"];delete __RF_DATA["xrData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script src="app17.6e75c5b621.js"></script><link rel="stylesheet" href="app18.75199c1167.css"><script src="app37.db08da9dd5.js"></script><script src="app38.be23a91ba4.js"></script><link rel="stylesheet" href="app39.65ebde3b5c.css"><script src="app40.d6b34b9a64.js"></script><script src="app41.6215b978cc.js"></script><script src="app42.8082d748a2.js"></script><script src="app43.1cd9a17c69.js"></script><script src="app44.777ab188d1.js"></script><script src="app45.441e0f6e5a.js"></script><script src="app39.8058a3977c.js"></script><link rel="stylesheet" href="app46.894d718069.css"><script src="app46.5929a634d5.js"></script><script src="app47.4544820f57.js"></script><script src="app19.0e1f4da5b0.js"></script><link rel="stylesheet" href="app20.8ea0d00654.css"><script src="app21.6678b43a63.js"></script><link rel="stylesheet" href="app22.f34314b220.css"><script src="app23.ec33dd919a.js"></script><link rel="stylesheet" href="app24.64bef61b35.css"><script src="app25.1752584444.js"></script><link rel="stylesheet" href="app26.3b3bdec96d.css"><script src="app27.7f5462b78d.js"></script><link rel="stylesheet" href="app28.1728c18c2a.css"><script src="app29.b8cd161884.js"></script>
 <script src="app31.92fac631a1.js"></script><link rel="stylesheet" href="app30.512836eef0.css">
 <link rel="stylesheet" href="app31.b6b8b4229d.css">
 <link rel="stylesheet" href="app32.90acad379c.css">
 <link rel="stylesheet" href="app33.70be288242.css">
 <link rel="stylesheet" href="app34.58b7be6547.css">
-<link rel="stylesheet" href="app36.99a57698d4.css"><script src="app36.e8ed9c2780.js"></script><script src="data-ervHeads.6e154af5e5.js"></script><script src="data-ervData.7063836d9e.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
-<link rel="stylesheet" href="app35.9456d7a138.css"><script src="data-synData.3c9e0cb56a.js"></script><script>(function(){var s=document.createElement('script');s.id="synData";s.type='text/plain';s.textContent=__RF_DATA["synData"];delete __RF_DATA["synData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script src="app35.f001e5d2b5.js"></script>
+<link rel="stylesheet" href="app36.99a57698d4.css"><script src="app36.233547b5db.js"></script><script src="data-ervHeads.6e154af5e5.js"></script><script src="data-ervData.7063836d9e.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
+<link rel="stylesheet" href="app35.9456d7a138.css"><script src="data-synData.3c9e0cb56a.js"></script><script>(function(){var s=document.createElement('script');s.id="synData";s.type='text/plain';s.textContent=__RF_DATA["synData"];delete __RF_DATA["synData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script src="app35.7e20d9294f.js"></script>
 </body>
 </html>
