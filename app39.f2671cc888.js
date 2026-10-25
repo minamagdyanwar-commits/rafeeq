@@ -172,7 +172,7 @@ window.__prog={status:status,doneOn:doneOn,openCurrent:openCurrent,tab:showJourn
 
 /* ضبط تلقائي لنص الأزرار والشارات الملوّنة بحسب لون خلفيتها الفعلي (كل التصاميم) */
 (function(){
-var SEL='button,.app-tab,.part-btn,.tab,.pill,.chip,.tk-badge,.u-btn,.y-prog,.dc-i';
+var SEL='button,.app-tab,.part-btn,.tab,.pill,.chip,.tk-badge,.u-btn,.y-prog,.y-head span,.dc-i';
 function rgb(str){var m=String(str||'').match(/^rgba?\(([^)]+)\)/);if(m){var a=m[1].split(/[ ,\/]+/).map(Number);return {r:a[0],g:a[1],b:a[2],a:a.length>3?a[3]:1}}
   m=String(str||'').match(/^color\(srgb\s+([^)]+)\)/);if(m){var b=m[1].split(/[ \/]+/).map(Number);return {r:b[0]*255,g:b[1]*255,b:b[2]*255,a:b.length>3?b[3]:1}}return null}
 function lum(c){function f(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)}return .2126*f(c.r)+.7152*f(c.g)+.0722*f(c.b)}
