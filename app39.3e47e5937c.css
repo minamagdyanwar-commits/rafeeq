@@ -121,3 +121,5 @@ html.rf-touch :is(#page-talk,#page-msg,#page-fat,#page-exam,#page-syn,#page-cal,
 :is(html[data-nh=""][data-rf-theme^="church/"],html[data-nh=""][data-rf-theme^="classic/"])[data-design="2"] .y-prog{color:#7a5a1e!important}
 
 :is(html[data-nh=""][data-rf-theme^="church/"],html[data-nh=""][data-rf-theme^="classic/"])[data-design="1"] #view-guided .gd-hero h2{color:#6b4410!important}
+/* الشريط العلوي: كان شفافًا تمامًا فيتداخل مع النص — الآن شفافية ٥٠٪ مع تغبيش خفيف (خارج الرئيسية) */
+html:is([data-nh="holy"],[data-nh="lamp"],[data-nh="royal"],[data-nh="shroud"]):not([data-pg="home"]) #uTop{background-color:color-mix(in srgb,var(--nh-bg) 50%,transparent)!important;background-image:none!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid color-mix(in srgb,var(--nh-line) 70%,transparent)}
