@@ -37,6 +37,10 @@ function doneCount(s,id){var n=0,m=N(id);for(var i=1;i<=m;i++)if(s[id].done[i])n
 function lastTs(s,id){var m=0;for(var k in s[id].done)m=Math.max(m,s[id].done[k]);return m}
 function lastId(s){var best=null,t=0;IDS().forEach(function(i){var m=lastTs(s,i);if(m>t){t=m;best=i}});return best}
 function finished(s,id){return cur(s,id)>N(id)}
+/* ربط الرحلات الموسمية بالتقويم القبطي: يوم الموسم الحالي (٠ إن لم يكن الموسم قائمًا) */
+function seasonMain(){try{var c=window.__copCal;var r=c&&c.label&&c.label(new Date());return r&&(r.main||(r.info&&r.info.main))||null}catch(e){return null}}
+function syncDay(id){var p=PG()[id];if(!p||!p.sync)return 0;var m=seasonMain();if(!m)return 0;if(p.sync.alt&&m.k===p.sync.alt.k)return Math.min(m.day+p.sync.alt.add,N(id));if(m.k!==p.sync.k)return 0;if(m.day<p.sync.from||m.day>p.sync.to)return 0;var d=m.day-p.sync.from+1;return Math.min(d,N(id))}
+function inSeason(s){return IDS().filter(function(i){return syncDay(i)>0&&!finished(s,i)})}
 var active='joseph',tab='mine';
 /* معايرة ألوان النص على ألوان التصميم الحالي: لون التشديد للنص، ولون النص فوق الأسطح الملوّنة */
 function calib(){try{var d=document.documentElement,pr=document.createElement('div');pr.style.cssText='position:fixed;left:-9px;top:0;width:1px;height:1px';document.body.appendChild(pr);
@@ -51,7 +55,7 @@ function calib(){try{var d=document.documentElement,pr=document.createElement('d
   var w={r:255,g:255,b:255},k={r:26,g:18,b:6};d.style.setProperty('--pg-on',cr(w,acc)>=cr(k,acc)?'#fff':'#1a1206')}catch(e){}}
 /* ---------- بطاقات ---------- */
 function card(s,id){var p=PG()[id];if(!p)return'';var n=N(id),c=cur(s,id),dn=doneCount(s,id),pct=Math.round(dn*100/n);
-  return '<button type="button" class="pg-card'+(finished(s,id)?' fin':'')+'" data-prog="'+id+'"><i>'+p.icon+'</i><span><b>'+esc(p.title)+'</b><small>'+esc(p.sub)+'</small>'+(dn?'<u><s style="width:'+pct+'%"></s></u>':'')+'<em>'+(dn===0?ar(n)+' يومًا'+(p.season?' · '+esc(p.season):''):(finished(s,id)?'🏅 أتممتَ الرحلة':'اليوم '+ar(c)+' من '+ar(n)))+'</em></span><strong>‹</strong></button>'}
+  return '<button type="button" class="pg-card'+(finished(s,id)?' fin':'')+'" data-prog="'+id+'"><i>'+p.icon+'</i><span><b>'+esc(p.title)+'</b><small>'+esc(p.sub)+'</small>'+(dn?'<u><s style="width:'+pct+'%"></s></u>':'')+'<em>'+(syncDay(id)&&!finished(s,id)?'🔔 الآن: اليوم '+ar(syncDay(id))+' من '+ar(n):(dn===0?ar(n)+' يومًا'+(p.season?' · '+esc(p.season):''):(finished(s,id)?'🏅 أتممتَ الرحلة':'اليوم '+ar(c)+' من '+ar(n))))+'</em></span><strong>‹</strong></button>'}
 function started(s){return IDS().filter(function(i){return doneCount(s,i)>0}).sort(function(a,b){return lastTs(s,b)-lastTs(s,a)})}
 window.__progCard=function(){var s=load(),st=started(s),id=st.filter(function(i){return !finished(s,i)})[0]||st[0],p=PG()[id];
   if(!id||!p)return '<button type="button" class="pg-home" data-prog="hub"><i>🏔</i><span><b>رحلات ٤٠ يومًا وأكثر</b><small>شخصيات · موضوعات · مواسم</small></span><em>‹</em></button>';
@@ -59,8 +63,9 @@ window.__progCard=function(){var s=load(),st=started(s),id=st.filter(function(i)
   return '<button type="button" class="pg-home" data-prog="hub"><i>'+p.icon+'</i><span><b>رحلاتي</b><small>'+esc(p.short)+' — '+(c>n?'أتممتها 🏅':'اليوم '+ar(c)+' من '+ar(n))+'</small></span><em>‹</em></button>'};
 /* ---------- المركز داخل الأجبية ---------- */
 function paintHub(){var h=document.getElementById('progHub');if(!h)return;calib();var s=load(),st=started(s).filter(function(i){return !finished(s,i)}).slice(0,3);
+  var ins=inSeason(s);ins.slice().reverse().forEach(function(i){var k=st.indexOf(i);if(k>-1)st.splice(k,1);st.unshift(i)});st=st.slice(0,3);
   var list=st.length?st:['joseph','peter','psalms'];
-  h.innerHTML='<h3>🏔 رحلاتي</h3><p>'+(st.length?'تابع من حيث وقفت.':'ابدأ رحلة: كل يوم قراءة وتأمل وسؤال ومهمة صغيرة.')+'</p>'+list.map(function(i){return card(s,i)}).join('')+'<button type="button" class="pg-all" data-prog="hub">كل الرحلات ('+ar(IDS().length)+') والشارات ‹</button>'}
+  h.innerHTML='<h3>🏔 رحلاتي</h3><p>'+(ins.length?'🔔 رحلة موسمية قائمة الآن — يومها مفتوح لك.':st.length?'تابع من حيث وقفت.':'ابدأ رحلة: كل يوم قراءة وتأمل وسؤال ومهمة صغيرة.')+'</p>'+list.map(function(i){return card(s,i)}).join('')+'<button type="button" class="pg-all" data-prog="hub">كل الرحلات ('+ar(IDS().length)+') والشارات ‹</button>'}
 function V(i){return document.getElementById(i)}
 function showJourneys(){var ag=V('view-agpeya'),md=V('view-meditation'),gd=V('view-guided'),jv=V('view-journeys');if(!jv)return;
   [ag,md,gd].forEach(function(e){if(e)e.style.display='none'});jv.style.display='';
@@ -81,9 +86,9 @@ function render(open){calib();
   var pts=[];for(var i=1;i<=n;i++)pts.push(pos(i,W,n));
   var path='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);
   for(var j=1;j<pts.length;j++){var a=pts[j-1],b=pts[j],my=(a[1]+b[1])/2;path+=' C'+a[0].toFixed(1)+' '+my.toFixed(1)+' '+b[0].toFixed(1)+' '+my.toFixed(1)+' '+b[0].toFixed(1)+' '+b[1].toFixed(1)}
-  var nodes='',labels='',stPrev=-1;
-  for(var d=1;d<=n;d++){var pt=pts[d-1],state=s[active].done[d]?'done':(d===c?'now':(d<c?'done':'lock')),mil=mileOf(active,d),sIdx=Math.min(3,Math.floor((d-1)*4/n));
-    nodes+='<button type="button" class="nd '+state+(mil?' mil':'')+'" style="left:'+pt[0].toFixed(1)+'px;top:'+pt[1].toFixed(1)+'px" data-pgd="'+d+'" aria-label="اليوم '+d+'"><i>'+(state==='done'?'✓':ar(d))+'</i>'+(state==='now'?'<u></u>':'')+'</button>';
+  var nodes='',labels='',stPrev=-1,sdy=syncDay(active);
+  for(var d=1;d<=n;d++){var pt=pts[d-1],state=s[active].done[d]?'done':(d===c?'now':(d<c?'done':(d<=sdy?'open':'lock'))),mil=mileOf(active,d),sIdx=Math.min(3,Math.floor((d-1)*4/n));
+    nodes+='<button type="button" class="nd '+state+(mil?' mil':'')+(sdy&&d===sdy?' td':'')+'" style="left:'+pt[0].toFixed(1)+'px;top:'+pt[1].toFixed(1)+'px" data-pgd="'+d+'" aria-label="اليوم '+d+'"><i>'+(state==='done'?'✓':ar(d))+'</i>'+(state==='now'?'<u></u>':'')+'</button>';
     var st=p.stages[sIdx];
     if(sIdx!==stPrev){labels+='<div class="'+(d===1?'lb':'sg')+'" style="top:'+(pt[1]-(d===1?66:62))+'px">'+(d===1?'<span>'+st[2]+' '+esc(st[0])+'</span>':st[2]+' '+esc(st[0])+' — '+esc(st[1]))+'</div>';stPrev=sIdx}
     else if(mil){labels+='<div class="lb" style="top:'+(pt[1]-64)+'px"><span>'+st[2]+' '+mil+'</span></div>'}}
@@ -94,7 +99,7 @@ function render(open){calib();
    '<div class="pg-path" style="height:'+totalH+'px"><svg class="pg-line" viewBox="0 0 '+W+' '+totalH+'" width="'+W+'" height="'+totalH+'" preserveAspectRatio="xMidYMin meet"><path d="'+path+'" class="bg"/><path d="'+path+'" class="fg" pathLength="1" stroke-dasharray="1" stroke-dashoffset="'+(1-Math.min(1,Math.max(0,(Math.min(dn,n))/Math.max(1,n-1)))).toFixed(3)+'"/></svg>'+labels+nodes+'<div class="pg-top">'+p.icon+' القمة</div></div>'+
    (dn>0?'<button type="button" class="pg-rs" data-pgreset="1">إعادة الرحلة من البداية</button>':'<div style="height:110px"></div>');
   var pgEl=pgBox();var sc=pgEl.scrollTop;pgEl.innerHTML=h;pgEl.className='prg-page on';document.body.classList.add('nh-lock');
-  if(open){var y=pts[Math.min(c,n)-1][1];requestAnimationFrame(function(){pgEl.scrollTop=Math.max(0,y-pgEl.clientHeight*.55)})}else pgEl.scrollTop=sc}
+  if(open){var y=pts[Math.min(sdy||c,n)-1][1];requestAnimationFrame(function(){pgEl.scrollTop=Math.max(0,y-pgEl.clientHeight*.55)})}else pgEl.scrollTop=sc}
 function pgBox(){var e=document.getElementById('progPage');if(!e){e=document.createElement('div');e.id='progPage';e.setAttribute('role','dialog');e.setAttribute('aria-modal','true');document.body.appendChild(e)}return e}
 /* ---------- شاشة «رحلاتي» ---------- */
 function badges(s){var out='';IDS().forEach(function(i){var p=PG()[i],ok=finished(s,i);out+='<div class="pg-bd'+(ok?' on':'')+'" title="'+esc(p.title)+'"><i>'+(ok?p.icon:'🔒')+'</i><small>'+esc(p.short)+'</small></div>'});return out}
@@ -103,6 +108,7 @@ function hubPage(t){calib();if(t)tab=t;var s=load(),all=IDS(),st=started(s),run=
   var body='';
   if(tab==='mine'){
     body+='<div class="pg-stats"><div><b>'+ar(days)+'</b><small>يومًا مكتملًا</small></div><div><b>'+ar(run.length)+'</b><small>رحلة جارية</small></div><div><b>'+ar(fin.length)+'</b><small>رحلة مكتملة</small></div></div>';
+    var ins=inSeason(s);if(ins.length)body+='<h3>🔔 الآن في الكنيسة</h3>'+ins.map(function(i){return card(s,i)}).join('');
     body+=run.length?'<h3>جارية</h3>'+run.map(function(i){return card(s,i)}).join(''):'<p class="pg-em">لم تبدأ رحلة بعد. اختر من «كل الرحلات».</p>';
     if(fin.length)body+='<h3>مكتملة</h3>'+fin.map(function(i){return card(s,i)}).join('');
     var sug=all.filter(function(i){return doneCount(s,i)===0}).slice(0,3);if(sug.length)body+='<h3>اقتراح لك</h3>'+sug.map(function(i){return card(s,i)}).join('')}
@@ -112,7 +118,7 @@ function hubPage(t){calib();if(t)tab=t;var s=load(),all=IDS(),st=started(s),run=
   var e=pgBox();e.innerHTML='<button type="button" class="pg-x" data-pgclose="1" aria-label="إغلاق">✕</button><div class="pg-hubp"><h2>🏔 رحلات الكتاب المقدس</h2><div class="pg-tabs">'+tabs+'</div>'+body+'</div>';e.className='prg-page on';document.body.classList.add('nh-lock');e.scrollTop=0}
 function closePage(){var p=document.getElementById('progPage');if(p)p.classList.remove('on');var d=document.getElementById('progDay');if(d)d.classList.remove('on');if(!document.querySelector('#nhPage.on'))document.body.classList.remove('nh-lock');paintHub()}
 /* ---------- بطاقة اليوم ---------- */
-function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(active);if(d>c){var t=F().toast;t&&t('كمّل اليوم '+ar(c)+' الأول');return}
+function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(active);if(d>c&&d>syncDay(active)){var t=F().toast;t&&t('كمّل اليوم '+ar(c)+' الأول');return}
   var it=p.days[d-1],b=F().bible,done=!!s[active].done[d],st=stageOf(p,d),L=p.labels;
   var el=document.getElementById('progDay');if(!el){el=document.createElement('div');el.id='progDay';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');document.body.appendChild(el)}
   function sec(lbl,txt){return txt?'<section class="pd-r"><h4>'+esc(lbl)+'</h4><p>'+esc(txt)+'</p></section>':''}
@@ -131,10 +137,10 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
   if(b&&b.load)b.load().then(function(){paint(psalmHtml())},function(){paint('<b>'+esc(it[1])+'</b>')});else paint('<b>'+esc(it[1])+'</b>')}
 function closeDay(){var el=document.getElementById('progDay');if(el)el.classList.remove('on')}
 /* ---------- ربط «يومي» ---------- */
-function activeId(s){var st=started(s).filter(function(i){return !finished(s,i)});return st[0]||null}
+function activeId(s){var st=started(s).filter(function(i){return !finished(s,i)});var se=st.filter(function(i){return syncDay(i)>0});return se[0]||st[0]||null}
 function doneOn(dk){var s=load(),f=F().dkey;if(!f)return false;for(var i=0,ids=IDS();i<ids.length;i++){for(var k in s[ids[i]].done){try{if(f(new Date(s[ids[i]].done[k]))===dk)return true}catch(e){}}}return false}
 function status(dk){var s=load(),id=activeId(s);if(!id)return null;var p=PG()[id];return {id:id,label:'رحلتي: '+p.short+' — اليوم '+ar(cur(s,id)),done:doneOn(dk)}}
-function openCurrent(){var s=load(),id=activeId(s);if(!id){hubPage('all');return}active=id;render(true);openDay(Math.min(cur(s,id),N(id)))}
+function openCurrent(){var s=load(),id=activeId(s);if(!id){hubPage('all');return}active=id;render(true);var sd=syncDay(id);openDay(sd&&!s[id].done[sd]?sd:Math.min(cur(s,id),N(id)))}
 /* ---------- قائمة «المزيد» والرئيسية ---------- */
 function injectMore(){var box=q('#uSheet .v14-more');if(!box||q('[data-prog="hub"]',box))return;
   var h4=document.createElement('h4');h4.textContent='رحلات';var b=document.createElement('button');b.type='button';b.setAttribute('data-prog','hub');
