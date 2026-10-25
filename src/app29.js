@@ -1,0 +1,229 @@
+(!(function () {
+  "use strict";
+  var t = document.documentElement,
+    e = !1;
+  function a(a) {
+    ((e = !0),
+      t.setAttribute("data-design", a),
+      t.setAttribute("data-theme", "1" === a ? "dark" : "light"),
+      (e = !1));
+  }
+  var r = !1;
+  function n() {
+    e ||
+      ("qalaya" === t.getAttribute("data-layout")
+        ? ("1" !== t.getAttribute("data-design") && a("1"), (r = !0))
+        : r &&
+          ((r = !1),
+          a(
+            (function () {
+              var t = null;
+              try {
+                t = JSON.parse(localStorage.getItem("khalwa_settings_v80") || "null");
+              } catch (t) {}
+              var e = (t = t || {}).themeMode;
+              if (
+                ("light" !== e && "dark" !== e && "auto" !== e && (e = "1" === t.design ? "dark" : "light"),
+                "dark" === e)
+              )
+                return "1";
+              if ("light" === e) return "2";
+              try {
+                return window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "1" : "2";
+              } catch (t) {
+                return "2";
+              }
+            })(),
+          )));
+  }
+  (new MutationObserver(n).observe(t, { attributes: !0, attributeFilter: ["data-layout", "data-design"] }),
+    n());
+})(),
+  (function () {
+    "use strict";
+    var t = [
+        ".wk-line",
+        ".footer",
+        ".datebox",
+        ".daycount",
+        ".section-label",
+        ".verse-ref",
+        ".verse-text",
+        ".vt-kind",
+        ".vt-name",
+        ".selector-label",
+        ".deep-label",
+        ".fn-title",
+        ".u-sub",
+        ".refs h3",
+        ".refs li",
+        ".reflect-text",
+        ".cf-foot",
+        ".cf-hint",
+        ".mg-theme",
+        ".mg-from",
+        ".wk-o",
+        "#fvSum",
+        ".source-line",
+        "#page-read dd",
+        ".book-info-summary",
+        ".hour-btn-time",
+        ".acc-title",
+        ".acc-caret",
+        ".chv",
+        ".ref",
+        ".vref",
+        ".fn",
+        ".l-sec",
+        ".settings-label",
+        ".empty",
+        ".sb",
+        ".opening-note",
+        ".placeholder",
+        ".prayer-text",
+        "#hourTriggerValue",
+        ".fv-empty",
+        ".badge",
+        "#wakeChip span",
+        "#wakeChip i",
+        "#readDoneBar b",
+        "#readDoneBar span",
+        "#calBody .cc.today small",
+        "#calBody .cc.today b",
+        "#saveBtnLabel",
+        "#favToggleLabel",
+        "#favOpenLabel",
+        ".hour-btn-text div",
+        "#tkSend",
+        ".opening-chip",
+        ".y-next small",
+        ".y-next b",
+        ".y-next i",
+        ".v70req button",
+        ".v70req .o",
+        ".merged-meditation-toggle summary",
+        ".mg-theme",
+        ".mg-from",
+        ".source-line",
+        "#page-home .u-card button",
+        "#page-home .u-card button b",
+        "#page-home .u-card button span",
+      ],
+      e = [31, 23, 12],
+      a = [246, 236, 214],
+      r = document.createElement("canvas");
+    r.width = r.height = 1;
+    var n = r.getContext("2d", { willReadFrequently: !0 });
+    function o(t) {
+      (n.clearRect(0, 0, 1, 1), (n.fillStyle = "#000"));
+      try {
+        n.fillStyle = t;
+      } catch (t) {}
+      n.fillRect(0, 0, 1, 1);
+      var e = n.getImageData(0, 0, 1, 1).data;
+      return [e[0], e[1], e[2], e[3] / 255];
+    }
+    function i(t, e) {
+      var a = t[3];
+      return [t[0] * a + e[0] * (1 - a), t[1] * a + e[1] * (1 - a), t[2] * a + e[2] * (1 - a)];
+    }
+    function l(t) {
+      var e = [t[0], t[1], t[2]].map(function (t) {
+        return (t /= 255) <= 0.03928 ? t / 12.92 : Math.pow((t + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * e[0] + 0.7152 * e[1] + 0.0722 * e[2];
+    }
+    function u(t, e) {
+      var a = l(t),
+        r = l(e);
+      return (Math.max(a, r) + 0.05) / (Math.min(a, r) + 0.05);
+    }
+    function c(t) {
+      for (var e = [], a = t; a && 1 === a.nodeType; a = a.parentElement) {
+        var r = getComputedStyle(a),
+          n = r.backgroundImage;
+        if (n && "none" !== n) {
+          if (/url\(/.test(n) && !/gradient/.test(n)) return null;
+          var l = n.match(/rgba?\([^)]*\)|color\([^)]*\)/g) || [];
+          if (!l.length) return null;
+          for (var u = [0, 0, 0], c = 0, s = 0; s < l.length; s++) {
+            var f = o(l[s]);
+            if (!(f[3] < 0.3)) {
+              var m = i(f, [128, 128, 128]);
+              ((u[0] += m[0]), (u[1] += m[1]), (u[2] += m[2]), c++);
+            }
+          }
+          if (c) {
+            e.push([u[0] / c, u[1] / c, u[2] / c, 1]);
+            break;
+          }
+        }
+        var g = o(r.backgroundColor);
+        if ((g[3] > 0 && e.push(g), g[3] >= 0.99)) break;
+      }
+      for (
+        var v = "1" === d.getAttribute("data-design") ? [14, 12, 10] : [250, 246, 238], h = e.length - 1;
+        h >= 0;
+        h--
+      )
+        v = i(e[h], v);
+      return v;
+    }
+    var d = document.documentElement,
+      s = 0,
+      f = !1;
+    function m() {
+      if (((s = 0), !window.__rfCgPause)) {
+        f = !0;
+        try {
+          !(function () {
+            for (var t = document.querySelectorAll("[data-cg]"), e = 0; e < t.length; e++)
+              (t[e].style.removeProperty("color"), t[e].removeAttribute("data-cg"));
+          })();
+          for (var r = document.querySelectorAll(t.join(",")), n = 0; n < r.length; n++) {
+            var l = r[n];
+            if (l.offsetParent || "fixed" === getComputedStyle(l).position) {
+              var d = getComputedStyle(l),
+                m = o(d.color),
+                g = parseFloat(d.opacity) || 1;
+              m[3] *= g;
+              var v = c(l);
+              if (v)
+                if (!(u(i(m, v), v) >= 4.5)) {
+                  var h = u(e, v) >= u(a, v) ? e : a;
+                  (l.style.setProperty("color", "rgb(" + h.join(",") + ")", "important"),
+                    g < 1 && l.style.setProperty("opacity", "1", "important"),
+                    l.setAttribute("data-cg", "1"));
+                }
+            }
+          }
+        } catch (t) {}
+        f = !1;
+      }
+    }
+    function g() {
+      s || f || (s = setTimeout(m, 350));
+    }
+    (new MutationObserver(function (t) {
+      if (!f)
+        for (var e = 0; e < t.length; e++) {
+          var a = t[e].target;
+          if (!(a && a.closest && a.closest("#dmRoot"))) return void g();
+        }
+    }).observe(document.documentElement, {
+      attributes: !0,
+      childList: !0,
+      subtree: !0,
+      attributeFilter: [
+        "class",
+        "data-design",
+        "data-theme",
+        "data-layout",
+        "data-rf-theme",
+        "hidden",
+        "open",
+      ],
+    }),
+      window.addEventListener("load", g),
+      setTimeout(g, 900));
+  })());

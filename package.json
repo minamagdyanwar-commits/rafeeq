@@ -1,0 +1,15 @@
+{
+  "name": "rafeeq",
+  "private": true,
+  "description": "الرفيق الروحي — تطبيق ويب ثابت. الكود في src/، والبناء: node tools/build.mjs",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "bump": "node tools/build.mjs --bump",
+    "qa": "tools/qa/run.sh all"
+  },
+  "devDependencies": {
+    "terser": "^5.31.0",
+    "esbuild": "^0.21.0",
+    "prettier": "^3.3.0"
+  }
+}
