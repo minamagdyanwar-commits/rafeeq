@@ -123,9 +123,17 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
   var it=p.days[d-1],b=F().bible,done=!!s[active].done[d],st=stageOf(p,d),L=p.labels;
   var el=document.getElementById('progDay');if(!el){el=document.createElement('div');el.id='progDay';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');document.body.appendChild(el)}
   function sec(lbl,txt){return txt?'<section class="pd-r"><h4>'+esc(lbl)+'</h4><p>'+esc(txt)+'</p></section>':''}
+  var Q=it[7],BK=Object.assign({},p.book||{},(it[7]&&it[7].b)||{});
+  /* رحلات الكتب: الاقتباس من الكتاب أولًا (مع المصدر والصفحة)، ثم الآية للتأمل */
+  function top(psalm){
+    if(!Q)return '<article class="pd-v">'+psalm+'</article>';
+    var src='من كتاب «'+esc(BK.title||p.short)+'»'+(BK.author?' — '+esc(BK.author):'')+(Q.c?' — '+esc(Q.c):'')+'<br>صفحة '+ar(Q.p)+(BK.part&&Q.f?' من '+esc(Q.f):'')+' · ترقيم الملف الأصلي';
+    var bu=(BK.urls&&Q.f&&BK.urls[Q.f])||BK.url;
+    var link=bu?'<a class="pd-open pd-book" href="'+esc(bu)+'" target="_blank" rel="noopener">افتح الكتاب كاملًا</a>':'';
+    return '<article class="pd-v pd-quote"><p>'+esc(Q.q)+'</p><b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
   function paint(psalm){
     el.innerHTML='<button type="button" class="pg-x" data-pgback="1" aria-label="رجوع">‹ الدرب</button><div class="pd-c"><small>'+st[2]+' اليوم '+ar(d)+' من '+ar(n)+' · '+esc(st[0])+'</small><h2>'+esc(it[0])+'</h2>'+
-      '<article class="pd-v">'+psalm+'</article>'+
+      top(psalm)+
       sec(L[0],it[2])+sec(L[1],it[3])+sec(L[2],it[4])+
       '<section class="pd-q"><h4>سؤال اليوم</h4><p>'+esc(it[5])+'</p><textarea id="pdNote" rows="3" maxlength="500" placeholder="اكتب إجابتك — تتحفظ على جهازك فقط">'+esc(s[active].notes[d]||'')+'</textarea></section>'+
       '<section class="pd-t"><i>✦</i><div><h4>مهمة اليوم</h4><p>'+esc(it[6])+'</p></div></section>'+
