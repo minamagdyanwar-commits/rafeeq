@@ -13,3 +13,13 @@
 | `node tools/qa/serve.mjs [port]` | خادم ثابت للتطوير (الأدوات تشغّله تلقائيًا لو المنفذ فاضي) |
 
 قبل أي دمج: `node tools/build.mjs --bump && tools/qa/run.sh smoke && node tools/qa/lint-css.mjs`.
+
+## إضافات
+
+| الأمر | ما يفعله |
+|---|---|
+| `node tools/qa/unified.mjs` | يختبر RF.act (النشاط) وRF.favs وRF.search وعدّاد «يومي» |
+| `node tools/qa/fixlog.mjs [تصاميم] [dark|light]` | عدد وأسماء التصحيحات التي أجراها المُصلح وقت التشغيل (الهدف: صفر) |
+| `node tools/qa/bake-contrast.mjs` | يخبز تلك التصحيحات في `src/app49.css` |
+| `RF_TOOLS=… node tools/qa/visual.mjs A B` | يقارن بكسليًا بين بناءين (٩ شاشات × ٢٢ تصميم/وضع) |
+| `node tools/content-build.mjs` | يتحقق من `content/journeys/*.json` ويولّد `src/data-journeys.js` |
