@@ -1,8 +1,8 @@
 /* السنكسار: يعرض سنكسار اليوم القبطي من synData (نص مُستخرج بالـOCR من كتاب السنكسار). */
 (function(){
   var AR='٠١٢٣٤٥٦٧٨٩';
-  function ard(n){return String(n).replace(/\d/g,function(d){return AR[d]})}
-  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+  function ard(n){return RF.ar(n)}
+  function esc(s){return RF.esc(s)}
   var CM=['توت','بابه','هاتور','كيهك','طوبة','أمشير','برمهات','برمودة','بشنس','بؤونة','أبيب','مسرى','النسيء'];
   var GM=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
   var D=null,st={m:0,d:1,mov:0,q:''},idx=null;

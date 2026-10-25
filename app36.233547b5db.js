@@ -14,8 +14,8 @@ function editHours(){var k=K(),f=F(),G=f.GROUPS||[],cur=(f.prefs&&f.prefs().rule
   if(sv)sv.onclick=function(){var v=[].slice.call(document.querySelectorAll('#nhHrs input:checked')).map(function(i){return i.value});if(v.length<2){f.toast&&f.toast('اختر ساعتين على الأقل');return}f.setHourGroups(v);done()};
   if(rs)rs.onclick=function(){f.setHourGroups(['bakr','thalitha','sadisa','tasi3a','ghouroub','noum']);done()}}
 var AR='٠١٢٣٤٥٦٧٨٩';
-function ar(n){return String(n).replace(/\d/g,function(d){return AR[d]})}
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function ar(n){return RF.ar(n)}
+function esc(s){return RF.esc(s)}
 function q(s,r){return (r||document).querySelector(s)}
 function des(){var t=(document.documentElement.getAttribute('data-rf-theme')||'').split('/')[0];return DS[t]?t:''}
 function key(d){var m=d.getMonth()+1,x=d.getDate();return d.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(x<10?'0':'')+x}

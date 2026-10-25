@@ -8,11 +8,11 @@ function q(s,r){return (r||document).querySelector(s)}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function jget(k,d){try{var v=JSON.parse(localStorage.getItem(k)||'null');return v==null?d:v}catch(e){return d}}
 function jset(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-var AR='٠١٢٣٤٥٦٧٨٩';function ar(n){return String(n).replace(/\d/g,function(d){return AR[d]})}
+var AR='٠١٢٣٤٥٦٧٨٩';function ar(n){return RF.ar(n)}
 function toast(m){var f=F();f.toast?f.toast(m):0}
 function V(){return window.__talkVoice||{}}
 function hist(){var h=jget(HK,[]);return Array.isArray(h)?h:[]}
-function fmtDate(ts){try{return new Date(ts).toLocaleDateString('ar-EG',{day:'numeric',month:'long',hour:'numeric',minute:'2-digit'})}catch(e){return ''}}
+function fmtDate(ts){return RF.fmtDate(ts,{day:'numeric',month:'long',hour:'numeric',minute:'2-digit'})}
 /* ---------- عرض رد أو محادثة كنص ---------- */
 function verseHtml(raw){var b=F().bible;try{var ref=String(raw).replace(/\*$/,''),p=b.parseRef(ref);if(!p)return '';
   return '<div class="tkx-v"><p>'+esc(b.verses(p.bi,p.ch,p.v1,p.v2).join(' '))+'</p><b>'+esc(b.label(p.bi,p.ch,p.v1,p.v2))+'</b></div>'}catch(e){return ''}}
