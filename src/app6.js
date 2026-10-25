@@ -299,7 +299,7 @@
         t.savePrefs(p));
     }),
     (t.dayPlan = function (e) {
-      e = e || t.realKey();
+      e = e || t.dkey();
       var a = t.todayItems(e).slice(),
         r = window.__k;
       a.forEach(function (t0) {
@@ -309,7 +309,7 @@
         }
       });
       try {
-        var i = r && r.getSuggestedHourKey(new Date()),
+        var i = e === t.realKey() && r && r.getSuggestedHourKey(new Date()),
           o = i && t.groupOf(i);
         o &&
           !a.some(function (x) {

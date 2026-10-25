@@ -28,7 +28,7 @@ function PG(){return window.__progData||{}}
 function IDS(){return Object.keys(PG())}
 function N(id){return (PG()[id]&&PG()[id].days.length)||40}
 function load(){var v;try{v=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}v=v||{};IDS().forEach(function(i){v[i]=v[i]||{done:{},notes:{}};v[i].done=v[i].done||{};v[i].notes=v[i].notes||{}});return v}
-function save(s){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}if(window.RF&&RF.act)RF.act.changed(F().realKey&&F().realKey(),'prog')}
+function save(s){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}if(window.RF&&RF.act)RF.act.changed(F().dkey&&F().dkey(),'prog')}
 var MN=['المحطة الأولى','منتصف الرحلة','قرب القمة','القمة'];
 function mileOf(id,d){var n=N(id);for(var k=1;k<=4;k++)if(d===Math.ceil(n*k/4))return MN[k-1];return ''}
 function stIdx(p,d){return p.stageAt?p.stageAt[d-1]:Math.min(3,Math.floor((d-1)*4/p.days.length))} function stageOf(p,d){return p.stages[stIdx(p,d)]}
