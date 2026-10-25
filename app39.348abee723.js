@@ -19,7 +19,7 @@ window.__hlMeta=function(x){try{if(!x||x.closest('#page-read,#view-meditation,#v
 (function(){
 "use strict";
 var K='rafeeq_prog_v1',AR='٠١٢٣٤٥٦٧٨٩';
-var CATS=[['person','شخصيات الكتاب','👤'],['topic','موضوعات روحية','🕊'],['church','من الكنيسة والتقليد','⛪'],['season','رحلات المواسم','📅'],['custom','رحلاتي الخاصة','✨']];
+var CATS=[['person','شخصيات الكتاب','👤'],['topic','موضوعات روحية','🕊'],['church','من الكنيسة والتقليد','⛪'],['season','رحلات المواسم','📅'],['shenouda','رحلات قداسة البابا شنوده','📖'],['custom','رحلاتي الخاصة','✨']];
 function ar(n){return String(n).replace(/\d/g,function(d){return AR[d]})}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function F(){return window.__F||{}}
@@ -31,7 +31,7 @@ function load(){var v;try{v=JSON.parse(localStorage.getItem(K)||'null')}catch(e)
 function save(s){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
 var MN=['المحطة الأولى','منتصف الرحلة','قرب القمة','القمة'];
 function mileOf(id,d){var n=N(id);for(var k=1;k<=4;k++)if(d===Math.ceil(n*k/4))return MN[k-1];return ''}
-function stageOf(p,d){return p.stages[Math.min(3,Math.floor((d-1)*4/p.days.length))]}
+function stIdx(p,d){return p.stageAt?p.stageAt[d-1]:Math.min(3,Math.floor((d-1)*4/p.days.length))} function stageOf(p,d){return p.stages[stIdx(p,d)]}
 function cur(s,id){var n=N(id);for(var i=1;i<=n;i++)if(!s[id].done[i])return i;return n+1}
 function doneCount(s,id){var n=0,m=N(id);for(var i=1;i<=m;i++)if(s[id].done[i])n++;return n}
 function lastTs(s,id){var m=0;for(var k in s[id].done)m=Math.max(m,s[id].done[k]);return m}
@@ -87,7 +87,7 @@ function render(open){calib();
   var path='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);
   for(var j=1;j<pts.length;j++){var a=pts[j-1],b=pts[j],my=(a[1]+b[1])/2;path+=' C'+a[0].toFixed(1)+' '+my.toFixed(1)+' '+b[0].toFixed(1)+' '+my.toFixed(1)+' '+b[0].toFixed(1)+' '+b[1].toFixed(1)}
   var nodes='',labels='',stPrev=-1,sdy=syncDay(active);
-  for(var d=1;d<=n;d++){var pt=pts[d-1],state=s[active].done[d]?'done':(d===c?'now':(d<c?'done':(d<=sdy?'open':'lock'))),mil=mileOf(active,d),sIdx=Math.min(3,Math.floor((d-1)*4/n));
+  for(var d=1;d<=n;d++){var pt=pts[d-1],state=s[active].done[d]?'done':(d===c?'now':(d<c?'done':(d<=sdy?'open':'lock'))),mil=mileOf(active,d),sIdx=stIdx(p,d);
     nodes+='<button type="button" class="nd '+state+(mil?' mil':'')+(sdy&&d===sdy?' td':'')+'" style="left:'+pt[0].toFixed(1)+'px;top:'+pt[1].toFixed(1)+'px" data-pgd="'+d+'" aria-label="اليوم '+d+'"><i>'+(state==='done'?'✓':ar(d))+'</i>'+(state==='now'?'<u></u>':'')+'</button>';
     var st=p.stages[sIdx];
     if(sIdx!==stPrev){labels+='<div class="'+(d===1?'lb':'sg')+'" style="top:'+(pt[1]-(d===1?66:62))+'px">'+(d===1?'<span>'+st[2]+' '+esc(st[0])+'</span>':st[2]+' '+esc(st[0])+' — '+esc(st[1]))+'</div>';stPrev=sIdx}
@@ -113,8 +113,9 @@ function hubPage(t){calib();if(t)tab=t;var s=load(),all=IDS(),st=started(s),run=
     if(fin.length)body+='<h3>مكتملة</h3>'+fin.map(function(i){return card(s,i)}).join('');
     var sug=all.filter(function(i){return doneCount(s,i)===0}).slice(0,3);if(sug.length)body+='<h3>اقتراح لك</h3>'+sug.map(function(i){return card(s,i)}).join('')}
   else if(tab==='all'){body+='<button type="button" class="pg-make" data-pgmake="1">✨ ابنِ رحلتك الخاصة <small>اختر موضوعًا وعدد الأيام</small></button>';CATS.forEach(function(c){var ids=all.filter(function(i){return PG()[i].cat===c[0]});if(ids.length)body+='<h3>'+c[2]+' '+c[1]+'</h3>'+ids.map(function(i){return card(s,i)}).join('')})}
+  else if(tab==='bp'){var bi=all.filter(function(i){return PG()[i].cat==='shenouda'});body+='<p class="pg-em">رحلات مستوحاة من كتب ومحاضرات قداسة البابا شنوده الثالث، كل رحلة مستقلة بذاتها. النص صياغة جديدة لأفكار الكتاب مع ربطها بالكتاب المقدس.</p>'+bi.map(function(i){return card(s,i)}).join('')+'<p class="pg-em pg-src">'+bi.map(function(i){return esc(PG()[i].src||'')}).join('<br>')+'</p>'}
   else{body+='<p class="pg-em">كل رحلة تكملها تمنحك شارة. أكمل أيامها كلها لتفتح الشارة.</p><div class="pg-bds">'+badges(s)+'</div>'}
-  var tabs=[['mine','رحلاتي'],['all','كل الرحلات'],['bd','الشارات']].map(function(x){return '<button type="button" class="'+(tab===x[0]?'on':'')+'" data-pgtab="'+x[0]+'">'+x[1]+'</button>'}).join('');
+  var tabs=[['mine','رحلاتي'],['all','كل الرحلات'],['bp','البابا شنوده'],['bd','الشارات']].map(function(x){return '<button type="button" class="'+(tab===x[0]?'on':'')+'" data-pgtab="'+x[0]+'">'+x[1]+'</button>'}).join('');
   var e=pgBox();e.innerHTML='<button type="button" class="pg-x" data-pgclose="1" aria-label="إغلاق">✕</button><div class="pg-hubp"><h2>🏔 رحلات الكتاب المقدس</h2><div class="pg-tabs">'+tabs+'</div>'+body+'</div>';e.className='prg-page on';document.body.classList.add('nh-lock');e.scrollTop=0}
 function closePage(){var p=document.getElementById('progPage');if(p)p.classList.remove('on');var d=document.getElementById('progDay');if(d)d.classList.remove('on');if(!document.querySelector('#nhPage.on'))document.body.classList.remove('nh-lock');paintHub()}
 /* ---------- بطاقة اليوم ---------- */
