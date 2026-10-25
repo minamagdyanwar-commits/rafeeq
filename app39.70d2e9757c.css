@@ -109,3 +109,9 @@ html.rf-touch :is(#page-talk,#page-msg,#page-fat,#page-exam,#page-syn,#page-cal,
 .nd.open{border-color:var(--pg-a,var(--nh-acc,#d2b98a));color:var(--nh-ink,#efe6d2)}
 .nd.td::after{content:"اليوم";position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;background:var(--nh-acc,#d2b98a);color:var(--pg-on,var(--nh-bg,#0f1318));border-radius:9px;padding:1px 7px;white-space:nowrap;font-style:normal}
 .nd.mil.td::after{transform:translateX(-50%) rotate(-45deg)}
+/* زر وضع القيادة في قارئ الكتاب المقدس */
+.rd-drive{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box;margin:8px 0;padding:10px 12px;border-radius:12px;border:1px solid var(--nh-line,rgba(201,164,76,.4));background:var(--nh-card,rgba(255,255,255,.06));color:var(--nh-ink,inherit);font:inherit;font-size:15px;cursor:pointer}
+.rd-drive small{font-size:12px;opacity:.75}
+/* حقل الملاحظة: لون الخط والخلفية من نفس لوحة التصميم دائمًا */
+#progDay .pd-q textarea{background:var(--nh-card,#1b222a)!important;color:var(--nh-ink,#efe6d2)!important;-webkit-text-fill-color:var(--nh-ink,#efe6d2)!important;caret-color:var(--nh-ink,#efe6d2);border:1px solid var(--nh-line,rgba(255,255,255,.3))!important}
+#progDay .pd-q textarea::placeholder{color:var(--nh-soft,rgba(239,230,210,.72))!important;-webkit-text-fill-color:var(--nh-soft,rgba(239,230,210,.72))!important;opacity:1}
