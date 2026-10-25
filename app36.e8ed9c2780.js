@@ -23,7 +23,7 @@ function F(){return window.__F||{}}
 function K(){return window.__k||{}}
 function info(){
   var f=F(),k=K(),i={items:[],hours:[],sug:'bakr',score:0,streak:0,verse:'',vref:'',wd:'',dt:'',hij:''};
-  try{i.items=f.todayItems()||[]}catch(e){}
+  var today0=f.realKey?f.realKey():key(new Date());try{i.items=f.todayItems(today0)||[]}catch(e){}
   try{i.sug=k.getSuggestedHourKey?k.getSuggestedHourKey():'bakr'}catch(e){}
   var today=f.realKey?f.realKey():key(new Date());
   hoursList().forEach(function(h){var H=(k.HOURS||{})[h]||{},done=false;try{done=!!f.hourDone(today,h)}catch(e){}
