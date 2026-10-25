@@ -63,15 +63,15 @@ body.nh-lock{overflow:hidden}
 .nh-lamp .b0{background:linear-gradient(160deg,#a0522d,#6e3517)}.nh-lamp .b1{background:linear-gradient(160deg,#c8791a,#8d4e0b)}.nh-lamp .b2{background:linear-gradient(160deg,#4f6b3c,#2d4220)}.nh-lamp .b3{background:linear-gradient(160deg,#7a2e3a,#4a1620)}.nh-lamp .bk b{font-size:15px}.nh-lamp .bk small{font-size:11px;opacity:.85}
 .nh-lamp .pg-verse{margin-top:22px;background:var(--nh-card);border:1px solid var(--nh-line);border-radius:6px 14px 14px 6px;border-right:5px solid var(--nh-acc2);padding:14px}.nh-lamp .pg-verse p{font-size:18px;line-height:1.9;margin:4px 0}.nh-lamp .pg-verse em,.nh-lamp .pg-verse small{font-style:normal;color:var(--nh-soft)}
 .nh-royal .med{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.nh-royal .md{border:1px solid var(--nh-line);border-radius:12px;background:var(--nh-card);padding:14px 6px;text-align:center;opacity:.55}.nh-royal .md.on{opacity:1;border-color:var(--nh-gold);box-shadow:0 0 22px -8px var(--nh-gold)}.nh-royal .md i{display:block;font-style:normal;font-size:30px;color:var(--nh-gold)}.nh-royal .md b{display:block;font-size:20px}.nh-royal .md small{color:var(--nh-soft);font-size:12px}
-html[data-nh] #page-home .u-wrap>#nhHome{display:block!important}
+html[data-nh]:not([data-nh=""]) #page-home .u-wrap>#nhHome{display:block!important}
 
 /* ============ الغلاف (الصورة أولًا) + الورقة المنزلقة ============ */
-html[data-nh][data-pg="home"] body{overflow:hidden}
-html[data-nh][data-pg="home"] #uTop{background:transparent!important;border:0!important;box-shadow:none!important;position:relative;z-index:30}
-html[data-nh][data-pg="home"] #uTop :is(#uTitle,#uSub,.brand,.dchip){color:#fff!important;text-shadow:0 1px 10px rgba(0,0,0,.85)}
-html[data-nh][data-pg="home"] #uTop .acts button{background:rgba(0,0,0,.38)!important;color:#fff!important;border-color:rgba(255,255,255,.45)!important}
-html[data-nh][data-pg="home"] #uNav{z-index:40}
-html[data-nh][data-pg="home"] #uFab{bottom:calc(var(--nh-nav,62px) + 132px)!important;left:14px;right:auto;z-index:6}
+html[data-nh]:not([data-nh=""])[data-pg="home"] body{overflow:hidden}
+html[data-nh]:not([data-nh=""])[data-pg="home"] #uTop{background:transparent!important;border:0!important;box-shadow:none!important;position:relative;z-index:30}
+html[data-nh]:not([data-nh=""])[data-pg="home"] #uTop :is(#uTitle,#uSub,.brand,.dchip){color:#fff!important;text-shadow:0 1px 10px rgba(0,0,0,.85)}
+html[data-nh]:not([data-nh=""])[data-pg="home"] #uTop .acts button{background:rgba(0,0,0,.38)!important;color:#fff!important;border-color:rgba(255,255,255,.45)!important}
+html[data-nh]:not([data-nh=""])[data-pg="home"] #uNav{z-index:40}
+html[data-nh]:not([data-nh=""])[data-pg="home"] #uFab{bottom:calc(var(--nh-nav,62px) + 132px)!important;left:14px;right:auto;z-index:6}
 #nhHome .nh-cover{position:fixed;inset:0;z-index:1;background:var(--nh-img) var(--cvp,50% 30%)/cover no-repeat,var(--nh-bg)}
 #nhHome .nh-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.5) 0,transparent 24%,transparent 52%,rgba(0,0,0,.62) 100%)}
 #nhHome .cv{position:absolute;z-index:2;right:22px;left:22px;bottom:calc(var(--nh-nav,62px) + 140px);color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.85)}
@@ -265,24 +265,24 @@ html[data-nh="glory"] :is(.u-btn,.btn,.l-btn,#tkSend,.today-btn,#uFab){backgroun
 #tkxBanner .bx-x{width:38px;border-radius:12px;border:1px solid #c9a44c;background:#241a10;color:#fbe9c6}
 
 /* ===== ألوان الخطوط: نص الصفحة من حبر التصميم، في الفاتح والداكن ===== */
-html[data-nh]{--page-text:var(--nh-ink)!important;--page-text-soft:var(--nh-soft)!important}
-html[data-nh][data-design="2"]{--cream:var(--nh-ink)}
-html[data-nh][data-design="2"] body{color:var(--nh-ink)!important}
+html[data-nh]:not([data-nh=""]){--page-text:var(--nh-ink)!important;--page-text-soft:var(--nh-soft)!important}
+html[data-nh]:not([data-nh=""])[data-design="2"]{--cream:var(--nh-ink)}
+html[data-nh]:not([data-nh=""])[data-design="2"] body{color:var(--nh-ink)!important}
 html:is([data-nh="shroud"],[data-nh="holy"],[data-nh="lamp"],[data-nh="royal"])[data-design="2"]:not([data-pg="home"]) #uTop :is(#uTitle,#uSub,.brand,.dchip,.dc-i,.sub){color:var(--nh-ink)}
 html:is([data-nh="bearer"],[data-nh="crown"],[data-nh="glory"])[data-design="2"] #uTop :is(#uTitle,#uSub,.brand,.dchip,.dc-i,.sub,span,b){color:#fff!important;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 html:is([data-nh="bearer"],[data-nh="crown"],[data-nh="glory"])[data-design="2"] #uTop .acts button{color:#fff;border-color:rgba(255,255,255,.5)}
-html[data-nh][data-design="2"] .u-page :is(h1,h2,h3,.u-h3,.fat-count,.fat-src,.streak-badge,.tk-intro,.tk-intro+*,.suggest-now-text){color:var(--nh-ink)}
-html[data-nh][data-design="2"] .u-page :is(p,small,.u-sub){color:var(--nh-soft)}
-html[data-nh][data-design="2"] :is(.app-tab,.fat-chips button,.tab,.sub-chip,.week-chip,.v70chip,.tk-chips button,.tk-emob,.tkx-g span){color:var(--nh-ink)}
-html[data-nh] :is(.app-tab,.fat-chips button,.tab,.sub-chip,.week-chip,.part-btn,.pill,.hour-btn,.tkx-g button):is(.on,.active,[aria-selected=true],[aria-pressed=true]){background:var(--nh-acc)!important;color:#fff!important}
-html[data-nh][data-design="2"] #uNav button{color:var(--nh-soft)}html[data-nh][data-design="2"] #uNav button.on{color:var(--nh-acc2)!important}
-html[data-nh][data-design="2"] :is(#mod-m,#mod-k,#mod-r,#mod-g,#mod-b){--page-text:var(--nh-ink)!important;--page-text-soft:var(--nh-soft)!important;--ink:var(--nh-ink)!important;--soft:var(--nh-soft)!important}
-html[data-nh][data-design="2"] #mod-k .app-tab{color:var(--nh-ink)}
-html[data-nh] #mod-k .app-tab.active,html[data-nh] #mod-k .app-tab.on{color:#fff!important;background:var(--nh-acc)!important}
+html[data-nh]:not([data-nh=""])[data-design="2"] .u-page :is(h1,h2,h3,.u-h3,.fat-count,.fat-src,.streak-badge,.tk-intro,.tk-intro+*,.suggest-now-text){color:var(--nh-ink)}
+html[data-nh]:not([data-nh=""])[data-design="2"] .u-page :is(p,small,.u-sub){color:var(--nh-soft)}
+html[data-nh]:not([data-nh=""])[data-design="2"] :is(.app-tab,.fat-chips button,.tab,.sub-chip,.week-chip,.v70chip,.tk-chips button,.tk-emob,.tkx-g span){color:var(--nh-ink)}
+html[data-nh]:not([data-nh=""]) :is(.app-tab,.fat-chips button,.tab,.sub-chip,.week-chip,.part-btn,.pill,.hour-btn,.tkx-g button):is(.on,.active,[aria-selected=true],[aria-pressed=true]){background:var(--nh-acc)!important;color:#fff!important}
+html[data-nh]:not([data-nh=""])[data-design="2"] #uNav button{color:var(--nh-soft)}html[data-nh]:not([data-nh=""])[data-design="2"] #uNav button.on{color:var(--nh-acc2)!important}
+html[data-nh]:not([data-nh=""])[data-design="2"] :is(#mod-m,#mod-k,#mod-r,#mod-g,#mod-b){--page-text:var(--nh-ink)!important;--page-text-soft:var(--nh-soft)!important;--ink:var(--nh-ink)!important;--soft:var(--nh-soft)!important}
+html[data-nh]:not([data-nh=""])[data-design="2"] #mod-k .app-tab{color:var(--nh-ink)}
+html[data-nh]:not([data-nh=""]) #mod-k .app-tab.active,html[data-nh]:not([data-nh=""]) #mod-k .app-tab.on{color:#fff!important;background:var(--nh-acc)!important}
 #nhHome .br-next small,#nhHome .br-next span,#nhHome .br-next b{color:#fff!important}
-html[data-nh][data-design="1"] :is(.app-tab,.fat-chips button,.tab,.sub-chip,.week-chip,.part-btn,.pill,.hour-btn,.tkx-g button,#mod-k .app-tab):is(.on,.active,[aria-selected=true],[aria-pressed=true]){color:#1a1206!important}
-html[data-nh][data-design="2"] :is(.app-tab,.fat-chips button,.tab,.sub-chip,.week-chip,.part-btn,.pill,.hour-btn,.tkx-g button,#mod-k .app-tab):is(.on,.active,[aria-selected=true],[aria-pressed=true]){background:var(--nh-acc2)!important}
-#nhHome .pk em{color:var(--nh-acc2)}html[data-nh][data-design="1"] #nhHome .pk em{color:var(--nh-acc)}
+html[data-nh]:not([data-nh=""])[data-design="1"] :is(.app-tab,.fat-chips button,.tab,.sub-chip,.week-chip,.part-btn,.pill,.hour-btn,.tkx-g button,#mod-k .app-tab):is(.on,.active,[aria-selected=true],[aria-pressed=true]){color:#1a1206!important}
+html[data-nh]:not([data-nh=""])[data-design="2"] :is(.app-tab,.fat-chips button,.tab,.sub-chip,.week-chip,.part-btn,.pill,.hour-btn,.tkx-g button,#mod-k .app-tab):is(.on,.active,[aria-selected=true],[aria-pressed=true]){background:var(--nh-acc2)!important}
+#nhHome .pk em{color:var(--nh-acc2)}html[data-nh]:not([data-nh=""])[data-design="1"] #nhHome .pk em{color:var(--nh-acc)}
 html[data-rf-theme^="royal/2"] #nhHome :is(.mid b,.sn b,.ry-str button){color:#7a5410}
 /* نص الغلاف فوق الصورة: أبيض بظل دائمًا في كل التصاميم والأوضاع */
 #nhHome .cv,#nhHome .cv :is(small,h1,p,span,b){color:#fff!important;text-shadow:0 2px 14px rgba(0,0,0,.9),0 0 3px rgba(0,0,0,.7)!important}

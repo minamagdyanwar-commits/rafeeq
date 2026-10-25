@@ -43,7 +43,7 @@ function syncDay(id){var p=PG()[id];if(!p||!p.sync)return 0;var m=seasonMain();i
 function inSeason(s){return IDS().filter(function(i){return syncDay(i)>0&&!finished(s,i)})}
 var active='joseph',tab='mine';
 /* معايرة ألوان النص على ألوان التصميم الحالي: لون التشديد للنص، ولون النص فوق الأسطح الملوّنة */
-function calib(){try{var d=document.documentElement,pr=document.createElement('div');pr.style.cssText='position:fixed;left:-9px;top:0;width:1px;height:1px';document.body.appendChild(pr);
+function calib(){try{var d=document.documentElement,pr=document.createElement('div');pr.id='progProbe';pr.style.cssText='position:fixed;left:-9px;top:0;width:1px;height:1px';document.body.appendChild(pr);
   function res(v,fb){pr.style.color='';pr.style.backgroundColor='';pr.style.color='var('+v+','+fb+')';var m=getComputedStyle(pr).color.match(/[\d.]+/g)||[0,0,0];return {r:+m[0],g:+m[1],b:+m[2],a:m[3]==null?1:+m[3]}}
   function lum(c){function f(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)}return .2126*f(c.r)+.7152*f(c.g)+.0722*f(c.b)}
   function cr(a,b){var x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
@@ -168,4 +168,23 @@ document.addEventListener('click',function(e){var t=e.target,b;if(!t.closest)ret
 },true);
 document.addEventListener('input',function(e){if(e.target&&e.target.id==='pdNote'){var ok=q('[data-pgok]');if(!ok)return;var d=+ok.getAttribute('data-pgok'),s=load();s[active].notes[d]=e.target.value;save(s)}});
 window.__prog={status:status,doneOn:doneOn,openCurrent:openCurrent,tab:showJourneys,open:function(id){active=id||'joseph';render(true)},hub:hubPage,day:openDay,close:closePage};
+})();
+
+/* التصاميم القديمة (classic/church/cross/qalaya): نص الأزرار والشارات الملوّنة يُضبط تلقائيًا بحسب لون خلفيتها */
+(function(){
+var SEL='.u-btn.on,.pill.on,.part-btn.active,.tab.on,.tab.active,.suggest-now-btn,.tk-badge,.fv-star.on';
+function rgb(str){var m=String(str||'').match(/rgba?\(([^)]+)\)/);if(!m)return null;var a=m[1].split(/[ ,\/]+/).map(Number);return {r:a[0],g:a[1],b:a[2],a:a.length>3?a[3]:1}}
+function lum(c){function f(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)}return .2126*f(c.r)+.7152*f(c.g)+.0722*f(c.b)}
+function cr(a,b){var x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
+function bgOf(e){var cs=getComputedStyle(e),c=rgb(cs.backgroundColor);if(c&&c.a>.6)return c;var g=String(cs.backgroundImage||'').match(/rgba?\([^)]+\)/g);if(g){var cols=g.map(rgb).filter(function(x){return x&&x.a>.6});if(cols.length){var s={r:0,g:0,b:0,a:1};cols.forEach(function(x){s.r+=x.r;s.g+=x.g;s.b+=x.b});s.r/=cols.length;s.g/=cols.length;s.b/=cols.length;return s}}return null}
+var CH=[{r:26,g:18,b:6},{r:255,g:255,b:255},{r:251,g:243,b:231}];
+function fix(){var h=document.documentElement;if(h.getAttribute('data-nh')!=='')return;
+  document.querySelectorAll(SEL).forEach(function(e){if(!e.offsetParent)return;var bg=bgOf(e);if(!bg)return;var cur=rgb(getComputedStyle(e).color);
+    if(cur&&cr(cur,bg)>=4.5){if(e.__pgc){e.style.removeProperty('color');e.__pgc=0}return}
+    var best=CH[0],br=0;CH.forEach(function(c){var r=cr(c,bg);if(r>br){br=r;best=c}});
+    e.style.setProperty('color','rgb('+best.r+','+best.g+','+best.b+')','important');e.__pgc=1})}
+var t=0;function sch(){clearTimeout(t);t=setTimeout(fix,140)}
+new MutationObserver(sch).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+new MutationObserver(sch).observe(document.documentElement,{attributes:true,attributeFilter:['data-rf-theme','data-design','data-nh']});
+setTimeout(fix,900);
 })();
