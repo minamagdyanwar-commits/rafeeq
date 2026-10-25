@@ -119,3 +119,5 @@ html.rf-touch :is(#page-talk,#page-msg,#page-fat,#page-exam,#page-syn,#page-cal,
 :is(html[data-nh=""][data-rf-theme^="church/"],html[data-nh=""][data-rf-theme^="classic/"]) :is(#page-fat,#page-trk,#page-favs) :is(.u-h2,.u-h3):not(.u-card *,details *,.u-sheet-card *){color:#e8cf88!important}
 :is(html[data-nh=""][data-rf-theme^="church/"],html[data-nh=""][data-rf-theme^="classic/"]) #view-guided .gd-card h2{color:#6b4410!important}
 :is(html[data-nh=""][data-rf-theme^="church/"],html[data-nh=""][data-rf-theme^="classic/"])[data-design="2"] .y-prog{color:#7a5a1e!important}
+
+:is(html[data-nh=""][data-rf-theme^="church/"],html[data-nh=""][data-rf-theme^="classic/"])[data-design="1"] #view-guided .gd-hero h2{color:#6b4410!important}

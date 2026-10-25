@@ -186,5 +186,5 @@ function fix(){var h=document.documentElement;if(h.getAttribute('data-nh')!=='')
 var t=0;function sch(){clearTimeout(t);t=setTimeout(fix,140)}
 new MutationObserver(sch).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
 new MutationObserver(sch).observe(document.documentElement,{attributes:true,attributeFilter:['data-rf-theme','data-design','data-nh']});
-setTimeout(fix,900);
+setTimeout(fix,900);setInterval(fix,1500);
 })();
