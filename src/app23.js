@@ -318,7 +318,7 @@
     if (n) {
       var P = (function () {
           var e = t();
-          return e && e.dayPlan ? e.dayPlan(e.realKey ? e.realKey() : f(new Date())) : null;
+          return e && e.dayPlan ? e.dayPlan(e.dkey ? e.dkey() : f(new Date())) : null;
         })(),
         a = P ? P.items : [];
       if (a.length) {

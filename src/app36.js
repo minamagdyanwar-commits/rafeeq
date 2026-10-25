@@ -23,9 +23,9 @@ function F(){return window.__F||{}}
 function K(){return window.__k||{}}
 function info(){
   var f=F(),k=K(),i={items:[],hours:[],sug:'bakr',score:0,streak:0,verse:'',vref:'',wd:'',dt:'',hij:''};
-  var today0=f.realKey?f.realKey():key(new Date());try{i.items=(f.dayPlan?f.dayPlan(today0).items:f.todayItems(today0))||[]}catch(e){}
+  var today0=f.dkey?f.dkey():key(new Date());try{i.items=(f.dayPlan?f.dayPlan(today0).items:f.todayItems(today0))||[]}catch(e){}
   try{i.sug=k.getSuggestedHourKey?k.getSuggestedHourKey():'bakr'}catch(e){}
-  var today=f.realKey?f.realKey():key(new Date());
+  var today=today0;i.off=!!(f.realKey&&f.dkey&&f.dkey()!==f.realKey());try{i.offLabel=f.parseKey(today).toLocaleDateString('ar-EG',{weekday:'long',day:'numeric',month:'long'})}catch(e){i.offLabel=today}
   hoursList().forEach(function(h){var H=(k.HOURS||{})[h]||{},done=false;try{done=!!f.hourDone(today,h)}catch(e){}
     i.hours.push({k:h,label:(H.label||h).replace(/^صلاة\s*/,'').split(' — ')[0],time:(k.HOUR_TIME||{})[h]||'',done:done})});
   try{i.score=f.dayScore(today)||0}catch(e){}
@@ -126,7 +126,7 @@ function paint(){
     '<div class="nh-cover"><div class="cv"></div></div><div class="nh-sheet"><button type="button" class="nh-grab" aria-label="عرض يومك"><i></i></button><div class="nh-peek"></div><div class="nh-body"></div></div>';
     bind(el)}
   el.className='nh nh-'+d+(open_?' open':'');
-  var cv='<small>'+esc(i.dt)+'</small><h1>'+esc(i.wd)+'</h1><p>'+esc(TAG[d])+'</p>';
+  var cv='<small>'+esc(i.dt)+'</small><h1>'+esc(i.wd)+'</h1><p>'+esc(TAG[d])+'</p>'+(i.off?'<div class="nh-offday"><span>تدوّن الآن ليوم '+esc(i.offLabel)+'</span><button type="button" data-dayfix="1">الرجوع لليوم الفعلي</button></div>':'');
   var cvEl=q('.cv',el);if(cvEl.dataset.h!==cv){cvEl.innerHTML=cv;cvEl.dataset.h=cv}
   var pk='<div class="pk"><span class="pk-t"><b class="t1">اسحب لأعلى لعرض يومك</b><b class="t2">اسحب لأسفل لرؤية الصورة</b></span><button type="button" class="pk-go" data-act="hour" data-key="'+nx.k+'">صلاة '+esc(nx.label)+' ‹</button><em>'+ar(i.done)+' من '+ar(i.total)+'</em></div>';
   if(pk!==lastPk){q('.nh-peek',el).innerHTML=pk;lastPk=pk}

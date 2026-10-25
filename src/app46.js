@@ -19,7 +19,7 @@
   }
   function html() {
     var f = F(); if (!f.dayPlan) return '';
-    var P = f.dayPlan(f.realKey()), J = journeys(), K = khalwaWeek(), s = 0;
+    var P = f.dayPlan(f.dkey()), J = journeys(), K = khalwaWeek(), s = 0;
     try { s = f.streak() || 0; } catch (e) {}
     var h = '<div class="rfu-top"><b>ملخصي</b><span>' + RF.ar(P.done) + ' / ' + RF.ar(P.total) + ' النهاردة</span></div>' +
       '<div class="rfu-bar"><i style="width:' + P.pct + '%"></i></div><div class="rfu-row">' +
@@ -51,7 +51,7 @@
     var b = e.target.closest && e.target.closest('[data-rfu]'); if (!b) return;
     var f = F();
     if (b.dataset.rfu === 'j') { if (window.__prog) window.__prog.open(b.dataset.id); return; }
-    var P = f.dayPlan(f.realKey()), n = P.next, a = window.__rafeeq; if (!n || !a) return;
+    var P = f.dayPlan(f.dkey()), n = P.next, a = window.__rafeeq; if (!n || !a) return;
     if (n.type === 'hour') a.act('hour', { dataset: { key: n.key } });
     else if (n.type === 'read') a.act('read'); else if (n.type === 'med') a.act('meditation');
     else if (n.type === 'gd') a.act('guided'); else if (n.type === 'exam') a.act('exam');
