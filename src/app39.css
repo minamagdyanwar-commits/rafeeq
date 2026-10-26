@@ -139,3 +139,8 @@ html[data-rf-theme="church/2/lapis"] #v6Home .hm-t .hm-l{color:#f3e6c8!important
 
 /* المقدّس/فاتح: أزرار التبويب غير النشطة كانت رمادية شفافة بنص باهت (تباين ٣٫١) */
 html[data-rf-theme="holy/2/holy"] .u-tabs button:not(.on){color:#1b1507!important;background:#e4ddc8!important}
+
+/* اقتباس الكتاب في بطاقة اليوم */
+.pd-quote p{font-size:17px;line-height:2.05;white-space:pre-line}
+.pd-quote .pd-book{display:inline-block;margin:8px 0 0 12px;font-size:12px}
+.pd-bible{margin-top:-4px}.pd-bible h4{margin:0 0 6px;font-size:13px;opacity:.8}

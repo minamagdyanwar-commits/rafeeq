@@ -28,7 +28,12 @@ for (const id of order) {
   const st = (j.review && j.review.status) || 'draft'; stat[st] = (stat[st] || 0) + 1;
   const o = { id: j.id, title: j.title, short: j.short, icon: j.icon, sub: j.sub, cat: j.cat, labels: j.labels, stages: j.stages };
   for (const k of Object.keys(j)) if (!(k in o) && !['days', 'review'].includes(k)) o[k] = j[k];
-  o.days = j.days.map(d => [d.title, d.ref, d.s1 || '', d.s2 || '', d.s3 || '', d.question, d.task]);
+  o.days = j.days.map(d => { const a = [d.title, d.ref, d.s1 || '', d.s2 || '', d.s3 || '', d.question, d.task]; if (d.quote) a.push({ q: d.quote.text, p: d.quote.page, c: d.quote.chapter || '', f: d.quote.file || '', b: d.quote.book || null }); return a; });
+  { // ترتيب الاقتباسات: صفحات الكتاب الواحد تصاعدية (الرحلة تتبع ترتيب الكتاب)
+    const last = {};
+    const seenFile = {}; j.days.forEach((d, i) => { if (!d.quote) return; const bk = (d.quote.book && d.quote.book.title) || (j.book && j.book.title) || ''; const fk = bk + '|' + (d.quote.file || ''); if (d.quote.file && !seenFile[fk] && last[bk] != null) { seenFile[fk] = 1; last[bk] = null; } seenFile[fk] = 1; if (last[bk] != null && d.quote.page < last[bk]) errs.push(`${id} يوم ${i + 1}: الصفحة ${d.quote.page} أقدم من السابقة ${last[bk]} (ترتيب الكتاب)`); last[bk] = d.quote.page; });
+  }
+  if (j.book || j.days.some(d => d.quote)) { if (j.book && !j.book.title) errs.push(`${id}: book.title ناقص`); j.days.forEach((d, i) => { if (!d.quote || !d.quote.text || !d.quote.page) errs.push(`${id} يوم ${i + 1}: رحلة كتاب بلا اقتباس/صفحة`); }); }
   out[id] = o;
 }
 if (errs.length) { console.error('أخطاء المحتوى:\n' + errs.join('\n')); process.exit(1); }
