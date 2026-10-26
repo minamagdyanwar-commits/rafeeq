@@ -3204,6 +3204,7 @@
             ic: "🌿",
             h: "صلِّ الكلمات واصمت في المواضع المحددة.",
           },
+          { k: "hm", w: 10, t: "تمجيد وإبصالية", ic: "🎼", h: "رتّل الأسطر أو اقرأها ببطء وبقلب حاضر، وقف عند السطر اللي يلمسك." },
           { k: "ky", w: 6, t: "كيرياليسون", ic: "❖", h: "يا رب ارحم — بقلب منسحق." },
           { k: "ab", w: 4, t: "أبانا الذي", ic: "☩", h: "اختم بصلاة الرب." },
         ],
@@ -3324,7 +3325,7 @@
     function R(t) {
       var a = f
         .filter(function (a) {
-          return !t.off[a.k];
+          return !t.off[a.k] && ("hm" !== a.k || (window.__hymns && window.__hymns.length));
         })
         .map(function (t) {
           return t.k;
@@ -3633,6 +3634,22 @@
             ((E = { f: H.f, p: H.p, n: H.n, t: H.t }), V(C.c.id));
           }
           h.it.fs = E;
+        }
+        if (null != r.hm) {
+          /* تمجيد/إبصالية من window.__hymns: يُختار نص لم يُستخدم حديثًا، ويُؤخذ منه عدد أسطر على قد وقت الفقرة */
+          var HM = window.__hymns || [],
+            hist = J(),
+            hp = HM.filter(function (x) {
+              return hist.indexOf("hm" + x.id) < 0;
+            });
+          hp = hp.length ? hp : HM;
+          var hy = hp[Math.floor(Math.random() * hp.length)],
+            budget = 0.9 * W(e[r.hm]),
+            hn = 0,
+            hw = 0;
+          while (hn < hy.lines.length && (hn < 4 || hw + L(hy.lines[hn]) <= budget)) ((hw += L(hy.lines[hn])), hn++);
+          var hs = hist.indexOf("hm" + hy.id) < 0 ? 0 : Math.floor(Math.random() * Math.max(1, hy.lines.length - hn + 1));
+          ((h.it.hm = { id: hy.id, s: hs, n: hn }), V("hm" + hy.id));
         }
         return h;
       });
@@ -4148,6 +4165,31 @@
           ".</div>"
         );
       }
+      if ("hm" === e) {
+        var hm = (window.__hymns || []).filter(function (x) {
+          return x.id === i.hm.id;
+        })[0];
+        if (hm)
+          return (
+            '<div class="gd-ref">' +
+            E(hm.title) +
+            " <i>" +
+            E(hm.kind) +
+            '</i></div><div class="gd-text gd-scr">' +
+            hm.lines
+              .slice(i.hm.s, i.hm.s + i.hm.n)
+              .map(function (t) {
+                return "<p>" + E(t) + "</p>";
+              })
+              .join("") +
+            "</div>" +
+            (i.hm.n < hm.lines.length
+              ? '<div class="gd-sub">مقتطف: ' + O(i.hm.n) + " سطر من " + O(hm.lines.length) + " (على قد وقت الخلوة)</div>"
+              : "") +
+            dt([{ name: hm.src.name, url: hm.src.url }])
+          );
+        return "";
+      }
       if ("ky" === e) {
         var v = t.kyrie,
           q = Math.max(3, Math.min(41, Math.round(r / 4)));
@@ -4376,7 +4418,9 @@
             } else
               "fp" === a && null != e.fp && t.fp[e.fp]
                 ? r.push(t.fp[e.fp].title)
-                : "ct" === a && null != e.ct && r.push("صلاة «" + t.ct[e.ct].t + "»");
+                : "ct" === a && null != e.ct
+                  ? r.push("صلاة «" + t.ct[e.ct].t + "»")
+                  : "hm" === a && e.hm && r.push(((window.__hymns || []).filter(function (x) { return x.id === e.hm.id; })[0] || {}).title || "تمجيد");
           }),
           r);
       a.innerHTML =
