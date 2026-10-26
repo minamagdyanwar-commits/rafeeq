@@ -49,3 +49,23 @@ mkdirSync(join(root, 'src'), { recursive: true });
 const target = join(root, 'src/data-journeys.js');
 if (!existsSync(target) || readFileSync(target, 'utf8') !== body) writeFileSync(target, body);
 console.log(`المحتوى: ${order.length} رحلة · مراجَع ${stat.reviewed} · يحتاج مراجعة ${stat['needs-review']} · مسوّدة ${stat.draft}`);
+
+/* ---------- الألحان والتماجيد: content/hymns/*.json → src/data-hymns.js (window.__hymns) ---------- */
+{
+  const hd = join(root, 'content/hymns'), herrs = [], list = [];
+  for (const id of JSON.parse(readFileSync(join(hd, '_order.json'), 'utf8'))) {
+    const f = join(hd, id + '.json');
+    if (!existsSync(f)) { herrs.push(`${id}: ملف مفقود`); continue; }
+    const j = JSON.parse(readFileSync(f, 'utf8'));
+    if (j.id !== id) herrs.push(`${id}: id غير مطابق`);
+    for (const k of ['kind', 'title', 'src', 'lines']) if (j[k] == null) herrs.push(`${id}: حقل ناقص ${k}`);
+    if (!j.src || !j.src.name) herrs.push(`${id}: المصدر ناقص`);
+    if (!Array.isArray(j.lines) || !j.lines.length || j.lines.some(l => typeof l !== 'string' || !l.trim())) herrs.push(`${id}: أسطر غير صالحة`);
+    list.push({ id: j.id, kind: j.kind, title: j.title, sub: j.sub || '', src: j.src, review: j.review || null, lines: j.lines });
+  }
+  if (herrs.length) { console.error('أخطاء الألحان:\n' + herrs.join('\n')); process.exit(1); }
+  const hb = `/* مُولَّد من content/hymns/*.json بواسطة tools/content-build.mjs — لا تعدّل هذا الملف يدويًا. */\n(function () {\n  "use strict";\n  window.__hymns = ${JSON.stringify(list)};\n})();\n`;
+  const ht = join(root, 'src/data-hymns.js');
+  if (!existsSync(ht) || readFileSync(ht, 'utf8') !== hb) writeFileSync(ht, hb);
+  console.log(`الألحان: ${list.length}`);
+}
