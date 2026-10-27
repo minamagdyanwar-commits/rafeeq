@@ -81,8 +81,12 @@
         document.hidden || b();
       }),
       window.addEventListener("resize", b),
-      new MutationObserver(b).observe(document.documentElement, { attributes: !0, attributeFilter: ["data-layout", "data-design", "class"] }),
+      new MutationObserver(b).observe(document.documentElement, { attributes: !0, attributeFilter: ["data-layout", "data-design", "data-theme", "data-pt", "data-rf-theme", "class", "style"] }),
       new MutationObserver(b).observe(document.body, { attributes: !0, attributeFilter: ["class"] }),
+      setInterval(function () {
+        var t = i("uThx");
+        t && !t.hidden && thxPos(t);
+      }, 1000),
       setTimeout(b, 200),
       setTimeout(b, 1500));
   }
@@ -97,7 +101,7 @@
         var x = Math.round(r.left) + "px",
           y = Math.round(window.innerHeight - r.top + 10) + "px",
           c = getComputedStyle(f);
-        ["backgroundColor", "color", "borderRadius", "boxShadow", "width", "height"].forEach(function (k) {
+        ["backgroundColor", "backgroundImage", "color", "borderRadius", "boxShadow", "width", "height", "fontSize", "fontWeight", "fontFamily", "lineHeight", "backdropFilter", "textShadow"].forEach(function (k) {
           th.style[k] !== c[k] && (th.style[k] = c[k]);
         });
         th.style.border = c.border;
