@@ -631,7 +631,7 @@
             id: "mine",
             ic: "🤍",
             t: "آياتي",
-            hint: "في رسالة «حالك النهارده» اضغط «♡ هذه الآية لي».",
+            hint: "في «رسالة» اضغط «♡ هذه الآية لي».",
             key: i,
             items: function () {
               return (m(i, {}).verses || []).map(function (t) {

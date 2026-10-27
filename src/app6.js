@@ -1816,7 +1816,7 @@
                           o = (i.reqs || []).length - s,
                           c = t.dueVerses ? t.dueVerses().length : 0;
                         ((a +=
-                          '<div class="u-card"><h3 class="u-h3">طلباتي وحفظ الآيات</h3><div class="trk-st"><div><b>' +
+                          '<div class="u-card"><h3 class="u-h3">دفتر الشكر وحفظ الآيات</h3><div class="trk-st"><div><b>' +
                           r(s) +
                           "</b><span>طلبة تنتظر</span></div><div><b>" +
                           r(o) +
@@ -7446,7 +7446,7 @@
         ["trk", "متابعتي"],
         ["plan", "خطة القراءة"],
         ["memo", "ملاحظاتي"],
-        ["reqs", "طلباتي"],
+        ["reqs", "دفتر الشكر"],
       ];
     var vt = ["agpeya", "bible", "exam", "talk", "msg"];
     function ft() {
