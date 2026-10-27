@@ -32,3 +32,6 @@
 body.has-bar #uThx {
   bottom: calc(var(--u-nav) + env(safe-area-inset-bottom, 0) + 124px);
 }
+.cu-n b{color:inherit}
+html .v70pray .acc-body,html .v70pray .acc-body p{color:var(--s-card-ink,inherit)!important;opacity:1}
+.cu-hn b{color:inherit}
