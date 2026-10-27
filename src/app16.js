@@ -69,7 +69,7 @@
       new MutationObserver(function () {
         b();
       }).observe(o, { childList: !0 }),
-      ["openingArea", "closingArea"].forEach(function (e) {
+      ["openingArea", "closingArea", "recurringArea", "partsSectionArea", "introArea", "openingReflectionArea"].forEach(function (e) {
         var t = i(e);
         t && new MutationObserver(y).observe(t, { childList: !0 });
       }),
@@ -189,6 +189,19 @@
     }
     y();
   }
+  function ord() {
+    var rc = i("recurringArea"),
+      pt = i("partsSectionArea");
+    rc && pt && rc.parentNode === pt.parentNode && rc.compareDocumentPosition(pt) & 4 && pt.after(rc);
+    var k = 0;
+    ["introArea", "openingReflectionArea", "openingArea", "partsSectionArea", "recurringArea", "v70pray", "closingArea"].forEach(
+      function (id) {
+        var a = i(id),
+          n = a && a.querySelector(".acc-num");
+        n && /^[٠-٩0-9]+$/.test(n.textContent.trim()) && ((k += 1), n.textContent !== e0(k - 1) && (n.textContent = e0(k - 1)));
+      },
+    );
+  }
   function y() {
     var e = i("closingArea");
     if (e) {
@@ -198,7 +211,7 @@
         r ||
           (((r = document.createElement("details")).id = "v70pray"),
           (r.className = "acc-card v70pray"),
-          e.parentNode.insertBefore(r, e.nextSibling));
+          e.parentNode.insertBefore(r, e));
         var o = u(),
           l = s().reqs.filter(function (e) {
             return !e.done;
@@ -234,6 +247,7 @@
         );
       } else r && r.remove();
     }
+    ord();
   }
   function e0(n) {
     var m = String(n).replace(/[٠-٩]/g, function (c) {
