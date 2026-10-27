@@ -12,7 +12,7 @@
     if (!el) { el = document.createElement('div'); el.id = 'progDay'; el.className = 'prg-day'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); document.body.appendChild(el); }
     var link = h.src.url ? '<a class="pd-open pd-book" href="' + esc(h.src.url) + '" target="_blank" rel="noopener">افتح الصفحة الأصلية</a>' : '';
     el.innerHTML = '<button type="button" class="pg-x" data-hmback="1" aria-label="رجوع">✕</button><div class="pd-c"><small>' + esc(h.kind) + (h.sub ? ' · ' + esc(h.sub) : '') + '</small><h2>' + esc(h.title) + '</h2>' +
-      '<article class="pd-v pd-quote hm-text">' + h.lines.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '<b>المصدر: ' + esc(h.src.name) + '</b>' + link + '</article>' +
+      '<article class="pd-v pd-quote hm-text">' + h.lines.map(function (l) { return '<p>' + esc(l).replace(/\n/g, '<br>') + '</p>'; }).join('') + '<b>المصدر: ' + esc(h.src.name) + '</b>' + link + '</article>' +
       (h.review && h.review.note ? '<p class="hm-note">' + esc(h.review.note) + '</p>' : '') + '</div>';
     el.classList.add('prg-day'); el.classList.add('on'); el.scrollTop = 0;
   }

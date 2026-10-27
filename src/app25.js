@@ -4179,12 +4179,12 @@
             hm.lines
               .slice(i.hm.s, i.hm.s + i.hm.n)
               .map(function (t) {
-                return "<p>" + E(t) + "</p>";
+                return "<p>" + E(t).replace(/\n/g, "<br>") + "</p>";
               })
               .join("") +
             "</div>" +
             (i.hm.n < hm.lines.length
-              ? '<div class="gd-sub">مقتطف: ' + O(i.hm.n) + " سطر من " + O(hm.lines.length) + " (على قد وقت الخلوة)</div>"
+              ? '<div class="gd-sub">مقتطف: ' + O(i.hm.n) + " من " + O(hm.lines.length) + " مقطعًا (على قد وقت الخلوة)</div>"
               : "") +
             dt([{ name: hm.src.name, url: hm.src.url }])
           );
