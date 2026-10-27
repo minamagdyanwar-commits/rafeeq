@@ -35,3 +35,11 @@ body.has-bar #uThx {
 .cu-n b{color:inherit}
 html .v70pray .acc-body,html .v70pray .acc-body p{color:var(--s-card-ink,inherit)!important;opacity:1}
 .cu-hn b{color:inherit}
+html:root:not(#z) body #uFab,
+html:root:not(#z) body.has-bar #uFab {
+  inset-inline-start: auto !important;
+  inset-inline-end: auto !important;
+  left: 14px !important;
+  right: auto !important;
+  bottom: calc(var(--u-nav, 64px) + env(safe-area-inset-bottom, 0px) + 14px) !important;
+}
