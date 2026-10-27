@@ -5354,7 +5354,8 @@ body.u-focus #prayBar {
 body.u-focus #mod-k .app-switcher {
   top: 0;
 }
-body.u-focus #uFab {
+body.u-focus #uFab,
+body.u-focus #uThx {
   display: none;
 }
 #uSheet {
@@ -6399,6 +6400,7 @@ body.v14-khalwa #uTop > * {
   position: relative;
 }
 body.v14-khalwa #uFab,
+body.v14-khalwa #uThx,
 body.v14-khalwa #uToast,
 body.v14-khalwa #v14Imm,
 body.v14-khalwa #v14Prog {
@@ -6688,7 +6690,8 @@ body.v14-imm #v14Imm {
   opacity: 1;
 }
 body.v14-imm .u-hd,
-body.v14-imm #uFab {
+body.v14-imm #uFab,
+body.v14-imm #uThx {
   display: none;
 }
 body.v14-khalwa #v14Imm,

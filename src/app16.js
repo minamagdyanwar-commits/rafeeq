@@ -135,6 +135,9 @@
     e.getAttribute("data-v70h") !== t && ((e.innerHTML = t), e.setAttribute("data-v70h", t));
   }
   function b() {
+    var th = i("uThx"),
+      ph = i("page-home");
+    th && (th.hidden = !(ph && ph.classList.contains("on")));
     var n,
       r = document.querySelector("#page-home .u-wrap");
     if (r) {
@@ -193,17 +196,19 @@
         r = i("v70pray");
       if (n) {
         r ||
-          (((r = document.createElement("div")).id = "v70pray"),
-          (r.className = "u-card v70pray"),
-          e.parentNode.insertBefore(r, e));
+          (((r = document.createElement("details")).id = "v70pray"),
+          (r.className = "acc-card v70pray"),
+          e.parentNode.insertBefore(r, e.nextSibling));
         var o = u(),
-          l = s()
-            .reqs.filter(function (e) {
-              return !e.done;
-            })
-            .slice(0, 5),
+          l = s().reqs.filter(function (e) {
+            return !e.done;
+          }),
+          pn = e.querySelector(".acc-num"),
+          num = pn ? pn.textContent.trim() : "",
           c =
-            "<h4>من أجلي ومن أجل من أحب</h4><p>يا رب، أنا " +
+            '<summary><span class="acc-num">' +
+            (num ? e0(num) : "") +
+            '</span><span class="acc-title">طلبات<span class="acc-sub">من أجلي ومن أجل من أحب</span></span><span class="acc-caret">▾</span></summary><div class="acc-body"><p>يا رب، أنا ' +
             (o ? t(o) : "ابنك") +
             " واقف أمامك، وأضع بين يديك:</p>";
         l.length
@@ -221,12 +226,22 @@
                 })
                 .join("") +
               "</ul>")
-          : (c += '<p style="opacity:.7">لسه ما كتبتش طلبات. اكتب أول طلبة في دفتر الشكر وهتظهر هنا في كل صلاة.</p>');
-        g(r, (c += '<div class="v70acts"><button type="button" data-v70="reqs">＋ دفتر الشكر</button></div>'));
+          : (c += '<p style="opacity:.7">لسه ما كتبتش طلبات. اكتب أول طلبة هنا وهتظهر في كل صلاة.</p>');
+        g(
+          r,
+          (c +=
+            '<div class="v70add"><input id="v70rq" class="u-in" maxlength="160" placeholder="اكتب طلبتك…" aria-label="طلبة جديدة"><button type="button" class="u-btn on" data-v70="rqadd">إضافة</button></div><div class="v70acts"><button type="button" data-v70="reqs">فتح دفتر الشكر</button></div></div>'),
+        );
       } else r && r.remove();
     }
   }
-  var dkTab = "all",
+  function e0(n) {
+    var m = String(n).replace(/[٠-٩]/g, function (c) {
+      return c.charCodeAt(0) - 1632;
+    });
+    return e.ard(+m + 1);
+  }
+  var dkTab = "thx",
     dkKind = "thx",
     dkAns = null;
   function dkDay(ts) {
@@ -249,31 +264,33 @@
   }
   function dkItems(st, tab) {
     var L = [];
-    (st.thx.forEach(function (x) {
-      L.push({ k: "thx", id: x.id, t: x.t, ts: x.ts });
-    }),
+    if ("thx" === tab) {
+      st.thx.forEach(function (x) {
+        L.push({ k: "thx", id: x.id, t: x.t, ts: x.ts });
+      });
+      st.reqs.forEach(function (x) {
+        x.done && L.push({ k: "thxa", id: x.id, t: x.t, ts: x.done, since: x.ts, note: x.note });
+      });
+    } else
       st.reqs.forEach(function (x) {
         L.push(
           x.done
-            ? { k: "ans", id: x.id, t: x.t, ts: x.done, since: x.ts, note: x.note }
+            ? { k: "ans", id: x.id, t: x.t, ts: x.ts, done: x.done, note: x.note }
             : { k: "req", id: x.id, t: x.t, ts: x.ts },
         );
-      }),
-      L.sort(function (a, b) {
-        return b.ts - a.ts;
-      }));
-    return "all" === tab
-      ? L
-      : L.filter(function (x) {
-          return x.k === tab;
-        });
+      });
+    return L.sort(function (a, b) {
+      return b.ts - a.ts;
+    });
   }
   function dkRow(x) {
-    var tag = { thx: "شكر", req: "طلبة تنتظر", ans: "استُجيبت" }[x.k],
+    var tag = { thx: "شكر", thxa: "شكر على استجابة طلبة", req: "تنتظر", ans: "استُجيبت" }[x.k],
       sub =
-        "ans" === x.k
+        "thxa" === x.k
           ? "طلبتها من " + e.ard(Math.max(1, Math.round((x.ts - x.since) / 864e5))) + " يومًا"
-          : "",
+          : "ans" === x.k
+            ? "استُجيبت " + dkDay(x.done) + " · بعد " + e.ard(Math.max(1, Math.round((x.done - x.ts) / 864e5))) + " يومًا"
+            : "",
       h =
         '<li class="dk-it dk-' +
         x.k +
@@ -292,7 +309,7 @@
         '">✓ استُجيبت</button><button type="button" data-v70="del:' +
         x.id +
         '" aria-label="حذف">🗑</button>';
-    else
+    else if ("thxa" !== x.k)
       h +=
         '<button type="button" data-v70="' +
         ("thx" === x.k ? "tdel:" : "del:") +
@@ -351,17 +368,15 @@
       }).length,
       done = st.reqs.length - open,
       tabs = [
-        ["all", "الكل"],
-        ["thx", "شكر"],
-        ["req", "طلبات"],
-        ["ans", "استجابات"],
+        ["thx", "الشكر"],
+        ["req", "الطلبات"],
       ],
       a =
         '<div class="dk-stats"><div><b>' +
         e.ard(st.thx.length + done) +
         "</b><span>شكرًا مسجّلًا</span></div><div><b>" +
-        e.ard(done) +
-        "</b><span>طلبات اتجاوبت</span></div><div><b>" +
+        e.ard(open) +
+        "</b><span>طلبات تنتظر</span></div><div><b>" +
         e.ard(dkStreak(st)) +
         '</b><span>يومًا متواصلًا</span></div></div><div class="dk-tabs" role="group" aria-label="تصفية">' +
         tabs
@@ -389,34 +404,13 @@
             (a += dkRow(x)));
         }),
         (a += "</ul>"))
-      : (a += '<p style="opacity:.7">' + (open + done + st.thx.length ? "لا يوجد في هذا التبويب." : "ابدأ بأول شكر أو طلبة.") + "</p>");
-    st.verses.length &&
-      (a +=
-        "<h4>آياتي (" +
-        st.verses.length +
-        ')</h4><ul class="v70list">' +
-        st.verses
-          .map(function (x) {
-            return (
-              '<li><span class="t">«' +
-              t(x.text) +
-              "»<small>" +
-              t(x.ref) +
-              " · " +
-              t(v(x.ts)) +
-              '</small></span><button type="button" data-v70="vdel:' +
-              x.id +
-              '" aria-label="حذف">🗑</button></li>'
-            );
-          })
-          .join("") +
-        "</ul>");
+      : (a += '<p style="opacity:.7">' + ("req" === dkTab ? "لا طلبات بعد. اكتب أول طلبة." : "اكتب أول شكر على ما أعطاك الله اليوم.") + "</p>");
     return a;
   }
   function q() {
-    ((dkKind = "thx"), (dkAns = null));
+    ((dkKind = dkTab), (dkAns = null));
     e.sheet(
-      '<div class="v70sh dk"><h3 class="u-h3">دفتر الشكر</h3><div class="dk-seg" role="group" aria-label="نوع الإدخال"><button type="button" class="on" aria-pressed="true" data-v70="kind:thx">شكر</button><button type="button" aria-pressed="false" data-v70="kind:req">طلبة</button></div><div class="v70add"><input id="v70in" class="u-in" maxlength="160" placeholder="أشكرك يا رب على…" aria-label="إدخال جديد"><button type="button" class="u-btn on" data-v70="add">إضافة</button></div><div id="v70lst">' +
+      '<div class="v70sh dk"><h3 class="u-h3">دفتر الشكر</h3><div class="v70add"><input id="v70in" class="u-in" maxlength="160" placeholder="'+("req"===dkTab?"اكتب طلبتك…":"أشكرك يا رب على…")+'" aria-label="إدخال جديد"><button type="button" class="u-btn on" data-v70="add">إضافة</button></div><div id="v70lst">' +
         w() +
         '</div><div class="row-gap" style="margin-top:12px"><button type="button" class="u-btn" onclick="__F.closeSheet()">إغلاق</button></div></div>',
     );
@@ -470,7 +464,7 @@
       }),
         ki && (ki.placeholder = "req" === dkKind ? "اكتب طلبتك…" : "أشكرك يا رب على…"));
     } else if ("tab" === o) {
-      ((dkTab = c || "all"), k());
+      ((dkTab = "req" === c ? "req" : "thx"), (dkKind = dkTab), k(), (i("v70in") && (i("v70in").placeholder = "req" === dkKind ? "اكتب طلبتك…" : "أشكرك يا رب على…")));
     } else if ("ansopen" === o) {
       ((dkAns = c), k());
       var an = i("dk-nt");
@@ -536,6 +530,13 @@
         e.closeSheet(),
         b(),
         e.toast("تشرّفنا يا " + (u() || "حبيبي")));
+    } else if ("rqadd" === o) {
+      var rq = i("v70rq"),
+        rv = rq ? rq.value.trim() : "";
+      if (!rv) return;
+      (v.reqs.unshift({ id: d(), t: rv.slice(0, 160), ts: Date.now(), done: 0 }), l(v), b(), e.toast("اتحطّت في طلباتك ✓"));
+      var rq2 = i("v70rq");
+      rq2 && rq2.focus();
     } else if ("add" === o || "add" === n) {
       var m = i("v70in"),
         g = m ? m.value.trim() : "";
