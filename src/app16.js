@@ -80,11 +80,30 @@
       document.addEventListener("visibilitychange", function () {
         document.hidden || b();
       }),
+      window.addEventListener("resize", b),
+      new MutationObserver(b).observe(document.documentElement, { attributes: !0, attributeFilter: ["data-layout", "data-design", "class"] }),
+      new MutationObserver(b).observe(document.body, { attributes: !0, attributeFilter: ["class"] }),
       setTimeout(b, 200),
       setTimeout(b, 1500));
   }
   function i(e) {
     return document.getElementById(e);
+  }
+  function thxPos(th) {
+    var f = i("uFab");
+    if (f) {
+      var r = f.getBoundingClientRect();
+      if (r.width) {
+        var x = Math.round(r.left) + "px",
+          y = Math.round(window.innerHeight - r.top + 10) + "px",
+          c = getComputedStyle(f);
+        ["backgroundColor", "color", "borderRadius", "boxShadow", "width", "height"].forEach(function (k) {
+          th.style[k] !== c[k] && (th.style[k] = c[k]);
+        });
+        th.style.border = c.border;
+        (th.style.left !== x && (th.style.left = x), th.style.bottom !== y && (th.style.bottom = y), (th.style.insetInlineStart = "auto"), (th.style.right = "auto"));
+      }
+    }
   }
   function s() {
     try {
@@ -138,6 +157,7 @@
     var th = i("uThx"),
       ph = i("page-home");
     th && (th.hidden = !(ph && ph.classList.contains("on")));
+    th && !th.hidden && thxPos(th);
     var n,
       r = document.querySelector("#page-home .u-wrap");
     if (r) {
