@@ -134,15 +134,40 @@
   function thxPos(th) {
     var f = i("uFab");
     if (f) {
+      var now = Date.now();
+      if (now - (thxPos.t || 0) > 400) {
+        thxPos.t = now;
+        var bd = document.body,
+          de = document.documentElement.style;
+        bd.classList.add("fab-raw");
+        var rc = getComputedStyle(f),
+          fbg = rc.backgroundColor,
+          ffg = rc.color,
+          fbd = rc.borderTopColor,
+          pg = getComputedStyle(bd).backgroundColor,
+          cp = {};
+        ["backgroundColor", "backgroundImage", "color", "borderRadius", "boxShadow", "width", "height", "fontSize", "fontWeight", "fontFamily", "lineHeight", "backdropFilter", "textShadow", "border"].forEach(function (k) {
+          cp[k] = rc[k];
+        });
+        bd.classList.remove("fab-raw");
+        Object.keys(cp).forEach(function (k) {
+          th.style[k] !== cp[k] && (th.style[k] = cp[k]);
+        });
+        function opq(c) {
+          var m = /,\s*([\d.]+)\)$|\/\s*([\d.]+)\)$/.exec(c);
+          return !!c && "transparent" !== c && !(m && parseFloat(m[1] || m[2]) < 0.95);
+        }
+        opq(pg) || (pg = getComputedStyle(document.documentElement).backgroundColor);
+        opq(pg) || (pg = "#000");
+        de.setProperty("--fab-pg", pg);
+        de.setProperty("--fab-bg", opq(fbg) ? fbg : pg);
+        de.setProperty("--fab-fg", ffg);
+        de.setProperty("--fab-bd", fbd);
+      }
       var r = f.getBoundingClientRect();
       if (r.width) {
         var x = Math.round(r.left) + "px",
-          y = Math.round(window.innerHeight - r.top + 10) + "px",
-          c = getComputedStyle(f);
-        ["backgroundColor", "backgroundImage", "color", "borderRadius", "boxShadow", "width", "height", "fontSize", "fontWeight", "fontFamily", "lineHeight", "backdropFilter", "textShadow"].forEach(function (k) {
-          th.style[k] !== c[k] && (th.style[k] = c[k]);
-        });
-        th.style.border = c.border;
+          y = Math.round(window.innerHeight - r.top + 10) + "px";
         (th.style.left !== x && (th.style.left = x), th.style.bottom !== y && (th.style.bottom = y), (th.style.insetInlineStart = "auto"), (th.style.right = "auto"));
       }
     }
