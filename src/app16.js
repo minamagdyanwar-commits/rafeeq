@@ -85,7 +85,7 @@
       new MutationObserver(b).observe(document.body, { attributes: !0, attributeFilter: ["class"] }),
       setInterval(function () {
         var t = i("uThx");
-        t && !t.hidden && thxPos(t);
+        t && thxPos(t);
       }, 1000),
       setTimeout(b, 200),
       setTimeout(b, 1500));
@@ -160,8 +160,7 @@
   function b() {
     var th = i("uThx"),
       ph = i("page-home");
-    th && (th.hidden = !(ph && ph.classList.contains("on")));
-    th && !th.hidden && thxPos(th);
+    th && ((th.hidden = !1), thxPos(th));
     var n,
       r = document.querySelector("#page-home .u-wrap");
     if (r) {

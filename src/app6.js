@@ -4617,6 +4617,11 @@
         );
       document.body.classList.toggle("gd-on", i);
       var o = s ? p() : [];
+      if (o.length) {
+        var st = window.__k.getState(),
+          anchor = n(st.hour ? "closingArea" : "mergedViewArea");
+        anchor && anchor.nextElementSibling !== b && anchor.after(b);
+      }
       if ((document.body.classList.remove("u-focus"), !o.length))
         return ((b.hidden = !0), document.body.classList.remove("has-bar"), void (h = ""));
       var c = e.dkey(),
