@@ -80,7 +80,9 @@
       document.addEventListener("visibilitychange", function () {
         document.hidden || b();
       }),
-      window.addEventListener("resize", b),
+      window.addEventListener("resize", function () {
+        ((fabDirty = 1), b());
+      }),
       document.querySelectorAll(".u-page").forEach(function (pg) {
         new MutationObserver(function () {
           ((fabNav = Date.now()), fabMode());
@@ -89,15 +91,15 @@
       document.addEventListener(
         "pointerdown",
         function (e) {
-          var f = e.target.closest && e.target.closest("#uFab,#uThx");
+          var f = e.target.closest && e.target.closest("#uFab,#uThx,#uDrv");
           if (f) {
-            ["uFab", "uThx"].forEach(function (id) {
+            ["uFab", "uThx", "uDrv"].forEach(function (id) {
               var x = i(id);
               x && x.classList.add("fab-on");
             });
             clearTimeout(window.__fabT);
             window.__fabT = setTimeout(function () {
-              ["uFab", "uThx"].forEach(function (id) {
+              ["uFab", "uThx", "uDrv"].forEach(function (id) {
                 var x = i(id);
                 x && x.classList.remove("fab-on");
               });
@@ -106,7 +108,9 @@
         },
         !0,
       ),
-      new MutationObserver(b).observe(document.documentElement, { attributes: !0, attributeFilter: ["data-layout", "data-design", "data-theme", "data-pt", "data-rf-theme", "class", "style"] }),
+      new MutationObserver(function () {
+        ((fabDirty = 1), b());
+      }).observe(document.documentElement, { attributes: !0, attributeFilter: ["data-layout", "data-design", "data-theme", "data-pt", "data-rf-theme", "class", "style"] }),
       new MutationObserver(b).observe(document.body, { attributes: !0, attributeFilter: ["class"] }),
       setInterval(function () {
         var t = i("uThx");
@@ -118,6 +122,12 @@
   function i(e) {
     return document.getElementById(e);
   }
+  document.addEventListener("click", function (ev) {
+    if (ev.target.closest && ev.target.closest("#uDrv")) {
+      ev.preventDefault();
+      typeof window.__driveOpen === "function" ? window.__driveOpen() : e.toast("وضع القيادة غير جاهز بعد");
+    }
+  });
   var fabNav = Date.now(),
     fabTm = 0;
   function fabMode() {
@@ -131,14 +141,24 @@
     clearTimeout(fabTm);
     !deep && !home && !chooser && left > 0 && (fabTm = setTimeout(fabMode, left + 50));
   }
+  var fabDirty = 1;
+  function setVar(n, v) {
+    var de = document.documentElement.style;
+    de.getPropertyValue(n) !== v && de.setProperty(n, v);
+  }
+  function opq(c) {
+    var m = /,\s*([\d.]+)\)$|\/\s*([\d.]+)\)$/.exec(c);
+    return !!c && "transparent" !== c && !(m && parseFloat(m[1] || m[2]) < 0.95);
+  }
   function thxPos(th) {
-    var f = i("uFab");
+    var f = i("uFab"),
+      dv = i("uDrv");
     if (f) {
       var now = Date.now();
-      if (now - (thxPos.t || 0) > 400) {
+      if (fabDirty || now - (thxPos.t || 0) > 5000) {
+        fabDirty = 0;
         thxPos.t = now;
-        var bd = document.body,
-          de = document.documentElement.style;
+        var bd = document.body;
         bd.classList.add("fab-raw");
         var rc = getComputedStyle(f),
           fbg = rc.backgroundColor,
@@ -150,25 +170,29 @@
           cp[k] = rc[k];
         });
         bd.classList.remove("fab-raw");
-        Object.keys(cp).forEach(function (k) {
-          th.style[k] !== cp[k] && (th.style[k] = cp[k]);
+        [th, dv].forEach(function (t) {
+          t &&
+            Object.keys(cp).forEach(function (k) {
+              t.style[k] !== cp[k] && (t.style[k] = cp[k]);
+            });
         });
-        function opq(c) {
-          var m = /,\s*([\d.]+)\)$|\/\s*([\d.]+)\)$/.exec(c);
-          return !!c && "transparent" !== c && !(m && parseFloat(m[1] || m[2]) < 0.95);
-        }
         opq(pg) || (pg = getComputedStyle(document.documentElement).backgroundColor);
         opq(pg) || (pg = "#000");
-        de.setProperty("--fab-pg", pg);
-        de.setProperty("--fab-bg", opq(fbg) ? fbg : pg);
-        de.setProperty("--fab-fg", ffg);
-        de.setProperty("--fab-bd", fbd);
+        setVar("--fab-pg", pg);
+        setVar("--fab-bg", opq(fbg) ? fbg : pg);
+        setVar("--fab-fg", ffg);
+        setVar("--fab-bd", fbd);
       }
       var r = f.getBoundingClientRect();
       if (r.width) {
         var x = Math.round(r.left) + "px",
-          y = Math.round(window.innerHeight - r.top + 10) + "px";
-        (th.style.left !== x && (th.style.left = x), th.style.bottom !== y && (th.style.bottom = y), (th.style.insetInlineStart = "auto"), (th.style.right = "auto"));
+          y = Math.round(window.innerHeight - r.top + 10),
+          h = Math.round(r.height);
+        [[th, y], [dv, y + h + 10]].forEach(function (q) {
+          var t = q[0],
+            yy = q[1] + "px";
+          t && (t.style.left !== x && (t.style.left = x), t.style.bottom !== yy && (t.style.bottom = yy), (t.style.insetInlineStart = "auto"), (t.style.right = "auto"));
+        });
       }
     }
   }

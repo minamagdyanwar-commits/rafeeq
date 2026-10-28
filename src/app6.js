@@ -4686,76 +4686,9 @@
         attributeFilter: ["class", "style"],
       }),
       setInterval(m, 1500));
-    var g,
-      y = 0,
-      w = !1;
-    function k() {
-      var t = n("uFab"),
-        a = (function () {
-          var t = n("uDrive");
-          return (
-            t ||
-              (((t = document.createElement("button")).id = "uDrive"),
-              (t.type = "button"),
-              (t.hidden = !0),
-              (t.innerHTML = "🚗 وضع القيادة<small>قراءة صوتية للصلاة</small>"),
-              document.body.appendChild(t),
-              t.addEventListener("click", function (n) {
-                (n.stopPropagation(),
-                  (t.hidden = !0),
-                  window.__driveOpen
-                    ? window.__driveOpen()
-                    : e.toast("وضع القيادة غير جاهز بعد — افتح الصلاة أولًا"));
-              }),
-              document.addEventListener(
-                "click",
-                function (e) {
-                  t.hidden || e.target === t || e.target === n("uFab") || (t.hidden = !0);
-                },
-                !0,
-              )),
-            t
-          );
-        })();
-      function r() {
-        var e = t.getBoundingClientRect();
-        ((a.style.left = "0px"), (a.style.bottom = "0px"));
-        var n = a.offsetWidth,
-          r = document.documentElement.clientWidth;
-        ((a.style.left = Math.max(8, Math.min(r - n - 8, e.left + e.width / 2 - n / 2)) + "px"),
-          (a.style.bottom = innerHeight - e.top + 10 + "px"));
-      }
-      ((a.hidden = !1),
-        r(),
-        setTimeout(r, 160),
-        clearTimeout(a._t),
-        (a._t = setTimeout(function () {
-          a.hidden = !0;
-        }, 6e3)));
-      try {
-        navigator.vibrate && navigator.vibrate(25);
-      } catch (t) {}
-    }
-    ((g = n("uFab")).addEventListener("pointerdown", function () {
-      ((w = !1),
-        clearTimeout(y),
-        (y = setTimeout(function () {
-          ((w = !0), k());
-        }, 550)));
-    }),
-      ["pointerup", "pointerleave", "pointercancel"].forEach(function (t) {
-        g.addEventListener(t, function () {
-          clearTimeout(y);
-        });
-      }),
-      g.addEventListener("contextmenu", function (t) {
-        t.preventDefault();
-      }),
-      n("uFab").addEventListener("click", function (t) {
-        if (w) return ((w = !1), t.preventDefault(), void t.stopPropagation());
-        window.__rafeeq;
-        e.noteDialog({ src: "" });
-      }));
+    n("uFab").addEventListener("click", function (t) {
+      e.noteDialog({ src: "" });
+    });
   })(),
   (function () {
     var t = {

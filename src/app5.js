@@ -7868,7 +7868,7 @@
       if (!h.hour) return void (e.innerHTML = "");
       const t = I();
       ((e.innerHTML =
-        `<div class="ag-mode"><div class="parts-row"><div class="part-btn${t ? "" : " active"}" data-agm="full">الأجبية الكاملة</div><div class="part-btn${t ? " active" : ""}" data-agm="short">صلاة مختصرة · ٣ مزامير</div></div><button type="button" class="ag-drive" data-agm="drive">🚗 وضع القيادة — قراءة صوتية مع تنوير الكلمة</button>` +
+        `<div class="ag-mode"><div class="parts-row"><div class="part-btn${t ? "" : " active"}" data-agm="full">الأجبية الكاملة</div><div class="part-btn${t ? " active" : ""}" data-agm="short">صلاة مختصرة · ٣ مزامير</div></div>` +
         (t
           ? `<div class="ag-mode-note"><span>اختار لك ٣ مزامير عشوائية من ${y[h.hour].label}، وباقي الصلاة (المقدمة والإنجيل والقطع والتحليل) بترتيبها المعتاد.</span><button type="button" class="ag-reroll" data-agm="reroll">🔀 ٣ مزامير أخرى</button></div>`
           : "") +
