@@ -50,7 +50,9 @@ html:root:not(#z) body #uThx {
   position: fixed !important;
   display: inline-block !important;
   visibility: visible !important;
-  opacity: 1 !important;
+  opacity: 0.38 !important;
+  box-shadow: none !important;
+  transition: opacity 0.25s !important;
   pointer-events: auto !important;
   inset-inline-start: auto !important;
   inset-inline-end: auto !important;
@@ -73,4 +75,25 @@ html:root:not(#z) body:has(#uLock:not([hidden])) #uThx {
   content: "";
   display: block;
   height: 130px;
+}
+html:root:not(#z) body:has(#page-home.on) #uFab,
+html:root:not(#z) body:has(#page-home.on) #uThx {
+  opacity: 0.72 !important;
+}
+html:root:not(#z) body #uFab:hover,
+html:root:not(#z) body #uThx:hover,
+html:root:not(#z) body #uFab:focus-visible,
+html:root:not(#z) body #uThx:focus-visible,
+html:root:not(#z) body #uFab:active,
+html:root:not(#z) body #uThx:active,
+html:root:not(#z) body #uFab.fab-on,
+html:root:not(#z) body #uThx.fab-on {
+  opacity: 1 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35) !important;
+}
+html:root:not(#z) body:has(.settings-panel.open) #uFab,
+html:root:not(#z) body:has(.settings-panel.open) #uThx,
+html:root:not(#z) body:has(.hours-drawer.open) #uFab,
+html:root:not(#z) body:has(.hours-drawer.open) #uThx {
+  display: none !important;
 }

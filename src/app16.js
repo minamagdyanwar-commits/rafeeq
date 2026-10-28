@@ -81,6 +81,26 @@
         document.hidden || b();
       }),
       window.addEventListener("resize", b),
+      document.addEventListener(
+        "pointerdown",
+        function (e) {
+          var f = e.target.closest && e.target.closest("#uFab,#uThx");
+          if (f) {
+            ["uFab", "uThx"].forEach(function (id) {
+              var x = i(id);
+              x && x.classList.add("fab-on");
+            });
+            clearTimeout(window.__fabT);
+            window.__fabT = setTimeout(function () {
+              ["uFab", "uThx"].forEach(function (id) {
+                var x = i(id);
+                x && x.classList.remove("fab-on");
+              });
+            }, 3000);
+          }
+        },
+        !0,
+      ),
       new MutationObserver(b).observe(document.documentElement, { attributes: !0, attributeFilter: ["data-layout", "data-design", "data-theme", "data-pt", "data-rf-theme", "class", "style"] }),
       new MutationObserver(b).observe(document.body, { attributes: !0, attributeFilter: ["class"] }),
       setInterval(function () {
