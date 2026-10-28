@@ -76,9 +76,9 @@ html:root:not(#z) body:has(#uLock:not([hidden])) #uThx {
   display: block;
   height: 130px;
 }
-html:root:not(#z) body:has(#page-home.on) #uFab,
-html:root:not(#z) body:has(#page-home.on) #uThx {
-  opacity: 0.72 !important;
+html:root:not(#z) body.fab-bright #uFab,
+html:root:not(#z) body.fab-bright #uThx {
+  opacity: 0.85 !important;
 }
 html:root:not(#z) body #uFab:hover,
 html:root:not(#z) body #uThx:hover,

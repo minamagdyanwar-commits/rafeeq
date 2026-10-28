@@ -81,6 +81,11 @@
         document.hidden || b();
       }),
       window.addEventListener("resize", b),
+      document.querySelectorAll(".u-page").forEach(function (pg) {
+        new MutationObserver(function () {
+          ((fabNav = Date.now()), fabMode());
+        }).observe(pg, { attributes: !0, attributeFilter: ["class"] });
+      }),
       document.addEventListener(
         "pointerdown",
         function (e) {
@@ -112,6 +117,19 @@
   }
   function i(e) {
     return document.getElementById(e);
+  }
+  var fabNav = Date.now(),
+    fabTm = 0;
+  function fabMode() {
+    var d = document.body.classList,
+      home = i("page-home") && i("page-home").classList.contains("on"),
+      chooser = i("page-pray") && i("page-pray").classList.contains("on") && !d.contains("has-bar"),
+      deep = d.contains("gd-on") || d.contains("v14-khalwa") || d.contains("v14-imm"),
+      left = fabNav + 4000 - Date.now(),
+      bright = !deep && (home || chooser || left > 0);
+    d.toggle("fab-bright", bright);
+    clearTimeout(fabTm);
+    !deep && !home && !chooser && left > 0 && (fabTm = setTimeout(fabMode, left + 50));
   }
   function thxPos(th) {
     var f = i("uFab");
@@ -181,6 +199,7 @@
     var th = i("uThx"),
       ph = i("page-home");
     th && ((th.hidden = !1), thxPos(th));
+    fabMode();
     var n,
       r = document.querySelector("#page-home .u-wrap");
     if (r) {
