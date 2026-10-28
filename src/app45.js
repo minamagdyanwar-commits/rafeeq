@@ -30,9 +30,6 @@ function open(){var f=F();
   var B=f.bible;var go=function(){var sp=startPoint();openAt(sp.b,sp.c,sp.auto,sp.hint||'')};
   if(B&&B.load)B.load().then(go,go);else go()}
 function inReader(){var f=F();try{return !!q('#page-trk.on')&&!!(f.isBibleTab&&f.trkTab&&f.isBibleTab(f.trkTab()))}catch(e){return !!q('#page-trk.on .bible-text')}}
-function mount(){var host=q('#trkBody');if(!host||q('.rd-drive',host))return;var anchor=q('.xr-bar',host)||q('.rd-head',host);if(!anchor||!q('.bible-text',host))return;
-  var b=document.createElement('button');b.type='button';b.className='rd-drive';b.setAttribute('data-bdrive','1');b.innerHTML='🚗 وضع القيادة <small>اسمع هذا الفصل وما بعده</small>';anchor.after(b)}
-new MutationObserver(mount).observe(document.body,{childList:true,subtree:true});
 document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('[data-bdrive]');if(!t)return;e.preventDefault();e.stopPropagation();open()},true);
 function wrap(){var d=window.__driveOpen;if(typeof d==='function'&&!d.__bd){var w=function(){if(inReader())return open();return d.apply(this,arguments)};w.__bd=1;window.__driveOpen=w}
   var u=document.getElementById('uDrive');if(u&&!u.hidden){var s=q('small',u);var want=inReader()?'قراءة صوتية للكتاب المقدس':'قراءة صوتية للصلاة';if(s&&s.textContent!==want)s.textContent=want}}
