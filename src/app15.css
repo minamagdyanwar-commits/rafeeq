@@ -126,3 +126,7 @@ html:root:not(#z) body #uToast {
   max-width: calc(100vw - 76px);
   z-index: 2147483003;
 }
+#v14Imm,
+#v14Imm.show {
+  display: none !important;
+}
