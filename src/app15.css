@@ -35,11 +35,42 @@ body.has-bar #uThx {
 .cu-n b{color:inherit}
 html .v70pray .acc-body,html .v70pray .acc-body p{color:var(--s-card-ink,inherit)!important;opacity:1}
 .cu-hn b{color:inherit}
+html:root:not(#z) body #prayBar {
+  position: static;
+  inset: auto;
+  z-index: auto;
+  max-width: none;
+  margin: 14px 0;
+}
+html:root:not(#z) body #prayBar[hidden] {
+  display: none;
+}
 html:root:not(#z) body #uFab,
-html:root:not(#z) body.has-bar #uFab {
+html:root:not(#z) body #uThx {
+  position: fixed !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
   inset-inline-start: auto !important;
   inset-inline-end: auto !important;
   left: 14px !important;
   right: auto !important;
-  bottom: calc(var(--u-nav, 64px) + env(safe-area-inset-bottom, 0px) + 14px) !important;
+  z-index: 2147483002 !important;
+}
+html:root:not(#z) body #uFab {
+  bottom: calc(max(var(--u-nav-full, 0px), var(--v62nh, 0px)) + env(safe-area-inset-bottom, 0px) + 14px) !important;
+}
+html:root:not(#z) body:has(#uSheet.on) #uFab,
+html:root:not(#z) body:has(#uSheet.on) #uThx,
+html:root:not(#z) body:has(#uSearchOv:not([hidden])) #uFab,
+html:root:not(#z) body:has(#uSearchOv:not([hidden])) #uThx,
+html:root:not(#z) body:has(#uLock:not([hidden])) #uFab,
+html:root:not(#z) body:has(#uLock:not([hidden])) #uThx {
+  z-index: 100 !important;
+}
+.u-page.on::after {
+  content: "";
+  display: block;
+  height: 130px;
 }
