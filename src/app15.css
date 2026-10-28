@@ -118,3 +118,11 @@ html:root:not(#z) body:has(.hours-drawer.open) #uThx {
   display: block;
   margin: auto;
 }
+html:root:not(#z) body #uToast {
+  inset-inline: auto;
+  left: 68px;
+  right: 8px;
+  margin: 0 auto;
+  max-width: calc(100vw - 76px);
+  z-index: 2147483003;
+}
