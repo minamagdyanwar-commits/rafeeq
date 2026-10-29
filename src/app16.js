@@ -532,6 +532,76 @@
       : (a += '<p style="opacity:.7">' + ("req" === dkTab ? "لا طلبات بعد. اكتب أول طلبة." : "اكتب أول شكر على ما أعطاك الله اليوم.") + "</p>");
     return a;
   }
+  var bfN = 14,
+    BF = [
+      ["bakr", "باكر"],
+      ["thalitha", "٣"],
+      ["sadisa", "٦"],
+      ["tasi3a", "٩"],
+      ["ghouroub", "غروب"],
+      ["noum", "نوم"],
+      ["read", "قراءات"],
+      ["med", "خلوة"],
+    ];
+  function bfOn(d, k) {
+    return "read" === k || "med" === k ? !!(e.day(d) || {})[k] : e.hourDone(d, k);
+  }
+  function bfSet(d, k, on) {
+    "read" === k || "med" === k
+      ? e.setDay(d, function (x) {
+          on ? (x[k] = 1) : delete x[k];
+        })
+      : e.setHour(d, k, on);
+  }
+  function bfDays() {
+    for (var L = [], i = 0; i < bfN; i++) L.push(e.dkey(e.addDays(new Date(), -i)));
+    return L;
+  }
+  function bfGrid() {
+    var L = bfDays(),
+      cnt = L.filter(function (d) {
+        return BF.some(function (c) {
+          return bfOn(d, c[0]);
+        });
+      }).length,
+      h =
+        '<p class="bf-n">أيام فيها نشاط من آخر ' +
+        e.ard(bfN) +
+        ": <b>" +
+        e.ard(cnt) +
+        '</b></p><div class="bf-g" role="grid"><div class="bf-r bf-h"><span></span>' +
+        BF.map(function (c) {
+          return '<button type="button" data-v70="bfc:' + c[0] + '" aria-label="تعليم عمود ' + c[1] + '">' + c[1] + "</button>";
+        }).join("") +
+        "</div>";
+    L.forEach(function (d) {
+      h +=
+        '<div class="bf-r"><button type="button" class="bf-d" data-v70="bfr:' +
+        d +
+        '">' +
+        t(RF.fmtDate(e.parseKey(d), { weekday: "short", day: "numeric", month: "numeric" })) +
+        "</button>" +
+        BF.map(function (c) {
+          var on = bfOn(d, c[0]);
+          return '<button type="button" class="bf-c' + (on ? " on" : "") + '" aria-pressed="' + on + '" data-v70="bf:' + d + ":" + c[0] + '">' + (on ? "✓" : "") + "</button>";
+        }).join("") +
+        "</div>";
+    });
+    return h + "</div>";
+  }
+  function bfOpen() {
+    e.sheet(
+      '<div class="v70sh bf"><h3 class="u-h3">استرجاع سجل الأيام</h3><p style="opacity:.8;margin:0 0 6px">اضغط على الخانة لتعليم الصلاة أو القراءة في اليوم ده. اضغط على اسم اليوم لتعليمه كله، أو على عنوان العمود لتعليمه في كل الأيام.</p><div id="bfg">' +
+        bfGrid() +
+        '</div><div class="row-gap" style="margin-top:10px"><button type="button" class="u-btn" data-v70="bfmore">أيام أكتر (٣٠ يوم)</button><button type="button" class="u-btn" onclick="__F.closeSheet()">تم</button></div></div>',
+    );
+  }
+  function bfPaint() {
+    var g = i("bfg");
+    g && (g.innerHTML = bfGrid());
+    e.refreshHome && e.refreshHome();
+    e.renderTrk && e.renderTrk();
+  }
   function q() {
     ((dkKind = dkTab), (dkAns = null));
     e.sheet(
@@ -655,6 +725,31 @@
         e.closeSheet(),
         b(),
         e.toast("تشرّفنا يا " + (u() || "حبيبي")));
+    } else if ("backfill" === o) bfOpen();
+    else if ("bfmore" === o) {
+      ((bfN = 30), bfPaint());
+      var bm = document.querySelector('[data-v70="bfmore"]');
+      bm && bm.remove();
+    } else if ("bf" === o) {
+      var bp = c.split(":");
+      (bfSet(bp[0], bp[1], !bfOn(bp[0], bp[1])), bfPaint());
+    } else if ("bfr" === o) {
+      var br = BF.every(function (x) {
+        return bfOn(c, x[0]);
+      });
+      (BF.forEach(function (x) {
+        "read" === x[0] || "med" === x[0] || bfSet(c, x[0], !br);
+      }),
+        bfPaint());
+    } else if ("bfc" === o) {
+      var bl = bfDays(),
+        ba = bl.every(function (d) {
+          return bfOn(d, c);
+        });
+      (bl.forEach(function (d) {
+        bfSet(d, c, !ba);
+      }),
+        bfPaint());
     } else if ("rqadd" === o) {
       var rq = i("v70rq"),
         rv = rq ? rq.value.trim() : "";
