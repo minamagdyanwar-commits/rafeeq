@@ -6744,15 +6744,16 @@
           '<h3 class="u-h3">المزيد</h3><div class="v14-more"><h4>رسالة</h4><button type="button" data-ma="msg">رسالة من يسوع<small>رسالة اليوم</small></button><h4>المفضلات</h4><button type="button" data-ma="favs">كل مفضلاتي<small>مفضلة كل الأقسام في مكان واحد</small></button><h4>متابعتي</h4>' +
           [
             ["track", "المتابعة", "سجل يومك"],
+            ["backfill", "استرجاع سجل الأيام", "سجّل صلوات وقراءات الأيام الفائتة دفعة واحدة"],
             ["khalwa", "متابعة الخلوة", "خلواتك وأيامك ودقائقك"],
             ["sects", "كل الأقسام", "متابعة كل قسم في مكان واحد"],
             ["notes", "ملاحظاتي", ""],
           ]
             .map(function (t) {
               return (
-                '<button type="button" data-mt="' +
-                t[0] +
-                '">' +
+                "<button type=\"button\" " +
+                ("backfill" === t[0] ? 'data-v70="backfill"' : 'data-mt="' + t[0] + '"') +
+                ">" +
                 t[1] +
                 "<small>" +
                 t[2] +
@@ -6779,7 +6780,7 @@
               );
             })
             .join("") +
-          '<h4>حوار</h4><button type="button" data-ma="talk">صوت الله<small>اكتب إحساسك، فيأتيك الجواب من كلمته</small></button><h4>دفتر الشكر</h4><button type="button" data-v70="reqs">دفتر الشكر<small>شكرك وطلباتك وما اتجاوب منها</small></button><button type="button" data-v70="backfill">استرجاع سجل الأيام<small>سجّل صلوات وقراءات الأيام الفائتة دفعة واحدة</small></button><h4>التقويم</h4><button type="button" data-ma="cal">التقويم القبطي<small>الأعياد القريبة والأصوام والمواسم</small></button><h4>السنكسار</h4><button type="button" data-ma="syn">السنكسار<small>سنكسار اليوم القبطي: الشهداء والقديسون</small></button><h4>الآباء</h4><button type="button" data-ma="fat">أقوال الآباء<small>من كتاب أقوال الآباء الشيوخ</small></button><h4>المحاسبة</h4><button type="button" data-ma="exam">محاسبة النفس<small>فحص الضمير اليومي</small></button><h4>التطبيق</h4><button type="button" data-ma="install">تثبيت التطبيق<small>فحص التثبيت وزر التثبيت</small></button></div>';
+          '<h4>حوار</h4><button type="button" data-ma="talk">صوت الله<small>اكتب إحساسك، فيأتيك الجواب من كلمته</small></button><h4>دفتر الشكر</h4><button type="button" data-v70="reqs">دفتر الشكر<small>شكرك وطلباتك وما اتجاوب منها</small></button><h4>التقويم</h4><button type="button" data-ma="cal">التقويم القبطي<small>الأعياد القريبة والأصوام والمواسم</small></button><h4>السنكسار</h4><button type="button" data-ma="syn">السنكسار<small>سنكسار اليوم القبطي: الشهداء والقديسون</small></button><h4>الآباء</h4><button type="button" data-ma="fat">أقوال الآباء<small>من كتاب أقوال الآباء الشيوخ</small></button><h4>المحاسبة</h4><button type="button" data-ma="exam">محاسبة النفس<small>فحص الضمير اليومي</small></button><h4>التطبيق</h4><button type="button" data-ma="install">تثبيت التطبيق<small>فحص التثبيت وزر التثبيت</small></button></div>';
       t.sheet(n).onclick = function (n) {
         var a = n.target.closest("[data-mt]"),
           r = n.target.closest("[data-ma]");
