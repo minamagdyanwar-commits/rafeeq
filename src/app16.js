@@ -533,21 +533,36 @@
     return a;
   }
   var bfN = 14,
-    BF = [
+    BFALL = [
       ["bakr", "باكر"],
-      ["thalitha", "٣"],
-      ["sadisa", "٦"],
-      ["tasi3a", "٩"],
-      ["ghouroub", "غروب"],
-      ["noum", "نوم"],
+      ["thalitha", "الثالثة"],
+      ["sadisa", "السادسة"],
+      ["tasi3a", "التاسعة"],
+      ["ghouroub", "الغروب"],
+      ["noum", "النوم"],
+      ["midnight", "نصف الليل"],
+      ["setar", "الستار"],
       ["read", "قراءات"],
-      ["med", "خلوة"],
-    ];
+      ["med", "تأملات"],
+      ["gd", "خلوة"],
+      ["exam", "محاسبة"],
+      ["prog", "رحلتي"],
+    ],
+    BFDEF = ["bakr", "thalitha", "sadisa", "tasi3a", "ghouroub", "noum", "read", "med"],
+    bfEdit = !1;
+  var BFD = { read: 1, med: 1, gd: 1, exam: 1, prog: 1 };
+  function bfCols() {
+    var v = RF.jget("rafeeq_bf_cols_v1", null);
+    v = Array.isArray(v) ? v : BFDEF;
+    return BFALL.filter(function (c) {
+      return v.indexOf(c[0]) > -1;
+    });
+  }
   function bfOn(d, k) {
-    return "read" === k || "med" === k ? !!(e.day(d) || {})[k] : e.hourDone(d, k);
+    return BFD[k] ? !!(e.day(d) || {})[k] : e.hourDone(d, k);
   }
   function bfSet(d, k, on) {
-    "read" === k || "med" === k
+    BFD[k]
       ? e.setDay(d, function (x) {
           on ? (x[k] = 1) : delete x[k];
         })
@@ -559,8 +574,9 @@
   }
   function bfGrid() {
     var L = bfDays(),
+      C = bfCols(),
       cnt = L.filter(function (d) {
-        return BF.some(function (c) {
+        return C.some(function (c) {
           return bfOn(d, c[0]);
         });
       }).length,
@@ -569,25 +585,39 @@
         e.ard(bfN) +
         ": <b>" +
         e.ard(cnt) +
-        '</b></p><div class="bf-g" role="grid"><div class="bf-r bf-h"><span></span>' +
-        BF.map(function (c) {
-          return '<button type="button" data-v70="bfc:' + c[0] + '" aria-label="تعليم عمود ' + c[1] + '">' + c[1] + "</button>";
+        '</b> · <button type="button" class="bf-e" data-v70="bfedit">' +
+        (bfEdit ? "إغلاق الأعمدة" : "اختيار الأعمدة") +
+        "</button></p>";
+    bfEdit &&
+      (h +=
+        '<div class="bf-pick">' +
+        BFALL.map(function (c) {
+          var on = C.some(function (x) {
+            return x[0] === c[0];
+          });
+          return '<button type="button" class="v70chip' + (on ? " on" : "") + '" aria-pressed="' + on + '" data-v70="bfcol:' + c[0] + '">' + c[1] + "</button>";
         }).join("") +
-        "</div>";
+        "</div>");
+    var gt = "grid-template-columns:74px repeat(" + C.length + ',minmax(46px,1fr));min-width:' + (74 + C.length * 50) + "px";
+    h += '<div class="bf-w"><div class="bf-g" role="grid"><div class="bf-r bf-h" style="' + gt + '"><span></span>' +
+      C.map(function (c) {
+        return '<button type="button" data-v70="bfc:' + c[0] + '" aria-label="تعليم عمود ' + c[1] + '">' + c[1] + "</button>";
+      }).join("") +
+      "</div>";
     L.forEach(function (d) {
       h +=
-        '<div class="bf-r"><button type="button" class="bf-d" data-v70="bfr:' +
+        '<div class="bf-r" style="' + gt + '"><button type="button" class="bf-d" data-v70="bfr:' +
         d +
         '">' +
         t(RF.fmtDate(e.parseKey(d), { weekday: "short", day: "numeric", month: "numeric" })) +
         "</button>" +
-        BF.map(function (c) {
+        C.map(function (c) {
           var on = bfOn(d, c[0]);
           return '<button type="button" class="bf-c' + (on ? " on" : "") + '" aria-pressed="' + on + '" data-v70="bf:' + d + ":" + c[0] + '">' + (on ? "✓" : "") + "</button>";
         }).join("") +
         "</div>";
     });
-    return h + "</div>";
+    return h + "</div></div>";
   }
   function bfOpen() {
     e.sheet(
@@ -734,13 +764,20 @@
       var bp = c.split(":");
       (bfSet(bp[0], bp[1], !bfOn(bp[0], bp[1])), bfPaint());
     } else if ("bfr" === o) {
-      var br = BF.every(function (x) {
+      var br = bfCols().every(function (x) {
         return bfOn(c, x[0]);
       });
-      (BF.forEach(function (x) {
-        "read" === x[0] || "med" === x[0] || bfSet(c, x[0], !br);
+      (bfCols().forEach(function (x) {
+        bfSet(c, x[0], !br);
       }),
         bfPaint());
+    } else if ("bfedit" === o) ((bfEdit = !bfEdit), bfPaint());
+    else if ("bfcol" === o) {
+      var bv = bfCols().map(function (x) {
+        return x[0];
+      }),
+        bi = bv.indexOf(c);
+      (bi > -1 ? bv.splice(bi, 1) : bv.push(c), bv.length && RF.jset("rafeeq_bf_cols_v1", bv), bfPaint());
     } else if ("bfc" === o) {
       var bl = bfDays(),
         ba = bl.every(function (d) {
