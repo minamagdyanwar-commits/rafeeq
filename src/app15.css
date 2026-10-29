@@ -131,10 +131,15 @@ html:root:not(#z) body #uToast {
   display: none !important;
 }
 .bf-n { margin: 4px 0 8px; font-size: 13px; }
-.bf-g { display: flex; flex-direction: column; gap: 4px; max-height: 52vh; overflow: auto; }
-.bf-r { display: grid; grid-template-columns: 74px repeat(8, 1fr); gap: 4px; align-items: center; }
-.bf-h { position: sticky; top: 0; background: var(--s-card, inherit); z-index: 1; }
+.bf-w { max-height: 50vh; overflow: auto; }
+.bf-g { display: flex; flex-direction: column; gap: 4px; }
+.bf-e { font: inherit; font-size: 12px; text-decoration: underline; background: none; border: 0; color: inherit; cursor: pointer; padding: 4px; min-height: 32px; }
+.bf-pick { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 8px; }
+.bf-pick .v70chip { flex: 0 0 auto; min-height: 40px; padding: 0 12px; flex-direction: row; font-size: 13px; }
+.bf-r { display: grid; gap: 4px; align-items: center; }
+.bf-h { position: sticky; top: 0; background: var(--s-bar); z-index: 2; }
 .bf-h button { font-size: 11px; min-height: 32px; padding: 0; border: 0; background: transparent; color: inherit; font-weight: 700; cursor: pointer; }
-.bf-d { font-size: 12px; text-align: start; min-height: 40px; padding: 0 4px; border: 0; background: transparent; color: inherit; cursor: pointer; }
+.bf-d { font-size: 12px; text-align: start; min-height: 40px; padding: 0 4px; border: 0; background: var(--s-bar); color: inherit; cursor: pointer; position: sticky; inset-inline-start: 0; z-index: 1; }
+.bf-h > span { position: sticky; inset-inline-start: 0; background: var(--s-bar); }
 .bf-c { min-height: 40px; border-radius: 10px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: transparent; color: inherit; cursor: pointer; font-size: 16px; }
 .bf-c.on { background: var(--s-accent, #c9a24a); color: var(--s-btn-ink, #1b0d11); border-color: transparent; font-weight: 700; }

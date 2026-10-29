@@ -186,7 +186,10 @@
       get: function (d) { return t.gdDone(d); },
       set: function (d, _k, on) { t.setDay(d, function (r) { on ? (r.gd = 1) : delete r.gd; }); },
     }),
-    RF.act.define("prog", { get: function (d) { return !!(window.__prog && window.__prog.doneOn && window.__prog.doneOn(d)); } }),
+    RF.act.define("prog", {
+      get: function (d) { return !!(t.day(d).prog || (window.__prog && window.__prog.doneOn && window.__prog.doneOn(d))); },
+      set: function (d, _k, on) { t.setDay(d, function (r) { on ? (r.prog = 1) : delete r.prog; }); },
+    }),
     /* مستمع واحد يحدّث شاشات app6 عند أي تغيّر في النشاط */
     RF.act.on(function () {
       try { t.refreshHome && t.refreshHome(); } catch (x) {}
@@ -1530,7 +1533,7 @@
               ((c +=
                 '<div class="u-card"><h3 class="u-h3">آخر ١٢ أسبوعًا</h3><div class="heat" aria-label="خريطة المواظبة">' +
                 u +
-                '</div><div class="legend"><span>أقل</span><i class="hm s0"></i><i class="hm s1"></i><i class="hm s2"></i><i class="hm s3"></i><i class="hm s4"></i><span>أكثر</span></div></div>'),
+                '</div><div class="legend"><span>أقل</span><i class="hm s0"></i><i class="hm s1"></i><i class="hm s2"></i><i class="hm s3"></i><i class="hm s4"></i><span>أكثر</span></div></div><div class="u-card"><h3 class="u-h3">استرجاع سجل الأيام</h3><div class="u-sub">سجّل الصلوات والقراءات والخلوة وغيرها للأيام الفائتة دفعة واحدة، واختر الأعمدة اللي تظهر.</div><button type="button" class="u-btn on" data-v70="backfill">افتح الجدول</button></div>'),
                 (c += (function () {
                   var e = t.dayOrder(),
                     n = {};
