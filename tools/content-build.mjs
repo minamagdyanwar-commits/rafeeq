@@ -61,7 +61,7 @@ console.log(`المحتوى: ${order.length} رحلة · مراجَع ${stat.rev
     for (const k of ['kind', 'title', 'src', 'lines']) if (j[k] == null) herrs.push(`${id}: حقل ناقص ${k}`);
     if (!j.src || !j.src.name) herrs.push(`${id}: المصدر ناقص`);
     if (!Array.isArray(j.lines) || !j.lines.length || j.lines.some(l => typeof l !== 'string' || !l.trim())) herrs.push(`${id}: أسطر غير صالحة`);
-    list.push({ id: j.id, kind: j.kind, title: j.title, sub: j.sub || '', src: j.src, review: j.review || null, lines: j.lines });
+    list.push({ id: j.id, kind: j.kind, title: j.title, sub: j.sub || '', src: j.src, review: j.review || null, refrain: Array.isArray(j.refrain) ? j.refrain : null, lines: j.lines });
   }
   if (herrs.length) { console.error('أخطاء الألحان:\n' + herrs.join('\n')); process.exit(1); }
   const hb = `/* مُولَّد من content/hymns/*.json بواسطة tools/content-build.mjs — لا تعدّل هذا الملف يدويًا. */\n(function () {\n  "use strict";\n  window.__hymns = ${JSON.stringify(list)};\n})();\n`;

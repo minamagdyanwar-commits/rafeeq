@@ -87,13 +87,13 @@ html:root:not(#z) body:not(.fab-raw) #uDrv,
 html:root:not(#z) body:not(.fab-raw) #uThx {
   background-color: var(--fab-bg, #000) !important;
 }
-html:root:not(#z) body:not(.fab-raw):not(.fab-bright) #uFab:not(.fab-on):not(:active):not(:hover):not(:focus-visible),
-html:root:not(#z) body:not(.fab-raw):not(.fab-bright) #uDrv:not(.fab-on):not(:active):not(:hover):not(:focus-visible),
-html:root:not(#z) body:not(.fab-raw):not(.fab-bright) #uThx:not(.fab-on):not(:active):not(:hover):not(:focus-visible) {
-  background-color: color-mix(in srgb, var(--fab-bg, #000) 45%, var(--fab-pg, #000)) !important;
+html:root:not(#z) body:not(.fab-raw) #uFab:not(.fab-on):not(:active):not(:hover):not(:focus-visible),
+html:root:not(#z) body:not(.fab-raw) #uDrv:not(.fab-on):not(:active):not(:hover):not(:focus-visible),
+html:root:not(#z) body:not(.fab-raw) #uThx:not(.fab-on):not(:active):not(:hover):not(:focus-visible) {
+  background-color: var(--fab-dbg, #222) !important;
   background-image: none !important;
-  color: color-mix(in srgb, var(--fab-fg, #fff) 50%, var(--fab-pg, #000)) !important;
-  border-color: color-mix(in srgb, var(--fab-bd, #fff) 50%, var(--fab-pg, #000)) !important;
+  color: var(--fab-dfg, #eee) !important;
+  border-color: var(--fab-dbd, #888) !important;
 }
 html:root:not(#z) body #uFab:hover,
 html:root:not(#z) body #uThx:hover,
@@ -143,3 +143,28 @@ html:root:not(#z) body #uToast {
 .bf-h > span { position: sticky; inset-inline-start: 0; background: var(--s-bar); }
 .bf-c { min-height: 40px; border-radius: 10px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: transparent; color: inherit; cursor: pointer; font-size: 16px; }
 .bf-c.on { background: var(--s-accent, #c9a24a); color: var(--s-btn-ink, #1b0d11); border-color: transparent; font-weight: 700; }
+
+#uDrv svg { width: 24px; height: 24px; stroke-width: 2.3; }
+/* فاصل صغير بين الأبيات: خط وفي منتصفه صليب */
+.hm-st + .hm-st::before {
+  content: "✝";
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 15px;
+  line-height: 28px;
+  margin: 2px 0 6px;
+  color: color-mix(in srgb, var(--nh-acc, var(--s-accent, #a8741a)) 70%, currentColor);
+  background:
+    linear-gradient(currentColor, currentColor) right center / calc(50% - 18px) 1px no-repeat,
+    linear-gradient(currentColor, currentColor) left center / calc(50% - 18px) 1px no-repeat;
+  background-clip: border-box;
+}
+html:root:not(#z) body #uThx:hover,
+html:root:not(#z) body #uDrv:hover,
+html:root:not(#z) body #uThx:active,
+html:root:not(#z) body #uDrv:active,
+html:root:not(#z) body #uThx.fab-on,
+html:root:not(#z) body #uDrv.fab-on {
+  color: var(--fab-fg, #fff) !important;
+  border-color: var(--fab-bd, #fff) !important;
+}
