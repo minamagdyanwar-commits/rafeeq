@@ -83,11 +83,6 @@
       window.addEventListener("resize", function () {
         ((fabDirty = 1), b());
       }),
-      document.querySelectorAll(".u-page").forEach(function (pg) {
-        new MutationObserver(function () {
-          ((fabNav = Date.now()), fabMode());
-        }).observe(pg, { attributes: !0, attributeFilter: ["class"] });
-      }),
       document.addEventListener(
         "pointerdown",
         function (e) {
@@ -128,17 +123,6 @@
       typeof window.__driveOpen === "function" ? window.__driveOpen() : e.toast("وضع القيادة غير جاهز بعد");
     }
   });
-  var fabNav = Date.now(),
-    fabTm = 0;
-  function fabMode() {
-    var d = document.body.classList,
-      home = i("page-home") && i("page-home").classList.contains("on"),
-      chooser = i("page-pray") && i("page-pray").classList.contains("on") && !d.contains("has-bar"),
-      deep = d.contains("gd-on") || d.contains("v14-khalwa") || d.contains("v14-imm"),
-      left = fabNav + 4000 - Date.now(),
-      bright = !deep && (home || chooser || left > 0);
-    d.remove("fab-bright");
-  }
   var fabDirty = 1;
   function setVar(n, v) {
     var de = document.documentElement.style;
@@ -246,7 +230,6 @@
     var th = i("uThx"),
       ph = i("page-home");
     th && ((th.hidden = !1), thxPos(th));
-    fabMode();
     var n,
       r = document.querySelector("#page-home .u-wrap");
     if (r) {
