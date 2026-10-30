@@ -69,3 +69,37 @@ console.log(`المحتوى: ${order.length} رحلة · مراجَع ${stat.rev
   if (!existsSync(ht) || readFileSync(ht, 'utf8') !== hb) writeFileSync(ht, hb);
   console.log(`الألحان: ${list.length}`);
 }
+
+/* ---------- أطلس الكتاب: content/atlas/*.json → src/data-atlas.js (window.__atlas) ----------
+   التحقق: معرّفات فريدة، روابط الأسرة والنسب والخرائط تشير لعناصر موجودة، والإحداثيات داخل مجال الخرائط. */
+{
+  const ad = join(root, 'content/atlas'), aerrs = [];
+  const rd = f => JSON.parse(readFileSync(join(ad, f + '.json'), 'utf8'));
+  const pe = rd('people'), li = rd('lines'), geo = rd('geo'), pl = rd('places'), mp = rd('maps');
+  const uniq = (arr, what) => { const s = new Set(); for (const x of arr) { if (s.has(x.id)) aerrs.push(`${what}: id مكرر ${x.id}`); s.add(x.id); } return s; };
+  const pids = uniq(pe.people, 'شخصيات'), plids = uniq(pl.places, 'أماكن'); uniq(mp.maps, 'خرائط');
+  const gids = new Set(pe.groups.map(g => g[0]));
+  for (const p of pe.people) {
+    for (const k of ['n', 'g', 't', 'd', 'r']) if (!p[k] || (Array.isArray(p[k]) && !p[k].length)) aerrs.push(`${p.id}: حقل ناقص ${k}`);
+    if (!gids.has(p.g)) aerrs.push(`${p.id}: مجموعة غير معروفة ${p.g}`);
+    for (const f of p.fam || []) if (f[2] && !pids.has(f[2])) aerrs.push(`${p.id}: قريب غير موجود ${f[2]}`);
+  }
+  for (const l of li.lines) for (const it of l.items) for (const k of ['id', 'woman_id']) if (it[k] && !pids.has(it[k])) aerrs.push(`${l.id}: ${it[k]} غير موجود`);
+  for (const m of li.tribes.mothers) if (m.id && !pids.has(m.id)) aerrs.push(`tribes: ${m.id} غير موجود`);
+  for (const p of pl.places) {
+    if (!p.n || !p.d || !p.r || !p.r.length) aerrs.push(`${p.id}: حقل ناقص`);
+    if (!Array.isArray(p.ll) || p.ll.length !== 2) aerrs.push(`${p.id}: إحداثيات غير صالحة`);
+  }
+  for (const m of mp.maps) {
+    const [x0, y0, x1, y1] = m.vb, inside = ll => ll[0] >= x0 && ll[0] <= x1 && ll[1] >= y0 && ll[1] <= y1;
+    const pt = r => Array.isArray(r) ? r : (pl.places.find(p => p.id === r) || {}).ll;
+    for (const g of m.legs) for (const r of g.ids) { const ll = pt(r); if (!ll) aerrs.push(`${m.id}: مكان غير موجود ${r}`); else if (!inside(ll)) aerrs.push(`${m.id}: ${r} خارج حدود الخريطة`); }
+    for (const r of m.pins) { if (!plids.has(r)) aerrs.push(`${m.id}: دبوس غير موجود ${r}`); else if (!inside(pt(r))) aerrs.push(`${m.id}: دبوس ${r} خارج حدود الخريطة`); }
+  }
+  if (aerrs.length) { console.error('أخطاء الأطلس:\n' + aerrs.join('\n')); process.exit(1); }
+  const A = { groups: pe.groups, people: pe.people, lines: li.lines, tribes: li.tribes, geo, places: pl.places, maps: mp.maps };
+  const ab = `/* مُولَّد من content/atlas/*.json بواسطة tools/content-build.mjs — لا تعدّل هذا الملف يدويًا. */\n(function () {\n  "use strict";\n  window.__atlas = ${JSON.stringify(A)};\n})();\n`;
+  const at = join(root, 'src/data-atlas.js');
+  if (!existsSync(at) || readFileSync(at, 'utf8') !== ab) writeFileSync(at, ab);
+  console.log(`الأطلس: ${pe.people.length} شخصية · ${pl.places.length} مكانًا · ${mp.maps.length} خرائط · ${li.lines.length} سلاسل نسب`);
+}

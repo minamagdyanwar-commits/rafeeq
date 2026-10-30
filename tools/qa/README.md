@@ -22,4 +22,6 @@
 | `node tools/qa/fixlog.mjs [تصاميم] [dark|light]` | عدد وأسماء التصحيحات التي أجراها المُصلح وقت التشغيل (الهدف: صفر) |
 | `node tools/qa/bake-contrast.mjs` | يخبز تلك التصحيحات في `src/app49.css` |
 | `RF_TOOLS=… node tools/qa/visual.mjs A B` | يقارن بكسليًا بين بناءين (٩ شاشات × ٢٢ تصميم/وضع) |
+| `node tools/qa/atlas.mjs [تصاميم] [dark\|light]` | «أطلس الكتاب»: يفتح كل التبويبات والخرائط في كل تصميم/وضع، ويفشل لو ظهر خطأ JS أو تصحيح تباين لعناصره |
+| `node tools/qa/atlas-refs.mjs` | يتحقق من كل مرجع كتابي في `content/atlas/*.json` مقابل نص الكتاب المقدس (السفر والإصحاح والآيات) |
 | `node tools/content-build.mjs` | يتحقق من `content/journeys/*.json` ويولّد `src/data-journeys.js` |
