@@ -137,9 +137,7 @@
       deep = d.contains("gd-on") || d.contains("v14-khalwa") || d.contains("v14-imm"),
       left = fabNav + 4000 - Date.now(),
       bright = !deep && (home || chooser || left > 0);
-    d.toggle("fab-bright", bright);
-    clearTimeout(fabTm);
-    !deep && !home && !chooser && left > 0 && (fabTm = setTimeout(fabMode, left + 50));
+    d.remove("fab-bright");
   }
   var fabDirty = 1;
   function setVar(n, v) {
