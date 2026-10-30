@@ -5946,15 +5946,20 @@
           items: [
             "الأجبية بساعاتها العشر مع اقتراح الساعة المناسبة الآن، ودمج ساعتين متتاليتين في صلاة واحدة.",
             "تقسيم كل ساعة إلى قطع (مزامير، إنجيل، قطع، ختام) مع تنقّل سريع.",
-            "تذكير بمواعيد الصلاة، وزر «صلّيتُ» وسجل المتابعة وسلسلة الأيام.",
+            "تذكير بمواعيد الصلاة، وزر «صلّيتُ» وسجل المتابعة وسلسلة الأيام، وزر «علّم صلّيت» أسفل آخر قسم في الأجبية.",
+            "قسم «طلبات» داخل الأجبية من دفتر الشكر، ثم الصلوات الثابتة والختامية بترتيب موحّد.",
+            "الألحان والتماجيد (تمجيد «افتح فاي بالتسبيح» وإبصالية «طلبتك من عمق قلبي» بعمودين: الجزء والمرد)، وتظهر في البحث وفي فقرة «تمجيد وإبصالية» بالخلوة الفردية.",
+            "وضع القيادة 🚗 والقراءة الصوتية للأجبية، ضمن الأزرار العائمة الثلاثة.",
           ],
         },
         {
           g: "القراءات والكتاب",
           items: [
             "القراءات اليومية: عشية، باكر، البولس، الكاثوليكون، الإبركسيس، إنجيل القداس، مع التاريخ القبطي والتنقل بين الأيام.",
+            "التقويم القبطي بتبويب «القادم»: أقرب الأعياد والأصوام بعدّاد الأيام، والسنكسار.",
             "الكتاب المقدس كاملًا بدون إنترنت، مع بحث بالكلمة أو بالمرجع، ومقدمة لكل سفر وخلفية لكل إصحاح.",
             "تعليم الإصحاحات المقروءة والمتابعة من حيث توقفت، وخطط القراءة.",
+            "أطلس الكتاب (من «المزيد»): شخصيات الكتاب وأنساب المسيح وخرائط بدون إنترنت (إبراهيم والخروج والعائلة المقدسة وأرض الإنجيل ورحلات بولس) تفتح آياتها.",
           ],
         },
         {
@@ -5962,12 +5967,15 @@
           items: [
             "محاسبة النفس مع حماية برمز، وورقة اعتراف ومواعيده.",
             "ملاحظاتي، وقائمة آيات الحفظ مع مراجعتها، ولوحة «إنجازي».",
+            "دفتر الشكر: شكر وطلبات و«من أجلي ومن أجل من أحب»، ومدخل ثابت في «المزيد» وأيقونة ♡ في الرئيسية.",
+            "رحلاتي: ٣٩ رحلة بين الشخصيات والموضوعات والمواسم ورحلات قداسة البابا شنوده، مع رحلة شخصية تبنيها بنفسك.",
+            "«استرجاع سجل الأيام» داخل «متابعتي»: علّم صلوات وقراءات الأيام الفائتة دفعة واحدة مع اختيار الأعمدة.",
           ],
         },
         {
           g: "الإعدادات والبيانات",
           items: [
-            "تصميمان (داكن/فاتح) وألوان وخطوط وأحجام ومسافات أسطر قابلة للتعديل.",
+            "١١ تصميمًا لكل منها وضع داكن وفاتح، وألوان وخطوط وأحجام ومسافات أسطر قابلة للتعديل، والأزرار العائمة بتباين مضمون في كل التصاميم.",
             "نسخة احتياطية: تصدير واستيراد لكل بياناتك (طلباتي، آياتي، السجل). كله على الجهاز، ويمكن تشفيرها بكلمة سر.",
             "العمل بالكامل دون إنترنت بعد التثبيت، وبحث شامل في الكتاب والصلوات والملاحظات.",
           ],
@@ -6018,6 +6026,15 @@
           items: [
             "<b>دليل الصفحات:</b> «خواص البرنامج» في الإعدادات صارت زرًّا يفتح صفحة مستقلة، فيها شرح مصوّر لكل صفحة وأزرارها ومميزاتها، وقسم «الجديد».",
             "<b>تخطيط «الدرب»:</b> صار زر اختياره واضحًا في التخطيط الكلاسيكي.",
+          ],
+        },
+        {
+          g: "جديد — الإصدار 6.9",
+          v: "v90",
+          items: [
+            "<b>أطلس الكتاب (المزيد ← أطلس الكتاب):</b> ٨٢ شخصية من الكتاب المقدس بنبذة وأسرة ومراجع تفتح الآية، وأنساب المسيح من آدم إلى يسوع وبيت يعقوب والأسباط.",
+            "<b>خرائط بدون إنترنت:</b> رحلة إبراهيم، الخروج، العائلة المقدسة في مصر (بحسب التقليد القبطي)، أرض الإنجيل، ورحلات بولس الأربع. كبّر الخريطة ومرّرها بإصبعك، واضغط أي دبوس لتقرأ عن المكان وتفتح آياته.",
+            "<b>البحث:</b> أسماء الشخصيات والأماكن والخرائط تظهر في البحث الموحّد وتفتح مباشرة.",
           ],
         },
         {
@@ -6188,7 +6205,7 @@
         },
         {
           g: "v68 — ما سبق",
-          v: "v68",
+          v: "v89",
           items: [
             "حركات هادئة (تتوقف تلقائيًا إن كان «تقليل الحركة» مفعّلًا في جهازك): ظهور فقرات «رسالة من يسوع» تباعًا عند فتحها أو تغيير اليوم.",
             "الأقسام القابلة للطي تنفتح وتنطوي بسلاسة.",
@@ -6418,6 +6435,26 @@
             ["اختيار السفر", "قائمة الأسفار"],
             ["الإصحاح", "الانتقال بين الإصحاحات"],
             ["السابق / التالي", "قراءة متتابعة"],
+          ],
+        },
+        {
+          k: "atlas",
+          t: "أطلس الكتاب",
+          w: "الشريط السفلي ← المزيد ← أطلس الكتاب",
+          d: "شخصيات الكتاب المقدس وأنساب المسيح وخرائط الرحلات، كلها تعمل بدون إنترنت، وتفتح الآيات في الكتاب المقدس.",
+          f: [
+            "٨٢ شخصية بنبذة وأسرة ومراجع، ابحث بالاسم أو صفّ بالمجموعة.",
+            "أنساب المسيح من آدم إلى يسوع، وأبناء يعقوب الاثنا عشر.",
+            "٨ خرائط: إبراهيم، الخروج، العائلة المقدسة في مصر، أرض الإنجيل، ورحلات بولس الأربع.",
+            "كبّر الخريطة ومرّرها بإصبعك، واضغط أي دبوس لتقرأ عن المكان.",
+          ],
+          u: "عند قراءة سفر أو قصة وتريد معرفة من هو الشخص أو أين وقع الحدث.",
+          img: "data:image/webp;base64,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",
+          b: [
+            ["الشخصيات · الأنساب · الخرائط", "التبديل بين أقسام الأطلس"],
+            ["+ / − / ⟲", "تكبير الخريطة وتصغيرها وإعادتها"],
+            ["الدبوس المرقّم", "ترتيب المحطة في الرحلة؛ والدبوس المفرغ موقع تقليدي أو تقريبي"],
+            ["رقم الآية", "يفتح الآية في الكتاب المقدس"],
           ],
         },
         {
