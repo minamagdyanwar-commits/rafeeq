@@ -123,6 +123,52 @@
       typeof window.__driveOpen === "function" ? window.__driveOpen() : e.toast("وضع القيادة غير جاهز بعد");
     }
   });
+  var cvx = null;
+  function rgbOf(c) {
+    cvx || (cvx = document.createElement("canvas").getContext("2d", { willReadFrequently: !0 }), (cvx.canvas.width = cvx.canvas.height = 1));
+    cvx.clearRect(0, 0, 1, 1);
+    cvx.fillStyle = "#000";
+    cvx.fillStyle = c;
+    cvx.fillRect(0, 0, 1, 1);
+    var d = cvx.getImageData(0, 0, 1, 1).data;
+    return [d[0], d[1], d[2]];
+  }
+  function lumOf(a) {
+    var f = function (v) {
+      v /= 255;
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    };
+    return 0.2126 * f(a[0]) + 0.7152 * f(a[1]) + 0.0722 * f(a[2]);
+  }
+  function crOf(a, b) {
+    var x = lumOf(a),
+      y = lumOf(b);
+    return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+  }
+  function mixC(a, b, k) {
+    return [0, 1, 2].map(function (i) {
+      return Math.round(a[i] * k + b[i] * (1 - k));
+    });
+  }
+  function rgbS(a) {
+    return "rgb(" + a.join(",") + ")";
+  }
+  /* لوحة الحالة الخفيفة للأزرار العائمة: خلفية صلبة ناعمة ورمز يحقق تباينًا لا يقلّ عن ٤٫٦ حتى لا يعدّله حارس التباين */
+  function fabPalette(bg, fg, bd, pg) {
+    var dbg = mixC(bg, pg, 0.5),
+      cand = [fg, bd, [20, 14, 8], [250, 244, 232]],
+      pick = null;
+    for (var i = 0; i < cand.length && !pick; i++) crOf(cand[i], dbg) >= 4.6 && (pick = cand[i]);
+    pick = pick || (crOf([20, 14, 8], dbg) >= crOf([250, 244, 232], dbg) ? [20, 14, 8] : [250, 244, 232]);
+    for (var k = 0.4; k > 0; k -= 0.05) {
+      var t = mixC(pick, dbg, 1 - k);
+      if (crOf(t, dbg) >= 4.6) {
+        pick = t;
+        break;
+      }
+    }
+    return { bg: rgbS(dbg), fg: rgbS(pick), bd: rgbS(mixC(bd, pg, 0.55)) };
+  }
   var fabDirty = 1;
   function setVar(n, v) {
     var de = document.documentElement.style;
@@ -148,9 +194,11 @@
           fbd = rc.borderTopColor,
           pg = getComputedStyle(bd).backgroundColor,
           cp = {};
-        ["backgroundColor", "backgroundImage", "color", "borderRadius", "boxShadow", "width", "height", "fontSize", "fontWeight", "fontFamily", "lineHeight", "backdropFilter", "textShadow", "border"].forEach(function (k) {
+        ["backgroundImage", "borderRadius", "width", "height", "fontSize", "fontWeight", "fontFamily", "lineHeight", "textShadow"].forEach(function (k) {
           cp[k] = rc[k];
         });
+        cp.borderStyle = rc.borderTopStyle;
+        cp.borderWidth = rc.borderTopWidth;
         bd.classList.remove("fab-raw");
         [th, dv].forEach(function (t) {
           t &&
@@ -164,6 +212,10 @@
         setVar("--fab-bg", opq(fbg) ? fbg : pg);
         setVar("--fab-fg", ffg);
         setVar("--fab-bd", fbd);
+        var pl = fabPalette(rgbOf(opq(fbg) ? fbg : pg), rgbOf(ffg), rgbOf(fbd), rgbOf(pg));
+        setVar("--fab-dbg", pl.bg);
+        setVar("--fab-dfg", pl.fg);
+        setVar("--fab-dbd", pl.bd);
       }
       var r = f.getBoundingClientRect();
       if (r.width) {

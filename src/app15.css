@@ -90,10 +90,10 @@ html:root:not(#z) body:not(.fab-raw) #uThx {
 html:root:not(#z) body:not(.fab-raw) #uFab:not(.fab-on):not(:active):not(:hover):not(:focus-visible),
 html:root:not(#z) body:not(.fab-raw) #uDrv:not(.fab-on):not(:active):not(:hover):not(:focus-visible),
 html:root:not(#z) body:not(.fab-raw) #uThx:not(.fab-on):not(:active):not(:hover):not(:focus-visible) {
-  background-color: color-mix(in srgb, var(--fab-bg, #000) 55%, var(--fab-pg, #000)) !important;
+  background-color: var(--fab-dbg, #222) !important;
   background-image: none !important;
-  color: color-mix(in srgb, var(--fab-fg, #fff) 88%, var(--fab-pg, #000)) !important;
-  border-color: color-mix(in srgb, var(--fab-bd, #fff) 60%, var(--fab-pg, #000)) !important;
+  color: var(--fab-dfg, #eee) !important;
+  border-color: var(--fab-dbd, #888) !important;
 }
 html:root:not(#z) body #uFab:hover,
 html:root:not(#z) body #uThx:hover,
@@ -158,4 +158,13 @@ html:root:not(#z) body #uToast {
     linear-gradient(currentColor, currentColor) right center / calc(50% - 18px) 1px no-repeat,
     linear-gradient(currentColor, currentColor) left center / calc(50% - 18px) 1px no-repeat;
   background-clip: border-box;
+}
+html:root:not(#z) body #uThx:hover,
+html:root:not(#z) body #uDrv:hover,
+html:root:not(#z) body #uThx:active,
+html:root:not(#z) body #uDrv:active,
+html:root:not(#z) body #uThx.fab-on,
+html:root:not(#z) body #uDrv.fab-on {
+  color: var(--fab-fg, #fff) !important;
+  border-color: var(--fab-bd, #fff) !important;
 }
