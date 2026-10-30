@@ -4180,7 +4180,7 @@
             hm.lines
               .slice(i.hm.s, i.hm.s + i.hm.n)
               .map(function (t) {
-                return "<p>" + E(t).replace(/\n/g, "<br>") + "</p>";
+                return window.__hymnStanza ? window.__hymnStanza(hm, t) : "<p>" + E(t).replace(/\n/g, "<br>") + "</p>";
               })
               .join("") +
             "</div>" +

@@ -6,13 +6,26 @@
   function all() { return window.__hymns || []; }
   function byId(id) { return all().filter(function (h) { return h.id === id; })[0]; }
   function esc(s) { return RF.esc(s); }
+  /* مقطع مرتّل: لو للنص «مرد» (عمود يسار بلون مختلف) يُعرض في صفوف بعمودين: الجزء يمين والمرد شمال، وإلا فنص عادي */
+  function stanza(h, t) {
+    var rf = h && h.refrain;
+    if (!rf || !rf.length) return '<p>' + esc(t).replace(/\n/g, '<br>') + '</p>';
+    var rows = [];
+    String(t).split('\n').forEach(function (l) {
+      var isR = rf.indexOf(l.trim()) > -1, last = rows[rows.length - 1];
+      if (isR) { if (last && !last.r) last.r = l; else rows.push({ p: '', r: l }); }
+      else rows.push({ p: l, r: '' });
+    });
+    return '<div class="hm-st">' + rows.map(function (r) { return '<span class="hm-p">' + esc(r.p) + '</span><span class="hm-r">' + esc(r.r) + '</span>'; }).join('') + '</div>';
+  }
+  window.__hymnStanza = stanza;
   function open(id) {
     var h = byId(id); if (!h) return;
     var el = document.getElementById('progDay');
     if (!el) { el = document.createElement('div'); el.id = 'progDay'; el.className = 'prg-day'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); document.body.appendChild(el); }
     var link = h.src.url ? '<a class="pd-open pd-book" href="' + esc(h.src.url) + '" target="_blank" rel="noopener">افتح الصفحة الأصلية</a>' : '';
     el.innerHTML = '<button type="button" class="pg-x" data-hmback="1" aria-label="رجوع">✕</button><div class="pd-c"><small>' + esc(h.kind) + (h.sub ? ' · ' + esc(h.sub) : '') + '</small><h2>' + esc(h.title) + '</h2>' +
-      '<article class="pd-v pd-quote hm-text">' + h.lines.map(function (l) { return '<p>' + esc(l).replace(/\n/g, '<br>') + '</p>'; }).join('') + '<b>المصدر: ' + esc(h.src.name) + '</b>' + link + '</article>' +
+      '<article class="pd-v pd-quote hm-text">' + h.lines.map(function (l) { return stanza(h, l); }).join('') + '<b>المصدر: ' + esc(h.src.name) + '</b>' + link + '</article>' +
       (h.review && h.review.note ? '<p class="hm-note">' + esc(h.review.note) + '</p>' : '') + '</div>';
     el.classList.add('prg-day'); el.classList.add('on'); el.scrollTop = 0;
   }

@@ -1,2 +1,8 @@
 #progDay .hm-text p{margin:0 0 10px;font-size:17px;line-height:2}
 #progDay .hm-note{margin:6px 0 24px;font-size:12px;opacity:.75;color:var(--nh-soft,#aaa)}
+
+.hm-st{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;margin:0 0 12px;font-size:17px;line-height:2}
+.hm-st .hm-p,.hm-st .hm-r{padding:2px 0;border-bottom:1px solid color-mix(in srgb,currentColor 14%,transparent)}
+.hm-st .hm-r{color:color-mix(in srgb,var(--nh-acc,var(--s-accent,#a8741a)) 62%,currentColor);font-weight:600}
+.gd-text .hm-st{font-size:inherit}
+#progDay .hm-text .hm-st{margin-inline-end:50px}
