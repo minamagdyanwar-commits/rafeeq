@@ -97,3 +97,5 @@ html[data-rf-theme^="church/"] .dm select{background-color:#1c2342;color:#F6ECD6
 /* منتقي «التصميم» في الإعدادات */
 .rf-dz{margin-bottom:12px}
 .rf-dzb{min-height:46px;font-weight:800}
+/* أزرار الكنيسة المعطّلة (آيات الحفظ «راجع المستحق»، إرسال «صوت الله» فارغًا): إطار متقطّع ونص بلون الكارت بدل تدرّج أحمر باهت (تباين ٣) */
+html[data-rf-theme^="church/"] :is(.u-btn,#tkSend):disabled{background:transparent!important;color:inherit!important;border:1px dashed currentColor!important;opacity:.6}

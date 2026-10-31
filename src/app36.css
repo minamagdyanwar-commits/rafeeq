@@ -292,3 +292,16 @@ html[data-nh="lamp"] #uNav button{color:#f3deb7!important}html[data-nh="lamp"] #
 .nh-offday{margin-inline-end:56px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;padding:8px 12px;border-radius:12px;background:rgba(14,10,8,.86);color:#fff;font-size:13px;backdrop-filter:blur(6px)}
 /* الخلفية معتمة (≥ ٦٠٪) كي يقرأها مُصلح التباين خلفيةً داكنة ولا يحوّل نص الزر إلى غامق في الوضع الفاتح */
 .nh-offday button{border:1px solid rgba(255,255,255,.7);background:rgba(255,255,255,.14);color:#fff;border-radius:99px;padding:5px 12px;font:inherit;cursor:pointer}
+
+/* أزرار التبويب والشرائح غير النشطة في التصاميم الجديدة: --s-bar الافتراضي رمادي مظلَّل ٣٥٪ أسود و--s-nav-ink نص بشفافية ٦٠٪ (تباين ٣ في royal الفاتح).
+   تعيين المتغيرين على الأزرار نفسها: خلفية الكارت ونص كامل الكثافة، والحالة النشطة (.on) لا تتأثر لأنها تقرأ --s-accent */
+html[data-nh]:not([data-nh=""]) :is(.u-tabs button,.fat-chips button){--s-bar:var(--nh-card);--s-nav-ink:var(--nh-ink)}
+/* «راجع المستحق» معطّلًا: قواعد التباين المخبوزة في app49 تفرض نصًّا غامقًا على .u-btn.on فتبهت فوق التدرّج؛ المعطّل يظهر بإطار متقطّع ونص الكارت */
+html[data-nh]:not([data-nh=""]) #trkBody > div.u-card > div.row-gap > button.u-btn.on:disabled{background:transparent!important;color:var(--nh-ink)!important}
+/* bearer/crown/glory الفاتحة: الشيتات (المزيد، نافذة اليوم) وبطاقة البحث خلفيتها شبه سوداء بينما النص الموروث غامق (تباين ١٫١)؛ نصها الموروث يصبح ذهبيًّا فاتحًا. الأزرار والكروت داخلها لها ألوانها الصريحة */
+/* باقي التصاميم الجديدة: الشيت بلون كارت متوسط (تان) فملاحظاته بنص الحبر كاملًا لا بشفافية ٧٥٪ (تباين ٣٫١) */
+html[data-nh]:not([data-nh=""]) #uSheet .u-sheet-card .u-note{color:var(--nh-ink)}
+:is(html[data-rf-theme^="bearer/2/"],html[data-rf-theme^="crown/2/"],html[data-rf-theme^="glory/2/"]) :is(#uSheet .u-sheet-card,#uSearchOv .so-card){color:#eadcb8}
+:is(html[data-rf-theme^="bearer/2/"],html[data-rf-theme^="crown/2/"],html[data-rf-theme^="glory/2/"])[data-nh]:not([data-nh=""]) #uSheet .u-sheet-card :is(.u-h3,.u-note,.v14-more h4){color:#eadcb8}
+/* lamp: سطر التاريخ الصغير فوق سماء الصورة البرتقالية الساطعة (أبيض على ≈٣٫٥): شريحة داكنة خلفه */
+html[data-nh="lamp"] #nhHome .cv small{display:inline-block;padding:2px 12px;border-radius:99px;background:rgba(10,6,2,.55)}
