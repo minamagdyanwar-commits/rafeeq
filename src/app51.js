@@ -41,7 +41,7 @@
     if (!rows.length) return '<p class="at-empty">لا توجد نتائج. جرّب اسمًا آخر أو مجموعة أخرى.</p>';
     if (nq) rows.sort(function (x, y) { return nameHit(y, nq) - nameHit(x, nq); });
     return rows.map(function (p) {
-      return '<button type="button" class="at-row" data-atp="' + p.id + '"><b>' + esc(p.n) + '</b><small>' + esc(p.t) + '</small></button>';
+      return '<button type="button" class="at-row" data-atp="' + p.id + '"><i class="at-ph" aria-hidden="true">' + esc(p.n.replace(/^(ال)/, '').charAt(0)) + '</i><b>' + esc(p.n) + '</b><small>' + esc(p.t) + '</small></button>';
     }).join('');
   }
   function peopleTab() {

@@ -5,7 +5,7 @@ const here=path.dirname(fileURLToPath(import.meta.url));const PORT=+process.env.
 const srv=process.env.BASE?null:await serve(PORT);
 const OUT=process.env.OUT||fs.mkdtempSync('/tmp/rfqa-');
 const base=JSON.parse(fs.readFileSync(path.join(here,'baseline.json'),'utf8'));
-const DES=['bearer','church','classic','cross','crown','glory','holy','lamp','qalaya','royal','shroud'];
+const DES=['bearer','church','classic','cross','crown','diary','glory','holy','lamp','qalaya','royal','shroud'];
 const UPD=process.argv.includes('--update'),res={};let fail=0;const only=process.argv[2]&&!process.argv[2].startsWith('--')?process.argv[2].split(','):DES;
 import {spawn} from 'node:child_process';
 const jobs=[];for(const d of only)for(const m of ['dark','light'])jobs.push([d,m]);

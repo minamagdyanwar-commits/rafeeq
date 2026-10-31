@@ -9,7 +9,7 @@ const des=process.argv[2],mode=process.argv[3]||'dark',vw=+(process.argv[4]||390
 const b=await chromium.launch({executablePath:CHROME});
 const ctx=await b.newContext({viewport:{width:vw,height:vh},hasTouch:true,isMobile:vw<700});
 const p=await ctx.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message.slice(0,80)));
-await p.addInitScript(([d,m])=>{localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}));localStorage.setItem('rafeeq_lines_hint_v2','1');window.__talkFast=1;if(NOFIX)localStorage.setItem('rafeeq_nofix','1')},[des,mode]);
+await p.addInitScript(([d,m])=>{localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}));localStorage.setItem('rafeeq_lines_hint_v2','1');localStorage.setItem('rafeeq_diary_cover','0');/* غلاف «دفتري»: يغطّي كل الصفحات فيُخفى أثناء الفحص */window.__talkFast=1;if(NOFIX)localStorage.setItem('rafeeq_nofix','1')},[des,mode]);
 await p.goto(BASE+'/index.html');await p.waitForTimeout(2500);
 await p.evaluate(()=>{try{__F.closeSheet()}catch(e){}});
 const GATHER=()=>{const out=[];const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;

@@ -5,7 +5,7 @@ import {serve} from './serve.mjs';
 const PORT=+process.env.PORT||8777,BASE=`http://localhost:${PORT}`;
 const srv=process.env.BASE?null:await serve(PORT);
 const b=await chromium.launch({executablePath:process.env.CHROME||'/opt/pw-browsers/chromium'});
-const DES=['bearer','church','classic','cross','crown','glory','holy','lamp','qalaya','royal','shroud'];
+const DES=['bearer','church','classic','cross','crown','diary','glory','holy','lamp','qalaya','royal','shroud'];
 let fail=0;const say=(ok,m)=>{if(!ok)fail++;console.log((ok?'ok   ':'FAIL ')+m)};
 for(const d of DES)for(const m of ['dark','light']){
   const p=await b.newPage({viewport:{width:390,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message.slice(0,90)));
