@@ -144,8 +144,225 @@
   var msgObs = 0;
   function watchMsg() { var m = document.getElementById('msgBody'); if (!m || msgObs) return; msgObs = 1; new MutationObserver(function () { setTimeout(paintMsg, 30); }).observe(m, { childList: true }); }
 
+
+  /* =============== القراءات =============== */
+  function tx(e) { return e ? e.textContent.replace(/\s+/g, ' ').trim() : ''; }
+  function readHtml() {
+    var m = q('#mod-r'); if (!m || !q('#readingHost', m)) return '';
+    var h = '<header class="dy-ph"><h1>قراءات اليوم</h1><p>' + esc(tx(q('#copticOut', m))) + '</p></header>';
+    h += '<div class="dy-flags"><button type="button" class="dy-flag" data-dyproxy="#prevDay">‹ أمس</button><button type="button" class="dy-flag" data-dyproxy="#todayBtn">اليوم</button><button type="button" class="dy-flag" data-dyproxy="#nextDay">غدًا ›</button></div>';
+    var cm = qa('.syn-cm', m).filter(function (x) { return !x.classList.contains('syn-cm-go'); });
+    if (cm.length) h += '<div class="dy-sticky">' + cm.map(function (x) { return '<div>' + esc(tx(x)) + '</div>'; }).join('') + '</div>';
+    h += '<div class="dy-hours">' + qa('#weekStrip .week-chip', m).map(function (b, i) {
+      return '<button type="button" class="dy-hc' + (b.classList.contains('is-current') ? ' sel' : '') + '" data-dyproxy="#weekStrip .week-chip:nth-child(' + (i + 1) + ')">' + esc(tx(q('.wd', b)) + ' ' + tx(q('.dn', b))) + '</button>';
+    }).join('') + '</div>';
+    h += '<div class="dy-flags">' + qa('#tabs .tab', m).map(function (b) {
+      return '<button type="button" class="dy-flag' + (b.classList.contains('active') || b.classList.contains('on') ? ' on' : '') + '" data-dyproxy="#' + b.id + '">' + esc(tx(b)) + '</button>';
+    }).join('') + '</div>';
+    var host = q('#readingHost', m), card = host.firstElementChild;
+    if (card) {
+      var bi = q('.book-info-summary', card);
+      qa('.context-line', card).forEach(function (c) { if (!c.querySelector('.book-info-body')) h += '<p class="dy-ctx">' + esc(tx(c)) + '</p>'; });
+      qa('.subreading', card).forEach(function (sr) {
+        var bq = q('blockquote', sr), isP = bq && bq.classList.contains('psalm');
+        h += '<section class="dy-ps"><h2>' + esc(tx(q('.name', sr))) + ' <small>' + esc(tx(q('.ref', sr))) + '</small></h2><div class="dy-pt' + (isP ? ' dy-psalm' : '') + '">' + (bq ? paras(bq.innerText.split(/\n+/)) : '') + '</div></section>';
+      });
+      if (bi) h += '<details class="dy-med"><summary>عن السفر</summary>' + para(tx(bi)) + '</details>';
+    }
+    var st = q('#readDoneBar button', m);
+    if (st) { var dn = /✓|●|done|on/.test((st.className || '') + tx(q('b', st))); h += '<div class="dy-end"><button type="button" class="dy-stampbtn' + (dn ? ' on' : '') + '" data-dyproxy="#readDoneBar button">' + (dn ? '✓ ' : '') + esc(tx(q('span', st))) + '</button></div>'; }
+    var med = q('#medHost', m);
+    if (med && tx(med)) {
+      h += '<section class="dy-ps"><h2>تأمّل</h2>' + qa('.med-block', med).map(function (b) {
+        var lab = tx(q('.med-label', b));
+        if (q('.verse-list', b)) return '<h3>' + esc(lab) + '</h3>' + qa('.verse-item', b).map(function (v) { return '<blockquote class="dy-q">' + esc(tx(v)) + '</blockquote>'; }).join('');
+        if (q('.applybox', b)) return '<div class="dy-sticky"><b>' + esc(lab) + '</b><div>' + esc(tx(q('.applybox', b))) + '</div></div>';
+        return '<h3>' + esc(lab) + '</h3>' + qa('.med-text', b).map(function (t2) { return para(tx(t2)); }).join('');
+      }).join('') + '</section>';
+    }
+    var di = q('#discussionHost .discussion-text', m);
+    if (di) h += '<div class="dy-sticky"><b>للنقاش</b><div>' + esc(tx(di)) + '</div></div>';
+    var ln = qa('#v297Links .l-btn', m);
+    if (ln.length) h += '<div class="dy-tools"><h2>مرتبط بقراءات اليوم</h2>' + ln.map(function (b, i) { return '<button type="button" class="dy-link" data-dyproxy="#v297Links .l-btn:nth-of-type(' + (qa('#v297Links .l-btn', m).indexOf(b) + 1) + ')">' + esc(tx(b)) + '</button>'; }).join('') + '</div>';
+    return h;
+  }
+  function paintRead() {
+    var pg = q('#page-read'), el = document.getElementById('dyV-read');
+    if (!on() || !pg) { if (el) el.remove(); return; }
+    var h = readHtml(); if (!h) return;
+    if (!el) { el = document.createElement('div'); el.id = 'dyV-read'; el.className = 'dy-view'; pg.insertBefore(el, pg.firstChild); }
+    if (el.dataset.h !== h) { var y = window.scrollY; el.innerHTML = h; el.dataset.h = h; if (document.documentElement.getAttribute('data-pg') === 'read') window.scrollTo(0, y); }
+  }
+  var rdObs = 0, rdT;
+  function watchRead() { var m = q('#mod-r'); if (!m || rdObs) return; rdObs = 1; new MutationObserver(function () { clearTimeout(rdT); rdT = setTimeout(paintRead, 60); }).observe(m, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] }); }
+
+
+  /* =============== صوت الله =============== */
+  function talkLog() {
+    var log = q('#tkLog'); if (!log) return '';
+    var vi = 0, h = '';
+    function say(c) { var t = tx(c); return t ? '<p class="dy-tsay' + (c.classList.contains('tk-lead') ? ' lead' : '') + '">' + esc(t) + '</p>' : ''; }
+    [].slice.call(log.children).forEach(function (c) {
+      if (c.classList.contains('tk-me')) h += '<p class="dy-tme">' + esc(tx(c)) + '</p>';
+      else if (c.id === 'tkPlay' || c.classList.contains('tk-re')) {
+        [].slice.call(c.children).forEach(function (r) {
+          if (r.tagName === 'ARTICLE') {
+            var i = vi++, b = qa('.tk-a button', r);
+            h += '<blockquote class="dy-q">' + (q('.tk-badge', r) ? '<small>' + esc(tx(q('.tk-badge', r))) + '</small>' : '') + esc(tx(q('.tk-t', r))) + '<cite>' + esc(tx(q('.tk-m b', r))) + '</cite><span class="dy-va">' +
+              b.map(function (x, j) { return '<button type="button" data-dyvb="' + i + ':' + j + '">' + esc(tx(x)) + '</button>'; }).join('') + '</span></blockquote>';
+          } else h += say(r);
+        });
+      } else h += say(c);
+    });
+    if (!h) h = '<p class="dy-tsay lead">اكتب ما في قلبك، وسيأتيك الجواب من الكتاب.</p>';
+    return h;
+  }
+  function paintTalk() {
+    var pg = q('#page-talk'), el = document.getElementById('dyV-talk');
+    if (!on() || !pg || !q('#tkLog')) { if (el) el.remove(); return; }
+    if (!el) {
+      el = document.createElement('div'); el.id = 'dyV-talk'; el.className = 'dy-view';
+      el.innerHTML = '<header class="dy-ph"><h1>صوت الله</h1><p>الآيات نصّ حرفي من الكتاب — اكتب ما تشعر به</p></header><div class="dy-flags" id="dyTkG"></div><div id="dyTkLog"></div><div class="dy-hours" id="dyTkC"></div>' +
+        '<div class="dy-tin"><textarea id="dyTkT" rows="2" placeholder="اكتب ما في قلبك…"></textarea><button type="button" class="dy-stampbtn" data-dytksend="1">أرسل</button></div><div class="dy-flags" id="dyTkX"></div>';
+      pg.insertBefore(el, pg.firstChild);
+    }
+    function set(id, h) { var n = document.getElementById(id); if (n && n.dataset.h !== h) { n.innerHTML = h; n.dataset.h = h; } }
+    set('dyTkG', qa('.tkx-g button').map(function (b, i) { return '<button type="button" class="dy-flag' + (b.classList.contains('on') ? ' on' : '') + '" data-dyproxy="#talkBody .tkx-g button:nth-of-type(' + (i + 1) + ')">' + esc(tx(b)) + '</button>'; }).join(''));
+    set('dyTkLog', talkLog());
+    set('dyTkC', qa('.tk-chips button').map(function (b, i) { return '<button type="button" class="dy-hc" data-dyproxy="#talkBody .tk-chips button:nth-child(' + (i + 1) + ')">' + esc(tx(b)) + '</button>'; }).join(''));
+    set('dyTkX', qa('.tkx-t button').concat(qa('.tk-clear button')).map(function (b) { return '<button type="button" class="dy-flag" data-dyproxy="#' + (b.id || 'x') + '" data-dyel="' + esc(tx(b)) + '">' + esc(tx(b)) + '</button>'; }).join(''));
+  }
+  var tkObs = 0, tkT;
+  function watchTalk() { var m = q('#tkLog'); if (!m || tkObs) return; tkObs = 1; new MutationObserver(function () { clearTimeout(tkT); tkT = setTimeout(paintTalk, 60); }).observe(q('#talkBody'), { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] }); }
+  document.addEventListener('click', function (e) {
+    var t = e.target; if (!on() || !t.closest) return; var b;
+    if ((b = t.closest('[data-dytksend]'))) { e.preventDefault(); var a = document.getElementById('dyTkT'), o = document.getElementById('tkText'); if (a && o && a.value.trim()) { o.value = a.value; o.dispatchEvent(new Event('input', { bubbles: true })); document.getElementById('tkSend').click(); a.value = ''; } return; }
+    if ((b = t.closest('[data-dyvb]'))) { e.preventDefault(); e.stopPropagation(); var p = b.getAttribute('data-dyvb').split(':'), art = qa('#tkLog article.tk-v')[+p[0]]; if (art) { var bt = qa('.tk-a button', art)[+p[1]]; if (bt) bt.click(); } setTimeout(paintTalk, 150); return; }
+    if ((b = t.closest('[data-dyel]'))) { var nm = b.getAttribute('data-dyel'), tg = qa('.tkx-t button,.tk-clear button').filter(function (x) { return tx(x) === nm; })[0]; if (tg) { e.preventDefault(); e.stopPropagation(); tg.click(); } }
+  }, true);
+
+
+  /* =============== محاسبة النفس =============== */
+  function examHtml() {
+    var m = q('#mod-m'); if (!m || !q('#cats', m)) return '';
+    var tabs = [['tabToday', 'محاسبة اليوم'], ['tabHist', 'السجل'], ['tabConf', 'ورقة الاعتراف']];
+    var h = '<header class="dy-ph"><h1>محاسبة النفس</h1><p>' + esc(tx(q('#uSub'))) + '</p></header><div class="dy-flags">' + tabs.map(function (t) {
+      var b = document.getElementById(t[0]); return '<button type="button" class="dy-flag' + (b && b.classList.contains('on') ? ' on' : '') + '" data-dyproxy="#' + t[0] + '">' + t[1] + '</button>';
+    }).join('') + '</div>';
+    var today = q('#tabToday', m) && q('#tabToday', m).classList.contains('on');
+    if (!today) return h;
+    var intro = q('.card.intro', m); if (intro) h += '<details class="dy-med"><summary>إزاي أستخدم الصفحة؟</summary>' + para(intro.innerText.replace(/إزاي أستخدم الصفحة؟/, '').trim()) + '</details>';
+    qa('#cats details.cat', m).forEach(function (d) {
+      var sm = q('summary', d), c = d.getAttribute('data-c'), cnt = tx(q('.badge', sm)), name = tx(sm).replace(cnt, '').trim();
+      h += '<details class="dy-cat" data-dyc="' + esc(c) + '"' + (EX.open[c] ? ' open' : '') + '><summary><span>' + esc(name) + '</span>' + (+cnt ? '<b class="dy-badge">' + esc(cnt) + '</b>' : '') + '</summary>';
+      var v = q('.verse', d); if (v) h += '<p class="dy-verse">' + esc(tx(v)) + '</p>';
+      qa('.sin', d).forEach(function (sn) {
+        var cb = q('input[type=checkbox]', sn), k = cb.getAttribute('data-k'), dsc = q('.desc', sn), qq = dsc && q('.q', dsc), nt = q('textarea', sn);
+        h += '<div class="dy-sin' + (cb.checked ? ' on' : '') + '"><label><input type="checkbox" data-dyk="' + esc(k) + '"' + (cb.checked ? ' checked' : '') + '><span>' + esc(tx(q('label', sn))) + '</span></label>';
+        if (dsc) h += '<details class="dy-med"><summary>ⓘ شرح</summary>' + para((dsc.firstChild && dsc.firstChild.textContent) || '') + (qq ? '<p class="dy-qq">' + esc(tx(qq)) + '</p>' : '') + '</details>';
+        if (cb.checked && nt) h += '<textarea class="dy-nt" data-dyn="' + esc(k) + '" rows="2" placeholder="الموقف الذي حدث (لتتذكره في الاعتراف)">' + esc(nt.value) + '</textarea>';
+        h += '</div>';
+      });
+      h += '</details>';
+    });
+    var ot = q('#otherIn', m);
+    h += '<section class="dy-ps"><h2>خطايا أخرى</h2><textarea class="dy-nt" id="dyOther" rows="3" placeholder="خطية وقعتُ فيها ولم أجدها في القوائم…">' + esc(ot ? ot.value : '') + '</textarea></section>';
+    h += '<div class="dy-end"><button type="button" class="dy-stampbtn" data-dyproxy="#finish">ملخص اليوم وصلاة التوبة</button></div>';
+    var sm2 = q('#summary', m);
+    if (sm2 && tx(sm2)) h += '<section class="dy-ps"><h2>ملخص اليوم</h2>' + paras(sm2.innerText.split(/\n+/)) + '</section>';
+    return h;
+  }
+  var EX = { open: {} };
+  function paintExam() {
+    var pg = q('#page-exam'), el = document.getElementById('dyV-exam');
+    if (!on() || !pg) { if (el) el.remove(); return; }
+    var h = examHtml(); if (!h) return;
+    if (!el) { el = document.createElement('div'); el.id = 'dyV-exam'; el.className = 'dy-view'; pg.insertBefore(el, pg.firstChild); }
+    if (el.dataset.h !== h) { var y = window.scrollY, a = document.activeElement; if (a && el.contains(a) && a.tagName === 'TEXTAREA') return; el.innerHTML = h; el.dataset.h = h; window.scrollTo(0, y); }
+    pg.classList.toggle('dy-exnat', !!q('#tabToday') && q('#tabToday').classList.contains('on'));
+  }
+  var exObs = 0, exT;
+  function watchExam() { var m = q('#mod-m'); if (!m || exObs) return; exObs = 1; new MutationObserver(function () { clearTimeout(exT); exT = setTimeout(paintExam, 80); }).observe(m, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'open'] }); }
+  document.addEventListener('change', function (e) {
+    var t = e.target; if (!t || !on()) return;
+    if (t.getAttribute && t.getAttribute('data-dyk')) { var o = q('#cats input[data-k="' + t.getAttribute('data-dyk') + '"]'); if (o) o.click(); setTimeout(paintExam, 120); }
+  });
+  document.addEventListener('input', function (e) {
+    var t = e.target; if (!t || !on() || !t.getAttribute) return;
+    var n = t.getAttribute('data-dyn'), o = n ? q('#cats textarea[data-n="' + n + '"]') : (t.id === 'dyOther' ? q('#otherIn') : null);
+    if (o) { o.value = t.value; o.dispatchEvent(new Event('input', { bubbles: true })); }
+  });
+  document.addEventListener('toggle', function (e) { var d = e.target; if (d && d.getAttribute && d.getAttribute('data-dyc')) EX.open[d.getAttribute('data-dyc')] = d.open; }, true);
+
+
+  /* =============== محوّل عام: يقرأ محتوى صفحة ويعيد عرضه بعناصر الدفتر =============== */
+  var GEN = {};
+  function genConv(root, refs) {
+    function ref(el) { refs.push(el); return refs.length - 1; }
+    function isHid(e) { return e.hidden || e.classList.contains('hidden') || (e.getAttribute('style') || '').indexOf('display:none') > -1; }
+    function walk(e) {
+      var o = '';
+      [].slice.call(e.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) { var t = n.textContent.replace(/\s+/g, ' ').trim(); if (t) o += esc(t) + ' '; return; }
+        if (n.nodeType !== 1 || isHid(n)) return;
+        var tg = n.tagName, c = n.className && n.className.baseVal === undefined ? String(n.className) : '';
+        if (/^(SCRIPT|STYLE|NOSCRIPT)$/.test(tg)) return;
+        if (/^(svg|canvas|IMG)$/i.test(tg) || /\b(heat|rfu-bar|legend|chart|bar)\b/.test(c)) { o += '<div class="dy-keep">' + n.outerHTML + '</div>'; return; }
+        if (tg === 'BUTTON') { var tt = tx(n); if (tt) o += '<button type="button" class="' + (n.parentNode.classList && n.parentNode.classList.contains('u-tabs') ? 'dy-flag' : /\bchip\b|chips/.test(c + ' ' + (n.parentNode.className || '')) ? 'dy-chip' : 'dy-link') + (/\b(on|active|sel|done)\b/.test(c) || n.getAttribute('aria-pressed') === 'true' ? ' on' : '') + '" data-dyref="' + ref(n) + '">' + esc(tt) + '</button>'; return; }
+        if (tg === 'SELECT') { o += '<select class="dy-in" data-dyval="' + ref(n) + '">' + [].slice.call(n.options).map(function (op) { return '<option value="' + esc(op.value) + '"' + (op.selected ? ' selected' : '') + '>' + esc(op.text) + '</option>'; }).join('') + '</select>'; return; }
+        if (tg === 'TEXTAREA') { o += '<textarea class="dy-nt" rows="3" data-dyval="' + ref(n) + '" placeholder="' + esc(n.placeholder || '') + '">' + esc(n.value) + '</textarea>'; return; }
+        if (tg === 'INPUT') { var ty = n.type; if (ty === 'checkbox') o += '<label class="dy-ck"><input type="checkbox" data-dyref="' + ref(n) + '"' + (n.checked ? ' checked' : '') + '></label>'; else if (ty !== 'hidden' && ty !== 'file' && ty !== 'button' && ty !== 'submit') o += '<input class="dy-in" type="' + esc(ty) + '" data-dyval="' + ref(n) + '" value="' + esc(n.value) + '" placeholder="' + esc(n.placeholder || '') + '">'; return; }
+        if (/^H[1-4]$/.test(tg)) { o += '<h2 class="dy-gh">' + esc(tx(n)) + '</h2>'; return; }
+        if (tg === 'A') { var h = n.getAttribute('href'); o += '<a class="dy-lnk" ' + (h && h.charAt(0) !== '#' ? 'href="' + esc(h) + '" target="_blank" rel="noopener"' : 'data-dyref="' + ref(n) + '"') + '>' + esc(tx(n)) + '</a>'; return; }
+        if (tg === 'DETAILS') { var sm = n.querySelector('summary'); o += '<details class="dy-med"><summary>' + esc(tx(sm)) + '</summary>' + walk(n).replace(esc(tx(sm)) + ' ', '') + '</details>'; return; }
+        if (tg === 'SUMMARY') return;
+        if (tg === 'OL' || tg === 'UL') { o += '<ol class="dy-ol">' + [].slice.call(n.children).map(function (li) { return '<li>' + walk(li) + '</li>'; }).join('') + '</ol>'; return; }
+        var kids = n.children.length, own = [].slice.call(n.childNodes).some(function (x) { return x.nodeType === 3 && x.textContent.trim(); });
+        if (!kids) { var t2 = tx(n); if (t2) o += '<p class="dy-gp">' + esc(t2) + '</p>'; return; }
+        if (/\bu-card\b|\brfu\b|\bsection\b/.test(c) || tg === 'SECTION' || tg === 'ARTICLE') o += '<section class="dy-ps">' + walk(n) + '</section>';
+        else if (/\bu-tabs\b/.test(c)) o += '<div class="dy-flags">' + walk(n) + '</div>';
+        else if (/\bchips\b|row-gap|row-between/.test(c)) o += '<div class="dy-row">' + walk(n) + '</div>';
+        else o += (own ? '<div class="dy-gp">' : '<div class="dy-gb">') + walk(n) + '</div>';
+      });
+      return o;
+    }
+    return walk(root);
+  }
+  function genPaint(key, pageSel, rootSel, cond) {
+    var pg = q(pageSel), el = document.getElementById('dyV-' + key), root = pg && q(rootSel, pg);
+    if (!on() || !pg || !root || (cond && !cond(root))) { if (el) el.remove(); if (pg) pg.classList.remove('dy-gen'); return; }
+    var refs = [], h = genConv(root, refs);
+    if (!h) return;
+    GEN[key] = refs;
+    if (!el) { el = document.createElement('div'); el.id = 'dyV-' + key; el.className = 'dy-view'; el.setAttribute('data-gk', key); pg.insertBefore(el, pg.firstChild); }
+    var a = document.activeElement; if (a && el.contains(a) && /^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName)) return;
+    if (el.dataset.h !== h) { var y = window.scrollY; el.innerHTML = h; el.dataset.h = h; if (document.documentElement.getAttribute('data-pg') === pg.id.replace('page-', '')) window.scrollTo(0, y); }
+    pg.classList.add('dy-gen');
+  }
+  var GP = [['trk', '#page-trk', '.u-wrap', function (r) { return !!q('#trkTabs', r); }], ['favs', '#page-favs', '.u-wrap'], ['cal', '#page-cal', '.u-wrap'], ['syn', '#page-syn', '.u-wrap']];
+  var gT = {};
+  function genAll() { GP.forEach(function (g) { try { genPaint.apply(null, g); } catch (e) { } }); }
+  function watchGen() { GP.forEach(function (g) { var pg = q(g[1]); if (!pg || pg._dyw) return; pg._dyw = 1; new MutationObserver(function (ml) { if (ml.every(function (m) { var v = document.getElementById('dyV-' + g[0]); return v && v.contains(m.target); })) return; clearTimeout(gT[g[0]]); gT[g[0]] = setTimeout(function () { try { genPaint.apply(null, g); } catch (e) { } }, 90); }).observe(pg, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'open', 'aria-pressed'] }); }); }
+  function gref(t) { var v = t.closest && t.closest('.dy-view[data-gk]'); return v ? (GEN[v.getAttribute('data-gk')] || []) : null; }
+  document.addEventListener('click', function (e) {
+    var t = e.target; if (!on() || !t.closest) return; var b = t.closest('[data-dyref]'); if (!b) return; var R = gref(b); if (!R) return;
+    var o = R[+b.getAttribute('data-dyref')]; if (!o) return;
+    if (b.type === 'checkbox') return;
+    e.preventDefault(); e.stopPropagation(); o.click();
+  }, true);
+  document.addEventListener('change', function (e) {
+    var t = e.target; if (!on() || !t.getAttribute) return; var R = gref(t); if (!R) return;
+    var k = t.getAttribute('data-dyref'); if (k != null && t.type === 'checkbox') { var o = R[+k]; if (o) o.click(); return; }
+    var v = t.getAttribute('data-dyval'); if (v != null) { var o2 = R[+v]; if (o2) { o2.value = t.value; o2.dispatchEvent(new Event('input', { bubbles: true })); o2.dispatchEvent(new Event('change', { bubbles: true })); } }
+  }, true);
+  document.addEventListener('input', function (e) {
+    var t = e.target; if (!on() || !t.getAttribute) return; var v = t.getAttribute('data-dyval'); if (v == null) return; var R = gref(t); if (!R) return;
+    var o = R[+v]; if (o) { o.value = t.value; o.dispatchEvent(new Event('input', { bubbles: true })); }
+  }, true);
+
   /* =============== الأحداث والتزامن =============== */
-  function paintAll() { try { paintPray(); } catch (e) { } try { paintFat(); } catch (e) { } try { paintMsg(); watchMsg(); } catch (e) { } }
+  function paintAll() { try { paintPray(); } catch (e) { } try { paintFat(); } catch (e) { } try { paintMsg(); watchMsg(); } catch (e) { } try { paintRead(); watchRead(); } catch (e) { } try { paintTalk(); watchTalk(); } catch (e) { } try { paintExam(); watchExam(); } catch (e) { } genAll(); watchGen();
+    if (on() && document.documentElement.getAttribute('data-pg') === 'talk' && !document.getElementById('dyV-talk') && !paintAll._r) { paintAll._r = 1; setTimeout(function () { paintAll._r = 0; paintAll(); }, 500); } }
   document.addEventListener('click', function (e) {
     var t = e.target; if (!t || !t.closest || !on()) return;
     var b;
