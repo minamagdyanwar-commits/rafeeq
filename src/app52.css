@@ -298,3 +298,65 @@ html[data-rf-theme^="diary/"] .at-h{font-family:var(--dy-title);font-size:22px}
 html[data-rf-theme^="diary/"]:root:not(#z) #mod-k .app-switcher{background:var(--dy-noise),var(--dy-paper)!important;border:0!important;border-bottom:1.5px dashed var(--dy-line)!important;box-shadow:none!important}
 html[data-rf-theme^="diary/"] .mg-tag{background:transparent!important;color:var(--dy-red)!important;border:1.6px solid var(--dy-red)!important;border-radius:12px 14px 10px 14px!important;font-family:var(--dy-font)}
 html[data-rf-theme^="diary/"]:root:not(#z) :is(#mod-m,#mod-r,#mod-k,#page-trk,#page-fat,#page-favs,#page-msg,#page-talk) .btn:not(.on,.primary){background:transparent!important;color:var(--dy-ink)!important}
+
+/* =====================================================================
+   صفحات الدفتر المبنية من المحتوى (app53.js): الصفحة الأصلية تبقى حيّة لكن مخفية، ونعرض المحتوى بعناصر الدفتر
+   ===================================================================== */
+.dy-view{display:none}
+html[data-rf-theme^="diary/"] .dy-view{display:block;direction:rtl;font-family:var(--dy-font);color:var(--dy-text)}
+/* الصلاة: نخفي ما حلّ محلّه، ونُبقي أدوات الدمج وبنك الصلوات ورسالة الله */
+html[data-rf-theme^="diary/"] #mod-k>.app-switcher,html[data-rf-theme^="diary/"] #page-pray>#wakeChip,html[data-rf-theme^="diary/"] #view-agpeya .wrap>:is(.header,#hourTrigger,#suggestNow,#agModeArea,#introArea,#openingReflectionArea,#openingArea,#partsSectionArea,#recurringArea,#closingArea){display:none!important}
+html[data-rf-theme^="diary/"] #page-pray .dy-flags~*{}
+/* أعلام الأقسام (الأجبية · رحلاتي · التأملات · الخلوة): فواصل ورقية بحبر وتسطير */
+.dy-flags{display:flex;gap:4px;margin:0 0 14px;border-bottom:2px solid var(--dy-line)}
+.dy-flag{flex:1;padding:6px 4px 8px;background:none;border:0;border-bottom:4px solid transparent;margin-bottom:-2px;color:var(--dy-soft);font:600 17px/1.3 var(--dy-title);cursor:pointer}
+.dy-flag.on{color:var(--dy-ink);border-bottom-color:var(--dy-red)}
+/* ساعات اليوم: شرائح بخط اليد */
+.dy-hours{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.dy-hc{padding:4px 12px;background:none;border:1.8px solid var(--dy-ink);border-radius:14px 18px 12px 20px;color:var(--dy-ink);font:400 16px/1.5 var(--dy-font);cursor:pointer}
+.dy-hc.done{color:var(--dy-soft);border-style:dashed}
+.dy-hc.now{border-color:var(--dy-red);color:var(--dy-red)}
+.dy-hc.sel{background:linear-gradient(transparent 12%,var(--dy-hl) 12% 90%,transparent 90%);font-weight:700}
+.dy-ph h1{margin:14px 0 0;font:700 34px/1.3 var(--dy-title);color:var(--dy-ink)}
+.dy-ph p{margin:0;font:400 14px/1.7 "Cairo",sans-serif;color:var(--dy-red)}
+/* محتويات الصلاة */
+.dy-toc{display:flex;flex-wrap:wrap;gap:4px 14px;margin:10px 0 4px;padding:8px 0;border-top:1.5px dashed var(--dy-line);border-bottom:1.5px dashed var(--dy-line)}
+.dy-toc button,.dy-link{background:none;border:0;padding:2px 0;color:var(--dy-ink);font:400 15px/1.6 var(--dy-font);text-decoration:underline dotted;text-underline-offset:4px;cursor:pointer}
+.dy-ps{margin:22px 0 0;scroll-margin-top:84px}
+.dy-ps>h2{margin:0 0 4px;font:700 26px/1.4 var(--dy-title);color:var(--dy-ink);display:inline-block;border-bottom:2.5px solid currentColor;border-radius:0 0 40% 60%/0 0 8px 4px;padding-bottom:1px}
+.dy-hsub{margin:26px 0 0;font:700 28px/1.3 var(--dy-title);color:var(--dy-red)}.dy-hsub small{font:400 14px "Cairo",sans-serif;color:var(--dy-soft)}
+.dy-pn,.dy-ps>p{margin:0;font:400 18px/34px var(--dy-font);color:var(--dy-text)}
+.dy-pi{margin:14px 0 0}
+.dy-pi>h3{margin:0;font:700 22px/1.4 var(--dy-title);color:var(--dy-red)}
+.dy-pi>small{display:block;font:400 13px/1.6 "Cairo",sans-serif;color:var(--dy-soft)}
+.dy-pt p,.dy-ps>p{margin:0;font:400 23px/36px "Amiri",serif;color:var(--dy-text)}
+.dy-amen{text-align:center;font:700 22px "Aref Ruqaa",serif!important;color:var(--dy-red)!important}
+.dy-med{margin:6px 0 0}
+.dy-med summary{display:inline-block;padding:0;border:0;color:var(--dy-soft);font:400 14px/1.6 var(--dy-font);cursor:pointer}
+.dy-med p{margin:4px 0;font:400 15px/1.9 var(--dy-font);color:var(--dy-soft);border-inline-start:3px solid var(--dy-line);padding-inline-start:10px}
+.dy-end{margin:30px 0 8px;text-align:center}
+.dy-stampbtn{display:inline-block;padding:10px 24px;background:transparent;border:3px solid var(--dy-red);border-radius:16px;color:var(--dy-red);font:700 24px/1.4 var(--dy-title);transform:rotate(-2deg);box-shadow:inset 0 0 0 4px color-mix(in srgb,var(--dy-red) 18%,transparent);cursor:pointer}
+.dy-stampbtn.on{background:color-mix(in srgb,var(--dy-red) 12%,transparent)}
+.dy-tools{margin:26px 0 0;border-top:2px dotted var(--dy-line);padding-top:6px}
+.dy-tools h2{margin:0;font:700 22px/1.5 var(--dy-title);color:var(--dy-ink)}
+
+/* ===== أقوال الآباء + رسالة اليوم: مبنية من المحتوى ===== */
+html[data-rf-theme^="diary/"] #page-fat>.u-wrap,html[data-rf-theme^="diary/"] #page-msg>.u-wrap{display:none!important}
+html[data-rf-theme^="diary/"] .dy-find{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 4px}
+html[data-rf-theme^="diary/"] .dy-in{flex:1 1 140px;min-width:0;font:inherit;font-size:16px;color:var(--dy-ink);background:transparent;border:0;border-bottom:2px solid var(--dy-ink);padding:8px 2px;border-radius:0}
+html[data-rf-theme^="diary/"] .dy-count{font-size:13px;opacity:.75;margin:4px 0 10px}
+html[data-rf-theme^="diary/"] .dy-say{padding:10px 0 12px;border-bottom:1.5px dashed var(--dy-line)}
+html[data-rf-theme^="diary/"] .dy-sayf{font-family:'Playpen Sans Arabic','Cairo',sans-serif;font-size:14px;color:var(--dy-ink);font-weight:700}
+html[data-rf-theme^="diary/"] .dy-say blockquote{margin:4px 0 0;font-family:'Amiri',serif;font-size:21px;line-height:2;color:var(--dy-text)}
+html[data-rf-theme^="diary/"] .dy-sayg{margin-top:4px;display:flex;gap:8px;flex-wrap:wrap}
+html[data-rf-theme^="diary/"] .dy-sayg span{font-size:12px;opacity:.8;border-bottom:1.5px solid var(--dy-hl,currentColor)}
+html[data-rf-theme^="diary/"] .dy-lt p{margin:2px 0;font-size:14px}
+html[data-rf-theme^="diary/"] .dy-lt h1{margin:0}
+html[data-rf-theme^="diary/"] .dy-feast,html[data-rf-theme^="diary/"] .dy-theme{font-size:14px}
+html[data-rf-theme^="diary/"] .dy-from{font-family:'Aref Ruqaa','Amiri',serif;font-size:22px;color:var(--dy-red,var(--dy-ink));margin:10px 0 6px}
+html[data-rf-theme^="diary/"] .dy-lp,html[data-rf-theme^="diary/"] .dy-ls p{font-family:'Amiri',serif;font-size:21px;line-height:2;margin:4px 0;color:var(--dy-text)}
+html[data-rf-theme^="diary/"] .dy-ls{margin-top:16px}
+html[data-rf-theme^="diary/"] .dy-ls h2{display:inline-block;font:700 14px 'Playpen Sans Arabic','Cairo',sans-serif;margin:0 0 4px;padding:0 4px;background:linear-gradient(transparent 55%,var(--dy-hl,rgba(255,220,80,.5)) 55%);color:var(--dy-ink)}
+html[data-rf-theme^="diary/"] .dy-ls blockquote{margin:6px 0;padding:0 12px 0 0;border-inline-start:3px solid var(--dy-red,currentColor);font-family:'Aref Ruqaa','Amiri',serif;font-size:21px;line-height:2;color:var(--dy-red,var(--dy-ink))}
+html[data-rf-theme^="diary/"] .dy-ls cite{display:block;font:12px 'Cairo',sans-serif;opacity:.8;color:var(--dy-text)}
+html[data-rf-theme^="diary/"]:root:not(#z) .dy-hc.sel{color:var(--dy-text)!important}
