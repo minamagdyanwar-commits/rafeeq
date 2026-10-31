@@ -197,7 +197,23 @@ function rgb(str){var m=String(str||'').match(/^rgba?\(([^)]+)\)/);if(m){var a=m
 function lum(c){function f(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)}return .2126*f(c.r)+.7152*f(c.g)+.0722*f(c.b)}
 function cr(a,b){var x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
 function mix(a,b,t){return {r:a.r+(b.r-a.r)*t,g:a.g+(b.g-a.g)*t,b:a.b+(b.b-a.b)*t,a:1}}
-function bgOf(e){var cs=getComputedStyle(e),c=rgb(cs.backgroundColor);if(c&&c.a>.6)return c;var g=String(cs.backgroundImage||'').match(/rgba?\([^)]+\)/g);if(g){var cols=g.map(rgb).filter(function(x){return x&&x.a>.6});if(cols.length){var s={r:0,g:0,b:0,a:1};cols.forEach(function(x){s.r+=x.r;s.g+=x.g;s.b+=x.b});s.r/=cols.length;s.g/=cols.length;s.b/=cols.length;return s}}var p=e.parentElement,d=0;while(p&&d<7){var pc=rgb(getComputedStyle(p).backgroundColor);if(pc&&pc.a>.6)return pc;p=p.parentElement;d++}return null}
+/* متوسط لون صورة الخلفية (مخزَّن): الصورة هي الخلفية الفعلية للنص فوقها، لا لون الاحتياط المرسوم تحتها (مثل تصميم الإكليل: لون فاتح تحت صورة داكنة).
+   تُقرأ من نفس النطاق فلا يتلوّث الـcanvas؛ وإلى أن تُحمَّل يُترك العنصر بلا تصحيح ثم يُعاد الفحص عند تمام التحميل. a = متوسط الشفافية. */
+var IMGAVG={};
+function imgAvg(u){var m=/url\(\s*["']?([^"')]+?)["']?\s*\)/.exec(u);if(!m)return null;var k=m[1],v=IMGAVG[k];
+  if(v&&v.r!==undefined)return v;if(v)return null;IMGAVG[k]='w';
+  var im=new Image();im.onload=function(){try{var c=document.createElement('canvas');c.width=c.height=8;var x=c.getContext('2d');x.drawImage(im,0,0,8,8);var d=x.getImageData(0,0,8,8).data,r=0,g=0,b=0,al=0,w=0;
+      for(var i=0;i<d.length;i+=4){var a=d[i+3]/255;r+=d[i]*a;g+=d[i+1]*a;b+=d[i+2]*a;al+=a;w++}
+      IMGAVG[k]=al>0?{r:r/al,g:g/al,b:b/al,a:al/w}:'x'}catch(e){IMGAVG[k]='x'}sch()};
+  im.onerror=function(){IMGAVG[k]='x'};im.src=k;return null}
+function over(t,b){var a=t.a;return {r:t.r*a+b.r*(1-a),g:t.g*a+b.g*(1-a),b:t.b*a+b.b*(1-a),a:1}}
+/* الخلفية الفعلية للعنصر: تُدمج الطبقات الشفافة (لون أو صورة) من أعلى لأسفل فوق أول طبقة معتمة، فيُحسب التباين على ما يراه المستخدم فعلًا */
+function bgOf(e){var layers=[],n=e,d=0,base=null;
+  while(n&&n.nodeType===1&&d<9){var cs=getComputedStyle(n),c=rgb(cs.backgroundColor),im=String(cs.backgroundImage||'');
+    if(/url\(/.test(im)){var av=imgAvg(im);if(!av)return null;if(av.a>=.97){base=av;break}layers.push(av)}
+    else if(d===0){var g=im.match(/rgba?\([^)]+\)|color\(srgb[^)]+\)/g);if(g){var cols=g.map(rgb).filter(function(x){return x&&x.a>.6});if(cols.length){var sm={r:0,g:0,b:0,a:1};cols.forEach(function(x){sm.r+=x.r;sm.g+=x.g;sm.b+=x.b});sm.r/=cols.length;sm.g/=cols.length;sm.b/=cols.length;base=sm;break}}}
+    if(c&&c.a>=.99){base=c;break}if(c&&c.a>.01)layers.push(c);n=n.parentElement;d++}
+  if(!base)return null;for(var i=layers.length-1;i>=0;i--)base=over(layers[i],base);return base}
 var BLACK={r:26,g:18,b:6},WHITE={r:255,g:255,b:255},CREAM={r:251,g:243,b:231};
 function best(cur,bg){var lightBg=lum(bg)>.4;
   if(cur&&cr(cur,bg)>=2.2){var tgt=lightBg?BLACK:WHITE;for(var t=.15;t<=.85;t+=.1){var m=mix(cur,tgt,t);if(cr(m,bg)>=4.6)return m}}
