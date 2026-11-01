@@ -407,3 +407,6 @@ html[data-rf-theme^="diary/"] .dy-keep{margin:8px 0;max-width:100%;overflow-x:au
 html[data-rf-theme^="diary/"] .dy-ol{padding-inline-start:22px;font:400 17px/2 var(--dy-font);color:var(--dy-text)}
 html[data-rf-theme^="diary/"][data-ly]:root:not(#z) #uNav>[data-go="fat"],html[data-rf-theme^="diary/"][data-ly]:root:not(#z) #uNav>[data-go="fat"] *{color:#fff!important}
 html[data-rf-theme^="diary/"][data-ly]:root:not(#z) #uNav>button,html[data-rf-theme^="diary/"][data-ly]:root:not(#z) #uNav>button *{color:#fff!important}
+html[data-rf-theme^="diary/"] .dy-ol{list-style:none;padding:0}
+html[data-rf-theme^="diary/"] .dy-ol li{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;border-bottom:1.5px dashed var(--dy-line);padding:2px 0}
+html[data-rf-theme^="diary/"] .dy-ol li .dy-row{margin:0;flex-wrap:nowrap}

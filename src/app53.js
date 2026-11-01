@@ -308,7 +308,7 @@
         var tg = n.tagName, c = n.className && n.className.baseVal === undefined ? String(n.className) : '';
         if (/^(SCRIPT|STYLE|NOSCRIPT)$/.test(tg)) return;
         if (/^(svg|canvas|IMG)$/i.test(tg) || /\b(heat|rfu-bar|legend|chart|bar)\b/.test(c)) { o += '<div class="dy-keep">' + n.outerHTML + '</div>'; return; }
-        if (tg === 'BUTTON') { var tt = tx(n); if (tt) o += '<button type="button" class="' + (n.parentNode.classList && n.parentNode.classList.contains('u-tabs') ? 'dy-flag' : /\bchip\b|chips/.test(c + ' ' + (n.parentNode.className || '')) ? 'dy-chip' : 'dy-link') + (/\b(on|active|sel|done)\b/.test(c) || n.getAttribute('aria-pressed') === 'true' ? ' on' : '') + '" data-dyref="' + ref(n) + '">' + esc(tt) + '</button>'; return; }
+        if (tg === 'BUTTON') { var tt = tx(n), grp = n.parentNode.children.length > 1 && [].every.call(n.parentNode.children, function (x) { return x.tagName === 'BUTTON'; }); if (tt) o += '<button type="button" class="' + (grp && !n.parentNode.classList.contains('u-tabs') ? 'dy-chip' : n.parentNode.classList && n.parentNode.classList.contains('u-tabs') ? 'dy-flag' : /\bchip\b|chips/.test(c + ' ' + (n.parentNode.className || '')) ? 'dy-chip' : 'dy-link') + (/\b(on|active|sel|done)\b/.test(c) || n.getAttribute('aria-pressed') === 'true' ? ' on' : '') + '" data-dyref="' + ref(n) + '">' + esc(tt) + '</button>'; return; }
         if (tg === 'SELECT') { o += '<select class="dy-in" data-dyval="' + ref(n) + '">' + [].slice.call(n.options).map(function (op) { return '<option value="' + esc(op.value) + '"' + (op.selected ? ' selected' : '') + '>' + esc(op.text) + '</option>'; }).join('') + '</select>'; return; }
         if (tg === 'TEXTAREA') { o += '<textarea class="dy-nt" rows="3" data-dyval="' + ref(n) + '" placeholder="' + esc(n.placeholder || '') + '">' + esc(n.value) + '</textarea>'; return; }
         if (tg === 'INPUT') { var ty = n.type; if (ty === 'checkbox') o += '<label class="dy-ck"><input type="checkbox" data-dyref="' + ref(n) + '"' + (n.checked ? ' checked' : '') + '></label>'; else if (ty !== 'hidden' && ty !== 'file' && ty !== 'button' && ty !== 'submit') o += '<input class="dy-in" type="' + esc(ty) + '" data-dyval="' + ref(n) + '" value="' + esc(n.value) + '" placeholder="' + esc(n.placeholder || '') + '">'; return; }
@@ -321,7 +321,7 @@
         if (!kids) { var t2 = tx(n); if (t2) o += '<p class="dy-gp">' + esc(t2) + '</p>'; return; }
         if (/\bu-card\b|\brfu\b|\bsection\b/.test(c) || tg === 'SECTION' || tg === 'ARTICLE') o += '<section class="dy-ps">' + walk(n) + '</section>';
         else if (/\bu-tabs\b/.test(c)) o += '<div class="dy-flags">' + walk(n) + '</div>';
-        else if (/\bchips\b|row-gap|row-between/.test(c)) o += '<div class="dy-row">' + walk(n) + '</div>';
+        else if (/\bchips\b|row-gap|row-between|ds-row|ds-top|tiles|bk-grid/.test(c) || (kids > 1 && [].every.call(n.children, function (x) { return x.tagName === 'BUTTON'; }))) o += '<div class="dy-row">' + walk(n) + '</div>';
         else o += (own ? '<div class="dy-gp">' : '<div class="dy-gb">') + walk(n) + '</div>';
       });
       return o;
