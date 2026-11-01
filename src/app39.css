@@ -2,7 +2,7 @@
 .prg-page,.prg-day{position:fixed;inset:0;z-index:99990;display:none;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--nh-bg,#0f1318);color:var(--nh-ink,#efe6d2);font-family:inherit}
 .prg-day{z-index:99995}
 .prg-page.on,.prg-day.on{display:block}
-.prg-page{background:radial-gradient(120% 60% at 50% 0,color-mix(in srgb,var(--nh-acc,#d2b98a) 22%,transparent),transparent 70%),linear-gradient(180deg,var(--nh-bg,#0f1318),color-mix(in srgb,var(--nh-bg,#0f1318) 80%,#000))}
+.prg-page{background:radial-gradient(120% 60% at 50% 0,color-mix(in srgb,var(--nh-acc,#d2b98a) 22%,transparent),transparent 70%),linear-gradient(180deg,var(--nh-bg,#0f1318),color-mix(in srgb,var(--nh-bg,#0f1318) 80%,#000)) var(--nh-bg,#0f1318)}/* لون أساس معتم: مُصلح التباين يقرأ الخلفية من background-color فقط، فبدونه كان يرى خلفية الجسم الفاتحة من خلف التدرّج */
 .prg-page .pg-x,.prg-day .pg-x{position:fixed;top:12px;inset-inline-start:12px;z-index:3;background:var(--nh-card,#1b222a);color:var(--nh-ink,#efe6d2);border:1px solid var(--nh-line,rgba(255,255,255,.2));border-radius:20px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer}
 .pg-hd{display:flex;align-items:center;gap:14px;padding:64px 20px 12px;max-width:520px;margin:0 auto}
 .pg-ring{position:relative;width:76px;height:76px;flex:none}

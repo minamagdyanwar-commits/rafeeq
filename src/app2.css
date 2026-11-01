@@ -4745,6 +4745,13 @@ textarea.u-in {
   opacity: 0.4;
   cursor: default;
 }
+/* زر مُفعَّل (ملوّن) ثم معطّل: يظهر بإطار متقطّع ونص بلون الكارت بدل لون مليان باهت */
+.u-btn.on:disabled {
+  background: transparent;
+  color: inherit;
+  border: 1px dashed currentColor;
+  opacity: 0.6;
+}
 .u-btn:focus-visible,
 .chip:focus-visible,
 .u-wide:focus-visible,

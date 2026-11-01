@@ -27,6 +27,8 @@ html[dir=rtl] #page-home .hm-prog::after{border-radius:0 0 0 4px}
 #page-home .hm-ck:active{transform:scale(.85)}
 #page-home .hm-ck[aria-pressed=true]{box-shadow:0 0 0 4px rgba(156,122,46,.2);transform:scale(1.04)}
 #page-home .hm-prog.rf-complete{box-shadow:0 0 0 2px rgba(227,196,106,.9),0 0 32px -4px rgba(227,196,106,.65),0 10px 28px -14px rgba(0,0,0,.55)}
+/* الكلاسيكي الفاتح: ذهبي أغمق ليبلغ تباين ٤٫٥ على الكارت الكريمي */
+html[data-rf-theme^="classic/2/"] #page-home .hm-prog .hm-h span{color:#6f5212}
 #page-home .hm-prog.rf-complete .hm-h span{background:linear-gradient(90deg,#9C7A2E,#E3C46A);color:#2b1d12}
 
 /* بلاطات الدخول السريع */
