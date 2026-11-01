@@ -8,7 +8,7 @@ const { chromium } = await import(PW);
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const PORT = +process.env.PORT || 8777; const srv = process.env.BASE ? null : await serve(PORT); const BASE = process.env.BASE || `http://localhost:${PORT}`;
 const b = await chromium.launch({ executablePath: process.env.CHROME || '/opt/pw-browsers/chromium' });
-const DES = (process.argv[2] || 'bearer,church,classic,cross,crown,diary,glory,holy,lamp,qalaya,royal,shroud').split(',');
+const DES = (process.argv[2] || 'bearer,church,classic,cross,crown,glory,holy,lamp,qalaya,royal,shroud').split(',');
 const RAW = process.env.RAW || '/tmp/bake-raw'; fs.mkdirSync(RAW, { recursive: true });
 const rules = {}; // theme → path → Set(colors)
 const only = process.argv.includes('--cached');

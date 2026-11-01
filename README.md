@@ -10,7 +10,6 @@
 | الأنماط | `src/app*.css` |
 | الرحلات (نصوص، آيات، مراحل) | `content/journeys/<id>.json` ثم `node tools/build.mjs` |
 | ترتيب ظهور الرحلات | `content/journeys/_order.json` |
-| تصميم «دفتري مع يسوع» (التصميم ١٢) | `src/app52.css` (المظهر) و`src/app52.js` (صفحة اليوم والغلاف والفهرس)، ويُسجَّل في `index.html` (D.combos['diary/…'])؛ يُفحص بـ`tools/qa/diary.mjs` |
 | أطلس الكتاب (شخصيات، أنساب، خرائط) | `content/atlas/*.json` ثم `node tools/build.mjs` (الواجهة في `src/app51.js`) |
 | بيانات كبيرة جاهزة (الكتاب المقدس، الأجبية…) | `data-*.js` في الجذر (ناتج جاهز) |
 

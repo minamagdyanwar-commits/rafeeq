@@ -5,7 +5,7 @@ const { chromium }=await import(PW);
 import {serve} from './serve.mjs';import {crawl} from './crawl.mjs';
 const PORT=+process.env.PORT||8777;const srv=process.env.BASE?null:await serve(PORT);const BASE=process.env.BASE||`http://localhost:${PORT}`;
 const b=await chromium.launch({executablePath:process.env.CHROME||'/opt/pw-browsers/chromium'});
-const DES=['bearer','church','classic','cross','crown','diary','glory','holy','lamp','qalaya','royal','shroud'];
+const DES=['bearer','church','classic','cross','crown','glory','holy','lamp','qalaya','royal','shroud'];
 const des=process.argv[2]?process.argv[2].split(','):DES,modes=process.argv[3]?[process.argv[3]]:['dark','light'];
 const tot={};
 for(const d of des)for(const m of modes){
