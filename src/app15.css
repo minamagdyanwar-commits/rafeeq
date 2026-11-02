@@ -168,3 +168,10 @@ html:root:not(#z) body #uDrv.fab-on {
   color: var(--fab-fg, #fff) !important;
   border-color: var(--fab-bd, #fff) !important;
 }
+/* قاعدة قياسية: الأزرار العائمة الثلاثة (الملاحظات، دفتر الشكر، وضع القيادة) في كل التصاميم وكل الأوضاع
+   لها إطار بنفس لون الرمز المرسوم بداخلها */
+html:root:not(#z):not(#y) body #uFab:not(#x),
+html:root:not(#z):not(#y) body #uThx:not(#x),
+html:root:not(#z):not(#y) body #uDrv:not(#x) {
+  border: 2px solid currentColor !important;
+}
