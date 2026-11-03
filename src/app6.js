@@ -4901,6 +4901,9 @@
           o("read", { top: 1 });
           var t = i("todayBtn");
           t && t.click();
+          var k = window.__F && window.__F.dkey && window.__F.dkey(),
+            g = i("gregInput");
+          k && g && g.value !== k && ((g.value = k), g.dispatchEvent(new Event("change", { bubbles: !0 })));
         },
         exam: function () {
           o("exam", { top: 1 });

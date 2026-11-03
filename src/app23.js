@@ -168,6 +168,30 @@
           n.parentNode.insertBefore(a, n),
           h(),
           window.MutationObserver && new MutationObserver(h).observe(n, { childList: !0 }));
+        /* تاريخ القراءات يتبع «تاريخ التدوين» (dkey): وإلا كان «قرأتُ» يُسجَّل في يوم غير اليوم الذي تعرضه الخطة ورحلتي */
+        function z() {
+          var k = t() && t().dkey && t().dkey(),
+            g = e("gregInput");
+          k && g && g.value !== k && /^\d{4}-\d\d-\d\d$/.test(k) && ((g.value = k), g.dispatchEvent(new Event("change", { bubbles: !0 })));
+        }
+        var pr = e("page-read");
+        (z(),
+          setTimeout(z, 600),
+          pr &&
+            window.MutationObserver &&
+            (function () {
+              var was = pr.classList.contains("on");
+              new MutationObserver(function () {
+                var now = pr.classList.contains("on");
+                now && !was && setTimeout(z, 120);
+                was = now;
+              }).observe(pr, { attributes: !0, attributeFilter: ["class"] });
+            })(),
+          window.RF &&
+            RF.act &&
+            RF.on("rf:activity", function (ev) {
+              ev && ev.detail && null == ev.detail.kind && setTimeout(z, 0);
+            }));
         var r = e("gregInput");
         (r &&
           r.addEventListener("change", function () {
