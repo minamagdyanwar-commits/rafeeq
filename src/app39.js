@@ -148,7 +148,8 @@ function closeDay(){var el=document.getElementById('progDay');if(el)el.classList
 /* ---------- ربط «يومي» ---------- */
 function activeId(s){var st=started(s).filter(function(i){return !finished(s,i)});var se=st.filter(function(i){return syncDay(i)>0});return se[0]||st[0]||null}
 function doneOn(dk){var s=load(),f=F().dkey;if(!f)return false;for(var i=0,ids=IDS();i<ids.length;i++){for(var k in s[ids[i]].done){try{if(f(new Date(s[ids[i]].done[k]))===dk)return true}catch(e){}}}return false}
-function status(dk){var s=load(),id=activeId(s);if(!id)return null;var p=PG()[id];return {id:id,label:'رحلتي: '+p.short+' — اليوم '+ar(cur(s,id)),done:doneOn(dk)}}
+function doneOnId(id,dk){var s=load(),f=F().dkey;if(!f||!s[id])return false;for(var k in s[id].done){try{if(f(new Date(s[id].done[k]))===dk)return true}catch(e){}}return false}
+function status(dk){var s=load(),id=activeId(s);if(!id)return null;var p=PG()[id];return {id:id,label:'رحلتي: '+p.short+' — اليوم '+ar(cur(s,id)),done:doneOnId(id,dk)}}
 function openCurrent(){var s=load(),id=activeId(s);if(!id){hubPage('all');return}active=id;render(true);var sd=syncDay(id);openDay(sd&&!s[id].done[sd]?sd:Math.min(cur(s,id),N(id)))}
 /* ---------- قائمة «المزيد» والرئيسية ---------- */
 function injectMore(){var box=q('#uSheet .v14-more');if(!box||q('[data-prog="hub"]',box))return;

@@ -1507,9 +1507,9 @@
                 "محاسبة النفس</button>" +
                 (window.__prog && window.__prog.status && window.__prog.status(n)
                   ? '<button type="button" class="chip' +
-                    (window.__prog.doneOn(n) ? " on" : "") +
+                    (window.__prog.status(n).done ? " on" : "") +
                     '" data-tdo="prog">' +
-                    (window.__prog.doneOn(n) ? "✓ " : "") +
+                    (window.__prog.status(n).done ? "✓ " : "") +
                     "رحلتي</button>"
                   : "") +
                 "</div></div>";
@@ -7373,6 +7373,7 @@
             o = e.dkey();
           if (i) {
             var c = i.dataset.chk;
+            if ("prog" === c) return void (window.__prog && window.__prog.openCurrent && window.__prog.openCurrent());
             return (
               0 === c.indexOf("h:")
                 ? e.setHour(o, c.slice(2), !e.hourDone(o, c.slice(2)))
