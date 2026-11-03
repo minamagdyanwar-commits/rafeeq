@@ -163,6 +163,8 @@ function injectHome(){var b=q('#nhHome .nh-body');if(!b)return;if(q('.pg-home',b
 function boot(){injectMore();injectHome();mountHub()}
 new MutationObserver(boot).observe(document.body,{childList:true,subtree:true});
 document.addEventListener('DOMContentLoaded',boot);setTimeout(boot,600);
+/* الرئيسية القديمة تُرسم قبل تحميل هذا الملف فلا يظهر سطر «رحلتي» حتى أول نشاط: أعِد الرسم مرة بعد التحميل */
+setTimeout(function(){try{if(window.RF&&RF.act&&F().dkey)RF.act.changed(F().dkey())}catch(e){}},700);
 /* ---------- الأحداث ---------- */
 document.addEventListener('click',function(e){var t=e.target,b;if(!t.closest)return;
   if(b=t.closest('[data-prog]')){e.preventDefault();e.stopPropagation();var id=b.getAttribute('data-prog');try{F().closeSheet()}catch(x){};if(id==='cur'){openCurrent()}else if(id==='hub'||!PG()[id]){hubPage(started(load()).length?'mine':'all')}else{active=id;render(true)}return}
