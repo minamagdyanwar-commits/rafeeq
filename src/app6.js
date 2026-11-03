@@ -7386,6 +7386,7 @@
           }
           if (s) {
             var l = s.dataset.open;
+            if ("prog" === l) return void (window.__prog && window.__prog.openCurrent && window.__prog.openCurrent());
             0 === l.indexOf("hour:")
               ? window.__rafeeq.act("hour", { dataset: { key: l.slice(5) } })
               : window.__rafeeq.act(l, null);
