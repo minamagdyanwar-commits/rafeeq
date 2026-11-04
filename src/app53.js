@@ -163,11 +163,15 @@
   function injectMore() {
     var box = document.querySelector('#uSheet .v14-more');
     if (!box || box.querySelector('[data-gospels]')) return;
-    /* قسم مستقل في آخر «المزيد» */
+    /* قسم مستقل «الأناجيل» في «المزيد» */
     var h4 = document.createElement('h4'); h4.textContent = 'الأناجيل';
     var b = document.createElement('button'); b.type = 'button'; b.setAttribute('data-gospels', '1');
     b.innerHTML = 'الحدث في أكثر من إنجيل<small>متى · مرقس · لوقا · يوحنا</small>';
-    box.appendChild(h4); box.appendChild(b);
+    /* مباشرة تحت قسم «الكتاب المقدس» (قبل القسم التالي له)، وإلا في آخر القائمة */
+    var hs = [].slice.call(box.querySelectorAll('h4')), bi = -1, i;
+    for (i = 0; i < hs.length; i++) if (/الكتاب المقدس/.test(hs[i].textContent)) { bi = i; break; }
+    var nxt = bi > -1 ? hs[bi + 1] : null;
+    if (nxt) { box.insertBefore(h4, nxt); box.insertBefore(b, nxt); } else { box.appendChild(h4); box.appendChild(b); }
   }
   new MutationObserver(injectMore).observe(document.body, { childList: true, subtree: true });
   document.addEventListener('DOMContentLoaded', injectMore);
