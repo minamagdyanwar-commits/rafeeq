@@ -163,11 +163,11 @@
   function injectMore() {
     var box = document.querySelector('#uSheet .v14-more');
     if (!box || box.querySelector('[data-gospels]')) return;
+    /* قسم مستقل في آخر «المزيد» */
+    var h4 = document.createElement('h4'); h4.textContent = 'الأناجيل';
     var b = document.createElement('button'); b.type = 'button'; b.setAttribute('data-gospels', '1');
     b.innerHTML = 'الحدث في أكثر من إنجيل<small>متى · مرقس · لوقا · يوحنا</small>';
-    var at = box.querySelector('[data-atlas]');
-    if (at && at.parentNode) at.parentNode.insertBefore(b, at.nextSibling);
-    else { var h4 = document.createElement('h4'); h4.textContent = 'استكشاف'; var first = box.querySelector('h4'); box.insertBefore(h4, first); box.insertBefore(b, first); }
+    box.appendChild(h4); box.appendChild(b);
   }
   new MutationObserver(injectMore).observe(document.body, { childList: true, subtree: true });
   document.addEventListener('DOMContentLoaded', injectMore);
