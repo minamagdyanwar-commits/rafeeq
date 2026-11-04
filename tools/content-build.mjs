@@ -103,3 +103,23 @@ console.log(`المحتوى: ${order.length} رحلة · مراجَع ${stat.rev
   if (!existsSync(at) || readFileSync(at, 'utf8') !== ab) writeFileSync(at, ab);
   console.log(`الأطلس: ${pe.people.length} شخصية · ${pl.places.length} مكانًا · ${mp.maps.length} خرائط · ${li.lines.length} سلاسل نسب`);
 }
+
+/* ---------- الحدث في أكثر من إنجيل: content/gospels/parallels.json → src/data-gospels.js (window.__gospels) ----------
+   التحقق: معرّفات فريدة، التصنيف معروف، لكل حدث إنجيلان على الأقل، والمراجع قائمة غير فارغة (صحّة المراجع نفسها: tools/qa/gospels-refs.mjs). */
+{
+  const gd = JSON.parse(readFileSync(join(root, 'content/gospels/parallels.json'), 'utf8')), gerrs = [];
+  const cats = new Set(gd.cats.map(c => c[0])), ids = new Set();
+  for (const e of gd.events) {
+    if (ids.has(e.id)) gerrs.push(`أناجيل: id مكرر ${e.id}`); ids.add(e.id);
+    if (!e.title) gerrs.push(`${e.id}: بدون عنوان`);
+    if (!cats.has(e.cat)) gerrs.push(`${e.id}: تصنيف غير معروف ${e.cat}`);
+    const gs = Object.keys(e.refs || {});
+    if (gs.length < 2) gerrs.push(`${e.id}: أقل من إنجيلين`);
+    for (const g of gs) { if (!['mt', 'mk', 'lk', 'jn'].includes(g)) gerrs.push(`${e.id}: إنجيل غير معروف ${g}`); if (!Array.isArray(e.refs[g]) || !e.refs[g].length || e.refs[g].some(r => !String(r).trim())) gerrs.push(`${e.id}: مراجع ${g} غير صالحة`); }
+  }
+  if (gerrs.length) { console.error('أخطاء الأناجيل:\n' + gerrs.join('\n')); process.exit(1); }
+  const gb = `/* مُولَّد من content/gospels/parallels.json بواسطة tools/content-build.mjs — لا تعدّل هذا الملف يدويًا. */\n(function () {\n  "use strict";\n  window.__gospels = ${JSON.stringify(gd)};\n})();\n`;
+  const gt = join(root, 'src/data-gospels.js');
+  if (!existsSync(gt) || readFileSync(gt, 'utf8') !== gb) writeFileSync(gt, gb);
+  console.log(`الأناجيل: ${gd.events.length} حدثًا في ${gd.cats.length} أقسام`);
+}
