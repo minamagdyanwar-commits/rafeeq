@@ -10573,3 +10573,14 @@ html[data-layout="makhtuta"] #mod-k .acc-sub {
 html[data-layout="horizon"] #mod-k .acc-sub {
   color: #b9b4d6 !important;
 }
+/* تبويبات الكتاب (الكتاب · الكتاب الدراسي · الخطة · إنجازي · الحفظ): تُضغط لتظهر كلها دون تمرير جانبي حتى على ٣٦٠px */
+#trkTabs.u-tabs:has(> button:nth-child(5)) {
+  gap: 4px;
+}
+#trkTabs.u-tabs:has(> button:nth-child(5)) > button {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 7px 5px;
+  font-size: 13px;
+  white-space: nowrap;
+}

@@ -87,6 +87,13 @@ try{
  await step('atlas-maps',()=>__atlasUI.open('maps'),400);
  await step('atlas-map',()=>__atlasUI.open('m','paul2','athens'),600);
  await p.evaluate(()=>{try{__atlasUI.close()}catch(e){}});
+ await step('study-gospels',()=>__studyUI.open('gospels'),500,true);
+ await step('study-event',()=>__studyUI.open('gospels','transfiguration'),900);
+ await step('study-kings',()=>__studyUI.open('kings','ramoth'),900);
+ await step('study-prophecy',()=>__studyUI.open('prophecy','virgin'),900);
+ await step('study-themes',()=>__studyUI.open('themes','questions'),900);
+ await step('study-life',()=>__studyUI.open('life'),500,true);
+ await p.evaluate(()=>{try{__studyUI.close()}catch(e){}});
  await step('hymn',()=>__hymnsUI.open('afta7_fay'),500,true);await p.evaluate(()=>{try{__hymnsUI.close()}catch(e){}});
  for(const t of ['notes','khalwa','sects'])await step('trk-'+t,`(()=>{window.__rafeeq&&__rafeeq.show('trk',{top:1});__F.setTrkTab('${t}')})()`,800,true);
  await step('cal-next',()=>{window.__rafeeq&&__rafeeq.show('cal');[...document.querySelectorAll('#calBody .u-tabs button')].find(b=>/القادم/.test(b.textContent))?.click()},900,true);

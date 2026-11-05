@@ -103,3 +103,50 @@ console.log(`المحتوى: ${order.length} رحلة · مراجَع ${stat.rev
   if (!existsSync(at) || readFileSync(at, 'utf8') !== ab) writeFileSync(at, ab);
   console.log(`الأطلس: ${pe.people.length} شخصية · ${pl.places.length} مكانًا · ${mp.maps.length} خرائط · ${li.lines.length} سلاسل نسب`);
 }
+
+/* ---------- الكتاب المقدس الدراسي: content/study/*.json → src/data-study.js (window.__study) ----------
+   أنواع الأقسام: parallel (أحداث بأعمدة نصوص متوازية)، collection (مجموعات آيات بحسب الموضوع)، life (ترتيب زمني لأحداث قسم آخر).
+   التحقق هنا من البنية فقط؛ صحّة المراجع نفسها في tools/qa/study-refs.mjs. */
+{
+  const sd = join(root, 'content/study'), serrs = [], secs = [];
+  const order = JSON.parse(readFileSync(join(sd, '_order.json'), 'utf8')), byId = {};
+  for (const id of order) {
+    const f = join(sd, id + '.json');
+    if (!existsSync(f)) { serrs.push(`${id}: ملف مفقود`); continue; }
+    const j = JSON.parse(readFileSync(f, 'utf8')); byId[id] = j;
+    if (j.id !== id) serrs.push(`${id}: id غير مطابق`);
+    for (const k of ['kind', 'title', 'sub', 'lead']) if (!j[k]) serrs.push(`${id}: حقل ناقص ${k}`);
+    const ref = r => Array.isArray(r) && r.length && r.every(x => String(x).trim());
+    if (j.kind === 'parallel') {
+      const cats = new Set((j.cats || []).map(c => c[0])), ids = new Set();
+      for (const e of j.events || []) {
+        if (ids.has(e.id)) serrs.push(`${id}: id مكرر ${e.id}`); ids.add(e.id);
+        if (!e.title) serrs.push(`${id}/${e.id}: بدون عنوان`);
+        if (!cats.has(e.cat)) serrs.push(`${id}/${e.id}: تصنيف غير معروف ${e.cat}`);
+        if (!Array.isArray(e.cols) || e.cols.length < 2) serrs.push(`${id}/${e.id}: أقل من عمودين`);
+        const ks = new Set();
+        for (const c of e.cols || []) { if (ks.has(c.k)) serrs.push(`${id}/${e.id}: عمود مكرر ${c.k}`); ks.add(c.k); if (!c.k || !c.l || !ref(c.r)) serrs.push(`${id}/${e.id}: عمود غير صالح ${c.k}`); }
+      }
+    } else if (j.kind === 'collection') {
+      const ids = new Set();
+      for (const c of j.collections || []) {
+        if (ids.has(c.id)) serrs.push(`${id}: مجموعة مكررة ${c.id}`); ids.add(c.id);
+        if (!c.title || !c.items || !c.items.length) serrs.push(`${id}/${c.id}: مجموعة فارغة`);
+        for (const it of c.items || []) if (!it.t || !(typeof it.r === 'string' ? it.r.trim() : ref(it.r))) serrs.push(`${id}/${c.id}: عنصر غير صالح`);
+      }
+    } else if (j.kind !== 'life') serrs.push(`${id}: نوع غير معروف ${j.kind}`);
+    secs.push(j);
+  }
+  for (const j of secs) if (j.kind === 'life') {
+    const src = byId[j.from], have = new Set(((src && src.events) || []).map(e => e.id)), seen = new Set();
+    if (!src) serrs.push(`${j.id}: قسم مصدر غير موجود ${j.from}`);
+    for (const id of j.order || []) { if (!have.has(id)) serrs.push(`${j.id}: حدث غير موجود ${id}`); if (seen.has(id)) serrs.push(`${j.id}: حدث مكرر ${id}`); seen.add(id); }
+    for (const id of have) if (!seen.has(id)) serrs.push(`${j.id}: الحدث ${id} غير مرتّب`);
+  }
+  if (serrs.length) { console.error('أخطاء الدراسة:\n' + serrs.join('\n')); process.exit(1); }
+  const sb = `/* مُولَّد من content/study/*.json بواسطة tools/content-build.mjs — لا تعدّل هذا الملف يدويًا. */\n(function () {\n  "use strict";\n  window.__study = ${JSON.stringify({ sections: secs })};\n})();\n`;
+  const st = join(root, 'src/data-study.js');
+  if (!existsSync(st) || readFileSync(st, 'utf8') !== sb) writeFileSync(st, sb);
+  const cnt = secs.map(j => j.kind === 'parallel' ? j.events.length : j.kind === 'collection' ? j.collections.length : j.order.length);
+  console.log(`الدراسة: ${secs.length} أقسام (${secs.map((j, i) => j.id + ' ' + cnt[i]).join(' · ')})`);
+}
