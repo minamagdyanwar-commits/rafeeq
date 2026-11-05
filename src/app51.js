@@ -18,15 +18,12 @@
   var S = { tab: 'people', view: 'main', g: 'all', q: '', pid: null, mid: null, sel: null, z: 1 };
   var el = null;
 
-  function root() {
-    if (el && document.body.contains(el)) return el;
-    el = document.createElement('div');
-    el.id = 'atlasPg'; el.className = 'prg-page'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'أطلس الكتاب');
-    document.body.appendChild(el);
-    return el;
-  }
-  function isOpen() { return !!(el && el.classList.contains('on')); }
-  function close() { if (el) el.classList.remove('on'); }
+  /* تُرسم داخل تبويب «الكتاب الدراسي» في صفحة الكتاب (app53.js يمرّر الحاوية عبر mount) فترث تصميم التطبيق في كل تصميم وكل وضع */
+  function isOpen() { return !!(el && document.body.contains(el)); }
+  function close() { }
+  function mount(host, tab) { el = host; if (tab && TABS.some(function (t) { return t[0] === tab; })) { S.tab = tab; } render(false); }
+  function setTab(tab) { if (TABS.some(function (t) { return t[0] === tab; })) { S.tab = tab; S.view = 'main'; } }
+  function scrollToEl(node) { if (node) window.scrollTo({ top: node.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' }); }
 
   /* ---------- الشخصيات ---------- */
   function groupName(g) { for (var i = 0; i < A().groups.length; i++) if (A().groups[i][0] === g) return A().groups[i][1]; return ''; }
@@ -38,35 +35,34 @@
   function nameHit(p, nq) { var nm = F().norm; return (nm ? nm(p.n) : p.n).indexOf(nq) > -1 ? 1 : 0; }
   function listHtml() {
     var nm = F().norm, nq = S.q && nm ? nm(S.q) : S.q, rows = A().people.filter(function (p) { return (S.g === 'all' || p.g === S.g) && matches(p, nq); });
-    if (!rows.length) return '<p class="at-empty">لا توجد نتائج. جرّب اسمًا آخر أو مجموعة أخرى.</p>';
+    if (!rows.length) return '<div class="u-note">لا توجد نتائج. جرّب اسمًا آخر أو مجموعة أخرى.</div>';
     if (nq) rows.sort(function (x, y) { return nameHit(y, nq) - nameHit(x, nq); });
     return rows.map(function (p) {
-      return '<button type="button" class="at-row" data-atp="' + p.id + '"><b>' + esc(p.n) + '</b><small>' + esc(p.t) + '</small></button>';
+      return '<button type="button" class="h-row" data-atp="' + p.id + '"><span class="tx"><b>' + esc(p.n) + '</b><span>' + esc(p.t) + '</span></span><span class="ar"><i class=chv>‹</i></span></button>';
     }).join('');
   }
   function peopleTab() {
-    var chips = '<button type="button" class="at-chip' + (S.g === 'all' ? ' on' : '') + '" data-atg="all">الكل</button>' +
-      A().groups.map(function (g) { return '<button type="button" class="at-chip' + (S.g === g[0] ? ' on' : '') + '" data-atg="' + g[0] + '">' + esc(g[1]) + '</button>'; }).join('');
-    return '<input type="search" id="atQ" class="at-q" placeholder="ابحث عن شخصية…" value="' + esc(S.q) + '" autocomplete="off" aria-label="بحث في الشخصيات">' +
-      '<div class="at-chips">' + chips + '</div><div id="atList" class="at-list">' + listHtml() + '</div>';
+    var chips = '<button type="button" class="chip' + (S.g === 'all' ? ' on' : '') + '" data-atg="all">الكل</button>' +
+      A().groups.map(function (g) { return '<button type="button" class="chip' + (S.g === g[0] ? ' on' : '') + '" data-atg="' + g[0] + '">' + esc(g[1]) + '</button>'; }).join('');
+    return '<div class="u-card"><input type="search" id="atQ" class="u-in" placeholder="ابحث عن شخصية…" value="' + esc(S.q) + '" autocomplete="off" aria-label="بحث في الشخصيات">' +
+      '<div class="chips">' + chips + '</div></div><div id="atList" class="h-list">' + listHtml() + '</div>';
   }
   function refBtns(refs) {
-    return refs.map(function (r) { return '<button type="button" class="at-ref" data-atref="' + esc(r) + '">' + esc(ar(r)) + '</button>'; }).join('');
+    return refs.map(function (r) { return '<button type="button" class="chip at-ref" data-atref="' + esc(r) + '">' + esc(ar(r)) + '</button>'; }).join('');
   }
   function personView(p) {
     var fam = (p.fam || []).map(function (f) {
-      return f[2] ? '<button type="button" class="at-fam" data-atp="' + f[2] + '"><small>' + esc(f[0]) + '</small>' + esc(f[1]) + '</button>'
-        : '<span class="at-fam"><small>' + esc(f[0]) + '</small>' + esc(f[1]) + '</span>';
+      return f[2] ? '<button type="button" class="chip at-fam" data-atp="' + f[2] + '"><small>' + esc(f[0]) + '</small>' + esc(f[1]) + '</button>'
+        : '<span class="chip at-fam"><small>' + esc(f[0]) + '</small>' + esc(f[1]) + '</span>';
     }).join('');
     var inLines = A().lines.filter(function (l) { return l.items.some(function (it) { return it.id === p.id || it.woman_id === p.id; }); });
-    var lineBtns = inLines.map(function (l) { return '<button type="button" class="at-ref" data-atl="' + l.id + '">النسب: ' + esc(l.title) + '</button>'; }).join('');
+    var lineBtns = inLines.map(function (l) { return '<button type="button" class="chip at-ref" data-atl="' + l.id + '">النسب: ' + esc(l.title) + '</button>'; }).join('');
     var places = A().places.filter(function (x) { return x.id === p.id; });
-    return '<small>' + esc(groupName(p.g)) + ' · ' + esc(p.t) + '</small><h2>' + esc(p.n) + '</h2>' +
-      '<div class="pd-v"><p>' + esc(p.d) + '</p></div>' +
-      (fam ? '<h3 class="at-h">الأسرة</h3><div class="at-fams">' + fam + '</div>' : '') +
-      '<h3 class="at-h">في الكتاب</h3><div class="at-refs">' + refBtns(p.r) + '</div>' +
-      (lineBtns ? '<h3 class="at-h">في الأنساب</h3><div class="at-refs">' + lineBtns + '</div>' : '') + (places.length ? '' : '') +
-      '<p class="at-foot">نبذة مختصرة للتعريف، والمرجع هو نص الكتاب المقدس نفسه.</p>';
+    return '<div class="u-card">' + backBtn() + '<div class="u-sub">' + esc(groupName(p.g)) + ' · ' + esc(p.t) + '</div><h3 class="u-h3">' + esc(p.n) + '</h3><p class="at-p">' + esc(p.d) + '</p></div>' +
+      (fam ? '<div class="u-card"><h3 class="u-h3">الأسرة</h3><div class="chips">' + fam + '</div></div>' : '') +
+      '<div class="u-card"><h3 class="u-h3">في الكتاب</h3><div class="chips">' + refBtns(p.r) + '</div></div>' +
+      (lineBtns ? '<div class="u-card"><h3 class="u-h3">في الأنساب</h3><div class="chips">' + lineBtns + '</div></div>' : '') +
+      '<div class="u-note">نبذة مختصرة للتعريف، والمرجع هو نص الكتاب المقدس نفسه.</div>';
   }
 
   /* ---------- الأنساب ---------- */
@@ -77,19 +73,19 @@
   }
   function linesTab() {
     var L = A().lines, T = A().tribes;
-    var jump = L.map(function (l) { return '<button type="button" class="at-chip" data-atj="' + l.id + '">' + esc(l.title) + '</button>'; }).join('') +
-      '<button type="button" class="at-chip" data-atj="tribes">بيت يعقوب</button>';
+    var jump = L.map(function (l) { return '<button type="button" class="chip" data-atj="' + l.id + '">' + esc(l.title) + '</button>'; }).join('') +
+      '<button type="button" class="chip" data-atj="tribes">بيت يعقوب</button>';
     var secs = L.map(function (l) {
-      return '<section class="at-sec" id="atl-' + l.id + '"><h3>' + esc(l.title) + '</h3><small>' + esc(l.sub) + '</small>' +
+      return '<div class="u-card at-sec" id="atl-' + l.id + '"><h3 class="u-h3">' + esc(l.title) + '</h3><div class="u-sub">' + esc(l.sub) + '</div>' +
         '<ol class="at-rail">' + l.items.map(railItem).join('') + '</ol>' +
-        (l.note ? '<p class="at-note">' + esc(l.note) + '</p>' : '') + '<div class="at-refs">' + refBtns(l.r) + '</div></section>';
+        (l.note ? '<div class="u-note">' + esc(l.note) + '</div>' : '') + '<div class="chips">' + refBtns(l.r) + '</div></div>';
     }).join('');
-    var tribes = '<section class="at-sec" id="atl-tribes"><h3>' + esc(T.title) + '</h3><small>' + esc(T.sub) + '</small>' +
+    var tribes = '<div class="u-card at-sec" id="atl-tribes"><h3 class="u-h3">' + esc(T.title) + '</h3><div class="u-sub">' + esc(T.sub) + '</div>' +
       T.mothers.map(function (m) {
-        return '<div class="pd-v at-mom"><b>' + (m.id ? '<button type="button" class="at-nm" data-atp="' + m.id + '">' + esc(m.n) + '</button>' : esc(m.n)) + '</b><p>' +
+        return '<div class="at-mom"><b>' + (m.id ? '<button type="button" class="at-nm" data-atp="' + m.id + '">' + esc(m.n) + '</button>' : esc(m.n)) + '</b><p>' +
           m.sons.map(function (s) { return '<span class="at-son">' + esc(s) + '</span>'; }).join('') + '</p></div>';
-      }).join('') + '<div class="at-refs">' + refBtns(T.r) + '</div></section>';
-    return '<div class="at-chips">' + jump + '</div>' + secs + tribes;
+      }).join('') + '<div class="chips">' + refBtns(T.r) + '</div></div>';
+    return '<div class="u-card"><div class="chips">' + jump + '</div></div>' + secs + tribes;
   }
 
   /* ---------- الخرائط ---------- */
@@ -97,9 +93,9 @@
     return CATS.map(function (c) {
       var ms = A().maps.filter(function (m) { return m.cat === c[0]; });
       if (!ms.length) return '';
-      return '<h3 class="at-h">' + c[1] + '</h3>' + ms.map(function (m) {
-        return '<button type="button" class="at-row at-mrow" data-atm="' + m.id + '"><i>' + m.ic + '</i><span><b>' + esc(m.title) + '</b><small>' + esc(m.sub) + '</small></span></button>';
-      }).join('');
+      return '<h3 class="h-sec">' + c[1] + '</h3><div class="h-list">' + ms.map(function (m) {
+        return '<button type="button" class="h-row" data-atm="' + m.id + '"><span class="ic">' + m.ic + '</span><span class="tx"><b>' + esc(m.title) + '</b><span>' + esc(m.sub) + '</span></span><span class="ar"><i class=chv>‹</i></span></button>';
+      }).join('') + '</div>';
     }).join('');
   }
 
@@ -177,51 +173,48 @@
   function startVw(m) { S.z = m.z0 || 1; }
   function zoom(f) { S.z = Math.max(1, Math.min(6, S.z * f)); paintMap(); }
   function placeCard() {
-    var p = S.sel && place(S.sel); if (!p) return '<p class="at-hint">اضغط على أي دبوس لتقرأ عن المكان.</p>';
-    return '<div class="pd-v at-pc"><b>' + esc(p.n) + (p.ap ? ' <em>موقع تقليدي أو تقريبي</em>' : '') + '</b><p>' + esc(p.d) + '</p><div class="at-refs">' + refBtns(p.r) + '</div></div>';
+    var p = S.sel && place(S.sel); if (!p) return '<div class="u-note">اضغط على أي دبوس لتقرأ عن المكان.</div>';
+    return '<div class="u-card at-pc"><b>' + esc(p.n) + (p.ap ? ' <em>موقع تقليدي أو تقريبي</em>' : '') + '</b><p class="at-p">' + esc(p.d) + '</p><div class="chips">' + refBtns(p.r) + '</div></div>';
   }
   function mapView(m) {
     var legs = m.legs.map(function (l, i) { return '<span class="at-lg"><i class="c' + (i % 3) + (l.dash ? ' d' : '') + '"></i>' + esc(l.n) + '</span>'; }).join('');
-    var stops = stopsOf(m).map(function (id, i) { return '<button type="button" class="at-st' + (S.sel === id ? ' on' : '') + '" data-atpl="' + id + '"><u>' + ar(i + 1) + '</u>' + esc(place(id).n) + '</button>'; }).join('');
-    var pins = (m.pins || []).filter(function (id) { return stopsOf(m).indexOf(id) < 0; }).map(function (id) { return '<button type="button" class="at-st' + (S.sel === id ? ' on' : '') + '" data-atpl="' + id + '">' + esc(place(id).n) + '</button>'; }).join('');
-    return '<small>' + esc(m.sub) + '</small><h2>' + esc(m.title) + '</h2>' +
-      '<div class="at-mapbox"><div id="atSvg" class="at-svgbox"></div><div class="at-zoom"><button type="button" data-atz="in" aria-label="تكبير">+</button><button type="button" data-atz="out" aria-label="تصغير">−</button><button type="button" data-atz="reset" aria-label="إعادة الضبط">⟲</button><span id="atZ">×١</span></div></div>' +
-      (legs ? '<div class="at-legs">' + legs + '</div>' : '') +
+    var stops = stopsOf(m).map(function (id, i) { return '<button type="button" class="chip at-st' + (S.sel === id ? ' on' : '') + '" data-atpl="' + id + '"><u>' + ar(i + 1) + '</u>' + esc(place(id).n) + '</button>'; }).join('');
+    var pins = (m.pins || []).filter(function (id) { return stopsOf(m).indexOf(id) < 0; }).map(function (id) { return '<button type="button" class="chip at-st' + (S.sel === id ? ' on' : '') + '" data-atpl="' + id + '">' + esc(place(id).n) + '</button>'; }).join('');
+    return '<div class="u-card">' + backBtn() + '<div class="u-sub">' + esc(m.sub) + '</div><h3 class="u-h3">' + esc(m.title) + '</h3>' +
+      '<div class="at-mapbox"><div id="atSvg" class="at-svgbox"></div><div class="at-zoom"><button type="button" class="chip" data-atz="in" aria-label="تكبير">+</button><button type="button" class="chip" data-atz="out" aria-label="تصغير">−</button><button type="button" class="chip" data-atz="reset" aria-label="إعادة الضبط">⟲</button><span id="atZ">×١</span></div></div>' +
+      (legs ? '<div class="at-legs">' + legs + '</div>' : '') + '</div>' +
       '<div id="atPc">' + placeCard() + '</div>' +
-      (stops ? '<h3 class="at-h">المحطات بالترتيب</h3><div class="at-sts">' + stops + '</div>' : '') +
-      (pins ? '<h3 class="at-h">أماكن أخرى</h3><div class="at-sts">' + pins + '</div>' : '') +
-      (m.note ? '<p class="at-note">' + esc(m.note) + '</p>' : '') +
-      '<h3 class="at-h">في الكتاب</h3><div class="at-refs">' + refBtns(m.refs) + '</div>';
+      (stops ? '<div class="u-card"><h3 class="u-h3">المحطات بالترتيب</h3><div class="chips">' + stops + '</div></div>' : '') +
+      (pins ? '<div class="u-card"><h3 class="u-h3">أماكن أخرى</h3><div class="chips">' + pins + '</div></div>' : '') +
+      (m.note ? '<div class="u-note">' + esc(m.note) + '</div>' : '') +
+      '<div class="u-card"><h3 class="u-h3">في الكتاب</h3><div class="chips">' + refBtns(m.refs) + '</div></div>';
   }
+  function backBtn() { return '<button type="button" class="chip at-back" data-atx="1">→ رجوع</button>'; }
 
   /* ---------- الإطار العام ---------- */
   function render(keepScroll) {
-    var e = root(), top = keepScroll ? e.scrollTop : 0, html;
+    var e = el; if (!e) return;
+    var top = keepScroll ? window.scrollY : 0, html;
     if (S.view === 'person' && person(S.pid)) html = personView(person(S.pid));
     else if (S.view === 'map' && mapOf(S.mid)) html = mapView(mapOf(S.mid));
-    else {
-      S.view = 'main';
-      html = (window.__studyUI ? window.__studyUI.bar(S.tab) : '<small>الكتاب المقدس</small><h2>أطلس الكتاب</h2><div class="at-tabs" role="tablist">' +
-        TABS.map(function (t) { return '<button type="button" role="tab" aria-selected="' + (S.tab === t[0]) + '" class="' + (S.tab === t[0] ? 'on' : '') + '" data-att="' + t[0] + '">' + t[1] + '</button>'; }).join('') + '</div>') +
-        (S.tab === 'people' ? peopleTab() : S.tab === 'lines' ? linesTab() : mapsTab());
-    }
-    e.innerHTML = '<button type="button" class="pg-x" data-atx="1" aria-label="' + (S.view === 'main' ? 'إغلاق' : 'رجوع') + '">' + (S.view === 'main' ? '✕' : '→ رجوع') + '</button><div class="pd-c at-c">' + html + '</div>';
-    e.classList.add('on'); e.scrollTop = top;
+    else { S.view = 'main'; html = S.tab === 'people' ? peopleTab() : S.tab === 'lines' ? linesTab() : mapsTab(); }
+    e.innerHTML = '<div class="at-c">' + html + '</div>';
+    if (keepScroll) window.scrollTo(0, top);
     if (S.view === 'map') { var cc = S.sel && place(S.sel) ? pt(geom(mapOf(S.mid)), place(S.sel).ll) : null, gg = geom(mapOf(S.mid)), c0 = center(mapOf(S.mid)); paintMap(cc ? cc[0] / gg.W : c0[0], cc ? cc[1] / gg.H : c0[1]); }
   }
   function open(tab, id, sub) {
-    if (tab === 'p' && person(id)) { S.view = 'person'; S.pid = id; }
-    else if (tab === 'm' && mapOf(id)) { S.view = 'map'; S.mid = id; S.sel = sub || null; startVw(mapOf(id)); }
+    if (tab === 'p' && person(id)) { S.view = 'person'; S.pid = id; S.tab = 'people'; }
+    else if (tab === 'm' && mapOf(id)) { S.view = 'map'; S.mid = id; S.sel = sub || null; S.tab = 'maps'; startVw(mapOf(id)); }
     else { S.view = 'main'; if (tab && TABS.some(function (t) { return t[0] === tab; })) S.tab = tab; }
-    render(false);
+    if (window.__studyUI) window.__studyUI.showAtlas(S.tab); else render(false);
   }
-  function back() { if (S.view === 'main') close(); else { S.view = 'main'; render(false); } }
+  function back() { if (S.view !== 'main') { S.view = 'main'; render(false); window.scrollTo(0, 0); } }
 
   function openRef(ref) {
     var b = F().bible; if (!b || !b.load) return;
     b.load().then(function () {
       var r = b.parseRef(ref); if (!r) { F().toast && F().toast('تعذّر فتح المرجع'); return; }
-      close(); F().openBible(r.bi, r.ch, r.v1 || 1);
+      F().openBible(r.bi, r.ch, r.v1 || 1);
     });
   }
   function select(id) {
@@ -243,8 +236,8 @@
     if ((b = t.closest('[data-atm]'))) { open('m', b.getAttribute('data-atm')); return; }
     if ((b = t.closest('[data-atpl]'))) return select(b.getAttribute('data-atpl'));
     if ((b = t.closest('[data-atref]'))) return openRef(b.getAttribute('data-atref'));
-    if ((b = t.closest('[data-atl]'))) { S.view = 'main'; S.tab = 'lines'; render(false); var s = document.getElementById('atl-' + b.getAttribute('data-atl')); if (s) el.scrollTop = s.offsetTop - 70; return; }
-    if ((b = t.closest('[data-atj]'))) { var s2 = document.getElementById('atl-' + b.getAttribute('data-atj')); if (s2) el.scrollTo({ top: s2.offsetTop - 70, behavior: 'smooth' }); return; }
+    if ((b = t.closest('[data-atl]'))) { S.view = 'main'; S.tab = 'lines'; if (window.__studyUI) window.__studyUI.showAtlas('lines'); else render(false); setTimeout(function () { scrollToEl(document.getElementById('atl-' + b.getAttribute('data-atl'))); }, 80); return; }
+    if ((b = t.closest('[data-atj]'))) { var s2 = document.getElementById('atl-' + b.getAttribute('data-atj')); scrollToEl(s2); return; }
     if ((b = t.closest('[data-atz]'))) { var k = b.getAttribute('data-atz'); if (k === 'reset') { startVw(mapOf(S.mid)); var c1 = center(mapOf(S.mid)); paintMap(c1[0], c1[1]); } else zoom(k === 'in' ? 1.6 : 1 / 1.6); return; }
   });
   document.addEventListener('input', function (e) {
@@ -282,5 +275,5 @@
     },
     go: function (parts) { open(parts[1], parts[2], parts[3]); }
   });
-  window.__atlasUI = { open: open, close: close };
+  window.__atlasUI = { open: open, close: close, mount: mount, setTab: setTab, isOpen: isOpen };
 })();
