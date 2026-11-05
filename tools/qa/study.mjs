@@ -57,6 +57,15 @@ for(const d of des)for(const m of modes){
     document.querySelector('#stAtlas [data-atm]').click();await w(500);o.mapView=q('#stAtlas svg .at-pin')>0&&q('#stAtlas [data-atx]')===1;
     document.querySelector('#stAtlas [data-atx]').click();await w(200);o.mapBack=q('#stAtlas [data-atm]')>0;
     o.tabBar=document.querySelector('#trkTabs [data-ttab="study"]').classList.contains('on')&&document.getElementById('page-trk').classList.contains('on');
+    // إعدادات الخط (الحجم والنوع وتباعد الأسطر) تنعكس على نص الآيات وعلى نبذات الأطلس كنص القراءة نفسه
+    __studyUI.open('gospels','transfiguration');await ready();
+    const fs=(sel)=>{const e=document.querySelector(sel);if(!e)return null;const c=getComputedStyle(e);return {z:parseFloat(c.fontSize),f:c.fontFamily,l:parseFloat(c.lineHeight)}};
+    const h=document.documentElement,a0=fs('#trkBody .st .gs-t');
+    h.style.fontSize='150%';h.style.setProperty('--txt-scale','1.5');h.style.setProperty('--read-font','"Cairo", sans-serif');h.style.setProperty('--lh-d','0.4');await w(80);
+    const a1=fs('#trkBody .st .gs-t');
+    o.fontSize=!!a0&&!!a1&&a1.z>a0.z*1.4;o.fontFamily=!!a1&&/Cairo/.test(a1.f)&&!/Cairo/.test(a0.f);o.lineHeight=!!a1&&a1.l/a1.z>a0.l/a0.z;
+    __atlasUI.open('p','peter');await w(300);const b1=fs('#stAtlas .at-p');o.atlasFont=!!b1&&b1.z>=a0.z*1.1&&/Cairo/.test(b1.f);
+    h.style.fontSize='';h.style.removeProperty('--txt-scale');h.style.removeProperty('--read-font');h.style.removeProperty('--lh-d');
     await w(300);
     const L=window.__rfFixLog||{};o.fix=Object.keys(L).filter(k=>/(^|[ .#>])(gs|st|at)-|stAtlas|trkBody/.test(k));return o});
   const fails=Object.entries(st).filter(([k,v])=>k!=='fix'&&k!=='cards'&&!v).map(([k])=>k).concat(st.cards?['cards:'+st.cards]:[]);
