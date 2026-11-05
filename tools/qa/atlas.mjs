@@ -16,11 +16,11 @@ for(const d of des)for(const m of modes){
   const maps=await p.evaluate(()=>window.__atlas.maps.map(x=>x.id)),ppl=await p.evaluate(()=>window.__atlas.people.map(x=>x.id));
   const st=await p.evaluate(async([maps,ppl])=>{
     const w=ms=>new Promise(r=>setTimeout(r,ms)),q=s=>document.querySelectorAll(s).length,o={};
-    for(const t of ['people','lines','maps']){__atlasUI.open(t);await w(60);o[t]=q('#atlasPg .pd-c *')}
-    for(const id of ppl.filter((_,i)=>i%9===0)){__atlasUI.open('p',id);await w(30);if(!q('#atlasPg .pd-v'))o['p:'+id]=0}
-    for(const id of maps){__atlasUI.open('m',id);await w(60);o['m:'+id]=q('#atlasPg svg .at-pin');if(!o['m:'+id])o['m:'+id]=0}
+    for(const t of ['people','lines','maps']){__atlasUI.open(t);await w(60);o[t]=q('#stAtlas *')}
+    for(const id of ppl.filter((_,i)=>i%9===0)){__atlasUI.open('p',id);await w(30);if(!q('#stAtlas .u-card'))o['p:'+id]=0}
+    for(const id of maps){__atlasUI.open('m',id);await w(60);o['m:'+id]=q('#stAtlas svg .at-pin');if(!o['m:'+id])o['m:'+id]=0}
     await w(300);
-    const L=window.__rfFixLog||{};o.fix=Object.keys(L).filter(k=>/at-|atlasPg/.test(k));return o},[maps,ppl]);
+    const L=window.__rfFixLog||{};o.fix=Object.keys(L).filter(k=>/(^|[ .#>])at-|stAtlas/.test(k));return o},[maps,ppl]);
   const zero=Object.entries(st).filter(([k,v])=>k!=='fix'&&!v).map(([k])=>k);
   const ok=!errs.length&&!zero.length&&!st.fix.length;if(!ok)bad++;
   console.log(`${ok?'ok  ':'FAIL'} ${d}/${m} errors:${errs.length} empty:[${zero}] fixed:${st.fix.length}${st.fix.length?' '+st.fix.join(' | '):''}`);

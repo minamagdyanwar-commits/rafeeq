@@ -1435,7 +1435,7 @@
         ["memo", "الحفظ"],
       ];
     function o(t) {
-      return "bible" === t || "plan" === t || "dash" === t || "memo" === t;
+      return "bible" === t || "study" === t || "plan" === t || "dash" === t || "memo" === t;
     }
     t.isBibleTab = o;
     var c = { tab: "track", planDay: null, memo: { mode: "list", ids: [], i: 0, reveal: !1 }, noteQ: "" };
@@ -1447,7 +1447,7 @@
           .map(function (t) {
             return (
               '<button type="button" ' +
-              ("study" === t[0] ? 'data-study="1"' : 'data-ttab="' + t[0] + '"') +
+              'data-ttab="' + t[0] + '"' +
               ' class="' +
               (c.tab === t[0] ? "on" : "") +
               '">' +
@@ -1620,7 +1620,9 @@
             ? D(i)
             : "dash" === c.tab
               ? B(i)
-              : "bible" === c.tab
+              : "study" === c.tab
+                ? window.__studyUI && window.__studyUI.mount(i)
+                : "bible" === c.tab
                 ? n.render(i)
                 : "khalwa" === c.tab
                   ? (function (e) {
