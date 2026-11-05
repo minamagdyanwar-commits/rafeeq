@@ -58,7 +58,7 @@
     var inLines = A().lines.filter(function (l) { return l.items.some(function (it) { return it.id === p.id || it.woman_id === p.id; }); });
     var lineBtns = inLines.map(function (l) { return '<button type="button" class="chip at-ref" data-atl="' + l.id + '">النسب: ' + esc(l.title) + '</button>'; }).join('');
     var places = A().places.filter(function (x) { return x.id === p.id; });
-    return backBtn() + '<div class="u-card"><div class="u-sub">' + esc(groupName(p.g)) + ' · ' + esc(p.t) + '</div><h3 class="u-h3">' + esc(p.n) + '</h3><p class="at-p">' + esc(p.d) + '</p></div>' +
+    return '<div class="u-card">' + backBtn() + '<div class="u-sub">' + esc(groupName(p.g)) + ' · ' + esc(p.t) + '</div><h3 class="u-h3">' + esc(p.n) + '</h3><p class="at-p">' + esc(p.d) + '</p></div>' +
       (fam ? '<div class="u-card"><h3 class="u-h3">الأسرة</h3><div class="chips">' + fam + '</div></div>' : '') +
       '<div class="u-card"><h3 class="u-h3">في الكتاب</h3><div class="chips">' + refBtns(p.r) + '</div></div>' +
       (lineBtns ? '<div class="u-card"><h3 class="u-h3">في الأنساب</h3><div class="chips">' + lineBtns + '</div></div>' : '') +
@@ -180,8 +180,8 @@
     var legs = m.legs.map(function (l, i) { return '<span class="at-lg"><i class="c' + (i % 3) + (l.dash ? ' d' : '') + '"></i>' + esc(l.n) + '</span>'; }).join('');
     var stops = stopsOf(m).map(function (id, i) { return '<button type="button" class="chip at-st' + (S.sel === id ? ' on' : '') + '" data-atpl="' + id + '"><u>' + ar(i + 1) + '</u>' + esc(place(id).n) + '</button>'; }).join('');
     var pins = (m.pins || []).filter(function (id) { return stopsOf(m).indexOf(id) < 0; }).map(function (id) { return '<button type="button" class="chip at-st' + (S.sel === id ? ' on' : '') + '" data-atpl="' + id + '">' + esc(place(id).n) + '</button>'; }).join('');
-    return backBtn() + '<div class="u-card"><div class="u-sub">' + esc(m.sub) + '</div><h3 class="u-h3">' + esc(m.title) + '</h3>' +
-      '<div class="at-mapbox"><div id="atSvg" class="at-svgbox"></div><div class="at-zoom"><button type="button" class="u-btn" data-atz="in" aria-label="تكبير">+</button><button type="button" class="u-btn" data-atz="out" aria-label="تصغير">−</button><button type="button" class="u-btn" data-atz="reset" aria-label="إعادة الضبط">⟲</button><span id="atZ">×١</span></div></div>' +
+    return '<div class="u-card">' + backBtn() + '<div class="u-sub">' + esc(m.sub) + '</div><h3 class="u-h3">' + esc(m.title) + '</h3>' +
+      '<div class="at-mapbox"><div id="atSvg" class="at-svgbox"></div><div class="at-zoom"><button type="button" class="chip" data-atz="in" aria-label="تكبير">+</button><button type="button" class="chip" data-atz="out" aria-label="تصغير">−</button><button type="button" class="chip" data-atz="reset" aria-label="إعادة الضبط">⟲</button><span id="atZ">×١</span></div></div>' +
       (legs ? '<div class="at-legs">' + legs + '</div>' : '') + '</div>' +
       '<div id="atPc">' + placeCard() + '</div>' +
       (stops ? '<div class="u-card"><h3 class="u-h3">المحطات بالترتيب</h3><div class="chips">' + stops + '</div></div>' : '') +
@@ -189,7 +189,7 @@
       (m.note ? '<div class="u-note">' + esc(m.note) + '</div>' : '') +
       '<div class="u-card"><h3 class="u-h3">في الكتاب</h3><div class="chips">' + refBtns(m.refs) + '</div></div>';
   }
-  function backBtn() { return '<button type="button" class="u-btn at-back" data-atx="1">→ رجوع</button>'; }
+  function backBtn() { return '<button type="button" class="chip at-back" data-atx="1">→ رجوع</button>'; }
 
   /* ---------- الإطار العام ---------- */
   function render(keepScroll) {

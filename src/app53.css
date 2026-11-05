@@ -2,7 +2,7 @@
    الألوان من متغيرات التصميم الحالي (--s-*) فيتبع كل تصميم وكل وضع. */
 .st-chips{align-items:center}
 .st-sep{width:1px;align-self:stretch;min-height:24px;background:var(--s-card-border);margin:0 2px}
-.st-back{margin:2px 0 4px}
+.st-back{margin:0 0 8px}
 .st-row.done .ic{background:var(--f-on-bg);color:var(--f-on-ink)}
 .st-prog{height:8px;border-radius:4px;background:color-mix(in srgb,var(--s-card-ink) 18%,transparent);overflow:hidden;margin:8px 0 10px}
 .st-prog i{display:block;height:100%;background:var(--s-accent);border-radius:4px}
@@ -18,6 +18,6 @@
 .gs-sep2{border:0;border-top:1px dashed var(--s-card-border);margin:10px 0}
 mark.gs-u{background:color-mix(in srgb,var(--s-accent) 30%,transparent);color:inherit;border-radius:4px;padding:0 2px}
 .st-nav{margin:10px 0 0}
-.st-nav .u-btn{flex:1}
+.st-nav .chip{flex:1 1 auto}
 #gsMe{margin-top:8px;resize:vertical}
 @media(min-width:720px){.st-cols{grid-template-columns:1fr 1fr;column-gap:12px}}

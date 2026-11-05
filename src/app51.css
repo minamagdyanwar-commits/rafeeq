@@ -2,7 +2,7 @@
    وهنا فقط ما يخصه: الأنساب والخرائط. الألوان من متغيرات التصميم الحالي (--s-*) فيتبع كل تصميم وكل وضع. */
 .at-c{display:block}
 .at-p{margin:6px 0 0;font-size:16px;line-height:1.9}
-.at-back{margin:2px 0 4px}
+.at-back{margin:0 0 8px}
 .at-fam{display:inline-flex;flex-direction:column;align-items:flex-start;gap:0;min-height:0;padding:6px 12px;border-radius:14px;text-align:start}
 .at-fam small{font-size:11px;font-weight:400;opacity:.85}
 .at-sec{scroll-margin-top:70px}
@@ -40,7 +40,7 @@ button.at-wm{cursor:pointer}
 .at-pin .nu{fill:var(--s-btn-ink);font-family:inherit;font-weight:700;pointer-events:none}
 .at-pin.ap .nu{fill:var(--s-card-ink)}
 .at-zoom{position:absolute;inset-block-start:8px;inset-inline-start:8px;display:flex;flex-direction:column;gap:4px;align-items:center}
-.at-zoom .u-btn{width:38px;height:38px;padding:0;border-radius:50%;font-size:20px;line-height:1;display:grid;place-items:center}
+.at-zoom .chip{width:38px;height:38px;min-height:0;padding:0;border-radius:50%;font-size:20px;line-height:1;display:grid;place-items:center;background:var(--s-card)}
 .at-zoom span{font-size:11px;color:var(--s-card-ink);background:var(--s-card);border-radius:8px;padding:1px 6px}
 .at-legs{display:flex;flex-wrap:wrap;gap:6px 14px;margin:10px 0 4px;font-size:13px}
 .at-lg{display:inline-flex;align-items:center;gap:6px}

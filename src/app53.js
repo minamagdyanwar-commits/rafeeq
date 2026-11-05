@@ -136,8 +136,7 @@
     }
     var L = s.kind === 'life' ? s.order.map(function (id) { return evById(s, id); }) : s.events, ix = L.indexOf(ev), prev = L[ix - 1], next = L[ix + 1], mine = load().notes || {}, my = mine[noteKey(s, ev.id)] || '';
     var life = load().life || {};
-    return '<button type="button" class="u-btn st-back" data-gsx="1">‹ ' + esc(title(s.id)) + '</button>' +
-      '<div class="u-card"><div class="u-sub">' + (s.kind === 'life' ? 'المحطة ' + esc(ar(ix + 1)) + ' من ' + esc(ar(L.length)) : esc(catName(s, ev.cat))) + '</div><h3 class="u-h3">' + esc(ev.title) + '</h3>' +
+    return '<div class="u-card"><button type="button" class="chip st-back" data-gsx="1">‹ ' + esc(title(s.id)) + '</button><div class="u-sub">' + (s.kind === 'life' ? 'المحطة ' + esc(ar(ix + 1)) + ' من ' + esc(ar(L.length)) : esc(catName(s, ev.cat))) + '</div><h3 class="u-h3">' + esc(ev.title) + '</h3>' +
       '<div class="chips" role="group" aria-label="الأعمدة">' + ev.cols.map(function (c) { return '<button type="button" class="chip' + (S.sel[c.k] !== 0 ? ' on' : '') + '" aria-pressed="' + (S.sel[c.k] !== 0 ? 'true' : 'false') + '" data-gsg="' + esc(c.k) + '">' + esc(c.l) + '</button>'; }).join('') +
       (b.diff ? '<button type="button" class="chip' + (S.diff ? ' on' : '') + '" aria-pressed="' + (S.diff ? 'true' : 'false') + '" data-gsd="1">ظلّل الاختلافات</button>' : '') + '</div>' +
       (b.diff && S.diff && shown.length > 1 ? '<div class="u-sub"><mark class="gs-u">كلمات مظلّلة</mark> لا ترد في الروايات الأخرى المعروضة.</div>' : '') + '</div>' +
@@ -146,20 +145,20 @@
       (s.kind === 'life' ? '<button type="button" class="u-wide' + (life[ev.id] ? ' on' : '') + '" data-gsl="' + esc(ev.id) + '" aria-pressed="' + (life[ev.id] ? 'true' : 'false') + '">' + (life[ev.id] ? '✓ قرأتُ هذه المحطة (اضغط للتراجع)' : 'قرأتُ هذه المحطة') + '</button>' : '') +
       '<div class="u-card"><h3 class="u-h3">للتأمل</h3><div class="u-sub">' + (b.id === 'gospels' ? 'إيه اللي اتفرّد بيه كل إنجيلي؟ وإيه اللي بتقوله لي أنا في هذا الحدث؟' : b.id === 'kings' ? 'إيه اللي اختلف في رواية الأخبار؟ ولماذا ركّز عليه الكاتب؟' : b.id === 'prophecy' || b.id === 'types' ? 'كيف رأى كاتب العهد الجديد الصلة بين النصين؟ وماذا تضيف لك؟' : 'إيه اللي لفت نظرك؟') + '</div>' +
       '<textarea id="gsMe" class="u-in" rows="3" maxlength="600" placeholder="اكتب ما لفت نظرك — يُحفظ على جهازك فقط" aria-label="ملاحظتي">' + esc(my) + '</textarea></div>' +
-      '<div class="row-gap st-nav">' + (prev ? '<button type="button" class="u-btn" data-gse="' + esc(prev.id) + '">‹ ' + esc(prev.title) + '</button>' : '') + (next ? '<button type="button" class="u-btn" data-gse="' + esc(next.id) + '">' + esc(next.title) + ' ›</button>' : '') + '</div>';
+      '<div class="u-card"><div class="chips st-nav">' + (prev ? '<button type="button" class="chip" data-gse="' + esc(prev.id) + '">‹ ' + esc(prev.title) + '</button>' : '') + (next ? '<button type="button" class="chip" data-gse="' + esc(next.id) + '">' + esc(next.title) + ' ›</button>' : '') + '</div></div>';
   }
 
   /* ---------- مجموعة آيات ---------- */
   function collView() {
     var s = sec(S.sec), c = s && collById(s, S.id); if (!c) return listView();
-    var out = '<button type="button" class="u-btn st-back" data-gsx="1">‹ ' + esc(title(s.id)) + '</button><div class="u-card"><div class="u-sub">' + esc(ar(c.items.length)) + ' موضعًا</div><h3 class="u-h3">' + esc(c.title) + '</h3>' + (c.sub ? '<div class="u-sub">' + esc(c.sub) + '</div>' : '') + '</div>';
+    var out = '<div class="u-card"><button type="button" class="chip st-back" data-gsx="1">‹ ' + esc(title(s.id)) + '</button><div class="u-sub">' + esc(ar(c.items.length)) + ' موضعًا</div><h3 class="u-h3">' + esc(c.title) + '</h3>' + (c.sub ? '<div class="u-sub">' + esc(c.sub) + '</div>' : '') + '</div>';
     if (!bibleReady()) return out + '<div class="u-note">جارٍ تجهيز الكتاب المقدس…</div>';
     out += c.items.map(function (it) {
       var ps = parts(it.r);
       return '<div class="u-card st-col c0"><div class="row-between"><h3 class="u-h3">' + esc(it.t) + '</h3></div><div class="chips">' + refsHtml(ps) + '</div>' + textHtml(ps, null, false) + '</div>';
     }).join('');
     var L = s.collections, ix = L.indexOf(c), prev = L[ix - 1], next = L[ix + 1];
-    return out + '<div class="row-gap st-nav">' + (prev ? '<button type="button" class="u-btn" data-gsco="' + esc(prev.id) + '">‹ ' + esc(prev.title) + '</button>' : '') + (next ? '<button type="button" class="u-btn" data-gsco="' + esc(next.id) + '">' + esc(next.title) + ' ›</button>' : '') + '</div>';
+    return out + '<div class="u-card"><div class="chips st-nav">' + (prev ? '<button type="button" class="chip" data-gsco="' + esc(prev.id) + '">‹ ' + esc(prev.title) + '</button>' : '') + (next ? '<button type="button" class="chip" data-gsco="' + esc(next.id) + '">' + esc(next.title) + ' ›</button>' : '') + '</div></div>';
   }
 
   /* ---------- الإطار العام ---------- */

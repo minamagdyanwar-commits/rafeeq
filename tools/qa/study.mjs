@@ -39,7 +39,7 @@ for(const d of des)for(const m of modes){
     document.querySelector('[data-gsg="mk"]').click();await w(60);o.toggle=q('#trkBody .st .st-col')===2;
     const ta=document.getElementById('gsMe');ta.value='تجربة';ta.dispatchEvent(new Event('input',{bubbles:true}));
     o.note=(JSON.parse(localStorage.getItem('rafeeq_study_v1')||'{}').notes||{})['gospels/transfiguration']==='تجربة';
-    document.querySelector('.st-nav button:last-child').click();await w(120);o.nav=!!q('#trkBody .st .st-col');
+    document.querySelector('.st-nav .chip:last-child').click();await w(120);o.nav=!!q('#trkBody .st .st-col');
     document.querySelector('[data-gsx="1"]').click();await w(60);o.back=q('#trkBody .st .st-row')>0;
     const sq=document.getElementById('gsQ');sq.value='العشاء';sq.dispatchEvent(new Event('input',{bubbles:true}));o.search=q('#trkBody .st .st-row')>=1&&q('#trkBody .st .st-row')<5;
     // حياة المسيح: ختم «قرأتُ» والتقدّم
