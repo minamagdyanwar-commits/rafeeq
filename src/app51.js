@@ -118,7 +118,7 @@
 
   /* wpx = العرض المعروض بالبكسل؛ mk = وحدات الإسقاط لكل بكسل، فيبقى حجم الخط والدبابيس ثابتًا على الشاشة مهما كان التكبير */
   function svgHtml(m, wpx) {
-    var g = geom(m), mk = g.W / wpx, G = A().geo, out = [];
+    var g = geom(m), mk = g.W / wpx, G = A().geo, out = [], sc = Math.max(0.8, Math.min(2, parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--txt-scale')) || 1));
     out.push('<svg viewBox="0 0 ' + r1(g.W) + ' ' + r1(g.H) + '" width="' + Math.round(wpx) + '" height="' + Math.round(wpx * g.H / g.W) + '" class="at-svg" role="img" aria-label="' + esc(m.title) + '">');
     out.push('<rect x="-20000" y="-20000" width="40000" height="40000" class="at-land"/>');
     G.sea.forEach(function (s) { out.push('<path d="' + pathOf(g, s.p, true) + '" class="at-sea"/>'); });
@@ -131,7 +131,7 @@
       out.push('<path d="' + pathOf(g, pts, false) + '" class="at-rt c' + (i % 3) + (l.dash ? ' d' : '') + '" stroke-width="' + r1(2.4 * mk) + '"' + (l.dash ? ' stroke-dasharray="' + r1(7 * mk) + ' ' + r1(5 * mk) + '"' : '') + '/>');
     });
     /* الدبابيس والأسماء مع تفادي تداخل الأسماء */
-    var ids = placesOf(m), stops = stopsOf(m), fs = 12 * mk, rad = 6.5 * mk, boxes = [], pins = [], labels = [];
+    var ids = placesOf(m), stops = stopsOf(m), fs = 12 * mk * sc, rad = 6.5 * mk * Math.min(sc, 1.4), boxes = [], pins = [], labels = [];
     ids.forEach(function (id) { var p = place(id), c = pt(g, p.ll); boxes.push({ x1: c[0] - rad, x2: c[0] + rad, y1: c[1] - rad, y2: c[1] + rad }); });
     function hit(b) { if (b.x1 < 0 || b.x2 > g.W || b.y1 < 0 || b.y2 > g.H) return true; for (var i = 0; i < boxes.length; i++) { var o = boxes[i]; if (b.x1 < o.x2 && b.x2 > o.x1 && b.y1 < o.y2 && b.y2 > o.y1) return true; } return false; }
     ids.forEach(function (id) {
@@ -249,6 +249,9 @@
     else if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.getAttribute && e.target.getAttribute('data-atpl') && e.target.tagName !== 'BUTTON') { e.preventDefault(); select(e.target.getAttribute('data-atpl')); }
   });
   window.addEventListener('resize', function () { if (isOpen() && S.view === 'map') paintMap(); });
+  /* تغيير حجم الخط في الإعدادات يغيّر --txt-scale على الجذر: أعد رسم أسماء الخريطة بالحجم الجديد */
+  var lastSc = '';
+  new MutationObserver(function () { var v = document.documentElement.style.getPropertyValue('--txt-scale'); if (v !== lastSc) { lastSc = v; if (isOpen() && S.view === 'map') paintMap(); } }).observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
 
   /* ---------- البحث الموحّد ---------- */
   function mapWithPlace(id) {

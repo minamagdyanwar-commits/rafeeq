@@ -1,5 +1,5 @@
 /* «الكتاب المقدس الدراسي» (app53.js): يُرسم داخل صفحة الكتاب بأصناف التطبيق نفسها، وهنا فقط ما يخصه: نص الآيات والتظليل والتخطيط.
-   الألوان من متغيرات التصميم الحالي (--s-*) فيتبع كل تصميم وكل وضع. */
+   الألوان من متغيرات التصميم الحالي (--s-*) فيتبع كل تصميم وكل وضع، ونص الآيات يتبع إعدادات الخط كنص القراءة نفسه: النوع (--read-font) والحجم (--fs-xl مع مقياس الصفحة) وتباعد الأسطر (--lh-d). */
 .st-chips{align-items:center}
 .st-sep{width:1px;align-self:stretch;min-height:24px;background:var(--s-card-border);margin:0 2px}
 .st-back{margin:0 0 8px}
@@ -13,8 +13,8 @@
 .st-col.c2{border-inline-start-color:#d9806f}
 .st-col.c3{border-inline-start-color:#6aa3d9}
 .st-col .chips{margin:0 0 6px}
-.gs-t{margin:0;font-size:17px;line-height:2.05;color:var(--s-card-ink)}
-.gs-t sup{font-size:11px;margin-inline-end:3px;opacity:.78}
+.gs-t{margin:0;font-family:var(--read-font,"Amiri","Noto Naskh Arabic",serif);font-size:var(--fs-xl);line-height:calc(1.9 + var(--lh-d,0));color:var(--s-card-ink)}
+.gs-t sup{font-family:"Cairo",sans-serif;font-size:.62em;margin-inline-end:3px;opacity:.78}
 .gs-sep2{border:0;border-top:1px dashed var(--s-card-border);margin:10px 0}
 mark.gs-u{background:color-mix(in srgb,var(--s-accent) 30%,transparent);color:inherit;border-radius:4px;padding:0 2px}
 .st-nav{margin:10px 0 0}
