@@ -11,7 +11,7 @@
 | الرحلات (نصوص، آيات، مراحل) | `content/journeys/<id>.json` ثم `node tools/build.mjs` |
 | ترتيب ظهور الرحلات | `content/journeys/_order.json` |
 | أطلس الكتاب (شخصيات، أنساب، خرائط) | `content/atlas/*.json` ثم `node tools/build.mjs` (الواجهة في `src/app51.js`) |
-| الحدث في أكثر من إنجيل (٥٧ حدثًا) | `content/gospels/parallels.json` ثم `node tools/build.mjs` (الواجهة في `src/app53.js`) |
+| الكتاب المقدس الدراسي (الأناجيل، الملوك والأخبار، نبوّة وتحقيق، الرمز والمرموز، المسيح بالموضوع، حياة المسيح) | `content/study/*.json` ثم `node tools/build.mjs` (الواجهة في `src/app53.js`) |
 | بيانات كبيرة جاهزة (الكتاب المقدس، الأجبية…) | `data-*.js` في الجذر (ناتج جاهز) |
 
 > الملفات المهشّرة في الجذر (`app5.b40b15aadc.js`…) **ناتج بناء** — لا تعدّلها يدويًا؛ يُعاد توليدها من `src/`.

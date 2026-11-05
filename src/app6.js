@@ -1429,8 +1429,7 @@
       ],
       s = [
         ["bible", "الكتاب"],
-        ["atlas", "الأطلس"],
-        ["gospels", "الأناجيل"],
+        ["study", "الكتاب الدراسي"],
         ["plan", "الخطة"],
         ["dash", "إنجازي"],
         ["memo", "الحفظ"],
@@ -1448,7 +1447,7 @@
           .map(function (t) {
             return (
               '<button type="button" ' +
-              ("atlas" === t[0] ? 'data-atlas="people"' : "gospels" === t[0] ? 'data-gospels="1"' : 'data-ttab="' + t[0] + '"') +
+              ("study" === t[0] ? 'data-study="1"' : 'data-ttab="' + t[0] + '"') +
               ' class="' +
               (c.tab === t[0] ? "on" : "") +
               '">' +

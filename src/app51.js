@@ -201,8 +201,8 @@
     else if (S.view === 'map' && mapOf(S.mid)) html = mapView(mapOf(S.mid));
     else {
       S.view = 'main';
-      html = '<small>الكتاب المقدس</small><h2>أطلس الكتاب</h2><div class="at-tabs" role="tablist">' +
-        TABS.map(function (t) { return '<button type="button" role="tab" aria-selected="' + (S.tab === t[0]) + '" class="' + (S.tab === t[0] ? 'on' : '') + '" data-att="' + t[0] + '">' + t[1] + '</button>'; }).join('') + '</div>' +
+      html = (window.__studyUI ? window.__studyUI.bar(S.tab) : '<small>الكتاب المقدس</small><h2>أطلس الكتاب</h2><div class="at-tabs" role="tablist">' +
+        TABS.map(function (t) { return '<button type="button" role="tab" aria-selected="' + (S.tab === t[0]) + '" class="' + (S.tab === t[0] ? 'on' : '') + '" data-att="' + t[0] + '">' + t[1] + '</button>'; }).join('') + '</div>') +
         (S.tab === 'people' ? peopleTab() : S.tab === 'lines' ? linesTab() : mapsTab());
     }
     e.innerHTML = '<button type="button" class="pg-x" data-atx="1" aria-label="' + (S.view === 'main' ? 'إغلاق' : 'رجوع') + '">' + (S.view === 'main' ? '✕' : '→ رجوع') + '</button><div class="pd-c at-c">' + html + '</div>';
@@ -256,19 +256,6 @@
     else if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.getAttribute && e.target.getAttribute('data-atpl') && e.target.tagName !== 'BUTTON') { e.preventDefault(); select(e.target.getAttribute('data-atpl')); }
   });
   window.addEventListener('resize', function () { if (isOpen() && S.view === 'map') paintMap(); });
-
-  /* ---------- مدخل «المزيد» ---------- */
-  function injectMore() {
-    var box = document.querySelector('#uSheet .v14-more');
-    if (!box || box.querySelector('[data-atlas]')) return;
-    var h4 = document.createElement('h4'); h4.textContent = 'استكشاف';
-    var b = document.createElement('button'); b.type = 'button'; b.setAttribute('data-atlas', 'people');
-    b.innerHTML = 'أطلس الكتاب<small>شخصيات · أنساب · خرائط</small>';
-    var first = box.querySelector('h4'); box.insertBefore(h4, first); box.insertBefore(b, first);
-  }
-  new MutationObserver(injectMore).observe(document.body, { childList: true, subtree: true });
-  document.addEventListener('DOMContentLoaded', injectMore);
-  setTimeout(injectMore, 600);
 
   /* ---------- البحث الموحّد ---------- */
   function mapWithPlace(id) {
