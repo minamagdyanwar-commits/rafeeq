@@ -23,25 +23,26 @@
   /* ---------- الحالة ---------- */
   var DEF = {
     done: false, name: 'رفيق', age: '30', stage: 2, tone: 'calm', preset: 'with', gate: 1, evening: 1,
-    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, thx: 1, khalwa: 0, other: 1 },
+    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 }, lamp: { side: 'right', y: 'mid' }, readq: 1, promiseq: 1, mem: 1,
     quiet: { on: 1, from: 21, to: 6 }, promise: '', promiseDay: '', memory: [], log: [], lastGate: '', lastEve: '', cnt: { d: '', n: 0 }, hideDay: '', sixAns: []
   };
   var S = null;
-  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); }
+  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt' || k === 'lamp') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); }
   function save() { RF.jset(K_ST, S); }
   function today() { return RF.dkey(); }
   RF.keys && (RF.keys[K_ON] = 'الرفيق الروحي: مُفعَّل أم لا (تجريبي)', RF.keys[K_ST] = 'الرفيق الروحي: البروفايل والإعدادات والذاكرة');
 
   /* ---------- مستويات القرب ---------- */
+  /* مستويات الظهور لكل صفحة: 0 غير موجود تمامًا، 1 زر فقط، 2 يظهر ويتكلم (شريط في الرئيسية). */
   var PRESETS = {
-    ask: { t: 'عند الطلب', d: 'مصباح صغير بس. يرد لو ناديته', gate: 0, evening: 0, cap: 0, pages: { home: 1, pray: 0, read: 1, bible: 1, exam: 0, thx: 1, khalwa: 0, other: 1 } },
-    calm: { t: 'هادي', d: 'يحييك الصبح ويسألك آخر اليوم. مفيش كلام تاني', gate: 1, evening: 1, cap: 2, pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, thx: 1, khalwa: 0, other: 1 } },
-    with: { t: 'معاك', d: 'الافتراضي: حضور متوازن بنصيحة وسؤال بعد القراءة', gate: 1, evening: 1, cap: 4, pages: { home: 2, pray: 0, read: 2, bible: 1, exam: 0, thx: 1, khalwa: 0, other: 1 } },
-    near: { t: 'قريب', d: 'يتابع ويفتكر ويسأل عن وعدك', gate: 1, evening: 1, cap: 6, pages: { home: 2, pray: 0, read: 2, bible: 2, exam: 0, thx: 2, khalwa: 0, other: 1 } },
-    all: { t: 'حاضر دايمًا', d: 'في كل صفحة، وبيسكت دايمًا في الصلاة والخلوة والمحاسبة', gate: 1, evening: 1, cap: 9, pages: { home: 2, pray: 0, read: 2, bible: 2, exam: 0, thx: 2, khalwa: 0, other: 2 } }
+    ask: { t: 'عند الطلب', d: 'زر صغير بس. يرد لو ناديته', gate: 0, evening: 0, cap: 0, pages: { home: 1, pray: 0, read: 1, bible: 1, exam: 0, other: 1 } },
+    calm: { t: 'هادي', d: 'يحييك الصبح ويسألك آخر اليوم. مفيش كلام تاني', gate: 1, evening: 1, cap: 2, pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 } },
+    with: { t: 'معاك', d: 'الافتراضي: حضور متوازن بنصيحة وسؤال بعد القراءة', gate: 1, evening: 1, cap: 4, pages: { home: 2, pray: 0, read: 2, bible: 1, exam: 0, other: 1 } },
+    near: { t: 'قريب', d: 'يتابع ويفتكر ويسأل عن وعدك', gate: 1, evening: 1, cap: 6, pages: { home: 2, pray: 0, read: 2, bible: 2, exam: 0, other: 1 } },
+    all: { t: 'حاضر دايمًا', d: 'في كل الصفحات، وبيبعد عن الصلاة والمحاسبة (زر بس)', gate: 1, evening: 1, cap: 9, pages: { home: 2, pray: 1, read: 2, bible: 2, exam: 1, other: 2 } }
   };
-  var PAGES = [['home', 'الرئيسية'], ['pray', 'الصلاة'], ['read', 'القراءات'], ['bible', 'الكتاب والدراسة'], ['exam', 'المحاسبة'], ['thx', 'دفتر الشكر'], ['khalwa', 'الخلوة'], ['other', 'باقي الصفحات']];
-  var SILENT = { pray: 1, exam: 1, khalwa: 1 }; /* لا يتكلم في هذه الصفحات مهما كان المستوى */
+  var PAGES = [['home', 'الرئيسية'], ['pray', 'الصلاة'], ['read', 'القراءات'], ['bible', 'الكتاب والدراسة'], ['exam', 'محاسبة النفس'], ['talk', 'صوت الله'], ['msg', 'الرسالة'], ['cal', 'التقويم'], ['syn', 'السنكسار'], ['fat', 'الآباء'], ['favs', 'المفضلة']];
+  var NOSPEAK = { pray: 1, exam: 1 }; /* في الصلاة والمحاسبة: زر فقط كحدّ أقصى، لا كلام */
   var AGES = [['8', '٨–١٢'], ['13', '١٣–١٧'], ['18', '١٨–٢٩'], ['30', '٣٠–٥٩'], ['60', '٦٠+']];
   var TONES = [['calm', 'هادي ودافي'], ['direct', 'مباشر وبسيط'], ['few', 'كلام قليل']];
   function kid() { return S.age === '8'; }
@@ -112,9 +113,9 @@
   function curPage() {
     var e = q('.u-page.on'), id = e ? e.id.replace(/^page-/, '') : 'home';
     if (id === 'trk') return 'bible';
-    return ({ home: 1, pray: 1, read: 1, exam: 1 })[id] ? id : 'other';
+    return PAGES.some(function (x) { return x[0] === id; }) ? id : 'home';
   }
-  function level(pg) { if (SILENT[pg]) return pg === 'exam' || pg === 'pray' || pg === 'khalwa' ? Math.min(S.pages[pg] == null ? 0 : S.pages[pg], 1) : 0; return S.pages[pg] == null ? 1 : S.pages[pg]; }
+  function level(pg) { var v = S.pages[pg]; if (v == null) v = S.pages.other == null ? 1 : S.pages.other; return NOSPEAK[pg] ? Math.min(v, 1) : v; }
   function quietNow() { if (!S.quiet.on) return false; var h = new Date().getHours(), a = +S.quiet.from, b = +S.quiet.to; return a > b ? (h >= a || h < b) : (h >= a && h < b); }
   function capLeft() { var c = PRESETS[S.preset] ? PRESETS[S.preset].cap : 4; if (S.cnt.d !== today()) { S.cnt = { d: today(), n: 0 }; } return c - S.cnt.n; }
   function bump() { if (S.cnt.d !== today()) S.cnt = { d: today(), n: 0 }; S.cnt.n++; save(); }
@@ -124,8 +125,12 @@
   function root() { if (layer && document.body.contains(layer)) return layer; layer = document.createElement('div'); layer.id = 'cpLayer'; document.body.appendChild(layer); return layer; }
   function closeOv(id) { var e = document.getElementById(id); if (e) e.remove(); if (!q('#cpLayer .cp-ov')) document.documentElement.classList.remove('cp-lock'); }
   function ov(id, cls, html) {
+    var oldE = document.getElementById(id), oldSc = oldE && q('.cp-sheet', oldE) ? q('.cp-sheet', oldE).scrollTop : 0;
     closeOv(id); var e = document.createElement('div'); e.id = id; e.className = 'cp-ov ' + (cls || '') + (elder() ? ' cp-big' : ''); e.setAttribute('role', 'dialog'); e.setAttribute('aria-modal', 'true'); e.innerHTML = html;
-    root().appendChild(e); document.documentElement.classList.add('cp-lock'); var f = q('button,[tabindex]', e); if (f) try { f.focus({ preventScroll: true }); } catch (x) { } return e;
+    root().appendChild(e); document.documentElement.classList.add('cp-lock');
+    var shEl = q('.cp-sheet', e); if (shEl && oldSc) shEl.scrollTop = oldSc;
+    if (!oldE) { var f = q('button,[tabindex]', e); if (f) try { f.focus({ preventScroll: true }); } catch (x) { } }
+    return e;
   }
   function chips(list, cur, attr) { return list.map(function (x) { return '<button type="button" class="cp-chip' + (String(cur) === String(x[0]) ? ' on' : '') + '" ' + attr + '="' + esc(x[0]) + '">' + esc(x[1]) + '</button>'; }).join(''); }
 
@@ -181,7 +186,7 @@
     if (OB.tmp.promise) { S.promise = OB.tmp.promise; S.promiseDay = today(); S.memory.push({ k: 'promise', t: OB.tmp.promise, d: today() }); }
     S.lastGate = today(); save(); closeOv('cpOnb'); refresh();
   }
-  function applyPreset(p, keepPages) { var P = PRESETS[p] || PRESETS.with; S.preset = p; S.gate = P.gate; S.evening = P.evening; S.pages = Object.assign({}, P.pages); save(); }
+  function applyPreset(p, keepPages) { var P = PRESETS[p] || PRESETS.with; S.preset = p; S.gate = P.gate; S.evening = P.evening; var pg = Object.assign({}, P.pages); PAGES.forEach(function (x) { if (pg[x[0]] == null) pg[x[0]] = P.pages.other; }); S.pages = pg; save(); }
 
   /* ---------- العتبة اليومية ---------- */
   function gateText() {
@@ -195,7 +200,7 @@
   function maybeGate() {
     if (!S.done || !S.gate || S.lastGate === today() || quietNow() || capLeft() <= 0) return;
     var pi = planInfo(), pr = '';
-    if (S.promise && S.promiseDay && S.promiseDay !== today() && !S.promiseAsked) pr = S.promise;
+    if (S.promiseq && S.promise && S.promiseDay && S.promiseDay !== today() && !S.promiseAsked) pr = S.promise;
     var txt = gateText(), cal = ''; try { var c = window.__copCal && window.__copCal.label(new Date()); cal = (c && c.text) || ''; } catch (e) { }
     var dt = RF.fmtDate(new Date(), { weekday: 'long', day: 'numeric', month: 'long' });
     var html = '<div class="cp-sky"></div><div class="cp-hills"></div><div class="cp-walk"><span>' + avatar({ pose: 'stand', lamp: 3, w: 150 }) + '</span><span>' + meFig(66) + '</span></div><div class="cp-gtxt"><p class="cp-hint">' + esc(dt) + (cal ? ' · ' + esc(cal) : '') + '</p><h1 class="cp-h">' + esc(txt) + '</h1>' +
@@ -206,23 +211,22 @@
 
   /* ---------- شريط الرئيسية ---------- */
   function paintStrip() {
-    var host = q('#page-home .u-wrap'), el = document.getElementById('cpStrip'), ok = isOn() && S.done && host && level('home') >= 1 && S.hideDay !== today();
+    var host = q('#page-home .u-wrap'), el = document.getElementById('cpStrip'), ok = isOn() && S.done && host && level('home') >= 2 && S.hideDay !== today();
     if (!ok) { if (el) el.remove(); return; }
-    var pi = planInfo(), m = { n: nm(), k: ar(pi.total), l: ar(pi.left), f: pi.next ? pi.next.label : '' }, txt = level('home') >= 2 ? (pi.all ? line('stripDone', m) : line('stripLeft', m)) : '';
+    var pi = planInfo(), m = { n: nm(), k: ar(pi.total), l: ar(pi.left), f: pi.next ? pi.next.label : '' }, txt = pi.all ? line('stripDone', m) : line('stripLeft', m);
     var pct = pi.total ? Math.round(100 * pi.done / pi.total) : 0;
-    var h = '<button type="button" class="cp-fig" data-cppanel="1" aria-label="افتح ' + esc(S.name) + '">' + avatar({ pose: pi.all ? 'raise' : 'stand', lamp: pi.all ? 3 : 2, w: 52 }) + '</button><div class="cp-sbody"><div class="cp-stxt">' + (txt ? esc(txt) : esc(S.name)) + '</div><div class="cp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + pi.total + '" aria-valuenow="' + pi.done + '"><i style="width:' + pct + '%"></i></div></div>' + (pi.next && !pi.all ? '<button type="button" class="cp-go" data-cpnext="1">ابدأ</button>' : '');
+    var h = '<button type="button" class="cp-fig" data-cppanel="1" aria-label="افتح ' + esc(S.name) + '">' + avatar({ pose: pi.all ? 'raise' : 'stand', lamp: pi.all ? 3 : 2, w: 40 }) + '</button><div class="cp-sbody"><div class="cp-stxt">' + (txt ? esc(txt) : esc(S.name)) + '</div><div class="cp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + pi.total + '" aria-valuenow="' + pi.done + '"><i style="width:' + pct + '%"></i></div></div>' + (pi.next && !pi.all ? '<button type="button" class="cp-go" data-cpnext="1">ابدأ</button>' : '');
     if (!el) { el = document.createElement('section'); el.id = 'cpStrip'; el.className = 'cp-strip'; host.insertBefore(el, host.firstChild); } else if (host.firstChild !== el) host.insertBefore(el, host.firstChild);
     if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
   }
 
   /* ---------- المصباح العائم ولوحة الرفيق ---------- */
   function paintLamp() {
-    var el = document.getElementById('cpLamp'), pg = curPage(), hid = S.hideDay === today();
-    if (!isOn() || !S.done || hid || q('#cpOnb') || q('#cpGate') || (pg === 'home' && document.getElementById('cpStrip'))) { if (el) el.remove(); return; }
-    var lv = level(pg), pi = planInfo(), lamp = lv === 0 ? 1 : (pi.all ? 3 : 2);
-    var h = avatar({ pose: 'stand', lamp: lamp, w: 34 });
+    var el = document.getElementById('cpLamp'), pg = curPage(), hid = S.hideDay === today(), lv = level(pg);
+    if (!isOn() || !S.done || hid || lv < 1 || q('#cpOnb') || q('#cpGate') || (pg === 'home' && lv >= 2)) { if (el) el.remove(); return; }
+    var pi = planInfo(), lamp = pi.all ? 3 : 2, h = avatar({ pose: 'stand', lamp: lamp, w: 34 });
     if (!el) { el = document.createElement('button'); el.id = 'cpLamp'; el.type = 'button'; el.setAttribute('aria-label', 'افتح ' + S.name); document.body.appendChild(el); }
-    el.className = 'cp-lamp' + (lv === 0 ? ' dim' : '');
+    el.className = 'cp-lamp cp-side-' + (S.lamp.side === 'left' ? 'left' : 'right') + ' cp-y-' + (S.lamp.y || 'mid');
     if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
   }
   function openPanel() {
@@ -230,7 +234,7 @@
     var items = (plan() && plan().items || []).slice(0, 8);
     var html = '<div class="cp-dim" data-cpclose="cpPanel"></div><div class="cp-sheet"><div class="cp-mini">' + avatar({ pose: 'offer', lamp: 2, w: 78 }) + '<div class="cp-bub">' + esc(pi.all ? line('gateDone', m) : (pi.next ? line('stripLeft', m) : 'أنا هنا لو احتجتني.')) + '</div></div>' +
       '<div class="cp-card"><h3>خطواتنا النهارده</h3>' + items.map(function (x) { return '<div class="cp-step' + (x.done ? ' done' : '') + '"><i></i><span>' + esc(x.label) + '</span></div>'; }).join('') + '</div>' +
-      '<div class="cp-btns">' + (pi.next && !pi.all ? '<button type="button" class="cp-btn" data-cpnext="1">ابدأ: ' + esc(pi.next.label) + '</button>' : '') + (S.evening ? '<button type="button" class="cp-btn ghost2" data-cpevening="1">مراجعة آخر اليوم</button>' : '') + '</div>' +
+      '<div class="cp-btns">' + (pi.next && !pi.all ? '<button type="button" class="cp-btn" data-cpnext="1">ابدأ: ' + esc(pi.next.label) + '</button>' : '') + (curPage() === 'read' && !kid() ? '<button type="button" class="cp-btn ghost2" data-cpreadnote="1">سجّل اللي لمسني في القراءة</button>' : '') + (S.evening ? '<button type="button" class="cp-btn ghost2" data-cpevening="1">مراجعة آخر اليوم</button>' : '') + '</div>' +
       (!kid() && mem.length ? '<div class="cp-card"><h3>اللي فاكره عنك</h3>' + mem.map(function (x, i) { return '<div class="cp-mem"><span class="cp-tag">' + (x.k === 'promise' ? 'وعد' : x.k === 'word' ? 'كلمة' : 'يوم') + '</span><span>' + esc(x.t) + '</span><button type="button" class="cp-forget" data-cpforget="' + (S.memory.length - 1 - i) + '">انسَ</button></div>'; }).join('') + '</div>' : '') +
       '<div class="cp-btns"><button type="button" class="cp-btn ghost2" data-cpsettings="1">إعدادات ' + esc(S.name) + '</button><button type="button" class="cp-btn ghost2" data-cphide="1">إخفاء لباقي اليوم</button><button type="button" class="cp-btn ghost" data-cpclose="cpPanel">إغلاق</button></div></div>';
     ov('cpPanel', 'panel', html);
@@ -253,31 +257,43 @@
   function evSave() {
     var t = q('#cpTouch'); if (t) EV.touch = t.value.trim();
     S.log.push({ d: today(), mood: EV.mood, touch: kid() ? '' : EV.touch, next: EV.next }); if (S.log.length > 60) S.log = S.log.slice(-60);
-    if (!kid() && EV.touch) { S.memory.push({ k: 'day', t: EV.touch, d: today() }); if (S.memory.length > 40) S.memory = S.memory.slice(-40); }
+    if (S.mem && !kid() && EV.touch) { S.memory.push({ k: 'day', t: EV.touch, d: today() }); if (S.memory.length > 40) S.memory = S.memory.slice(-40); }
     S.lastEve = today(); save(); closeOv('cpEve'); toast('تصبح على خير. الرب يحرسك.');
   }
   function toast(t) { try { F().toast && F().toast(t); } catch (e) { } }
 
   /* ---------- سؤال بعد القراءة ---------- */
+  /* سؤال القراءة: لا يظهر إلا بعد أن تضغط «قرأتُ قراءات اليوم» أنت (انتقال من غير مقروء إلى مقروء)، أو يدويًا من لوحة الرفيق */
   var readAsked = '';
-  function maybeReadQ() {
-    if (!isOn() || !S.done || curPage() !== 'read' || level('read') < 2 || readAsked === today() || capLeft() <= 0 || quietNow() || kid()) return;
-    var done = false; try { done = !!F().readDone(F().dkey()); } catch (e) { }
-    if (!done) return; readAsked = today(); bump();
+  function readSheet() {
     var opts = [['أعمل بيها', 'أعمل بيها'], ['سلام', 'سلام'], ['توبة', 'توبة'], ['شكر', 'شكر'], ['مش عارف', 'مش عارف']];
-    ov('cpRead', 'panel', '<div class="cp-dim" data-cpclose="cpRead"></div><div class="cp-sheet"><div class="cp-mini">' + avatar({ pose: 'offer', lamp: 2, w: 62 }) + '<div class="cp-bub">' + esc(line('readQ')) + '</div></div><div class="cp-chips">' + chips(opts, '', 'data-cpword') + '</div><div class="cp-btns"><button type="button" class="cp-btn ghost" data-cpclose="cpRead">مش دلوقتي</button></div></div>');
+    ov('cpRead', 'panel', '<div class="cp-dim" data-cpclose="cpRead"></div><div class="cp-sheet"><div class="cp-mini">' + avatar({ pose: 'offer', lamp: 2, w: 62 }) + '<div class="cp-bub">' + esc(line('readQ')) + '</div></div><div class="cp-chips">' + chips(opts, '', 'data-cpword') + '</div><div class="cp-q">أو اكتب بكلامك:</div><textarea class="cp-in cp-ta" id="cpWordTxt" rows="3" maxlength="240" placeholder="الآية أو الفكرة اللي لمستك…"></textarea><div class="cp-btns"><button type="button" class="cp-btn" data-cpwordsave="1">احفظ</button><button type="button" class="cp-btn ghost" data-cpclose="cpRead">مش دلوقتي</button></div></div>');
   }
+  function afterReadClick() {
+    if (!isOn() || !S.done || !S.readq || level('read') < 2 || readAsked === today() || capLeft() <= 0 || quietNow() || kid()) return;
+    var done = false; try { done = !!F().readDone(F().dkey()); } catch (e) { }
+    if (!done) return; readAsked = today(); bump(); readSheet();
+  }
+  function maybeReadQ() { }
+  function saveWord(t) { t = String(t || '').trim(); if (!t) return false; S.log.push({ d: today(), word: t }); if (S.mem && !kid()) { S.memory.push({ k: 'word', t: 'من القراءة: ' + t, d: today() }); if (S.memory.length > 40) S.memory = S.memory.slice(-40); } save(); return true; }
 
   /* ---------- الإعدادات ---------- */
   function openSettings() {
-    var pg = PAGES.map(function (p) { var lv = level(p[0]), fixed = !!SILENT[p[0]] && p[0] !== 'exam' ? true : false; return '<div class="cp-pg"><b>' + esc(p[1]) + '</b><div class="cp-seg">' + ['صامت', 'مصباح', 'يتكلم'].map(function (t, i) { var dis = (SILENT[p[0]] && i === 2) ? ' disabled' : ''; return '<button type="button" class="' + (lv === i ? 'on' : '') + '" data-cppg="' + p[0] + ':' + i + '"' + dis + '>' + t + '</button>'; }).join('') + '</div></div>'; }).join('');
+    var LB = ['غير موجود', 'زر فقط', 'يتكلم'];
+    var pg = PAGES.map(function (p) {
+      var lv = level(p[0]), lab = LB.slice(); if (p[0] === 'home') lab[2] = 'شريط';
+      return '<div class="cp-pg"><b>' + esc(p[1]) + '</b><div class="cp-seg">' + lab.map(function (t, i) { var dis = (NOSPEAK[p[0]] && i === 2) ? ' disabled' : ''; return '<button type="button" class="' + (lv === i ? 'on' : '') + '" data-cppg="' + p[0] + ':' + i + '"' + dis + '>' + t + '</button>'; }).join('') + '</div></div>';
+    }).join('');
     var pre = Object.keys(PRESETS).map(function (k) { var P = PRESETS[k], dis = kid() && (k === 'near' || k === 'all'); return '<button type="button" class="cp-pre' + (S.preset === k ? ' on' : '') + '" data-cppre="' + k + '"' + (dis ? ' disabled' : '') + '><b>' + P.t + '</b><small>' + P.d + '</small></button>'; }).join('');
+    function sel(id, v) { var o = ''; for (var h = 0; h < 24; h++) o += '<option value="' + h + '"' + (+v === h ? ' selected' : '') + '>' + ar(h) + ':٠٠</option>'; return '<select class="cp-in cp-sel" id="' + id + '">' + o + '</select>'; }
     var html = '<div class="cp-dim" data-cpclose="cpSet"></div><div class="cp-sheet tall"><h2 class="cp-h2">إعدادات ' + esc(S.name) + '</h2>' +
       '<div class="cp-card"><h3>أنا</h3><div class="cp-lab">سنّي</div><div class="cp-chips">' + chips(AGES, S.age, 'data-cpsage') + '</div><div class="cp-lab">محطتي على الدرب</div><div class="cp-chips">' + [1, 2, 3, 4, 5].map(function (k) { return '<button type="button" class="cp-chip' + (S.stage === k ? ' on' : '') + '" data-cpsstage="' + k + '">' + ['الرجوع', 'التأسيس', 'الجهاد', 'الاستنارة', 'الثمر'][k - 1] + '</button>'; }).join('') + '</div></div>' +
       '<div class="cp-card"><h3>الرفيق</h3><div class="cp-lab">الاسم</div><input class="cp-in" id="cpSName" maxlength="14" value="' + esc(S.name) + '"><div class="cp-lab">النبرة</div><div class="cp-chips">' + chips(TONES, S.tone, 'data-cpstone') + '</div></div>' +
-      '<div class="cp-card"><h3>قد إيه يقرّب؟</h3>' + pre + '</div>' +
-      '<div class="cp-card"><h3>يظهر فين؟</h3><div class="cp-small">لكل صفحة: صامت، أو مصباح بس، أو يتكلم. في الصلاة والخلوة والمحاسبة هو ساكت دايمًا.</div>' + pg + '</div>' +
-      '<div class="cp-card"><h3>أوقات</h3>' + tog('cpTgGate', 'شاشة الصباح (العتبة)', S.gate) + tog('cpTgEve', 'مراجعة آخر اليوم', S.evening) + tog('cpTgQuiet', 'ساعات الهدوء ' + ar(S.quiet.from) + ' — ' + ar(S.quiet.to), S.quiet.on) + '</div>' +
+      '<div class="cp-card"><h3>قد إيه يقرّب؟</h3><div class="cp-small">اختيار سريع يضبط الصفحات والأوقات، وتقدر تعدّل كل حاجة بعده بنفسك.</div>' + pre + '</div>' +
+      '<div class="cp-card"><h3>يظهر فين؟</h3><div class="cp-small">لكل صفحة: <b>غير موجود</b> (مش هيظهر خالص)، أو <b>زر فقط</b> (زر صغير تدوس عليه لو احتجته)، أو <b>يتكلم</b> (في الرئيسية: شريط، وفي غيرها: يسألك ويعلّق). في الصلاة والمحاسبة أقصى حاجة زر.</div>' + pg + '</div>' +
+      '<div class="cp-card"><h3>شكل الزر ومكانه</h3><div class="cp-lab">الجنب</div><div class="cp-chips">' + chips([['right', 'يمين'], ['left', 'شمال']], S.lamp.side, 'data-cpside') + '</div><div class="cp-lab">الارتفاع</div><div class="cp-chips">' + chips([['high', 'فوق'], ['mid', 'وسط'], ['low', 'تحت']], S.lamp.y, 'data-cpy') + '</div></div>' +
+      '<div class="cp-card"><h3>أسئلة وذاكرة</h3>' + tog('cpTgGate', 'شاشة الصباح (أول فتحة في اليوم)', S.gate) + tog('cpTgEve', 'مراجعة آخر اليوم', S.evening) + tog('cpTgReadq', 'سؤال بعد ما أضغط «قرأتُ»', S.readq) + tog('cpTgProm', 'سؤال الوعد في اليوم التالي', S.promiseq) + tog('cpTgMem', 'يفتكر اللي أكتبه (على جهازي بس)', S.mem) + '</div>' +
+      '<div class="cp-card"><h3>ساعات الهدوء</h3>' + tog('cpTgQuiet', 'مفيش أسئلة ولا شاشات في الوقت ده', S.quiet.on) + '<div class="cp-trow"><span>من</span>' + sel('cpQFrom', S.quiet.from) + '<span>إلى</span>' + sel('cpQTo', S.quiet.to) + '</div></div>' +
       '<div class="cp-btns"><button type="button" class="cp-btn ghost2" data-cprestart="1">أعيد التعارف من الأول</button><button type="button" class="cp-btn ghost2" data-cpwipe="1">امسح الذاكرة</button><button type="button" class="cp-btn danger" data-cpoff="1">أوقف الرفيق (يرجع البرنامج كما كان)</button><button type="button" class="cp-btn" data-cpclose="cpSet">تمّ</button></div></div>';
     ov('cpSet', 'panel', html);
   }
@@ -307,9 +323,9 @@
 
   /* ---------- التحديث والأحداث ---------- */
   var tmr = 0;
-  function refresh() { if (!isOn()) return; clearTimeout(tmr); tmr = setTimeout(function () { try { paintStrip(); paintLamp(); maybeReadQ(); } catch (e) { fail(e); } }, 60); }
+  function refresh() { if (!isOn()) return; clearTimeout(tmr); tmr = setTimeout(function () { try { paintStrip(); paintLamp(); } catch (e) { fail(e); } }, 60); }
   var errs = 0; function fail(e) { errs++; if (errs >= 3) { lsSet(K_ON, '0'); teardown(); injectSettings(); try { console.warn('companion disabled after errors', e); } catch (x) { } } }
-  function maybeEveningAuto() { if (!isOn() || !S.done || !S.evening || S.lastEve === today() || new Date().getHours() < 20 || quietNow() || ['pray', 'khalwa', 'exam'].indexOf(curPage()) > -1 || q('.cp-ov') || capLeft() <= 0) return; openEvening(false); }
+  function maybeEveningAuto() { if (!isOn() || !S.done || !S.evening || S.lastEve === today() || new Date().getHours() < 20 || quietNow() || ['pray', 'exam'].indexOf(curPage()) > -1 || q('.cp-ov') || capLeft() <= 0) return; openEvening(false); }
 
   var booted = false;
   function boot(force) {
@@ -358,7 +374,15 @@
     if ((b = t.closest('[data-cpmood]'))) { EV.mood = b.getAttribute('data-cpmood'); var tt = q('#cpTouch'); if (tt) EV.touch = tt.value; evRender(); return; }
     if ((b = t.closest('[data-cpnextstep]'))) { EV.next = b.getAttribute('data-cpnextstep'); var t3 = q('#cpTouch'); if (t3) EV.touch = t3.value; evRender(); return; }
     if (t.closest('[data-cpevsave]')) { evSave(); return; }
-    if ((b = t.closest('[data-cpword]'))) { var w = b.getAttribute('data-cpword'); if (!kid()) { S.memory.push({ k: 'word', t: 'كلمة القراءة: ' + w, d: today() }); } S.log.push({ d: today(), word: w }); save(); closeOv('cpRead'); toast('تمام. هحفظها.'); return; }
+    if ((b = t.closest('[data-cpword]'))) { saveWord(b.getAttribute('data-cpword')); closeOv('cpRead'); toast('تمام. حفظتها.'); return; }
+    if (t.closest('[data-cpwordsave]')) { var wt = q('#cpWordTxt'); if (wt && saveWord(wt.value)) { closeOv('cpRead'); toast('اتحفظت. بارك الرب فيك.'); } return; }
+    if (t.closest('[data-cpreadnote]')) { closeOv('cpPanel'); readSheet(); return; }
+    if ((b = t.closest('[data-cpside]'))) { S.lamp.side = b.getAttribute('data-cpside'); save(); openSettings(); refresh(); return; }
+    if ((b = t.closest('[data-cpy]'))) { S.lamp.y = b.getAttribute('data-cpy'); save(); openSettings(); refresh(); return; }
+    if (t.closest('#cpTgReadq')) { S.readq = S.readq ? 0 : 1; save(); openSettings(); return; }
+    if (t.closest('#cpTgProm')) { S.promiseq = S.promiseq ? 0 : 1; save(); openSettings(); return; }
+    if (t.closest('#cpTgMem')) { S.mem = S.mem ? 0 : 1; save(); openSettings(); return; }
+    if (t.closest('#readDoneBar')) { setTimeout(afterReadClick, 350); return; }
     /* الإعدادات */
     if ((b = t.closest('[data-cpsage]'))) { S.age = b.getAttribute('data-cpsage'); if (kid() && (S.preset === 'near' || S.preset === 'all')) applyPreset('calm'); save(); openSettings(); refresh(); return; }
     if ((b = t.closest('[data-cpsstage]'))) { S.stage = +b.getAttribute('data-cpsstage'); save(); openSettings(); refresh(); return; }
@@ -373,6 +397,7 @@
     if (t.closest('[data-cpoff]')) { closeOv('cpSet'); setOn(false); toast('الرفيق متوقف. البرنامج رجع زي ما كان.'); return; }
   });
   document.addEventListener('input', function (e) { var t = e.target; if (!t || !isOn()) return; if (t.id === 'cpSName') { S.name = t.value.trim() || 'رفيق'; save(); } else if (t.id === 'cpName') OB.tmp.name = t.value; else if (t.id === 'cpTouch') EV.touch = t.value; });
+  document.addEventListener('change', function (e) { var t = e.target; if (!t || !isOn()) return; if (t.id === 'cpQFrom') { S.quiet.from = +t.value; save(); refresh(); } else if (t.id === 'cpQTo') { S.quiet.to = +t.value; save(); refresh(); } });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOn()) { var o = q('#cpPanel,#cpEve,#cpSet,#cpRead,#cpGate'); if (o) o.remove(); if (!q('#cpLayer .cp-ov')) document.documentElement.classList.remove('cp-lock'); } });
 
   /* ---------- بدء التشغيل (آمن) ---------- */
