@@ -23,11 +23,11 @@
   /* ---------- الحالة ---------- */
   var DEF = {
     done: false, name: 'رفيق', age: '30', stage: 2, tone: 'calm', preset: 'with', gate: 1, evening: 1,
-    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 }, lamp: { side: 'right', y: 'mid', v: 3 }, readq: 1, promiseq: 1, mem: 1,
+    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 }, lamp: { side: 'top', y: 'mid', v: 4 }, readq: 1, promiseq: 1, mem: 1,
     quiet: { on: 1, from: 21, to: 6 }, promise: '', promiseDay: '', memory: [], log: [], lastGate: '', lastEve: '', cnt: { d: '', n: 0 }, hideDay: '', sixAns: []
   };
   var S = null;
-  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt' || k === 'lamp') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); if (S.lamp.v !== 3) S.lamp = { side: 'right', y: 'mid', v: 3 }; }
+  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt' || k === 'lamp') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); S.lamp = { side: 'top', y: 'mid', v: 4 }; }
   function save() { RF.jset(K_ST, S); }
   function today() { return RF.dkey(); }
   RF.keys && (RF.keys[K_ON] = 'الرفيق الروحي: مُفعَّل أم لا (تجريبي)', RF.keys[K_ST] = 'الرفيق الروحي: البروفايل والإعدادات والذاكرة');
@@ -294,7 +294,7 @@
       '<div class="cp-card"><h3>الرفيق</h3><div class="cp-lab">الاسم</div><input class="cp-in" id="cpSName" maxlength="14" value="' + esc(S.name) + '"><div class="cp-lab">النبرة</div><div class="cp-chips">' + chips(TONES, S.tone, 'data-cpstone') + '</div></div>' +
       '<div class="cp-card"><h3>قد إيه يقرّب؟</h3><div class="cp-small">اختيار سريع يضبط الصفحات والأوقات، وتقدر تعدّل كل حاجة بعده بنفسك.</div>' + pre + '</div>' +
       '<div class="cp-card"><h3>يظهر فين؟</h3><div class="cp-small">لكل صفحة: <b>غير موجود</b> (مش هيظهر خالص)، أو <b>زر فقط</b> (زر صغير تدوس عليه لو احتجته)، أو <b>يتكلم</b> (في الرئيسية: شريط، وفي غيرها: يسألك ويعلّق). في الصلاة والمحاسبة أقصى حاجة زر.</div>' + pg + '</div>' +
-      '<div class="cp-card"><h3>مكان الزر</h3><div class="cp-small">الأفضل «في الشريط العلوي» عشان ما يغطّيش النص. العائم ممكن يغطي كلام الصفحة.</div><div class="cp-chips">' + chips([['top', 'في الشريط العلوي'], ['right', 'عائم يمين'], ['left', 'عائم شمال']], S.lamp.side, 'data-cpside') + '</div>' + (S.lamp.side === 'top' ? '' : '<div class="cp-lab">الارتفاع</div><div class="cp-chips">' + chips([['high', 'فوق'], ['mid', 'وسط'], ['low', 'تحت']], S.lamp.y, 'data-cpy') + '</div>') + '</div>' +
+      '<div class="cp-card"><h3>زر الرفيق</h3><div class="cp-small">الزر في الشريط العلوي جنب الإعدادات والبحث. اختار من «يظهر فين؟» الصفحات اللي يظهر فيها.</div></div>' +
       '<div class="cp-card"><h3>أسئلة وذاكرة</h3>' + tog('cpTgGate', 'شاشة الصباح (أول فتحة في اليوم)', S.gate) + tog('cpTgEve', 'مراجعة آخر اليوم', S.evening) + tog('cpTgReadq', 'سؤال بعد ما أضغط «قرأتُ»', S.readq) + tog('cpTgProm', 'سؤال الوعد في اليوم التالي', S.promiseq) + tog('cpTgMem', 'يفتكر اللي أكتبه (على جهازي بس)', S.mem) + '</div>' +
       '<div class="cp-card"><h3>ساعات الهدوء</h3>' + tog('cpTgQuiet', 'مفيش أسئلة ولا شاشات في الوقت ده', S.quiet.on) + '<div class="cp-trow"><span>من</span>' + sel('cpQFrom', S.quiet.from) + '<span>إلى</span>' + sel('cpQTo', S.quiet.to) + '</div></div>' +
       '<div class="cp-btns"><button type="button" class="cp-btn ghost2" data-cprestart="1">أعيد التعارف من الأول</button><button type="button" class="cp-btn ghost2" data-cpwipe="1">امسح الذاكرة</button><button type="button" class="cp-btn danger" data-cpoff="1">أوقف الرفيق (يرجع البرنامج كما كان)</button><button type="button" class="cp-btn" data-cpclose="cpSet">تمّ</button></div></div>';
