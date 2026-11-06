@@ -60,7 +60,7 @@ for(const d of des)for(const m of modes){
     if(lv===2){
       await p.evaluate(()=>__companion.openSettings());await p.waitForTimeout(250);
       await p.evaluate(()=>{document.querySelector('#cpSet .cp-sheet').scrollTop=700});await p.waitForTimeout(100);
-      await p.click('[data-cpy="low"]');await p.waitForTimeout(250);
+      await p.click('#cpTgMem');await p.waitForTimeout(250);
       const sc=await p.evaluate(()=>document.querySelector('#cpSet .cp-sheet').scrollTop);
       if(sc<300)fail('settings jumped to top: '+sc);
       await p.click('.cp-btn[data-cpclose="cpSet"]');
