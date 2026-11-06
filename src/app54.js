@@ -197,8 +197,8 @@
     return line(h < 12 ? 'gateAM' : 'gatePM', m);
   }
   function daysSince(d) { if (!d) return 99; var a = new Date(d + 'T00:00:00'), b = new Date(); return Math.floor((b - a) / 86400000); }
-  function maybeGate() {
-    if (!S.done || !S.gate || S.lastGate === today() || quietNow() || capLeft() <= 0) return;
+  function maybeGate(force) {
+    if (!S.done || !S.gate || S.lastGate === today() || (!force && (quietNow() || capLeft() <= 0))) return;
     var pi = planInfo(), pr = '';
     if (S.promiseq && S.promise && S.promiseDay && S.promiseDay !== today() && !S.promiseAsked) pr = S.promise;
     var txt = gateText(), cal = ''; try { var c = window.__copCal && window.__copCal.label(new Date()); cal = (c && c.text) || ''; } catch (e) { }
@@ -414,5 +414,5 @@
     setTimeout(function () { lsSet(K_BOOT, '0'); }, 4000);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
-  window.__companion = { on: isOn, setOn: setOn, state: function () { return S; }, openPanel: openPanel, openSettings: openSettings, gate: function () { if (S) { S.lastGate = ''; save(); } maybeGate(); }, evening: function () { openEvening(true); }, avatar: avatar };
+  window.__companion = { on: isOn, setOn: setOn, state: function () { return S; }, openPanel: openPanel, openSettings: openSettings, gate: function () { if (S) { S.lastGate = ''; save(); } maybeGate(true); }, evening: function () { openEvening(true); }, avatar: avatar };
 })();
