@@ -218,7 +218,7 @@
   /* ---------- المصباح العائم ولوحة الرفيق ---------- */
   function paintLamp() {
     var el = document.getElementById('cpLamp'), pg = curPage(), hid = S.hideDay === today();
-    if (!isOn() || !S.done || hid || q('#cpOnb') || q('#cpGate')) { if (el) el.remove(); return; }
+    if (!isOn() || !S.done || hid || q('#cpOnb') || q('#cpGate') || document.getElementById('cpStrip')) { if (el) el.remove(); return; }
     var lv = level(pg), pi = planInfo(), lamp = lv === 0 ? 1 : (pi.all ? 3 : 2);
     var h = avatar({ pose: 'stand', lamp: lamp, w: 34 });
     if (!el) { el = document.createElement('button'); el.id = 'cpLamp'; el.type = 'button'; el.setAttribute('aria-label', 'افتح ' + S.name); document.body.appendChild(el); }

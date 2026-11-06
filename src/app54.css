@@ -74,3 +74,16 @@ html.cp-lock{overflow:hidden}
 
 /* التصاميم ذات الرئيسية المخصّصة تخفي كل أبناء .u-wrap ما عدا رئيستها؛ الشريط يُستثنى صراحةً (لا يظهر أصلًا إلا مع الرفيق) */
 html[data-companion=on] #page-home .u-wrap>#cpStrip{display:flex!important;order:-100!important}
+/* ألوان النص صريحة داخل طبقة الرفيق حتى لا تغيّرها قواعد الأزرار العامة في أي تصميم */
+#cpLayer button,#cpLayer input{color:#f3ead8!important}
+#cpLayer .cp-btn:not(.ghost):not(.ghost2):not(.danger),#cpLayer .cp-chip.on,#cpLayer .cp-seg button.on{color:#2a2447!important}
+#cpLayer .cp-opt.on{color:#f3ead8!important}
+#cpLayer button[disabled]{opacity:.4}
+/* شريط الرئيسية: خلفية ليلية ثابتة ليبقى مقروءًا فوق صور التصاميم */
+html[data-companion=on] .cp-strip{background:linear-gradient(180deg,#232048,#1a1838);color:#f3ead8;border:1px solid #f3d98c66;margin-top:6px;box-shadow:0 3px 12px #0006}
+.cp-strip .cp-bar{background:#ffffff26}.cp-strip .cp-bar i{background:#f3d98c}
+.cp-strip .cp-go{background:#f3d98c;color:#2a2447}
+/* خلفيات مصمتة للأزرار الشفافة كي لا يخطئ مصحّح التباين في تقدير الخلفية فيُغمّق النص */
+#cpLayer .cp-btn.ghost,#cpLayer .cp-btn.ghost2,#cpLayer .cp-btn.danger,#cpLayer .cp-chip:not(.on),#cpLayer .cp-opt,#cpLayer .cp-pre,#cpLayer .cp-seg button:not(.on),#cpLayer .cp-forget{background-color:#2b2750}
+#cpLayer .cp-opt.on,#cpLayer .cp-pre.on{background-color:#3a3560}
+#cpLayer .cp-in{background-color:#2b2750}
