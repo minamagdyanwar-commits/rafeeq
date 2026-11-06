@@ -34,15 +34,18 @@ let m, n = 0, skipped = 0, low = [], gaps = [];
 while ((m = re.exec(src))) {
   const ref = m[1], raw = m[2];
   if (only && ref !== only) continue;
-  const mm = ref.replace(/[٠-٩]/g, c => AR[c]).match(/^(.*?)\s*(\d+)\s*:\s*(\d+)\s*[-–]\s*(\d+)\s*$/);
-  if (!mm) { skipped++; continue; }
-  const bi = findBook(mm[1]);
+  const rr = ref.replace(/[٠-٩]/g, c => AR[c]).replace(/[–—]/g, '-');
+  const x2 = rr.match(/^(.*?)\s*(\d+)\s*:\s*(\d+)\s*-\s*(\d+)\s*:\s*(\d+)\s*$/), x1 = rr.match(/^(.*?)\s*(\d+)\s*:\s*(\d+)\s*-\s*(\d+)\s*$/);
+  const spans = x2 ? [[x2[1], +x2[2], +x2[3], 999], [x2[1], +x2[4], 1, +x2[5]]] : x1 ? [[x1[1], +x1[2], +x1[3], +x1[4]]] : null;
+  if (!spans || (x2 && +x2[4] <= +x2[2])) { skipped++; continue; }
+  const bi = findBook(spans[0][0]);
   if (bi < 0) { skipped++; continue; }
-  const bk = bible[bi], ch = +mm[2], off = bk.vn ? bk.vn[ch - 1] - 1 : 0, v1 = +mm[3], v2 = +mm[4], vs = (bk.c[ch - 1] || []).slice(v1 - off - 1, v2 - off);
+  const bk = bible[bi]; let vs = [], v1 = spans[0][2];
+  for (const [, c, a1, a2] of spans) { const off = bk.vn ? bk.vn[c - 1] - 1 : 0, chv = bk.c[c - 1] || []; vs = vs.concat(chv.slice(a1 - off - 1, Math.min(a2, chv.length + off) - off)); }
   if (!vs.length) { skipped++; continue; }
   n++;
   const body = raw.replace(/\([^)]*\)/g, ' '), txt = norm(body), bw = norm(vs.join(' ')).split(' ').length, tw = txt.split(' ').length, ratio = tw / bw;
-  const missing = vs.map((v, i) => [v1 + i, norm(v).split(' ')]).filter(([, w]) => !txt.includes(w.slice(-3).join(' '))).map(([k]) => k);
+  const missing = vs.map((v, i) => [i + 1, norm(v).split(' ')]).filter(([, w]) => !txt.includes(w.slice(-3).join(' '))).map(([k]) => k);
   const ell = /\.\.\.|…/.test(raw);
   if (ratio < min && !ell) low.push([ratio, ref, tw, bw, missing]);
   if (only) console.log(`${ref}: نسبة ${ratio.toFixed(2)} · ناقص: ${missing.join('، ') || 'لا شيء'}${ell ? ' · فيه علامة حذف' : ''}`);
