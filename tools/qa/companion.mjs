@@ -52,6 +52,27 @@ for(const d of des)for(const m of modes){
     await p.click('[data-cpob=next]');await p.waitForTimeout(150);await p.click('[data-cppromise]');await p.click('[data-cpob=finish]');await p.waitForTimeout(400);
     if(await p.$('#cpOnb'))fail('onboarding not closed');if(!(await p.evaluate(()=>JSON.parse(localStorage.getItem('rafeeq_companion_v1')).done)))fail('profile not saved')}
   if(p.errs.length)fail('errs(onb) '+p.errs[0]);await p.close();
+  /* ٥) تخصيص الظهور + حفظ مكان التمرير + سؤال القراءة */
+  for(const [lv,wantStrip,wantLamp] of [[0,false,false],[1,false,true],[2,true,false]]){
+    p=await mk(d,m,{rafeeq_companion_on:'1',rafeeq_companion_v1:JSON.stringify({...US,pages:{home:lv,read:2,other:1}})});await p.goto(BASE+'/index.html');await p.waitForTimeout(1500);
+    const r=await p.evaluate(()=>({s:!!document.getElementById('cpStrip'),l:!!document.getElementById('cpLamp')}));
+    if(r.s!==wantStrip||r.l!==wantLamp)fail('home level '+lv+' '+JSON.stringify(r));
+    if(lv===2){
+      await p.evaluate(()=>__companion.openSettings());await p.waitForTimeout(250);
+      await p.evaluate(()=>{document.querySelector('#cpSet .cp-sheet').scrollTop=700});await p.waitForTimeout(100);
+      await p.click('[data-cpy="low"]');await p.waitForTimeout(250);
+      const sc=await p.evaluate(()=>document.querySelector('#cpSet .cp-sheet').scrollTop);
+      if(sc<300)fail('settings jumped to top: '+sc);
+      await p.click('.cp-btn[data-cpclose="cpSet"]');
+      await p.evaluate(()=>{const b=document.querySelector('#uNav [data-go="read"]');b&&b.click()});await p.waitForTimeout(700);
+      if(await p.$('#cpRead'))fail('reading question appeared before reading');
+      const done=await p.evaluate(()=>{try{return !!__F.readDone(__F.dkey())}catch(e){return null}});
+      if(done===false){await p.evaluate(()=>{const b=document.querySelector('#readDoneBar button');b&&b.click()});await p.waitForTimeout(900);
+        if(!await p.$('#cpRead'))fail('reading question missing after marking read');else{await p.fill('#cpWordTxt','كلمة تجريبية');await p.click('[data-cpwordsave]');await p.waitForTimeout(200);
+          if(!(await p.evaluate(()=>JSON.parse(localStorage.getItem('rafeeq_companion_v1')).memory.some(x=>/تجريبية/.test(x.t)))))fail('word not saved')}}
+    }
+    if(p.errs.length)fail('errs(custom) '+p.errs[0]);await p.close();
+  }
   /* ٤) مفتاح الطوارئ */
   p=await mk(d,m,{rafeeq_companion_on:'1',rafeeq_companion_v1:JSON.stringify(US)});await p.goto(BASE+'/index.html?companion=off');await p.waitForTimeout(1200);
   const k=await p.evaluate(()=>({s:!!document.getElementById('cpStrip'),f:localStorage.getItem('rafeeq_companion_on')}));if(k.s||k.f!=='0')fail('kill-switch '+JSON.stringify(k));await p.close();
