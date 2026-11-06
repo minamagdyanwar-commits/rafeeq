@@ -87,13 +87,33 @@ function place(text, vs) {
   const total = info.reduce((a, x) => a + x.cnt, 0), hits = info.reduce((a, x) => a + x.hit, 0);
   return { tw, closing, info, vw, vi, quality: total ? hits / total : 0, absent: info.filter(x => x.hit === 0).length };
 }
+
+/* ---- نصوص مشكولة أخرى في البرنامج (الأجبية، التماجيد…) قد تحوي آيات كاملة بتشكيلها ---- */
+const EXTRA = []; const TRI = new Map();
+{
+  const dir = join(root, 'src');
+  for (const fn of readdirSync(dir).filter(x => /^(app\d+|data-[a-z]+)\.js$/.test(x) && x !== 'app5.js')) {
+    const code = readFileSync(join(dir, fn), 'utf8');
+    for (const mm of code.matchAll(/"((?:[^"\\\n]|\\.){60,})"/g)) {
+      const str = mm[1]; if ((str.match(/[\u064B-\u0652]/g) || []).length < 8) continue;
+      let t; try { t = JSON.parse('"' + str + '"'); } catch (e) { continue; }
+      const tw = t.split(/\s+/).map(x => x.replace(/\.{2,}|…/g, '')).filter(Boolean); EXTRA.push(tw);
+    }
+  }
+  EXTRA.forEach((tw, ti) => { const k = tw.map(norm); for (let i = 0; i + 2 < k.length; i++) { const g = k[i] + ' ' + k[i + 1] + ' ' + k[i + 2]; let l = TRI.get(g); if (!l) TRI.set(g, l = []); l.push([ti, i]); } });
+}
+function fromExtra(vwords) {
+  const k = vwords.map(norm); if (k.length < 4) return null; const g = k[0] + ' ' + k[1] + ' ' + k[2];
+  for (const [ti, i] of TRI.get(g) || []) { const tw = EXTRA[ti]; let ok = true; for (let j = 0; j < k.length; j++) { if (!tw[i + j] || norm(tw[i + j]) !== k[j]) { ok = false; break; } } if (ok) return tw.slice(i, i + k.length).join(' '); }
+  return null;
+}
 const BANK = Object.create(null);
 function bankFrom(text, vs) {
   const P = place(text, vs);
   P.info.forEach((x, k) => { if (x.hit === x.cnt && x.len >= 0.9 * x.cnt && x.len <= 1.15 * x.cnt && !BANK[vs[k].k]) BANK[vs[k].k] = P.tw.slice(x.a, x.b + 1).join(' '); });
 }
 function rebuild(text, vs) {
-  const P = place(text, vs), out = []; let recovered = 0, banked = 0, plain = 0;
+  const P = place(text, vs), out = []; let recovered = 0, banked = 0, plain = 0, extra = 0;
   vs.forEach((v, k) => {
     const x = P.info[k], vwords = v.t.split(/\s+/).filter(Boolean);
     if (x.hit >= 0.6 * x.cnt && x.len >= 0.7 * x.cnt && x.len <= 1.4 * x.cnt) {
@@ -103,13 +123,13 @@ function rebuild(text, vs) {
       if (x.first > 0 && x.first <= 0.5 * x.cnt) t = vwords.slice(0, x.first).join(' ') + ' ' + t;
       out.push(t); recovered++;
     } else if (BANK[v.k]) { out.push(BANK[v.k]); banked++; }
-    else { out.push(v.t); plain++; }
+    else { const ex = fromExtra(vwords); if (ex) { out.push(ex); extra++; } else { out.push(v.t); plain++; } }
   });
   /* عبارات المطبوع القصيرة قبل أول آية وبعد آخر آية (مثل «فقال الرب:») تبقى */
   const firstA = P.info[0] && P.info[0].hit ? P.info[0].a : -1, lastI = P.info[P.info.length - 1];
   const lead = firstA > 0 && firstA <= 8 ? P.tw.slice(0, firstA).join(' ') + ' ' : '';
   const trail = lastI && lastI.hit && P.tw.length - 1 - lastI.b > 0 && P.tw.length - 1 - lastI.b <= 8 ? ' ' + P.tw.slice(lastI.b + 1).join(' ') : '';
-  return { text: lead + out.join(' ') + trail + (P.closing ? ' ' + P.closing : ''), recovered, banked, plain };
+  return { text: lead + out.join(' ') + trail + (P.closing ? ' ' + P.closing : ''), recovered, banked, plain, extra };
 }
 /* تحقق من النتيجة: كل آية من المدى يجب أن تظهر في النص (≥٧٠٪ من كلماتها) */
 function weakVerses(text, vs) {
@@ -121,7 +141,7 @@ const srcPath = join(root, 'src/app5.js');
 let src = readFileSync(srcPath, 'utf8');
 const a = process.argv, write = a.includes('--write'), show = a.indexOf('--show') > 0 ? a[a.indexOf('--show') + 1] : '';
 const re = /(gospelRef|shortRef):\s*"([^"]+)",\s*(?:\n\s*)?(gospel|pericope):\s*\n?(\s*)"((?:[^"\\]|\\.)*)"/g;
-let m, n = 0, changed = 0, rec = 0, bk = 0, pl = 0, skipped = [], bad = [], odd = [];
+let m, n = 0, changed = 0, rec = 0, bk = 0, ex = 0, pl = 0, skipped = [], bad = [], odd = [];
 const nw0 = t => normS(t.replace(/\([^)]*\)/g, ' ')).split(' ').length;
 const edits = [], items = [];
 while ((m = re.exec(src))) {
@@ -140,7 +160,7 @@ for (const { m, ref, raw, text, vs } of items) {
   const nw = normS(r.text.replace(/\([^)]*\)/g, ' ')).split(' ').length;
   if (nw0(r.text) / bw < 0.85 || nw0(r.text) / bw > 1.35) odd.push(ref + ' نسبة ' + (nw0(r.text) / bw).toFixed(2));
   const weak = weakVerses(r.text, vs); if (weak.length) bad.push(ref + ' ← ' + weak.map(v => v.c + ':' + v.v).join('،'));
-  changed++; rec += r.recovered; bk += r.banked; pl += r.plain;
+  changed++; rec += r.recovered; bk += r.banked; ex += r.extra; pl += r.plain;
   edits.push({ at: m.index + m[0].lastIndexOf('"' + raw + '"'), old: '"' + raw + '"', neu: JSON.stringify(r.text), ref, before: tw, after: nw, vs: vs.length, rec: r.recovered, plain: r.plain, bank: r.banked });
 }
 if (a.indexOf('--dbg') > 0) { const it = items.find(x => x.ref === a[a.indexOf('--dbg') + 1]); if (it) { const P = place(it.text, it.vs); console.log('quality', P.quality.toFixed(2), 'tw', P.tw.length, 'vw', P.vw.length, JSON.stringify(P.info.slice(0, 6))); console.log(P.tw.slice(0, 12).join(' '), '|', P.vw.slice(0, 12).join(' ')); } }
@@ -148,7 +168,7 @@ if (a.includes('--books')) { const seen = {}; items.forEach(it => { const tok = 
 const lowq = items.map(it => { const P = place(it.text, it.vs); return { ref: it.ref, q: P.quality, absent: P.absent, n: it.vs.length, words: normS(it.text).split(' ').length }; }).filter(x => x.q < 0.5).sort((a, b) => a.q - b.q);
 if (process.argv.includes('--lowq')) { console.log('محاذاة ضعيفة (<0.5):', lowq.length); lowq.forEach(x => console.log(x.q.toFixed(2), x.ref, 'كلمات', x.words, 'آيات', x.n)); }
 console.log(`فُحص ${n} نصًّا · مرجع غير مفسَّر ${skipped.length}${skipped.length ? ' (' + [...new Set(skipped)].slice(0, 12).join(' | ') + ')' : ''}`);
-console.log(`يحتاج إكمالًا: ${changed} · آيات بقيت بتشكيلها المطبوع: ${rec} · آيات بتشكيلها من قراءة أخرى: ${bk} · آيات أُخذت من الكتاب المقدس بلا تشكيل: ${pl}`);
+console.log(`يحتاج إكمالًا: ${changed} · آيات بقيت بتشكيلها المطبوع: ${rec} · آيات بتشكيلها من قراءة أخرى: ${bk} · من نصوص مشكولة أخرى في البرنامج: ${ex} · آيات أُخذت من الكتاب المقدس بلا تشكيل: ${pl}`);
 console.log(`نسب غير معتادة بعد الإكمال: ${odd.length}${odd.length ? ' — ' + odd.slice(0, 10).join(' | ') : ''}`);
 console.log(`بعد الإكمال: نصوص فيها آيات ضعيفة التغطية: ${bad.length}${bad.length ? '\n  ' + bad.slice(0, 15).join('\n  ') : ''}`);
 if (show) { const e = edits.find(x => x.ref === show); if (e) console.log(e.ref, e.before, '→', e.after, '\n', JSON.parse(e.neu)); else console.log('لا إكمال لـ', show); }
