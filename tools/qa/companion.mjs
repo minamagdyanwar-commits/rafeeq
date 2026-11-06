@@ -10,7 +10,7 @@ const des=process.argv[2]?process.argv[2].split(','):DES,modes=process.argv[3]?[
 const SH=process.env.SHOTS;let bad=0;const fail=(m)=>{bad++;console.log('  ✗',m)};
 async function mk(d,m,init){const p=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:SH?2:1});const errs=[];p.on('pageerror',e=>errs.push(String(e)));
   await p.addInitScript(([d,m,init])=>{if(sessionStorage.getItem('__cpi'))return;sessionStorage.setItem('__cpi','1');localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}));for(const k in init)localStorage.setItem(k,init[k])},[d,m,init]);p.errs=errs;return p}
-const US={done:true,name:'رفيق',age:'30',stage:2,tone:'calm',preset:'with',gate:1,evening:1,lastGate:new Date().toLocaleDateString('en-CA'),lastEve:new Date().toLocaleDateString('en-CA')};
+const US={quiet:{on:0,from:21,to:6},done:true,name:'رفيق',age:'30',stage:2,tone:'calm',preset:'with',gate:1,evening:1,lastGate:new Date().toLocaleDateString('en-CA'),lastEve:new Date().toLocaleDateString('en-CA')};
 for(const d of des)for(const m of modes){
   console.log(d,m);
   /* ١) افتراضيًا مغلق */
@@ -29,6 +29,9 @@ for(const d of des)for(const m of modes){
   await p.click('[data-cpsettings]');await p.waitForTimeout(250);if(!await p.$('#cpSet .cp-pre'))fail('settings');
   await p.click('[data-cppre="calm"]');await p.waitForTimeout(150);
   if((await p.evaluate(()=>JSON.parse(localStorage.getItem('rafeeq_companion_v1')).preset))!=='calm')fail('preset not saved');
+  await p.click('[data-cplook-cloak="green"]');await p.click('[data-cplook-shape="candle"]');await p.click('[data-cpbtn-size="l"]');await p.click('[data-cpbtn-icon="lamp"]');await p.waitForTimeout(200);
+  const lk=await p.evaluate(()=>{const S=JSON.parse(localStorage.getItem('rafeeq_companion_v1'));return {c:S.look.cloak,sh:S.look.lampShape,sz:S.btn.size,ic:S.btn.icon,pv:/--cpc1:#5f8a6d/.test(document.querySelector('#cpSet .cp-prev svg').getAttribute('style')||'')}});
+  if(lk.c!=='green'||lk.sh!=='candle'||lk.sz!=='l'||lk.ic!=='lamp'||!lk.pv)fail('look settings '+JSON.stringify(lk));
   if(SH)await p.screenshot({path:`${SH}/set_${d}_${m}.png`});
   await p.click('.cp-btn[data-cpclose="cpSet"]');
   await p.evaluate(()=>{const b=document.querySelector('#uNav [data-go="read"]');b&&b.click()});await p.waitForTimeout(500);if(!await p.$('#cpLamp'))fail('lamp on other page');
@@ -60,7 +63,7 @@ for(const d of des)for(const m of modes){
     if(lv===2){
       await p.evaluate(()=>__companion.openSettings());await p.waitForTimeout(250);
       await p.evaluate(()=>{document.querySelector('#cpSet .cp-sheet').scrollTop=700});await p.waitForTimeout(100);
-      await p.click('[data-cpy="low"]');await p.waitForTimeout(250);
+      await p.click('#cpTgGate');await p.waitForTimeout(250);
       const sc=await p.evaluate(()=>document.querySelector('#cpSet .cp-sheet').scrollTop);
       if(sc<300)fail('settings jumped to top: '+sc);
       await p.click('.cp-btn[data-cpclose="cpSet"]');

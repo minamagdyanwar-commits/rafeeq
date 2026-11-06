@@ -23,11 +23,11 @@
   /* ---------- الحالة ---------- */
   var DEF = {
     done: false, name: 'رفيق', age: '30', stage: 2, tone: 'calm', preset: 'with', gate: 1, evening: 1,
-    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 }, lamp: { side: 'right', y: 'mid' }, readq: 1, promiseq: 1, mem: 1,
+    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 }, lamp: { side: 'right', y: 'mid' }, look: { cloak: 'auto', body: 'auto', staff: 1, lampShape: 'lantern' }, btn: { size: 'm', shape: 'circle', fade: 0, icon: 'avatar' }, readq: 1, promiseq: 1, mem: 1,
     quiet: { on: 1, from: 21, to: 6 }, promise: '', promiseDay: '', memory: [], log: [], lastGate: '', lastEve: '', cnt: { d: '', n: 0 }, hideDay: '', sixAns: []
   };
   var S = null;
-  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt' || k === 'lamp') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); }
+  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt' || k === 'lamp' || k === 'look' || k === 'btn') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); }
   function save() { RF.jset(K_ST, S); }
   function today() { return RF.dkey(); }
   RF.keys && (RF.keys[K_ON] = 'الرفيق الروحي: مُفعَّل أم لا (تجريبي)', RF.keys[K_ST] = 'الرفيق الروحي: البروفايل والإعدادات والذاكرة');
@@ -49,9 +49,24 @@
   function elder() { return S.age === '60'; }
   function ageKind() { return S.age === '8' ? 'child' : (S.age === '13' || S.age === '18') ? 'youth' : S.age === '60' ? 'elder' : 'adult'; }
 
+  /* ---------- شكل الرفيق والمصباح (قابل للتغيير من الإعدادات) ---------- */
+  var CLOAKS = { blue: ['#5c6a8a', '#3b4668', 'أزرق'], green: ['#5f8a6d', '#3a5c47', 'أخضر'], wine: ['#8a4a5c', '#5c2a3b', 'نبيذي'], gray: ['#8a8a92', '#5a5a64', 'رمادي'], brown: ['#9a7a54', '#6a4c2e', 'ترابي'], white: ['#e8e2d2', '#bdb49c', 'أبيض'] };
+  var BODIES = [['auto', 'حسب سنّي'], ['child', 'صغير'], ['youth', 'شاب'], ['adult', 'بالغ'], ['elder', 'كبير']];
+  var SHAPES = [['lantern', 'فانوس'], ['candle', 'شمعة'], ['orb', 'كرة نور']];
+  function lampShapeSvg(lx, ly, lamp, shape, child) {
+    if (shape === 'candle') return '<rect x="' + (lx - 5) + '" y="' + (ly - 8) + '" width="10" height="26" rx="2" class="cpa-wax"/><path d="M' + lx + ' ' + (ly - 22) + ' C' + (lx + 8) + ' ' + (ly - 12) + ' ' + (lx + 5) + ' ' + (ly - 6) + ' ' + lx + ' ' + (ly - 6) + ' C' + (lx - 5) + ' ' + (ly - 6) + ' ' + (lx - 8) + ' ' + (ly - 12) + ' ' + lx + ' ' + (ly - 22) + 'Z" class="cpa-lamp l' + lamp + '"/>';
+    if (shape === 'orb') return '<circle cx="' + lx + '" cy="' + ly + '" r="' + (child ? 13 : 11) + '" class="cpa-lamp l' + lamp + '"/><circle cx="' + lx + '" cy="' + ly + '" r="' + (child ? 17 : 15) + '" class="cpa-orbring"/>';
+    return child ? '<rect x="' + (lx - 11) + '" y="' + (ly - 14) + '" width="22" height="26" rx="10" class="cpa-lamp l' + lamp + '"/><line x1="' + lx + '" y1="' + (ly - 14) + '" x2="' + lx + '" y2="' + (ly - 22) + '" class="cpa-frame"/>'
+      : '<rect x="' + (lx - 9) + '" y="' + (ly - 11) + '" width="18" height="22" rx="6" class="cpa-lamp l' + lamp + '"/><path d="M' + (lx - 9) + ' ' + (ly - 11) + ' L' + lx + ' ' + (ly - 19) + ' L' + (lx + 9) + ' ' + (ly - 11) + '" class="cpa-frame"/>';
+  }
+  /* أيقونة المصباح وحده (لزر «المصباح فقط») */
+  function lampIcon(w, lamp) {
+    var id = 'cpi' + (avatar.n = (avatar.n || 0) + 1), shape = S.look.lampShape || 'lantern';
+    return '<svg class="cpa l' + lamp + '" viewBox="0 0 100 100" width="' + w + '" height="' + w + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs><radialGradient id="g' + id + '"><stop offset="0" class="cpa-g0"/><stop offset=".5" class="cpa-g1"/><stop offset="1" class="cpa-g2"/></radialGradient></defs><circle cx="50" cy="50" r="48" fill="url(#g' + id + ')"/><g transform="translate(50 50) scale(1.7) translate(-50 -50)">' + lampShapeSvg(50, 54, lamp, shape, false) + '</g></svg>';
+  }
   /* ---------- الأفاتار: مسافر بمصباح، بلا ملامح ---------- */
   function avatar(o) {
-    o = o || {}; var pose = o.pose || 'stand', lamp = o.lamp == null ? 2 : o.lamp, stage = o.stage || S.stage || 2, age = o.age || ageKind(), w = o.w || 120, id = 'cp' + (avatar.n = (avatar.n || 0) + 1);
+    o = o || {}; var pose = o.pose || 'stand', lamp = o.lamp == null ? 2 : o.lamp, stage = o.stage || S.stage || 2, age = o.age || (S.look.body && S.look.body !== 'auto' ? S.look.body : ageKind()), w = o.w || 120, id = 'cp' + (avatar.n = (avatar.n || 0) + 1);
     var glowR = [0, 26, 46, 70, 50][lamp], scale = age === 'child' ? 0.82 : 1, headR = age === 'child' ? 23 : 20;
     var hx = 80, hy = 58, lx = 128, ly = 62, st = 70, rot = 0, top = 82, hem = 206, armL = 'M62 96 C52 112 48 128 52 146', armR = 'M100 96 C112 98 120 102 124 108', extra = '';
     if (pose === 'walk') { rot = -3; extra += '<ellipse cx="60" cy="208" rx="13" ry="5" class="cpa-shoe"/><ellipse cx="102" cy="204" rx="13" ry="5" class="cpa-shoe"/>'; }
@@ -65,11 +80,11 @@
     if (stage === 3) extra += '<path d="M48 90 C58 82 102 82 112 90 L108 108 C92 100 68 100 52 108Z" class="cpa-cape"/>';
     if (stage === 4) for (var i = 0; i < 8; i++) { var a = i * 0.785; extra += '<line x1="' + lx + '" y1="' + ly + '" x2="' + (lx + Math.round(48 * Math.cos(a))) + '" y2="' + (ly + Math.round(48 * Math.sin(a))) + '" class="cpa-ray"/>'; }
     if (stage === 5) extra += '<path d="M' + (lx - 4) + ' ' + (st + 16) + ' c-10 -6 -14 -2 -14 4 c8 2 12 0 14 -4z M' + (lx + 4) + ' ' + (st + 30) + ' c10 -6 14 -2 14 4 c-8 2 -12 0 -14 -4z" class="cpa-leaf"/><path d="M' + (lx - 34) + ' 24 l3 8 8 1 -6 5 2 8 -7 -4 -7 4 2 -8 -6 -5 8 -1z" class="cpa-star"/>';
-    var staff = (pose === 'sit' || pose === 'pray') ? '' : (age === 'elder' ? '<path d="M' + lx + ' 206 L' + lx + ' ' + (st + 10) + ' q0 -16 -14 -16" class="cpa-staff"/>' : '<line x1="' + lx + '" y1="' + st + '" x2="' + lx + '" y2="206" class="cpa-staff"/>');
-    var lampSvg = age === 'child' ? '<rect x="' + (lx - 11) + '" y="' + (ly - 14) + '" width="22" height="26" rx="10" class="cpa-lamp l' + lamp + '"/><line x1="' + lx + '" y1="' + (ly - 14) + '" x2="' + lx + '" y2="' + (ly - 22) + '" class="cpa-frame"/>'
-      : '<rect x="' + (lx - 9) + '" y="' + (ly - 11) + '" width="18" height="22" rx="6" class="cpa-lamp l' + lamp + '"/><path d="M' + (lx - 9) + ' ' + (ly - 11) + ' L' + lx + ' ' + (ly - 19) + ' L' + (lx + 9) + ' ' + (ly - 11) + '" class="cpa-frame"/>';
+    var staff = (pose === 'sit' || pose === 'pray' || S.look.staff === 0) ? '' : (age === 'elder' ? '<path d="M' + lx + ' 206 L' + lx + ' ' + (st + 10) + ' q0 -16 -14 -16" class="cpa-staff"/>' : '<line x1="' + lx + '" y1="' + st + '" x2="' + lx + '" y2="206" class="cpa-staff"/>');
+    var lampSvg = lampShapeSvg(lx, ly, lamp, S.look.lampShape || 'lantern', age === 'child');
     var glow = glowR ? '<circle cx="' + lx + '" cy="' + ly + '" r="' + glowR + '" fill="url(#g' + id + ')"/>' : '';
-    return '<svg class="cpa s' + stage + ' l' + lamp + '" viewBox="-45 -45 250 312" width="' + w + '" height="' + Math.round(w * 312 / 250) + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs><radialGradient id="g' + id + '"><stop offset="0" class="cpa-g0"/><stop offset=".5" class="cpa-g1"/><stop offset="1" class="cpa-g2"/></radialGradient><linearGradient id="c' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="cpa-c1"/><stop offset="1" class="cpa-c2"/></linearGradient></defs>' +
+    var cl = CLOAKS[S.look.cloak], clStyle = cl ? ' style="--cpc1:' + cl[0] + ';--cpc2:' + cl[1] + '"' : '';
+    return '<svg class="cpa s' + stage + ' l' + lamp + '"' + clStyle + ' viewBox="-45 -45 250 312" width="' + w + '" height="' + Math.round(w * 312 / 250) + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs><radialGradient id="g' + id + '"><stop offset="0" class="cpa-g0"/><stop offset=".5" class="cpa-g1"/><stop offset="1" class="cpa-g2"/></radialGradient><linearGradient id="c' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="cpa-c1"/><stop offset="1" class="cpa-c2"/></linearGradient></defs>' +
       '<g transform="translate(80,206) scale(' + scale + ') translate(-80,-206) rotate(' + rot + ' 80 206)">' + glow + '<ellipse cx="80" cy="210" rx="40" ry="6" class="cpa-shadow"/>' +
       '<path d="M80 ' + top + ' C46 ' + (top + 6) + ' 36 ' + (hem - 60) + ' 28 ' + hem + ' L132 ' + hem + ' C124 ' + (hem - 60) + ' 114 ' + (top + 6) + ' 80 ' + top + 'Z" fill="url(#c' + id + ')" class="cpa-cloak"/>' + extra +
       '<path d="' + armL + '" fill="none" stroke="url(#c' + id + ')" stroke-width="11" stroke-linecap="round"/>' + staff +
@@ -197,8 +212,8 @@
     return line(h < 12 ? 'gateAM' : 'gatePM', m);
   }
   function daysSince(d) { if (!d) return 99; var a = new Date(d + 'T00:00:00'), b = new Date(); return Math.floor((b - a) / 86400000); }
-  function maybeGate() {
-    if (!S.done || !S.gate || S.lastGate === today() || quietNow() || capLeft() <= 0) return;
+  function maybeGate(force) {
+    if (!S.done || !S.gate || S.lastGate === today() || (!force && (quietNow() || capLeft() <= 0))) return;
     var pi = planInfo(), pr = '';
     if (S.promiseq && S.promise && S.promiseDay && S.promiseDay !== today() && !S.promiseAsked) pr = S.promise;
     var txt = gateText(), cal = ''; try { var c = window.__copCal && window.__copCal.label(new Date()); cal = (c && c.text) || ''; } catch (e) { }
@@ -224,9 +239,9 @@
   function paintLamp() {
     var el = document.getElementById('cpLamp'), pg = curPage(), hid = S.hideDay === today(), lv = level(pg);
     if (!isOn() || !S.done || hid || lv < 1 || q('#cpOnb') || q('#cpGate') || (pg === 'home' && lv >= 2)) { if (el) el.remove(); return; }
-    var pi = planInfo(), lamp = pi.all ? 3 : 2, h = avatar({ pose: 'stand', lamp: lamp, w: 34 });
+    var pi = planInfo(), lamp = pi.all ? 3 : 2, bsz = { s: 28, m: 34, l: 44 }[S.btn.size] || 34, h = S.btn.icon === 'lamp' ? lampIcon(bsz, lamp) : avatar({ pose: 'stand', lamp: lamp, w: bsz });
     if (!el) { el = document.createElement('button'); el.id = 'cpLamp'; el.type = 'button'; el.setAttribute('aria-label', 'افتح ' + S.name); document.body.appendChild(el); }
-    el.className = 'cp-lamp cp-side-' + (S.lamp.side === 'left' ? 'left' : 'right') + ' cp-y-' + (S.lamp.y || 'mid');
+    el.className = 'cp-lamp cp-side-' + (S.lamp.side === 'left' ? 'left' : 'right') + ' cp-y-' + (S.lamp.y || 'mid') + ' cp-sz-' + (S.btn.size || 'm') + (S.btn.shape === 'round' ? ' cp-sq' : '') + (S.btn.fade ? ' cp-fade' : '');
     if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
   }
   function openPanel() {
@@ -289,6 +304,8 @@
     var html = '<div class="cp-dim" data-cpclose="cpSet"></div><div class="cp-sheet tall"><h2 class="cp-h2">إعدادات ' + esc(S.name) + '</h2>' +
       '<div class="cp-card"><h3>أنا</h3><div class="cp-lab">سنّي</div><div class="cp-chips">' + chips(AGES, S.age, 'data-cpsage') + '</div><div class="cp-lab">محطتي على الدرب</div><div class="cp-chips">' + [1, 2, 3, 4, 5].map(function (k) { return '<button type="button" class="cp-chip' + (S.stage === k ? ' on' : '') + '" data-cpsstage="' + k + '">' + ['الرجوع', 'التأسيس', 'الجهاد', 'الاستنارة', 'الثمر'][k - 1] + '</button>'; }).join('') + '</div></div>' +
       '<div class="cp-card"><h3>الرفيق</h3><div class="cp-lab">الاسم</div><input class="cp-in" id="cpSName" maxlength="14" value="' + esc(S.name) + '"><div class="cp-lab">النبرة</div><div class="cp-chips">' + chips(TONES, S.tone, 'data-cpstone') + '</div></div>' +
+      '<div class="cp-card"><h3>شكل الرفيق</h3><div class="cp-prev">' + avatar({ pose: 'stand', lamp: 3, w: 96 }) + '</div><div class="cp-lab">لون العباءة</div><div class="cp-chips">' + chips([['auto', 'حسب التصميم']].concat(Object.keys(CLOAKS).map(function (k) { return [k, CLOAKS[k][2]]; })), S.look.cloak, 'data-cplook-cloak') + '</div><div class="cp-lab">الهيئة</div><div class="cp-chips">' + chips(BODIES, S.look.body, 'data-cplook-body') + '</div><div class="cp-lab">شكل المصباح</div><div class="cp-chips">' + chips(SHAPES, S.look.lampShape, 'data-cplook-shape') + '</div>' + tog('cpTgStaff', 'العصا', S.look.staff !== 0) + '</div>' +
+      '<div class="cp-card"><h3>شكل الزر</h3><div class="cp-lab">المحتوى</div><div class="cp-chips">' + chips([['avatar', 'الشخصية'], ['lamp', 'المصباح فقط']], S.btn.icon, 'data-cpbtn-icon') + '</div><div class="cp-lab">الحجم</div><div class="cp-chips">' + chips([['s', 'صغير'], ['m', 'وسط'], ['l', 'كبير']], S.btn.size, 'data-cpbtn-size') + '</div><div class="cp-lab">الشكل</div><div class="cp-chips">' + chips([['circle', 'دائري'], ['round', 'مربع مدوّر']], S.btn.shape, 'data-cpbtn-shape') + '</div><div class="cp-lab">الشفافية</div><div class="cp-chips">' + chips([['0', 'عادي'], ['1', 'خفيف']], String(S.btn.fade ? 1 : 0), 'data-cpbtn-fade') + '</div></div>' +
       '<div class="cp-card"><h3>قد إيه يقرّب؟</h3><div class="cp-small">اختيار سريع يضبط الصفحات والأوقات، وتقدر تعدّل كل حاجة بعده بنفسك.</div>' + pre + '</div>' +
       '<div class="cp-card"><h3>يظهر فين؟</h3><div class="cp-small">لكل صفحة: <b>غير موجود</b> (مش هيظهر خالص)، أو <b>زر فقط</b> (زر صغير تدوس عليه لو احتجته)، أو <b>يتكلم</b> (في الرئيسية: شريط، وفي غيرها: يسألك ويعلّق). في الصلاة والمحاسبة أقصى حاجة زر.</div>' + pg + '</div>' +
       '<div class="cp-card"><h3>شكل الزر ومكانه</h3><div class="cp-lab">الجنب</div><div class="cp-chips">' + chips([['right', 'يمين'], ['left', 'شمال']], S.lamp.side, 'data-cpside') + '</div><div class="cp-lab">الارتفاع</div><div class="cp-chips">' + chips([['high', 'فوق'], ['mid', 'وسط'], ['low', 'تحت']], S.lamp.y, 'data-cpy') + '</div></div>' +
@@ -323,6 +340,7 @@
 
   /* ---------- التحديث والأحداث ---------- */
   var tmr = 0;
+  function repaint() { var st = document.getElementById('cpStrip'); if (st) { st.remove(); } var l = document.getElementById('cpLamp'); if (l) { l.remove(); } paintStrip(); paintLamp(); }
   function refresh() { if (!isOn()) return; clearTimeout(tmr); tmr = setTimeout(function () { try { paintStrip(); paintLamp(); } catch (e) { fail(e); } }, 60); }
   var errs = 0; function fail(e) { errs++; if (errs >= 3) { lsSet(K_ON, '0'); teardown(); injectSettings(); try { console.warn('companion disabled after errors', e); } catch (x) { } } }
   function maybeEveningAuto() { if (!isOn() || !S.done || !S.evening || S.lastEve === today() || new Date().getHours() < 20 || quietNow() || ['pray', 'exam'].indexOf(curPage()) > -1 || q('.cp-ov') || capLeft() <= 0) return; openEvening(false); }
@@ -377,6 +395,14 @@
     if ((b = t.closest('[data-cpword]'))) { saveWord(b.getAttribute('data-cpword')); closeOv('cpRead'); toast('تمام. حفظتها.'); return; }
     if (t.closest('[data-cpwordsave]')) { var wt = q('#cpWordTxt'); if (wt && saveWord(wt.value)) { closeOv('cpRead'); toast('اتحفظت. بارك الرب فيك.'); } return; }
     if (t.closest('[data-cpreadnote]')) { closeOv('cpPanel'); readSheet(); return; }
+    if ((b = t.closest('[data-cplook-cloak]'))) { S.look.cloak = b.getAttribute('data-cplook-cloak'); save(); openSettings(); refresh(); repaint(); return; }
+    if ((b = t.closest('[data-cplook-body]'))) { S.look.body = b.getAttribute('data-cplook-body'); save(); openSettings(); refresh(); repaint(); return; }
+    if ((b = t.closest('[data-cplook-shape]'))) { S.look.lampShape = b.getAttribute('data-cplook-shape'); save(); openSettings(); refresh(); repaint(); return; }
+    if (t.closest('#cpTgStaff')) { S.look.staff = S.look.staff === 0 ? 1 : 0; save(); openSettings(); refresh(); repaint(); return; }
+    if ((b = t.closest('[data-cpbtn-icon]'))) { S.btn.icon = b.getAttribute('data-cpbtn-icon'); save(); openSettings(); repaint(); return; }
+    if ((b = t.closest('[data-cpbtn-size]'))) { S.btn.size = b.getAttribute('data-cpbtn-size'); save(); openSettings(); repaint(); return; }
+    if ((b = t.closest('[data-cpbtn-shape]'))) { S.btn.shape = b.getAttribute('data-cpbtn-shape'); save(); openSettings(); repaint(); return; }
+    if ((b = t.closest('[data-cpbtn-fade]'))) { S.btn.fade = +b.getAttribute('data-cpbtn-fade'); save(); openSettings(); repaint(); return; }
     if ((b = t.closest('[data-cpside]'))) { S.lamp.side = b.getAttribute('data-cpside'); save(); openSettings(); refresh(); return; }
     if ((b = t.closest('[data-cpy]'))) { S.lamp.y = b.getAttribute('data-cpy'); save(); openSettings(); refresh(); return; }
     if (t.closest('#cpTgReadq')) { S.readq = S.readq ? 0 : 1; save(); openSettings(); return; }
@@ -411,5 +437,5 @@
     setTimeout(function () { lsSet(K_BOOT, '0'); }, 4000);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
-  window.__companion = { on: isOn, setOn: setOn, state: function () { return S; }, openPanel: openPanel, openSettings: openSettings, gate: function () { if (S) { S.lastGate = ''; save(); } maybeGate(); }, evening: function () { openEvening(true); }, avatar: avatar };
+  window.__companion = { on: isOn, setOn: setOn, state: function () { return S; }, openPanel: openPanel, openSettings: openSettings, gate: function () { if (S) { S.lastGate = ''; save(); } maybeGate(true); }, evening: function () { openEvening(true); }, avatar: avatar };
 })();

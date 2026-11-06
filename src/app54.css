@@ -99,3 +99,11 @@ html[data-companion=on] .cp-strip{background:var(--cp-bg);color:var(--cp-ink);bo
 .cp-strip .cp-go{background:var(--cp-acc);color:var(--cp-acc-ink);padding:6px 14px;min-height:34px;font-size:.85rem}
 /* الشخصية تلبس لون التصميم */
 .cpa-c1{stop-color:color-mix(in srgb,var(--cp-acc) 28%,#5c6a8a)}.cpa-c2{stop-color:color-mix(in srgb,var(--cp-acc) 22%,#3b4668)}
+/* شكل الرفيق والزر (من الإعدادات) */
+.cpa{--cpc1:initial}
+.cpa-c1{stop-color:var(--cpc1,color-mix(in srgb,var(--cp-acc) 28%,#5c6a8a))}.cpa-c2{stop-color:var(--cpc2,color-mix(in srgb,var(--cp-acc) 22%,#3b4668))}
+.cpa-wax{fill:#e8dcc0}.cpa-orbring{fill:none;stroke:#f3d98c88;stroke-width:2}
+.cp-prev{display:flex;justify-content:center;padding:4px 0 8px}
+.cp-lamp.cp-sz-s{width:38px;height:46px;border-radius:19px}.cp-lamp.cp-sz-l{width:58px;height:70px;border-radius:29px}
+.cp-lamp.cp-sq{border-radius:14px}
+.cp-lamp.cp-fade{opacity:.55}
