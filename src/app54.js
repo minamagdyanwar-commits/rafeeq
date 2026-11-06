@@ -23,11 +23,11 @@
   /* ---------- الحالة ---------- */
   var DEF = {
     done: false, name: 'رفيق', age: '30', stage: 2, tone: 'calm', preset: 'with', gate: 1, evening: 1,
-    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 }, lamp: { side: 'top', y: 'mid', v: 2 }, readq: 1, promiseq: 1, mem: 1,
+    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 }, lamp: { side: 'right', y: 'mid', v: 3 }, readq: 1, promiseq: 1, mem: 1,
     quiet: { on: 1, from: 21, to: 6 }, promise: '', promiseDay: '', memory: [], log: [], lastGate: '', lastEve: '', cnt: { d: '', n: 0 }, hideDay: '', sixAns: []
   };
   var S = null;
-  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt' || k === 'lamp') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); if (S.lamp.v !== 2) S.lamp = { side: 'top', y: 'mid', v: 2 }; }
+  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt' || k === 'lamp') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); if (S.lamp.v !== 3) S.lamp = { side: 'right', y: 'mid', v: 3 }; }
   function save() { RF.jset(K_ST, S); }
   function today() { return RF.dkey(); }
   RF.keys && (RF.keys[K_ON] = 'الرفيق الروحي: مُفعَّل أم لا (تجريبي)', RF.keys[K_ST] = 'الرفيق الروحي: البروفايل والإعدادات والذاكرة');

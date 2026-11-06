@@ -10,7 +10,7 @@ const des=process.argv[2]?process.argv[2].split(','):DES,modes=process.argv[3]?[
 const SH=process.env.SHOTS;let bad=0;const fail=(m)=>{bad++;console.log('  ✗',m)};
 async function mk(d,m,init){const p=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:SH?2:1});const errs=[];p.on('pageerror',e=>errs.push(String(e)));
   await p.addInitScript(([d,m,init])=>{if(sessionStorage.getItem('__cpi'))return;sessionStorage.setItem('__cpi','1');localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}));for(const k in init)localStorage.setItem(k,init[k])},[d,m,init]);p.errs=errs;return p}
-const US={done:true,name:'رفيق',age:'30',stage:2,tone:'calm',preset:'with',gate:1,evening:1,lastGate:new Date().toLocaleDateString('en-CA'),lastEve:new Date().toLocaleDateString('en-CA')};
+const US={quiet:{on:0,from:21,to:6},done:true,name:'رفيق',age:'30',stage:2,tone:'calm',preset:'with',gate:1,evening:1,lastGate:new Date().toLocaleDateString('en-CA'),lastEve:new Date().toLocaleDateString('en-CA')};
 for(const d of des)for(const m of modes){
   console.log(d,m);
   /* ١) افتراضيًا مغلق */
