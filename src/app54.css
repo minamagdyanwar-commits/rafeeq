@@ -99,3 +99,6 @@ html[data-companion=on] .cp-strip{background:var(--cp-bg);color:var(--cp-ink);bo
 .cp-strip .cp-go{background:var(--cp-acc);color:var(--cp-acc-ink);padding:6px 14px;min-height:34px;font-size:.85rem}
 /* الشخصية تلبس لون التصميم */
 .cpa-c1{stop-color:color-mix(in srgb,var(--cp-acc) 28%,#5c6a8a)}.cpa-c2{stop-color:color-mix(in srgb,var(--cp-acc) 22%,#3b4668)}
+/* الزر داخل الشريط العلوي بين أزرار الإعدادات والبحث والخلوة */
+#cpLamp.cp-top{position:relative;inset:auto;width:auto;height:auto;min-width:36px;min-height:36px;border-radius:50%;box-shadow:none;margin:0;background:var(--cp-bg);border:1px solid color-mix(in srgb,var(--cp-acc) 55%,transparent);display:inline-flex;align-items:center;justify-content:center;padding:0;line-height:0;order:-1}
+#cpLamp.cp-top svg{height:26px;width:auto}
