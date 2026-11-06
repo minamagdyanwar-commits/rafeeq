@@ -43,13 +43,13 @@ html.cp-lock{overflow:hidden}
 .cpa-g0{stop-color:#fff3b8;stop-opacity:.9}.cpa-g1{stop-color:#f3d98c;stop-opacity:.35}.cpa-g2{stop-color:#f3d98c;stop-opacity:0}
 .cpa-me{fill:#7e8aa8}
 /* شريط الرئيسية */
-.cp-strip{display:flex;align-items:center;gap:10px;margin:0 0 12px;padding:8px 12px;border-radius:16px;background:var(--s-card);color:var(--s-card-ink);border:1px solid var(--s-card-border)}
+.cp-strip{order:-100;position:relative;z-index:30;display:flex;align-items:center;gap:10px;margin:0 0 12px;padding:8px 12px;border-radius:16px;background:var(--s-card);color:var(--s-card-ink);border:1px solid var(--s-card-border)}
 .cp-fig{border:0;background:transparent;padding:0;cursor:pointer;flex:none;line-height:0}
 .cp-sbody{flex:1;min-width:0}.cp-stxt{font-size:.95rem;line-height:1.6;font-weight:600}
 .cp-bar{height:6px;border-radius:3px;background:color-mix(in srgb,var(--s-card-ink) 18%,transparent);overflow:hidden;margin-top:6px}.cp-bar i{display:block;height:100%;background:var(--s-accent);border-radius:3px}
 .cp-go{border:0;border-radius:999px;padding:9px 16px;background:var(--s-accent);color:var(--s-btn-ink,#fff);font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;min-height:40px}
 /* المصباح العائم */
-.cp-lamp{position:fixed;right:10px;left:auto;bottom:calc(96px + env(safe-area-inset-bottom));z-index:900;width:46px;height:56px;border-radius:23px;border:1px solid var(--s-card-border);background:var(--s-card);padding:0;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px #0004;cursor:pointer;line-height:0}
+.cp-lamp{position:fixed;right:10px;left:auto;bottom:calc(96px + env(safe-area-inset-bottom));z-index:900;width:46px;height:56px;border-radius:23px;border:1px solid #f3d98c88;background:linear-gradient(180deg,#2a2447,#1a1838);padding:0;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px #0006;cursor:pointer;line-height:0}
 .cp-lamp.dim{opacity:.55}
 /* اللوحات السفلية */
 .cp-ov.panel{justify-content:flex-end;color:#f3ead8}
@@ -73,4 +73,4 @@ html.cp-lock{overflow:hidden}
 #cpSection small{font-weight:400;opacity:.7}
 
 /* التصاميم ذات الرئيسية المخصّصة تخفي كل أبناء .u-wrap ما عدا رئيستها؛ الشريط يُستثنى صراحةً (لا يظهر أصلًا إلا مع الرفيق) */
-html[data-companion=on] #page-home .u-wrap>#cpStrip{display:flex!important}
+html[data-companion=on] #page-home .u-wrap>#cpStrip{display:flex!important;order:-100!important}

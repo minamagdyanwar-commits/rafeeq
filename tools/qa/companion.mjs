@@ -22,6 +22,8 @@ for(const d of des)for(const m of modes){
   p=await mk(d,m,{rafeeq_companion_on:'1',rafeeq_companion_v1:JSON.stringify(US)});await p.goto(BASE+'/index.html');await p.waitForTimeout(2000);
   const on=await p.evaluate(()=>({attr:document.documentElement.getAttribute('data-companion'),strip:!!document.querySelector('#page-home #cpStrip'),lamp:!!document.getElementById('cpLamp'),gate:!!document.getElementById('cpGate')}));
   if(on.attr!=='on'||!on.strip||!on.lamp||on.gate)fail('on-state '+JSON.stringify(on));
+  const vis=await p.evaluate(()=>{const s=document.getElementById('cpStrip'),r=s.getBoundingClientRect(),e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2),l=document.getElementById('cpLamp').getBoundingClientRect(),le=document.elementFromPoint(l.left+l.width/2,l.top+l.height/2);return {top:r.top,strip:!!(e&&e.closest('#cpStrip')),lamp:!!(le&&le.closest('#cpLamp'))}});
+  if(vis.top>400||!vis.strip)fail('strip not visible '+JSON.stringify(vis));if(!vis.lamp)fail('lamp covered');
   if(SH)await p.screenshot({path:`${SH}/home_${d}_${m}.png`});
   await p.click('#cpLamp');await p.waitForTimeout(250);if(!await p.$('#cpPanel .cp-step'))fail('panel');if(SH)await p.screenshot({path:`${SH}/panel_${d}_${m}.png`});
   await p.click('[data-cpsettings]');await p.waitForTimeout(250);if(!await p.$('#cpSet .cp-pre'))fail('settings');
