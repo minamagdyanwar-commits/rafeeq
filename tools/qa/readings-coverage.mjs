@@ -14,9 +14,9 @@ const bible = JSON.parse(gunzipSync(Buffer.from(window.__RF_DATA.bibleData, 'bas
 const AR = { '٠': 0, '١': 1, '٢': 2, '٣': 3, '٤': 4, '٥': 5, '٦': 6, '٧': 7, '٨': 8, '٩': 9 };
 const norm = s => s.replace(/[ً-ْٰـ]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/[^ء-ي\s]/g, ' ').replace(/\s+/g, ' ').trim();
 const strip = x => x.replace(/(^| )ال/g, '$1');
-const ORD = { 1: ['الاول', 'الاولي'], 2: ['الثاني', 'الثانيه'], 3: ['الثالث', 'الثالثه'] };
+const ORD = { 1: ['اول', 'اولي'], 2: ['ثاني', 'ثانيه'], 3: ['ثالث', 'ثالثه'] };
 function findBook(name) {
-  const d = (name.match(/[١٢٣]/) || [''])[0], want = strip(norm(name.replace(/[٠-٩]/g, ' '))), dn = d ? AR[d] : 0;
+  const d = (name.match(/[1-3١-٣]/) || [''])[0], want = strip(norm(name.replace(/[0-9٠-٩]/g, ' '))), dn = d ? (d in AR ? AR[d] : +d) : 0;
   for (let i = 0; i < bible.length; i++) {
     const nm = strip(norm(bible[i].n)), has = ORD[1].concat(ORD[2], ORD[3]).some(o => nm.endsWith(' ' + strip(o)));
     if (!(nm === want || nm.startsWith(want + ' ') || want.startsWith(nm + ' '))) continue;

@@ -16,9 +16,9 @@ const AR = { '٠': 0, '١': 1, '٢': 2, '٣': 3, '٤': 4, '٥': 5, '٦': 6, '٧'
 const norm = s => s.replace(/[ً-ْٰـ]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/[^ء-ي]/g, '');
 const normS = s => s.replace(/[ً-ْٰـ]/g, '').replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/[^ء-ي\s]/g, ' ').replace(/\s+/g, ' ').trim();
 const strip = x => x.replace(/(^| )ال/g, '$1');
-const ORD = { 1: ['الاول', 'الاولي'], 2: ['الثاني', 'الثانيه'], 3: ['الثالث', 'الثالثه'] };
+const ORD = { 1: ['اول', 'اولي'], 2: ['ثاني', 'ثانيه'], 3: ['ثالث', 'ثالثه'] };
 function findBook(name) {
-  const d = (name.match(/[١٢٣]/) || [''])[0], want = strip(normS(name.replace(/[٠-٩]/g, ' '))), dn = d ? AR[d] : 0;
+  const d = (name.match(/[1-3١-٣]/) || [''])[0], want = strip(normS(name.replace(/[0-9٠-٩]/g, ' '))), dn = d ? (d in AR ? AR[d] : +d) : 0;
   for (let i = 0; i < bible.length; i++) {
     const nm = strip(normS(bible[i].n)), has = Object.values(ORD).flat().some(o => nm.endsWith(' ' + o));
     if (!(nm === want || nm.startsWith(want + ' ') || want.startsWith(nm + ' '))) continue;
@@ -29,7 +29,11 @@ function findBook(name) {
   return -1;
 }
 function parseRef(ref) {
-  const r = ref.replace(/[٠-٩]/g, c => AR[c]).replace(/[–—]/g, '-');
+  let r = ref.replace(/[٠-٩]/g, c => AR[c]).replace(/[–—]/g, '-').replace(/،/g, ',');
+  if (/,/.test(r) && /^(.*?)\s*\d+\s*:\s*\d+\s*-\s*\d+\s*,\s*\d+\s*:\s*\d+\s*-\s*\d+\s*$/.test(r)) {
+    const m = r.match(/^(.*?)\s*(\d+)\s*:\s*(\d+)\s*-\s*(\d+)\s*,\s*(\d+)\s*:\s*(\d+)\s*-\s*(\d+)\s*$/);
+    return [{ b: m[1], c: +m[2], v1: +m[3], v2: +m[4] }, { b: m[1], c: +m[5], v1: +m[6], v2: +m[7] }];
+  }
   let m = r.match(/^(.*?)\s*(\d+)\s*:\s*(\d+)\s*-\s*(\d+)\s*:\s*(\d+)\s*$/); if (m) return [{ b: m[1], c: +m[2], v1: +m[3], v2: 999 }, { b: m[1], c: +m[4], v1: 1, v2: +m[5] }];
   m = r.match(/^(.*?)\s*(\d+)\s*:\s*(\d+)\s*-\s*(\d+)\s*$/); if (m) return [{ b: m[1], c: +m[2], v1: +m[3], v2: +m[4] }];
   m = r.match(/^(.*?)\s*(\d+)\s*:\s*(\d+)\s*$/); if (m) return [{ b: m[1], c: +m[2], v1: +m[3], v2: +m[3] }];
@@ -37,7 +41,7 @@ function parseRef(ref) {
 }
 function verses(ref) {
   const p = parseRef(ref); if (!p) return null; const out = [];
-  if (p.length === 2 && p[1].c <= p[0].c) return null;
+  if (p.length === 2 && p[1].c <= p[0].c && p[1].v1 !== undefined && p[0].v2 === 999) return null;
   for (const s of p) {
     const bi = findBook(s.b); if (bi < 0) return null; const bk = bible[bi], off = bk.vn ? bk.vn[s.c - 1] - 1 : 0, ch = bk.c[s.c - 1]; if (!ch) return null;
     if (s.v1 - off < 1 || s.v1 - off > ch.length) return null;
@@ -139,6 +143,10 @@ for (const { m, ref, raw, text, vs } of items) {
   changed++; rec += r.recovered; bk += r.banked; pl += r.plain;
   edits.push({ at: m.index + m[0].lastIndexOf('"' + raw + '"'), old: '"' + raw + '"', neu: JSON.stringify(r.text), ref, before: tw, after: nw, vs: vs.length, rec: r.recovered, plain: r.plain, bank: r.banked });
 }
+if (a.indexOf('--dbg') > 0) { const it = items.find(x => x.ref === a[a.indexOf('--dbg') + 1]); if (it) { const P = place(it.text, it.vs); console.log('quality', P.quality.toFixed(2), 'tw', P.tw.length, 'vw', P.vw.length, JSON.stringify(P.info.slice(0, 6))); console.log(P.tw.slice(0, 12).join(' '), '|', P.vw.slice(0, 12).join(' ')); } }
+if (a.includes('--books')) { const seen = {}; items.forEach(it => { const tok = it.ref.replace(/\s*[0-9٠-٩]+\s*[:-].*$/, '').trim(); const p = parseRef(it.ref); const bi = p ? findBook(p[0].b) : -1; seen[tok] = bible[bi] ? bible[bi].n : '؟'; }); Object.entries(seen).forEach(([k, v]) => console.log(k, '→', v)); }
+const lowq = items.map(it => { const P = place(it.text, it.vs); return { ref: it.ref, q: P.quality, absent: P.absent, n: it.vs.length, words: normS(it.text).split(' ').length }; }).filter(x => x.q < 0.5).sort((a, b) => a.q - b.q);
+if (process.argv.includes('--lowq')) { console.log('محاذاة ضعيفة (<0.5):', lowq.length); lowq.forEach(x => console.log(x.q.toFixed(2), x.ref, 'كلمات', x.words, 'آيات', x.n)); }
 console.log(`فُحص ${n} نصًّا · مرجع غير مفسَّر ${skipped.length}${skipped.length ? ' (' + [...new Set(skipped)].slice(0, 12).join(' | ') + ')' : ''}`);
 console.log(`يحتاج إكمالًا: ${changed} · آيات بقيت بتشكيلها المطبوع: ${rec} · آيات بتشكيلها من قراءة أخرى: ${bk} · آيات أُخذت من الكتاب المقدس بلا تشكيل: ${pl}`);
 console.log(`نسب غير معتادة بعد الإكمال: ${odd.length}${odd.length ? ' — ' + odd.slice(0, 10).join(' | ') : ''}`);
