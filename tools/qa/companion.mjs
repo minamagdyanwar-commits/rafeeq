@@ -65,9 +65,9 @@ for(const d of des)for(const m of modes){
       const home=await p.evaluate(()=>({dim:document.getElementById('cpLamp').classList.contains('cp-dimmed')}));
       if(home.dim)fail('lamp dimmed on home');
       const bb=await p.evaluate(()=>{const r=document.getElementById('cpLamp').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}});
-      await p.mouse.move(bb.x,bb.y);await p.mouse.down();await p.mouse.move(bb.x-120,bb.y+90,{steps:6});await p.mouse.up();await p.waitForTimeout(500);
+      await p.mouse.move(bb.x,bb.y);await p.mouse.down();await p.mouse.move(bb.x-250,bb.y+90,{steps:6});await p.mouse.up();await p.waitForTimeout(500);
       const mv=await p.evaluate(()=>{const r=document.getElementById('cpLamp').getBoundingClientRect(),S=JSON.parse(localStorage.getItem('rafeeq_companion_v1'));return {x:r.x+r.width/2,y:r.y+r.height/2,fx:S.pos&&S.pos.fx,panel:!!document.getElementById('cpPanel')}});
-      if(Math.abs(mv.x-(bb.x-120))>6||Math.abs(mv.y-(bb.y+90))>6||mv.fx==null)fail('drag failed '+JSON.stringify(mv));
+      if(mv.x>40||Math.abs(mv.y-(bb.y+90))>6||mv.fx!==0)fail('drag/snap-left failed '+JSON.stringify(mv));
       if(mv.panel)fail('drag opened panel');
       await p.waitForTimeout(450);await p.mouse.click(mv.x,mv.y);await p.waitForTimeout(300);
       if(!await p.$('#cpPanel'))fail('tap after drag does not open panel');
