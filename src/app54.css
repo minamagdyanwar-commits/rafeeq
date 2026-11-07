@@ -107,3 +107,35 @@ html[data-companion=on] .cp-strip{background:var(--cp-bg);color:var(--cp-ink);bo
 .cp-lamp.cp-sz-s{width:38px;height:46px;border-radius:19px}.cp-lamp.cp-sz-l{width:58px;height:70px;border-radius:29px}
 .cp-lamp.cp-sq{border-radius:14px}
 .cp-lamp.cp-fade{opacity:.55}
+/* المتابعة: فقاعة الرفيق، شارة غير المقروء، ملاحظات، أسبوعك، صندوق الرسائل */
+.cp-dot{position:absolute;top:2px;inset-inline-end:2px;width:10px;height:10px;border-radius:50%;background:var(--cp-acc);border:2px solid var(--cp-bg)}
+.cp-fig{position:relative}
+.cp-lamp{position:fixed}.cp-lamp .cp-dot{top:4px;inset-inline-end:4px}
+.cp-call{position:fixed;z-index:2147483000;right:12px;left:72px;bottom:calc(92px + env(safe-area-inset-bottom));background:var(--cp-bg);color:var(--cp-ink);border:1px solid color-mix(in srgb,var(--cp-acc) 45%,transparent);border-radius:18px;padding:10px 12px 10px 34px;box-shadow:0 6px 22px #0007;animation:cpUp .28s ease-out;direction:rtl}
+.cp-call.react{padding:8px 12px 8px 30px}
+@keyframes cpUp{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.cp-call{animation:none}}
+.cp-call-b{display:flex;align-items:center;gap:10px;cursor:pointer}
+.cp-call-t{font-size:.95rem;line-height:1.7;flex:1}
+.cp-call-x{position:absolute;top:6px;left:8px;border:0;background:transparent;color:var(--cp-ink);opacity:.7;font-size:.9rem;cursor:pointer;min-width:28px;min-height:28px}
+.cp-call-a{display:flex;gap:8px;margin-top:8px}
+.cp-call-go{border:0;border-radius:999px;padding:8px 16px;background:var(--cp-acc);color:var(--cp-acc-ink);font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;min-height:38px}
+.cp-call-later{border:1px solid color-mix(in srgb,var(--cp-ink) 35%,transparent);border-radius:999px;padding:8px 14px;background:var(--cp-soft);color:var(--cp-ink);font:inherit;font-size:.9rem;cursor:pointer;min-height:38px}
+.cp-obs{padding:8px 0;border-bottom:1px dashed color-mix(in srgb,var(--cp-ink) 20%,transparent)}.cp-obs:last-child{border:0}
+.cp-obs p,.cp-msg p{margin:0 0 6px;font-size:.92rem;line-height:1.75}
+.cp-obs-go{border:1px solid color-mix(in srgb,var(--cp-acc) 60%,transparent);border-radius:999px;padding:6px 14px;background:var(--cp-soft);color:var(--cp-ink);font:inherit;font-size:.85rem;cursor:pointer;min-height:36px}
+.cp-wk{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:.88rem}.cp-wk-l{width:64px;flex:none}.cp-wk small{opacity:.75;white-space:nowrap;margin-inline-start:auto}
+.cp-wk-d{display:flex;gap:5px;flex:1;justify-content:center}.cp-wk-d i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--cp-acc) 55%,transparent)}.cp-wk-d i.d1{background:color-mix(in srgb,var(--cp-acc) 45%,transparent)}.cp-wk-d i.d2{background:var(--cp-acc)}
+.cp-msg{padding:8px 10px;margin:6px 0;border-radius:14px;background:var(--cp-soft)}.cp-msg.new{border:1px solid color-mix(in srgb,var(--cp-acc) 60%,transparent)}
+.cp-msg-f{display:flex;align-items:center;gap:8px;justify-content:space-between}.cp-msg-f small{opacity:.7}
+#cpLayer .cp-obs-go,#cpLayer .cp-call-later{background-color:var(--cp-soft)}
+
+/* زر الرفيق القابل للسحب: خافت لما مش مستخدَم، ومنوّر في الرئيسية أو لما عنده كلام (نقطة حمرا) */
+.cp-lamp{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;transition:opacity .25s ease,box-shadow .25s ease}
+.cp-lamp.cp-drag{cursor:grabbing;box-shadow:0 8px 22px #000a;transform:scale(1.08)}
+.cp-lamp.cp-dimmed{opacity:.5}
+.cp-lamp.cp-dimmed:hover,.cp-lamp.cp-dimmed:focus-visible,.cp-lamp.cp-dimmed.cp-touch,.cp-lamp.cp-dimmed.cp-drag{opacity:1}
+.cp-dot{background:#e5383b;border:2px solid var(--cp-bg);width:13px;height:13px}
+.cp-lamp.cp-alert{animation:cpPulse 2.4s ease-in-out infinite}
+@keyframes cpPulse{0%,100%{box-shadow:0 3px 10px #0006}50%{box-shadow:0 0 0 6px color-mix(in srgb,#e5383b 28%,transparent)}}
+@media (prefers-reduced-motion:reduce){.cp-lamp.cp-alert{animation:none}}
