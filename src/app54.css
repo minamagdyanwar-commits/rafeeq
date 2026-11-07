@@ -129,3 +129,13 @@ html[data-companion=on] .cp-strip{background:var(--cp-bg);color:var(--cp-ink);bo
 .cp-msg{padding:8px 10px;margin:6px 0;border-radius:14px;background:var(--cp-soft)}.cp-msg.new{border:1px solid color-mix(in srgb,var(--cp-acc) 60%,transparent)}
 .cp-msg-f{display:flex;align-items:center;gap:8px;justify-content:space-between}.cp-msg-f small{opacity:.7}
 #cpLayer .cp-obs-go,#cpLayer .cp-call-later{background-color:var(--cp-soft)}
+
+/* زر الرفيق القابل للسحب: خافت لما مش مستخدَم، ومنوّر في الرئيسية أو لما عنده كلام (نقطة حمرا) */
+.cp-lamp{touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;transition:opacity .25s ease,box-shadow .25s ease}
+.cp-lamp.cp-drag{cursor:grabbing;box-shadow:0 8px 22px #000a;transform:scale(1.08)}
+.cp-lamp.cp-dimmed{opacity:.5}
+.cp-lamp.cp-dimmed:hover,.cp-lamp.cp-dimmed:focus-visible,.cp-lamp.cp-dimmed.cp-touch,.cp-lamp.cp-dimmed.cp-drag{opacity:1}
+.cp-dot{background:#e5383b;border:2px solid var(--cp-bg);width:13px;height:13px}
+.cp-lamp.cp-alert{animation:cpPulse 2.4s ease-in-out infinite}
+@keyframes cpPulse{0%,100%{box-shadow:0 3px 10px #0006}50%{box-shadow:0 0 0 6px color-mix(in srgb,#e5383b 28%,transparent)}}
+@media (prefers-reduced-motion:reduce){.cp-lamp.cp-alert{animation:none}}

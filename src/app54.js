@@ -23,11 +23,11 @@
   /* ---------- الحالة ---------- */
   var DEF = {
     done: false, name: 'رفيق', age: '30', stage: 2, tone: 'calm', preset: 'with', gate: 1, evening: 1,
-    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 }, lamp: { side: 'right', y: 'mid' }, look: { cloak: 'auto', body: 'auto', staff: 1, lampShape: 'lantern' }, btn: { size: 'm', shape: 'circle', fade: 0, icon: 'avatar' }, readq: 1, promiseq: 1, mem: 1, insight: 1, call: 1, freq: 'normal', topics: { pray: 1, read: 1, exam: 1, thx: 1, talk: 1, gd: 1, med: 1 }, inbox: [], said: {}, cool: {}, lastSeenDay: '', lastCall: 0, cnt2: { d: '', n: 0 }, snapD: '', snapN: 0,
+    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 }, lamp: { side: 'right', y: 'mid' }, pos: { fx: null, fy: null }, look: { cloak: 'auto', body: 'auto', staff: 1, lampShape: 'lantern' }, btn: { size: 'm', shape: 'circle', fade: 1, icon: 'avatar', v: 2 }, readq: 1, promiseq: 1, mem: 1, insight: 1, call: 1, freq: 'normal', topics: { pray: 1, read: 1, exam: 1, thx: 1, talk: 1, gd: 1, med: 1 }, inbox: [], said: {}, cool: {}, lastSeenDay: '', lastCall: 0, cnt2: { d: '', n: 0 }, snapD: '', snapN: 0,
     quiet: { on: 1, from: 21, to: 6 }, promise: '', promiseDay: '', memory: [], log: [], lastGate: '', lastEve: '', cnt: { d: '', n: 0 }, hideDay: '', sixAns: []
   };
   var S = null;
-  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt' || k === 'lamp' || k === 'look' || k === 'btn' || k === 'topics' || k === 'cnt2') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); }
+  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); /* ترحيل: الشفافية صارت «خافت عند عدم الاستخدام» افتراضيًا */ Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt' || k === 'lamp' || k === 'look' || k === 'btn' || k === 'topics' || k === 'cnt2' || k === 'pos') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); if (S.btn.v !== 2) { S.btn.v = 2; S.btn.fade = 1; } }
   function save() { RF.jset(K_ST, S); }
   function today() { return RF.dkey(); }
   RF.keys && (RF.keys[K_ON] = 'الرفيق الروحي: مُفعَّل أم لا (تجريبي)', RF.keys[K_ST] = 'الرفيق الروحي: البروفايل والإعدادات والذاكرة');
@@ -301,14 +301,53 @@
   }
 
   /* ---------- المصباح العائم ولوحة الرفيق ---------- */
+  /* زر الرفيق: يتسحب لأي مكان (يتحفظ)، خافت وهو مش مستخدَم، ومنوّر في الرئيسية أو لما يكون عنده كلام ليك */
+  var LSZ = { s: [38, 46], m: [46, 56], l: [58, 70] }, lastDrag = 0;
+  function applyPos(el) {
+    var sz = LSZ[S.btn.size] || LSZ.m, w = sz[0], h = sz[1], vw = window.innerWidth, vh = window.innerHeight, x, y;
+    if (S.pos.fx == null) { x = vw - w - 10; y = vh * 0.54 - h / 2; } else { x = S.pos.fx * vw - w / 2; y = S.pos.fy * vh - h / 2; }
+    x = Math.max(6, Math.min(vw - w - 6, x)); y = Math.max(6, Math.min(vh - h - 6, y));
+    el.style.left = Math.round(x) + 'px'; el.style.top = Math.round(y) + 'px'; el.style.right = 'auto'; el.style.bottom = 'auto';
+  }
+  function bindDrag(el) {
+    if (el.__cpb) return; el.__cpb = 1; var st = null;
+    el.addEventListener('pointerdown', function (e) {
+      if (e.button != null && e.button > 0) return;
+      var r = el.getBoundingClientRect(); st = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: r.left, oy: r.top, moved: false };
+      try { el.setPointerCapture(e.pointerId); } catch (x) { }
+      el.classList.add('cp-touch');
+    });
+    el.addEventListener('pointermove', function (e) {
+      if (!st || e.pointerId !== st.id) return;
+      var dx = e.clientX - st.sx, dy = e.clientY - st.sy;
+      if (!st.moved && Math.abs(dx) + Math.abs(dy) < 7) return;
+      st.moved = true; el.classList.add('cp-drag'); e.preventDefault();
+      var w = el.offsetWidth, h = el.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
+      el.style.left = Math.max(4, Math.min(vw - w - 4, st.ox + dx)) + 'px'; el.style.top = Math.max(4, Math.min(vh - h - 4, st.oy + dy)) + 'px';
+    });
+    function end(e) {
+      if (!st || (e && e.pointerId !== st.id)) return;
+      var moved = st.moved; st = null; el.classList.remove('cp-drag');
+      try { el.releasePointerCapture(e.pointerId); } catch (x) { }
+      if (moved) {
+        lastDrag = Date.now(); var r = el.getBoundingClientRect();
+        S.pos = { fx: (r.left + r.width / 2) / window.innerWidth, fy: (r.top + r.height / 2) / window.innerHeight }; save();
+      }
+      setTimeout(function () { el.classList.remove('cp-touch'); }, 2500);
+    }
+    el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+  }
   function paintLamp() {
     var el = document.getElementById('cpLamp'), pg = curPage(), hid = S.hideDay === today(), lv = level(pg);
     if (!isOn() || !S.done || hid || lv < 1 || q('#cpOnb') || q('#cpGate') || (pg === 'home' && lv >= 2)) { if (el) el.remove(); return; }
     var pi = planInfo(), lamp = pi.all ? 3 : 2, bsz = { s: 28, m: 34, l: 44 }[S.btn.size] || 34, h = S.btn.icon === 'lamp' ? lampIcon(bsz, lamp) : avatar({ pose: 'stand', lamp: lamp, w: bsz });
-    if (!el) { el = document.createElement('button'); el.id = 'cpLamp'; el.type = 'button'; el.setAttribute('aria-label', 'افتح ' + S.name); document.body.appendChild(el); }
-    el.className = 'cp-lamp cp-side-' + (S.lamp.side === 'left' ? 'left' : 'right') + ' cp-y-' + (S.lamp.y || 'mid') + ' cp-sz-' + (S.btn.size || 'm') + (S.btn.shape === 'round' ? ' cp-sq' : '') + (S.btn.fade ? ' cp-fade' : '');
-    h += unread() ? '<i class="cp-dot"></i>' : '';
+    if (!el) { el = document.createElement('button'); el.id = 'cpLamp'; el.type = 'button'; el.setAttribute('aria-label', 'افتح ' + S.name + ' (يتسحب لأي مكان)'); document.body.appendChild(el); bindDrag(el); }
+    var un = unread(), dimmed = S.btn.fade && pg !== 'home' && !un;
+    var keep = (el.classList.contains('cp-touch') ? ' cp-touch' : '') + (el.classList.contains('cp-drag') ? ' cp-drag' : '');
+    el.className = 'cp-lamp cp-sz-' + (S.btn.size || 'm') + (S.btn.shape === 'round' ? ' cp-sq' : '') + (dimmed ? ' cp-dimmed' : '') + (un ? ' cp-alert' : '') + keep;
+    h += un ? '<i class="cp-dot"></i>' : '';
     if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
+    if (!el.classList.contains('cp-drag')) applyPos(el);
   }
   function ago(ts) { var m = Math.floor((Date.now() - ts) / 60000); if (m < 2) return 'دلوقتي'; if (m < 60) return 'من ' + ar(m) + ' دقيقة'; var h = Math.floor(m / 60); if (h < 24) return 'من ' + ar(h) + ' ساعة'; return 'من ' + ar(Math.floor(h / 24)) + ' يوم'; }
   function openPanel() {
@@ -380,11 +419,11 @@
       '<div class="cp-card"><h3>أنا</h3><div class="cp-lab">سنّي</div><div class="cp-chips">' + chips(AGES, S.age, 'data-cpsage') + '</div><div class="cp-lab">محطتي على الدرب</div><div class="cp-chips">' + [1, 2, 3, 4, 5].map(function (k) { return '<button type="button" class="cp-chip' + (S.stage === k ? ' on' : '') + '" data-cpsstage="' + k + '">' + ['الرجوع', 'التأسيس', 'الجهاد', 'الاستنارة', 'الثمر'][k - 1] + '</button>'; }).join('') + '</div></div>' +
       '<div class="cp-card"><h3>الرفيق</h3><div class="cp-lab">الاسم</div><input class="cp-in" id="cpSName" maxlength="14" value="' + esc(S.name) + '"><div class="cp-lab">النبرة</div><div class="cp-chips">' + chips(TONES, S.tone, 'data-cpstone') + '</div></div>' +
       '<div class="cp-card"><h3>شكل الرفيق</h3><div class="cp-prev">' + avatar({ pose: 'stand', lamp: 3, w: 96 }) + '</div><div class="cp-lab">لون العباءة</div><div class="cp-chips">' + chips([['auto', 'حسب التصميم']].concat(Object.keys(CLOAKS).map(function (k) { return [k, CLOAKS[k][2]]; })), S.look.cloak, 'data-cplook-cloak') + '</div><div class="cp-lab">الهيئة</div><div class="cp-chips">' + chips(BODIES, S.look.body, 'data-cplook-body') + '</div><div class="cp-lab">شكل المصباح</div><div class="cp-chips">' + chips(SHAPES, S.look.lampShape, 'data-cplook-shape') + '</div>' + tog('cpTgStaff', 'العصا', S.look.staff !== 0) + '</div>' +
-      '<div class="cp-card"><h3>شكل الزر</h3><div class="cp-lab">المحتوى</div><div class="cp-chips">' + chips([['avatar', 'الشخصية'], ['lamp', 'المصباح فقط']], S.btn.icon, 'data-cpbtn-icon') + '</div><div class="cp-lab">الحجم</div><div class="cp-chips">' + chips([['s', 'صغير'], ['m', 'وسط'], ['l', 'كبير']], S.btn.size, 'data-cpbtn-size') + '</div><div class="cp-lab">الشكل</div><div class="cp-chips">' + chips([['circle', 'دائري'], ['round', 'مربع مدوّر']], S.btn.shape, 'data-cpbtn-shape') + '</div><div class="cp-lab">الشفافية</div><div class="cp-chips">' + chips([['0', 'عادي'], ['1', 'خفيف']], String(S.btn.fade ? 1 : 0), 'data-cpbtn-fade') + '</div></div>' +
+      '<div class="cp-card"><h3>شكل الزر</h3><div class="cp-lab">المحتوى</div><div class="cp-chips">' + chips([['avatar', 'الشخصية'], ['lamp', 'المصباح فقط']], S.btn.icon, 'data-cpbtn-icon') + '</div><div class="cp-lab">الحجم</div><div class="cp-chips">' + chips([['s', 'صغير'], ['m', 'وسط'], ['l', 'كبير']], S.btn.size, 'data-cpbtn-size') + '</div><div class="cp-lab">الشكل</div><div class="cp-chips">' + chips([['circle', 'دائري'], ['round', 'مربع مدوّر']], S.btn.shape, 'data-cpbtn-shape') + '</div><div class="cp-lab">الإضاءة</div><div class="cp-chips">' + chips([['1', 'خافت لما مش بستخدمه'], ['0', 'منوّر دايمًا']], String(S.btn.fade ? 1 : 0), 'data-cpbtn-fade') + '</div></div>' +
       '<div class="cp-card"><h3>كلام الرفيق ومتابعته</h3><div class="cp-small">الرفيق بيقرا نشاطك في التطبيق (صلواتك وقراءاتك وغيره) ويكلمك بلطف، من غير لوم. كله على جهازك.</div>' + tog('cpTgIns', 'المتابعة الذكية (يعلّق على نشاطي)', S.insight) + tog('cpTgCall', 'فقاعة الرفيق جوه التطبيق', S.call) + '<div class="cp-lab">كل قد إيه يكلمني؟</div><div class="cp-chips">' + chips([['low', 'قليل'], ['normal', 'عادي'], ['high', 'كتير']], S.freq, 'data-cpfreq') + '</div><div class="cp-lab">يتابع إيه؟</div>' + [['pray', 'الصلوات'], ['read', 'القراءات'], ['med', 'التأمل'], ['gd', 'الخلوة'], ['exam', 'المحاسبة (من غير تفاصيل)'], ['thx', 'دفتر الشكر والطلبات'], ['talk', 'صوت الله']].map(function (x) { return tog('cpTp_' + x[0], x[1], S.topics[x[0]] !== 0); }).join('') + '</div>' +
       '<div class="cp-card"><h3>قد إيه يقرّب؟</h3><div class="cp-small">اختيار سريع يضبط الصفحات والأوقات، وتقدر تعدّل كل حاجة بعده بنفسك.</div>' + pre + '</div>' +
       '<div class="cp-card"><h3>يظهر فين؟</h3><div class="cp-small">لكل صفحة: <b>غير موجود</b> (مش هيظهر خالص)، أو <b>زر فقط</b> (زر صغير تدوس عليه لو احتجته)، أو <b>يتكلم</b> (في الرئيسية: شريط، وفي غيرها: يسألك ويعلّق). في الصلاة والمحاسبة أقصى حاجة زر.</div>' + pg + '</div>' +
-      '<div class="cp-card"><h3>شكل الزر ومكانه</h3><div class="cp-lab">الجنب</div><div class="cp-chips">' + chips([['right', 'يمين'], ['left', 'شمال']], S.lamp.side, 'data-cpside') + '</div><div class="cp-lab">الارتفاع</div><div class="cp-chips">' + chips([['high', 'فوق'], ['mid', 'وسط'], ['low', 'تحت']], S.lamp.y, 'data-cpy') + '</div></div>' +
+      '<div class="cp-card"><h3>مكان الزر</h3><div class="cp-small">اسحب الزر بإصبعك لأي مكان في الشاشة وهيفضل فيه. لو غطّى كلام، اسحبه بعيد.</div><div class="cp-btns"><button type="button" class="cp-btn ghost2" data-cpposreset="1">رجّع الزر لمكانه الأصلي</button></div></div>' +
       '<div class="cp-card"><h3>أسئلة وذاكرة</h3>' + tog('cpTgGate', 'شاشة الصباح (أول فتحة في اليوم)', S.gate) + tog('cpTgEve', 'مراجعة آخر اليوم', S.evening) + tog('cpTgReadq', 'سؤال بعد ما أضغط «قرأتُ»', S.readq) + tog('cpTgProm', 'سؤال الوعد في اليوم التالي', S.promiseq) + tog('cpTgMem', 'يفتكر اللي أكتبه (على جهازي بس)', S.mem) + '</div>' +
       '<div class="cp-card"><h3>ساعات الهدوء</h3>' + tog('cpTgQuiet', 'مفيش أسئلة ولا شاشات في الوقت ده', S.quiet.on) + '<div class="cp-trow"><span>من</span>' + sel('cpQFrom', S.quiet.from) + '<span>إلى</span>' + sel('cpQTo', S.quiet.to) + '</div></div>' +
       '<div class="cp-btns"><button type="button" class="cp-btn ghost2" data-cprestart="1">أعيد التعارف من الأول</button><button type="button" class="cp-btn ghost2" data-cpwipe="1">امسح الذاكرة</button><button type="button" class="cp-btn danger" data-cpoff="1">أوقف الرفيق (يرجع البرنامج كما كان)</button><button type="button" class="cp-btn" data-cpclose="cpSet">تمّ</button></div></div>';
@@ -432,6 +471,7 @@
         if (RF.act && RF.act.on) { RF.act.on(refresh); RF.act.on(onAct); }
         qa('.u-page').forEach(function (pgEl) { new MutationObserver(refresh).observe(pgEl, { attributes: true, attributeFilter: ['class'] }); });
         document.addEventListener('visibilitychange', function () { if (!document.hidden) { refresh(); } });
+        window.addEventListener('resize', function () { var l = document.getElementById('cpLamp'); if (l) applyPos(l); });
         setInterval(function () { if (isOn()) { maybeEveningAuto(); maybeCallout(); } }, 60000);
       }
       if (!S.done) { if (!q('#cpOnb')) startOnboarding(); }
@@ -459,7 +499,7 @@
     if ((b = t.closest('[data-cpgate]'))) { var g = b.getAttribute('data-cpgate'), pi = planInfo(); closeOv('cpGate'); refresh(); if (g === 'go') { if (gateGo && GO_LABEL[gateGo.k]) doGo(gateGo); else if (pi.next && !pi.all) goItem(pi.next); } return; }
     if ((b = t.closest('[data-cpprom]'))) { S.promiseAsked = true; S.memory.push({ k: 'promise', t: S.promise + (b.getAttribute('data-cpprom') === 'yes' ? ' — تمّ' : ' — نكمّل'), d: today() }); save(); b.parentNode.innerHTML = '<span class="cp-hint">' + (b.getAttribute('data-cpprom') === 'yes' ? 'الحمد لله.' : 'مفيش لوم، نكمّل سوا.') + '</span>'; return; }
     if (t.closest('[data-cppanel]')) { closeCall(); openPanel(); return; }
-    if (t.closest('#cpLamp')) { openPanel(); return; }
+    if (t.closest('#cpLamp')) { if (Date.now() - lastDrag < 400) return; openPanel(); return; }
     if (t.closest('[data-cpnext]')) { var p2 = planInfo(); closeOv('cpPanel'); goItem(p2.next); return; }
     if ((b = t.closest('[data-cpclose]'))) { closeOv(b.getAttribute('data-cpclose')); return; }
     if (t.closest('[data-cpevening]')) { closeOv('cpPanel'); openEvening(true); return; }
@@ -487,6 +527,7 @@
     if ((b = t.closest('[data-cpgo]'))) { var gp = b.getAttribute('data-cpgo').split('|'); closeOv('cpPanel'); closeCall(); doGo({ k: gp[0], key: gp[1] || undefined }); return; }
     if (t.closest('[data-cpcallx]')) { closeCall(); return; }
     if (t.closest('[data-cpclearinbox]')) { S.inbox = []; save(); openPanel(); refresh(); return; }
+    if (t.closest('[data-cpposreset]')) { S.pos = { fx: null, fy: null }; save(); refresh(); toast('رجع الزر لمكانه.'); return; }
     if ((b = t.closest('[data-cpside]'))) { S.lamp.side = b.getAttribute('data-cpside'); save(); openSettings(); refresh(); return; }
     if ((b = t.closest('[data-cpy]'))) { S.lamp.y = b.getAttribute('data-cpy'); save(); openSettings(); refresh(); return; }
     if (t.closest('#cpTgReadq')) { S.readq = S.readq ? 0 : 1; save(); openSettings(); return; }

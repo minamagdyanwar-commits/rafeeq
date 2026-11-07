@@ -60,6 +60,28 @@ for(const d of des)for(const m of modes){
     p=await mk(d,m,{rafeeq_companion_on:'1',rafeeq_companion_v1:JSON.stringify({...US,pages:{home:lv,read:2,other:1}})});await p.goto(BASE+'/index.html');await p.waitForTimeout(1500);
     const r=await p.evaluate(()=>({s:!!document.getElementById('cpStrip'),l:!!document.getElementById('cpLamp')}));
     if(r.s!==wantStrip||r.l!==wantLamp)fail('home level '+lv+' '+JSON.stringify(r));
+    if(lv===1){
+      /* زر قابل للسحب: خافت خارج الرئيسية، منوّر فيها، يتحرك ويتحفظ، والضغطة العادية تفتح اللوحة */
+      const home=await p.evaluate(()=>({dim:document.getElementById('cpLamp').classList.contains('cp-dimmed')}));
+      if(home.dim)fail('lamp dimmed on home');
+      const bb=await p.evaluate(()=>{const r=document.getElementById('cpLamp').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}});
+      await p.mouse.move(bb.x,bb.y);await p.mouse.down();await p.mouse.move(bb.x-120,bb.y+90,{steps:6});await p.mouse.up();await p.waitForTimeout(500);
+      const mv=await p.evaluate(()=>{const r=document.getElementById('cpLamp').getBoundingClientRect(),S=JSON.parse(localStorage.getItem('rafeeq_companion_v1'));return {x:r.x+r.width/2,y:r.y+r.height/2,fx:S.pos&&S.pos.fx,panel:!!document.getElementById('cpPanel')}});
+      if(Math.abs(mv.x-(bb.x-120))>6||Math.abs(mv.y-(bb.y+90))>6||mv.fx==null)fail('drag failed '+JSON.stringify(mv));
+      if(mv.panel)fail('drag opened panel');
+      await p.waitForTimeout(450);await p.mouse.click(mv.x,mv.y);await p.waitForTimeout(300);
+      if(!await p.$('#cpPanel'))fail('tap after drag does not open panel');
+      await p.click('.cp-btn[data-cpclose="cpPanel"]');
+      await p.evaluate(()=>{const b=[...document.querySelectorAll('#uNav button,#uNav a')].find(e=>e.textContent.includes('القراءات'));b&&b.click()});await p.mouse.move(3,3);await p.waitForTimeout(3000);
+      const away=await p.evaluate(()=>{const l=document.getElementById('cpLamp');return l?{dim:l.classList.contains('cp-dimmed'),op:+getComputedStyle(l).opacity}:null});
+      if(!away||!away.dim||away.op>0.8||away.op<0.3)fail('lamp not dimmed away from home '+JSON.stringify(away));
+      await p.evaluate(()=>{const S=__companion.state();S.inbox.unshift({id:1,t:Date.now(),type:'x',text:'t',read:0});document.getElementById('cpLamp').remove()});
+      await p.evaluate(()=>__companion.openPanel());await p.waitForTimeout(100);await p.evaluate(()=>{__companion.state().inbox.unshift({id:2,t:Date.now(),type:'x',text:'t',read:0});document.getElementById('cpPanel').remove();document.documentElement.classList.remove('cp-lock')});
+      await p.evaluate(()=>{const b=[...document.querySelectorAll('#uNav button,#uNav a')].find(e=>e.textContent.includes('الرئيسية'));b&&b.click()});await p.waitForTimeout(100);
+      await p.evaluate(()=>{const b=[...document.querySelectorAll('#uNav button,#uNav a')].find(e=>e.textContent.includes('القراءات'));b&&b.click()});await p.waitForTimeout(700);
+      const al=await p.evaluate(()=>{const l=document.getElementById('cpLamp');return l?{alert:l.classList.contains('cp-alert'),dot:!!l.querySelector('.cp-dot'),dim:l.classList.contains('cp-dimmed')}:null});
+      if(!al||!al.alert||!al.dot||al.dim)fail('alert state '+JSON.stringify(al));
+    }
     if(lv===2){
       await p.evaluate(()=>__companion.openSettings());await p.waitForTimeout(250);
       await p.evaluate(()=>{document.querySelector('#cpSet .cp-sheet').scrollTop=700});await p.waitForTimeout(100);
