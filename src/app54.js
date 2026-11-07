@@ -305,8 +305,8 @@
   var LSZ = { s: [38, 46], m: [46, 56], l: [58, 70] }, lastDrag = 0;
   function applyPos(el) {
     var sz = LSZ[S.btn.size] || LSZ.m, w = sz[0], h = sz[1], vw = window.innerWidth, vh = window.innerHeight, x, y;
-    if (S.pos.fx == null) { x = vw - w - 10; y = vh * 0.54 - h / 2; } else { x = S.pos.fx * vw - w / 2; y = S.pos.fy * vh - h / 2; }
-    x = Math.max(6, Math.min(vw - w - 6, x)); y = Math.max(6, Math.min(vh - h - 6, y));
+    if (S.pos.fx == null) { x = vw - w - 8; y = vh * 0.54 - h / 2; } else { x = S.pos.fx < 0.5 ? 8 : vw - w - 8; y = S.pos.fy * vh - h / 2; }
+    y = Math.max(6, Math.min(vh - h - 6, y));
     el.style.left = Math.round(x) + 'px'; el.style.top = Math.round(y) + 'px'; el.style.right = 'auto'; el.style.bottom = 'auto';
   }
   function bindDrag(el) {
@@ -331,7 +331,9 @@
       try { el.releasePointerCapture(e.pointerId); } catch (x) { }
       if (moved) {
         lastDrag = Date.now(); var r = el.getBoundingClientRect();
-        S.pos = { fx: (r.left + r.width / 2) / window.innerWidth, fy: (r.top + r.height / 2) / window.innerHeight }; save();
+        S.pos = { fx: (r.left + r.width / 2) < window.innerWidth / 2 ? 0 : 1, fy: (r.top + r.height / 2) / window.innerHeight }; save();
+        el.style.transition = 'left .22s ease-out, top .22s ease-out, opacity .25s ease'; applyPos(el);
+        setTimeout(function () { el.style.transition = ''; }, 320);
       }
       setTimeout(function () { el.classList.remove('cp-touch'); }, 2500);
     }
