@@ -76,6 +76,26 @@ for(const d of des)for(const m of modes){
     }
     if(p.errs.length)fail('errs(custom) '+p.errs[0]);await p.close();
   }
+  /* ٦) المتابعة: كلام من نشاطك الفعلي */
+  p=await mk(d,m,{rafeeq_companion_on:'1',rafeeq_companion_v1:JSON.stringify({...US,pages:{home:2,read:2,other:1}})});await p.goto(BASE+'/index.html');await p.waitForTimeout(1500);
+  await p.evaluate(()=>{const f=__F,base=f.parseKey(f.realKey()),K=n=>f.dkey(f.addDays(base,-n));for(let n=3;n<=10;n++)f.setHour(K(n),'bakr',true);for(let n=5;n<=9;n++)f.setDay(K(n),r=>{r.read=1})});
+  const ts=await p.evaluate(()=>__companion.insights().map(c=>c.type));
+  if(!ts.includes('hourGap')||!ts.includes('readGap'))fail('insights missing: '+JSON.stringify(ts));
+  const txt=await p.evaluate(()=>{const S=__companion.state(),cs=__companion.insights(),c=cs.find(x=>x.type==='hourGap');return [__cpInsight.render(S,c),__cpInsight.render(S,c),__cpInsight.render(S,c)]});
+  if(txt[0]===txt[1]||txt[1]===txt[2])fail('same wording repeated '+JSON.stringify(txt));
+  if(txt.some(t=>/\u0644\u0627\u0632\u0645|\u0630\u0646\u0628|\u0643\u0633\u0644\u0627\u0646|\u0625\u0647\u0645\u0627\u0644|\u0645\u0642\u0635\u0651?\u0631/.test(t)))fail('blaming wording '+txt[0]);
+  await p.evaluate(()=>__companion.say());await p.waitForTimeout(400);
+  if(!await p.$('#cpCall'))fail('callout bubble missing');else if(SH)await p.screenshot({path:`${SH}/call_${d}_${m}.png`});
+  await p.click('.cp-call-b');await p.waitForTimeout(300);
+  if(!await p.$('#cpPanel .cp-obs'))fail('panel observations missing');
+  if((await p.$$('#cpPanel .cp-wk')).length<3)fail('week rows missing');
+  if(!await p.$('#cpPanel .cp-msg'))fail('inbox missing');
+  if(SH)await p.screenshot({path:`${SH}/insight_${d}_${m}.png`});
+  await p.click('.cp-btn[data-cpclose="cpPanel"]');
+  await p.evaluate(()=>{__companion.state().topics.pray=0;});
+  const ts2=await p.evaluate(()=>__companion.insights().map(c=>c.type));
+  if(ts2.includes('hourGap'))fail('topic off ignored');
+  if(p.errs.length)fail('errs(insight) '+p.errs[0]);await p.close();
   /* ٤) مفتاح الطوارئ */
   p=await mk(d,m,{rafeeq_companion_on:'1',rafeeq_companion_v1:JSON.stringify(US)});await p.goto(BASE+'/index.html?companion=off');await p.waitForTimeout(1200);
   const k=await p.evaluate(()=>({s:!!document.getElementById('cpStrip'),f:localStorage.getItem('rafeeq_companion_on')}));if(k.s||k.f!=='0')fail('kill-switch '+JSON.stringify(k));await p.close();

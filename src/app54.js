@@ -23,11 +23,11 @@
   /* ---------- الحالة ---------- */
   var DEF = {
     done: false, name: 'رفيق', age: '30', stage: 2, tone: 'calm', preset: 'with', gate: 1, evening: 1,
-    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 }, lamp: { side: 'right', y: 'mid' }, look: { cloak: 'auto', body: 'auto', staff: 1, lampShape: 'lantern' }, btn: { size: 'm', shape: 'circle', fade: 0, icon: 'avatar' }, readq: 1, promiseq: 1, mem: 1,
+    pages: { home: 2, pray: 0, read: 1, bible: 1, exam: 0, other: 1 }, lamp: { side: 'right', y: 'mid' }, look: { cloak: 'auto', body: 'auto', staff: 1, lampShape: 'lantern' }, btn: { size: 'm', shape: 'circle', fade: 0, icon: 'avatar' }, readq: 1, promiseq: 1, mem: 1, insight: 1, call: 1, freq: 'normal', topics: { pray: 1, read: 1, exam: 1, thx: 1, talk: 1, gd: 1, med: 1 }, inbox: [], said: {}, cool: {}, lastSeenDay: '', lastCall: 0, cnt2: { d: '', n: 0 }, snapD: '', snapN: 0,
     quiet: { on: 1, from: 21, to: 6 }, promise: '', promiseDay: '', memory: [], log: [], lastGate: '', lastEve: '', cnt: { d: '', n: 0 }, hideDay: '', sixAns: []
   };
   var S = null;
-  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt' || k === 'lamp' || k === 'look' || k === 'btn') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); }
+  function load() { var v = RF.jget(K_ST, null) || {}; S = JSON.parse(JSON.stringify(DEF)); Object.keys(v).forEach(function (k) { if (k === 'pages' || k === 'quiet' || k === 'cnt' || k === 'lamp' || k === 'look' || k === 'btn' || k === 'topics' || k === 'cnt2') S[k] = Object.assign(S[k], v[k] || {}); else S[k] = v[k]; }); }
   function save() { RF.jset(K_ST, S); }
   function today() { return RF.dkey(); }
   RF.keys && (RF.keys[K_ON] = 'الرفيق الروحي: مُفعَّل أم لا (تجريبي)', RF.keys[K_ST] = 'الرفيق الروحي: البروفايل والإعدادات والذاكرة');
@@ -135,6 +135,69 @@
   function capLeft() { var c = PRESETS[S.preset] ? PRESETS[S.preset].cap : 4; if (S.cnt.d !== today()) { S.cnt = { d: today(), n: 0 }; } return c - S.cnt.n; }
   function bump() { if (S.cnt.d !== today()) S.cnt = { d: today(), n: 0 }; S.cnt.n++; save(); }
 
+  /* ---------- المتابعة: كلام الرفيق من نشاطك الفعلي (محرّك app55.js) ---------- */
+  var absDays = 0, stripCache = { k: '', t: '', c: null }, lastList = [];
+  var GO_LABEL = { pray: 'افتح الصلاة', read: 'افتح القراءات', med: 'افتح التأمل', gd: 'ابدأ الخلوة', exam: 'افتح المحاسبة', thx: 'افتح دفتر الشكر', talk: 'اتكلم مع ربنا' };
+  function ins() { return window.__cpInsight; }
+  function sigs() { try { return ins() ? ins().signals() : null; } catch (e) { return null; } }
+  function topCands(opt) { if (!S.insight || !ins()) return []; var sg = sigs(); if (!sg) return []; opt = opt || {}; opt.kid = kid(); opt.back = absDays; try { return ins().candidates(S, sg, opt); } catch (e) { return []; } }
+  function unread() { return (S.inbox || []).filter(function (x) { return !x.read; }).length; }
+  function inboxAdd(c, text, read) { S.inbox = S.inbox || []; S.inbox.unshift({ id: Date.now(), t: Date.now(), type: c ? c.type : 'react', text: text, go: c ? c.go : null, read: read ? 1 : 0 }); if (S.inbox.length > 30) S.inbox.length = 30; }
+  function callCap() { var P = PRESETS[S.preset]; if (!P || P.cap === 0) return 0; return ({ low: 1, normal: 2, high: 4 })[S.freq] || 2; }
+  function callLeft() { if (S.cnt2.d !== today()) S.cnt2 = { d: today(), n: 0 }; return callCap() - S.cnt2.n; }
+  function doGo(g) {
+    var a = window.__rafeeq; if (!g) return;
+    try {
+      if (g.k === 'pray') a.act('hour', { dataset: { key: g.key } }); else if (g.k === 'read') a.act('read'); else if (g.k === 'med') a.act('meditation');
+      else if (g.k === 'gd') a.act('guided'); else if (g.k === 'exam') a.act('exam');
+      else if (g.k === 'thx') { var b = document.getElementById('uThx'); b && b.click(); }
+      else if (g.k === 'talk') { var t = q('#uNav [data-go="talk"]'); t && t.click(); }
+    } catch (e) { }
+  }
+  function goStr(g) { return g ? g.k + '|' + (g.key || '') : ''; }
+  function goBtn(g, cls) { return g && GO_LABEL[g.k] ? '<button type="button" class="' + (cls || 'cp-btn') + '" data-cpgo="' + esc(goStr(g)) + '">' + GO_LABEL[g.k] + '</button>' : ''; }
+  /* نص ثابت للشريط واللوحة (لا يتغيّر مع كل رسم؛ يتجدد بتغيّر الملاحظة أو كل ٤ ساعات) */
+  function insightLine() {
+    var cs = topCands({ ignoreCool: true }); if (!cs.length) return null;
+    var c = cs[0], k = c.key + '|' + today() + '|' + Math.floor(new Date().getHours() / 4);
+    if (stripCache.k !== k) stripCache = { k: k, t: ins().render(S, c), c: c };
+    return stripCache;
+  }
+  /* فقاعة الرفيق داخل التطبيق: تظهر كأنها رسالة منه، وتختفي لوحدها */
+  var callTmr = 0;
+  function showCall(text, go, react) {
+    closeCall(); var e = document.createElement('div'); e.id = 'cpCall'; e.className = 'cp-call' + (react ? ' react' : ''); e.setAttribute('role', 'status');
+    e.innerHTML = '<button type="button" class="cp-call-x" data-cpcallx="1" aria-label="إغلاق">✕</button><div class="cp-call-b" data-cppanel="1">' + avatar({ pose: 'offer', lamp: 2, w: 38 }) + '<div class="cp-call-t">' + esc(text) + '</div></div>' + (!react && go ? '<div class="cp-call-a">' + goBtn(go, 'cp-call-go') + '<button type="button" class="cp-call-later" data-cpcallx="1">بعدين</button></div>' : '');
+    document.body.appendChild(e); callTmr = setTimeout(closeCall, react ? 7000 : 20000);
+  }
+  function closeCall() { clearTimeout(callTmr); var e = document.getElementById('cpCall'); if (e) e.remove(); }
+  function pushOk() {
+    return isOn() && S.done && S.insight && !document.hidden && !quietNow() && !q('.cp-ov') && S.hideDay !== today();
+  }
+  function maybeCallout(force) {
+    if (!pushOk() || !ins()) return;
+    if (!force && (Date.now() - (S.lastCall || 0) < 40 * 60000 || callLeft() <= 0)) return;
+    var cs = topCands(); if (!cs.length) return; var c = cs[0], txt = ins().render(S, c);
+    ins().markUsed(S, c, today()); S.lastCall = Date.now(); if (S.cnt2.d !== today()) S.cnt2 = { d: today(), n: 0 }; S.cnt2.n++;
+    var lv = level(curPage()), show = S.call && lv >= 2 && !document.getElementById('cpCall');
+    inboxAdd(c, txt, show); save();
+    if (show) showCall(txt, c.go, false);
+    refresh();
+  }
+  function onAct() {
+    if (!isOn() || !S.done) return;
+    var f = F(), key = f.realKey ? f.realKey() : today(), list = []; try { list = RF.act.list(key); } catch (e) { }
+    if (S.snapD !== key) { S.snapD = key; S.snapN = list.length; lastList = list; save(); return; }
+    var added = list.filter(function (k) { return lastList.indexOf(k) < 0; }); lastList = list;
+    if (list.length <= S.snapN) { S.snapN = list.length; return; }
+    S.snapN = list.length; save();
+    if (!pushOk() || !S.call || !ins() || level(curPage()) < 2 || Date.now() - (S.lastReact || 0) < 15 * 60000) return;
+    var k = added[0] || '', type = k.indexOf('hour:') === 0 ? 'hour' : k === 'read' ? 'read' : k === 'exam' ? 'exam' : 'other', label = '';
+    if (type === 'hour') { var it = ((plan() && plan().items) || []).filter(function (x) { return (x.key || x.gid) === k.slice(5); })[0]; label = it ? it.label : 'الصلاة'; }
+    if (planInfo().all) type = 'all';
+    S.lastReact = Date.now(); save(); showCall(ins().react(S, type, label), null, true);
+  }
+
   /* ---------- طبقة الواجهة ---------- */
   var layer = null;
   function root() { if (layer && document.body.contains(layer)) return layer; layer = document.createElement('div'); layer.id = 'cpLayer'; document.body.appendChild(layer); return layer; }
@@ -204,10 +267,12 @@
   function applyPreset(p, keepPages) { var P = PRESETS[p] || PRESETS.with; S.preset = p; S.gate = P.gate; S.evening = P.evening; var pg = Object.assign({}, P.pages); PAGES.forEach(function (x) { if (pg[x[0]] == null) pg[x[0]] = P.pages.other; }); S.pages = pg; save(); }
 
   /* ---------- العتبة اليومية ---------- */
+  var gateGo = null;
   function gateText() {
-    var pi = planInfo(), h = new Date().getHours(), gap = daysSince(S.lastGate), m = { n: nm() || 'يا صاحبي', k: ar(pi.total), l: ar(pi.left), f: pi.next ? pi.next.label : '' };
-    if (m.n === 'يا صاحبي') m.n = 'صاحبي';
-    if (gap >= 3) return line('back', m);
+    gateGo = null;
+    var cs = topCands(), op = ins() ? ins().opener(S, S.tone) : '';
+    if (cs.length) { var c = cs[0], t = ins().render(S, c); ins().markUsed(S, c, today()); gateGo = c.go; inboxAdd(c, t, true); return (op ? op + ' ' : '') + t; }
+    var pi = planInfo(), h = new Date().getHours(), m = { n: 'صاحبي', k: ar(pi.total), l: ar(pi.left), f: pi.next ? pi.next.label : '' };
     if (pi.all) return line('gateDone', m);
     return line(h < 12 ? 'gateAM' : 'gatePM', m);
   }
@@ -218,9 +283,9 @@
     if (S.promiseq && S.promise && S.promiseDay && S.promiseDay !== today() && !S.promiseAsked) pr = S.promise;
     var txt = gateText(), cal = ''; try { var c = window.__copCal && window.__copCal.label(new Date()); cal = (c && c.text) || ''; } catch (e) { }
     var dt = RF.fmtDate(new Date(), { weekday: 'long', day: 'numeric', month: 'long' });
-    var html = '<div class="cp-sky"></div><div class="cp-hills"></div><div class="cp-walk"><span>' + avatar({ pose: 'stand', lamp: 3, w: 150 }) + '</span><span>' + meFig(66) + '</span></div><div class="cp-gtxt"><p class="cp-hint">' + esc(dt) + (cal ? ' · ' + esc(cal) : '') + '</p><h1 class="cp-h">' + esc(txt) + '</h1>' +
+    var html = '<div class="cp-sky"></div><div class="cp-hills"></div><div class="cp-walk"><span>' + avatar({ pose: 'stand', lamp: 3, w: 150 }) + '</span><span>' + meFig(66) + '</span></div><div class="cp-gtxt"><p class="cp-hint">' + esc(dt) + (cal ? ' · ' + esc(cal) : '') + '</p><h1 class="cp-h' + (txt.length > 70 ? ' sm' : '') + '">' + esc(txt) + '</h1>' +
       (pr ? '<div class="cp-bub">' + esc(sub(line('promiseQ'), { p: pr })) + '<div class="cp-chips" style="margin-top:8px"><button type="button" class="cp-chip" data-cpprom="yes">أيوه</button><button type="button" class="cp-chip" data-cpprom="no">مش بالظبط</button></div></div>' : '') + '</div>' +
-      '<div class="cp-foot"><button type="button" class="cp-btn" data-cpgate="go">' + (pi.next && !pi.all ? 'يلا نبدأ' : 'تمام') + '</button><button type="button" class="cp-btn ghost" data-cpgate="skip">أدخل على طول</button></div>';
+      '<div class="cp-foot"><button type="button" class="cp-btn" data-cpgate="go">' + (gateGo && GO_LABEL[gateGo.k] ? 'يلا' : (pi.next && !pi.all ? 'يلا نبدأ' : 'تمام')) + '</button><button type="button" class="cp-btn ghost" data-cpgate="skip">أدخل على طول</button></div>';
     ov('cpGate', 'night gate', html); S.lastGate = today(); bump(); save();
   }
 
@@ -228,9 +293,9 @@
   function paintStrip() {
     var host = q('#page-home .u-wrap'), el = document.getElementById('cpStrip'), ok = isOn() && S.done && host && level('home') >= 2 && S.hideDay !== today();
     if (!ok) { if (el) el.remove(); return; }
-    var pi = planInfo(), m = { n: nm(), k: ar(pi.total), l: ar(pi.left), f: pi.next ? pi.next.label : '' }, txt = pi.all ? line('stripDone', m) : line('stripLeft', m);
+    var pi = planInfo(), m = { n: nm(), k: ar(pi.total), l: ar(pi.left), f: pi.next ? pi.next.label : '' }, txt = pi.all ? line('stripDone', m) : line('stripLeft', m), il = insightLine(); if (il) txt = il.t;
     var pct = pi.total ? Math.round(100 * pi.done / pi.total) : 0;
-    var h = '<button type="button" class="cp-fig" data-cppanel="1" aria-label="افتح ' + esc(S.name) + '">' + avatar({ pose: pi.all ? 'raise' : 'stand', lamp: pi.all ? 3 : 2, w: 40 }) + '</button><div class="cp-sbody"><div class="cp-stxt">' + (txt ? esc(txt) : esc(S.name)) + '</div><div class="cp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + pi.total + '" aria-valuenow="' + pi.done + '"><i style="width:' + pct + '%"></i></div></div>' + (pi.next && !pi.all ? '<button type="button" class="cp-go" data-cpnext="1">ابدأ</button>' : '');
+    var h = '<button type="button" class="cp-fig" data-cppanel="1" aria-label="افتح ' + esc(S.name) + '">' + avatar({ pose: pi.all ? 'raise' : 'stand', lamp: pi.all ? 3 : 2, w: 40 }) + (unread() ? '<i class="cp-dot"></i>' : '') + '</button><div class="cp-sbody"><div class="cp-stxt">' + (txt ? esc(txt) : esc(S.name)) + '</div><div class="cp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + pi.total + '" aria-valuenow="' + pi.done + '"><i style="width:' + pct + '%"></i></div></div>' + (pi.next && !pi.all ? '<button type="button" class="cp-go" data-cpnext="1">ابدأ</button>' : '');
     if (!el) { el = document.createElement('section'); el.id = 'cpStrip'; el.className = 'cp-strip'; host.insertBefore(el, host.firstChild); } else if (host.firstChild !== el) host.insertBefore(el, host.firstChild);
     if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
   }
@@ -242,17 +307,27 @@
     var pi = planInfo(), lamp = pi.all ? 3 : 2, bsz = { s: 28, m: 34, l: 44 }[S.btn.size] || 34, h = S.btn.icon === 'lamp' ? lampIcon(bsz, lamp) : avatar({ pose: 'stand', lamp: lamp, w: bsz });
     if (!el) { el = document.createElement('button'); el.id = 'cpLamp'; el.type = 'button'; el.setAttribute('aria-label', 'افتح ' + S.name); document.body.appendChild(el); }
     el.className = 'cp-lamp cp-side-' + (S.lamp.side === 'left' ? 'left' : 'right') + ' cp-y-' + (S.lamp.y || 'mid') + ' cp-sz-' + (S.btn.size || 'm') + (S.btn.shape === 'round' ? ' cp-sq' : '') + (S.btn.fade ? ' cp-fade' : '');
+    h += unread() ? '<i class="cp-dot"></i>' : '';
     if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
   }
+  function ago(ts) { var m = Math.floor((Date.now() - ts) / 60000); if (m < 2) return 'دلوقتي'; if (m < 60) return 'من ' + ar(m) + ' دقيقة'; var h = Math.floor(m / 60); if (h < 24) return 'من ' + ar(h) + ' ساعة'; return 'من ' + ar(Math.floor(h / 24)) + ' يوم'; }
   function openPanel() {
     var pi = planInfo(), m = { n: nm(), k: ar(pi.total), l: ar(pi.left), f: pi.next ? pi.next.label : '' }, mem = S.memory.slice(-5).reverse();
-    var items = (plan() && plan().items || []).slice(0, 8);
-    var html = '<div class="cp-dim" data-cpclose="cpPanel"></div><div class="cp-sheet"><div class="cp-mini">' + avatar({ pose: 'offer', lamp: 2, w: 78 }) + '<div class="cp-bub">' + esc(pi.all ? line('gateDone', m) : (pi.next ? line('stripLeft', m) : 'أنا هنا لو احتجتني.')) + '</div></div>' +
+    var items = (plan() && plan().items || []).slice(0, 8), il = insightLine(), sg = (S.insight && ins()) ? sigs() : null;
+    var notes = (S.insight && ins() && sg) ? topCands({ ignoreCool: true }).slice(0, 3) : [];
+    var bub = il ? il.t : (pi.all ? line('gateDone', m) : (pi.next ? line('stripLeft', m) : 'أنا هنا لو احتجتني.'));
+    var wk = (sg && !kid()) ? ins().week(sg) : [];
+    var inbox = (S.inbox || []).slice(0, 6);
+    var html = '<div class="cp-dim" data-cpclose="cpPanel"></div><div class="cp-sheet"><div class="cp-mini">' + avatar({ pose: 'offer', lamp: 2, w: 78 }) + '<div class="cp-bub">' + esc(bub) + '</div></div>' +
+      (notes.length ? '<div class="cp-card"><h3>اللي حاسّه وإنت ماشي</h3>' + notes.map(function (c) { return '<div class="cp-obs"><p>' + esc(ins().render(S, c)) + '</p>' + goBtn(c.go, 'cp-obs-go') + '</div>'; }).join('') + '</div>' : '') +
       '<div class="cp-card"><h3>خطواتنا النهارده</h3>' + items.map(function (x) { return '<div class="cp-step' + (x.done ? ' done' : '') + '"><i></i><span>' + esc(x.label) + '</span></div>'; }).join('') + '</div>' +
+      (wk.length ? '<div class="cp-card"><h3>أسبوعك معايا</h3>' + wk.map(function (r) { return '<div class="cp-wk"><span class="cp-wk-l">' + esc(r.label) + '</span><span class="cp-wk-d">' + r.dots.map(function (d) { return '<i class="d' + d + '"></i>'; }).join('') + '</span><small>' + esc(r.note) + '</small></div>'; }).join('') + '</div>' : '') +
       '<div class="cp-btns">' + (pi.next && !pi.all ? '<button type="button" class="cp-btn" data-cpnext="1">ابدأ: ' + esc(pi.next.label) + '</button>' : '') + (curPage() === 'read' && !kid() ? '<button type="button" class="cp-btn ghost2" data-cpreadnote="1">سجّل اللي لمسني في القراءة</button>' : '') + (S.evening ? '<button type="button" class="cp-btn ghost2" data-cpevening="1">مراجعة آخر اليوم</button>' : '') + '</div>' +
+      (inbox.length ? '<div class="cp-card"><h3>رسائلي ليك</h3>' + inbox.map(function (x) { return '<div class="cp-msg' + (x.read ? '' : ' new') + '"><p>' + esc(x.text) + '</p><div class="cp-msg-f"><small>' + ago(x.t) + '</small>' + goBtn(x.go, 'cp-obs-go') + '</div></div>'; }).join('') + '<button type="button" class="cp-forget" data-cpclearinbox="1">امسح الرسائل</button></div>' : '') +
       (!kid() && mem.length ? '<div class="cp-card"><h3>اللي فاكره عنك</h3>' + mem.map(function (x, i) { return '<div class="cp-mem"><span class="cp-tag">' + (x.k === 'promise' ? 'وعد' : x.k === 'word' ? 'كلمة' : 'يوم') + '</span><span>' + esc(x.t) + '</span><button type="button" class="cp-forget" data-cpforget="' + (S.memory.length - 1 - i) + '">انسَ</button></div>'; }).join('') + '</div>' : '') +
       '<div class="cp-btns"><button type="button" class="cp-btn ghost2" data-cpsettings="1">إعدادات ' + esc(S.name) + '</button><button type="button" class="cp-btn ghost2" data-cphide="1">إخفاء لباقي اليوم</button><button type="button" class="cp-btn ghost" data-cpclose="cpPanel">إغلاق</button></div></div>';
     ov('cpPanel', 'panel', html);
+    if (unread()) { S.inbox.forEach(function (x) { x.read = 1; }); save(); setTimeout(function () { var l = document.getElementById('cpLamp'); if (l) { var d = q('.cp-dot', l); d && d.remove(); l.dataset.h = ''; } refresh(); }, 0); }
   }
 
   /* ---------- مراجعة آخر اليوم ---------- */
@@ -306,6 +381,7 @@
       '<div class="cp-card"><h3>الرفيق</h3><div class="cp-lab">الاسم</div><input class="cp-in" id="cpSName" maxlength="14" value="' + esc(S.name) + '"><div class="cp-lab">النبرة</div><div class="cp-chips">' + chips(TONES, S.tone, 'data-cpstone') + '</div></div>' +
       '<div class="cp-card"><h3>شكل الرفيق</h3><div class="cp-prev">' + avatar({ pose: 'stand', lamp: 3, w: 96 }) + '</div><div class="cp-lab">لون العباءة</div><div class="cp-chips">' + chips([['auto', 'حسب التصميم']].concat(Object.keys(CLOAKS).map(function (k) { return [k, CLOAKS[k][2]]; })), S.look.cloak, 'data-cplook-cloak') + '</div><div class="cp-lab">الهيئة</div><div class="cp-chips">' + chips(BODIES, S.look.body, 'data-cplook-body') + '</div><div class="cp-lab">شكل المصباح</div><div class="cp-chips">' + chips(SHAPES, S.look.lampShape, 'data-cplook-shape') + '</div>' + tog('cpTgStaff', 'العصا', S.look.staff !== 0) + '</div>' +
       '<div class="cp-card"><h3>شكل الزر</h3><div class="cp-lab">المحتوى</div><div class="cp-chips">' + chips([['avatar', 'الشخصية'], ['lamp', 'المصباح فقط']], S.btn.icon, 'data-cpbtn-icon') + '</div><div class="cp-lab">الحجم</div><div class="cp-chips">' + chips([['s', 'صغير'], ['m', 'وسط'], ['l', 'كبير']], S.btn.size, 'data-cpbtn-size') + '</div><div class="cp-lab">الشكل</div><div class="cp-chips">' + chips([['circle', 'دائري'], ['round', 'مربع مدوّر']], S.btn.shape, 'data-cpbtn-shape') + '</div><div class="cp-lab">الشفافية</div><div class="cp-chips">' + chips([['0', 'عادي'], ['1', 'خفيف']], String(S.btn.fade ? 1 : 0), 'data-cpbtn-fade') + '</div></div>' +
+      '<div class="cp-card"><h3>كلام الرفيق ومتابعته</h3><div class="cp-small">الرفيق بيقرا نشاطك في التطبيق (صلواتك وقراءاتك وغيره) ويكلمك بلطف، من غير لوم. كله على جهازك.</div>' + tog('cpTgIns', 'المتابعة الذكية (يعلّق على نشاطي)', S.insight) + tog('cpTgCall', 'فقاعة الرفيق جوه التطبيق', S.call) + '<div class="cp-lab">كل قد إيه يكلمني؟</div><div class="cp-chips">' + chips([['low', 'قليل'], ['normal', 'عادي'], ['high', 'كتير']], S.freq, 'data-cpfreq') + '</div><div class="cp-lab">يتابع إيه؟</div>' + [['pray', 'الصلوات'], ['read', 'القراءات'], ['med', 'التأمل'], ['gd', 'الخلوة'], ['exam', 'المحاسبة (من غير تفاصيل)'], ['thx', 'دفتر الشكر والطلبات'], ['talk', 'صوت الله']].map(function (x) { return tog('cpTp_' + x[0], x[1], S.topics[x[0]] !== 0); }).join('') + '</div>' +
       '<div class="cp-card"><h3>قد إيه يقرّب؟</h3><div class="cp-small">اختيار سريع يضبط الصفحات والأوقات، وتقدر تعدّل كل حاجة بعده بنفسك.</div>' + pre + '</div>' +
       '<div class="cp-card"><h3>يظهر فين؟</h3><div class="cp-small">لكل صفحة: <b>غير موجود</b> (مش هيظهر خالص)، أو <b>زر فقط</b> (زر صغير تدوس عليه لو احتجته)، أو <b>يتكلم</b> (في الرئيسية: شريط، وفي غيرها: يسألك ويعلّق). في الصلاة والمحاسبة أقصى حاجة زر.</div>' + pg + '</div>' +
       '<div class="cp-card"><h3>شكل الزر ومكانه</h3><div class="cp-lab">الجنب</div><div class="cp-chips">' + chips([['right', 'يمين'], ['left', 'شمال']], S.lamp.side, 'data-cpside') + '</div><div class="cp-lab">الارتفاع</div><div class="cp-chips">' + chips([['high', 'فوق'], ['mid', 'وسط'], ['low', 'تحت']], S.lamp.y, 'data-cpy') + '</div></div>' +
@@ -350,15 +426,16 @@
     if (!isOn()) return;
     try {
       load(); document.documentElement.setAttribute('data-companion', 'on');
+      absDays = S.lastSeenDay ? daysSince(S.lastSeenDay) : 0; if (S.lastSeenDay !== today()) { S.lastSeenDay = today(); save(); }
       if (!booted || force) {
         booted = true;
-        if (RF.act && RF.act.on) RF.act.on(refresh);
+        if (RF.act && RF.act.on) { RF.act.on(refresh); RF.act.on(onAct); }
         qa('.u-page').forEach(function (pgEl) { new MutationObserver(refresh).observe(pgEl, { attributes: true, attributeFilter: ['class'] }); });
         document.addEventListener('visibilitychange', function () { if (!document.hidden) { refresh(); } });
-        setInterval(function () { if (isOn()) maybeEveningAuto(); }, 60000);
+        setInterval(function () { if (isOn()) { maybeEveningAuto(); maybeCallout(); } }, 60000);
       }
       if (!S.done) { if (!q('#cpOnb')) startOnboarding(); }
-      else { setTimeout(function () { try { maybeGate(); paintStrip(); paintLamp(); setTimeout(maybeEveningAuto, 3000); } catch (e) { fail(e); } }, 700); }
+      else { setTimeout(function () { try { maybeGate(); paintStrip(); paintLamp(); setTimeout(maybeEveningAuto, 3000); setTimeout(function () { if (!q('.cp-ov')) maybeCallout(); }, 6000); } catch (e) { fail(e); } }, 700); }
     } catch (e) { fail(e); }
   }
 
@@ -379,9 +456,9 @@
     if ((b = t.closest('[data-cpans]'))) { OB.ans[OB.step - 2] = +b.getAttribute('data-cpans'); obRender(); return; }
     if ((b = t.closest('[data-cpstage]'))) { OB.tmp.stage = +b.getAttribute('data-cpstage'); obRender(); return; }
     if ((b = t.closest('[data-cppromise]'))) { OB.tmp.promise = b.getAttribute('data-cppromise'); obRender(); return; }
-    if ((b = t.closest('[data-cpgate]'))) { var g = b.getAttribute('data-cpgate'), pi = planInfo(); closeOv('cpGate'); refresh(); if (g === 'go' && pi.next && !pi.all) goItem(pi.next); return; }
+    if ((b = t.closest('[data-cpgate]'))) { var g = b.getAttribute('data-cpgate'), pi = planInfo(); closeOv('cpGate'); refresh(); if (g === 'go') { if (gateGo && GO_LABEL[gateGo.k]) doGo(gateGo); else if (pi.next && !pi.all) goItem(pi.next); } return; }
     if ((b = t.closest('[data-cpprom]'))) { S.promiseAsked = true; S.memory.push({ k: 'promise', t: S.promise + (b.getAttribute('data-cpprom') === 'yes' ? ' — تمّ' : ' — نكمّل'), d: today() }); save(); b.parentNode.innerHTML = '<span class="cp-hint">' + (b.getAttribute('data-cpprom') === 'yes' ? 'الحمد لله.' : 'مفيش لوم، نكمّل سوا.') + '</span>'; return; }
-    if (t.closest('[data-cppanel]')) { openPanel(); return; }
+    if (t.closest('[data-cppanel]')) { closeCall(); openPanel(); return; }
     if (t.closest('#cpLamp')) { openPanel(); return; }
     if (t.closest('[data-cpnext]')) { var p2 = planInfo(); closeOv('cpPanel'); goItem(p2.next); return; }
     if ((b = t.closest('[data-cpclose]'))) { closeOv(b.getAttribute('data-cpclose')); return; }
@@ -403,6 +480,13 @@
     if ((b = t.closest('[data-cpbtn-size]'))) { S.btn.size = b.getAttribute('data-cpbtn-size'); save(); openSettings(); repaint(); return; }
     if ((b = t.closest('[data-cpbtn-shape]'))) { S.btn.shape = b.getAttribute('data-cpbtn-shape'); save(); openSettings(); repaint(); return; }
     if ((b = t.closest('[data-cpbtn-fade]'))) { S.btn.fade = +b.getAttribute('data-cpbtn-fade'); save(); openSettings(); repaint(); return; }
+    if (t.closest('#cpTgIns')) { S.insight = S.insight ? 0 : 1; save(); openSettings(); refresh(); return; }
+    if (t.closest('#cpTgCall')) { S.call = S.call ? 0 : 1; if (!S.call) closeCall(); save(); openSettings(); return; }
+    if ((b = t.closest('[data-cpfreq]'))) { S.freq = b.getAttribute('data-cpfreq'); save(); openSettings(); return; }
+    if ((b = t.closest('[id^="cpTp_"]'))) { var tk = b.id.slice(5); S.topics[tk] = S.topics[tk] === 0 ? 1 : 0; save(); openSettings(); stripCache.k = ''; return; }
+    if ((b = t.closest('[data-cpgo]'))) { var gp = b.getAttribute('data-cpgo').split('|'); closeOv('cpPanel'); closeCall(); doGo({ k: gp[0], key: gp[1] || undefined }); return; }
+    if (t.closest('[data-cpcallx]')) { closeCall(); return; }
+    if (t.closest('[data-cpclearinbox]')) { S.inbox = []; save(); openPanel(); refresh(); return; }
     if ((b = t.closest('[data-cpside]'))) { S.lamp.side = b.getAttribute('data-cpside'); save(); openSettings(); refresh(); return; }
     if ((b = t.closest('[data-cpy]'))) { S.lamp.y = b.getAttribute('data-cpy'); save(); openSettings(); refresh(); return; }
     if (t.closest('#cpTgReadq')) { S.readq = S.readq ? 0 : 1; save(); openSettings(); return; }
@@ -437,5 +521,5 @@
     setTimeout(function () { lsSet(K_BOOT, '0'); }, 4000);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
-  window.__companion = { on: isOn, setOn: setOn, state: function () { return S; }, openPanel: openPanel, openSettings: openSettings, gate: function () { if (S) { S.lastGate = ''; save(); } maybeGate(true); }, evening: function () { openEvening(true); }, avatar: avatar };
+  window.__companion = { on: isOn, setOn: setOn, state: function () { return S; }, openPanel: openPanel, openSettings: openSettings, say: function () { maybeCallout(true); }, insights: function () { return topCands({ ignoreCool: true }); }, gate: function () { if (S) { S.lastGate = ''; save(); } maybeGate(true); }, evening: function () { openEvening(true); }, avatar: avatar };
 })();
