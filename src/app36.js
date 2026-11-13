@@ -49,7 +49,7 @@ function bodyShroud(i){
   '<section class="nh-linen nh-vs"><small>كلمة اليوم</small><p>'+esc(i.verse)+'</p><em>'+esc(i.vref)+'</em></section>'}
 function bodyHoly(i){
   var cur=nextHour(i),r=46,c=2*Math.PI*r,off=c*(1-i.pct/100);
-  var chips=i.hours.map(function(h){return '<button type="button" class="hy-chip'+(h.done?' done':'')+(h.k===cur.k?' now':'')+'" data-act="hour" data-key="'+h.k+'">'+esc(h.label)+'</button>'}).join('');
+  var chips=i.hours.map(function(h){return '<button type="button" class="hy-chip'+(h.done?' done':'')+(h.k===cur.k?' now':'')+'" data-act="hour" data-key="'+h.k+'">'+esc(h.label)+'</button>'}).join('')+(i.items||[]).filter(function(x){return x.type==='bplan'}).map(function(x){return '<button type="button" class="hy-chip'+(x.done?' done':'')+'" data-act="plan">'+esc('خطة الكتاب')+'</button>'}).join('');
   return '<section class="hy-core"><button type="button" class="hy-orb" data-act="hour" data-key="'+cur.k+'" aria-label="ابدأ صلاة '+esc(cur.label)+'"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+r+'" class="trk"/><circle cx="50" cy="50" r="'+r+'" class="prg" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><span class="cx">✝</span></button>'+
   '<small class="hy-k">الآن</small><h1>صلاة '+esc(cur.label)+'</h1><p>'+esc(cur.time)+'</p><button type="button" class="hy-go" data-nh="room">ادخل غرفة الصلاة</button></section>'+
   '<div class="hy-hours">'+chips+'</div>'+editBtn()+'<section class="hy-verse"><p>«'+esc(i.verse)+'»</p><small>'+esc(i.vref)+'</small></section>'}

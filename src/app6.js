@@ -1806,7 +1806,7 @@
                         ((a +=
                           '<div class="u-card"><h3 class="u-h3">متابعة كل الأقسام</h3><div class="u-sub">آخر ٧ أيام لكل قسم، وعدد الأيام في آخر ٣٠ يوم.</div></div>'),
                           (function (A) {
-  t.prefs().plan && A.splice(2, 0, ["خطة قراءة الكتاب", function (e) { return t.day(e).bp ? 4 : 0; }, "plan"]);
+  t.prefs().plan && A.push(["خطة قراءة الكتاب", function (e) { return t.day(e).bp ? 4 : 0; }, "plan"]);
   return A;
 })([
                             [
