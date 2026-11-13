@@ -266,8 +266,28 @@
     (t.bplanInfo = function (e) {
       try {
         var p = t.prefs().plan;
-        if (!p || !p.scope || !p.start || !p.days) return null;
         e = e || t.dkey();
+        if (!p || !p.scope || !p.start || !p.days) {
+          /* «خطتي اليومية» (إصحاحات يومية لكل قسم): تُعرض كخطة الكتاب إن لم توجد خطة بمدة */
+          var m = t.prefs().mplan;
+          if (!m || !m.tr) return null;
+          var ks = Object.keys(m.tr).filter(function (k) {
+              return m.tr[k] && m.tr[k].n > 0;
+            }),
+            st = m.start || Object.keys(m.log || {}).sort()[0] || t.dkey(),
+            dm = t.daysBetween(st, e) + 1;
+          if (!ks.length || dm < 1) return null;
+          var lg = (m.log || {})[e] || {};
+          return {
+            day: dm,
+            days: 0,
+            name: "خطتي اليومية",
+            done: ks.every(function (k) {
+              return lg[k] > 0;
+            }),
+            m: 1,
+          };
+        }
         var d = t.daysBetween(p.start, e) + 1;
         if (d < 1) return null;
         if (d > p.days) {
@@ -280,6 +300,10 @@
       } catch (x) {
         return null;
       }
+    }),
+    (t.bpDone = function (e) {
+      var i = t.prefs().plan && t.prefs().plan.scope ? null : t.bplanInfo(e);
+      return i ? !!i.done : !!t.day(e).bp;
     }),
     (t.todayItems = function (e) {
       e = e || t.dkey();
@@ -1555,9 +1579,9 @@
                   : "") +
                 (t.bplanInfo && t.bplanInfo(n)
                   ? '<button type="button" class="chip' +
-                    (t.day(n).bp ? " on" : "") +
+                    (t.bpDone(n) ? " on" : "") +
                     '" data-tdo="bplan">' +
-                    (t.day(n).bp ? "✓ " : "") +
+                    (t.bpDone(n) ? "✓ " : "") +
                     "خطة الكتاب</button>"
                   : "") +
                 "</div></div>";
@@ -1812,7 +1836,7 @@
                         ((a +=
                           '<div class="u-card"><h3 class="u-h3">متابعة كل الأقسام</h3><div class="u-sub">آخر ٧ أيام لكل قسم، وعدد الأيام في آخر ٣٠ يوم.</div></div>'),
                           (function (A) {
-  A.push(["خطة قراءة الكتاب", function (e) { return t.day(e).bp ? 4 : 0; }, "plan"]);
+  A.push(["خطة قراءة الكتاب", function (e) { return t.bpDone(e) ? 4 : 0; }, "plan"]);
   return A;
 })([
                             [
@@ -3256,7 +3280,7 @@
                 window.__prog && window.__prog.openCurrent && window.__prog.openCurrent();
                 return;
               }
-              if ("bplan" === f) return void t.bpSetDay(d, !t.day(d).bp, h);
+              if ("bplan" === f) return t.prefs().plan && t.prefs().plan.scope ? void t.bpSetDay(d, !t.day(d).bp, h) : void window.__rafeeq.act("plan");
               ("read" !== f && "med" !== f && "exam" !== f && "gd" !== f) ||
                 (t.setDay(d, function (t) {
                   t[f] ? delete t[f] : (t[f] = 1);
