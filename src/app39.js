@@ -159,7 +159,7 @@ function injectMore(){var box=q('#uSheet .v14-more');if(!box||q('[data-prog="hub
   var h4=document.createElement('h4');h4.textContent='رحلات';var b=document.createElement('button');b.type='button';b.setAttribute('data-prog','hub');
   b.innerHTML='رحلاتي<small>شخصيات · موضوعات · مواسم · شارات</small>';
   var first=box.querySelector('h4');box.insertBefore(h4,first);box.insertBefore(b,first)}
-function injectHome(){var b=q('#nhHome .nh-body');if(!b)return;if(q('.pg-home',b))return;b.insertAdjacentHTML('beforeend',window.__progCard())}
+function injectHome(){var b=q('#nhHome .nh-body');if(!b)return;if(q('.pg-home:not(.cd):not(.sx)',b))return;b.insertAdjacentHTML('beforeend',window.__progCard())}
 function boot(){injectMore();injectHome();mountHub()}
 new MutationObserver(boot).observe(document.body,{childList:true,subtree:true});
 document.addEventListener('DOMContentLoaded',boot);setTimeout(boot,600);
@@ -192,7 +192,7 @@ RF.search.register({id:'prog',title:'الرحلات',order:60,
     if(nm(p.title+' '+p.short+' '+(p.sub||'')).indexOf(nq)>-1){rows.push({go:'prog:'+id,title:p.title,sub:p.sub||''});return}
     for(var i=0;i<p.days.length&&rows.length<8;i++){var d=p.days[i];if(nm(d[0]+' '+d[1]+' '+d[2]+' '+d[4]).indexOf(nq)>-1){rows.push({go:'prog:'+id,title:p.short+' — يوم '+ar(i+1)+': '+d[0],sub:ctx.snip(String(d[2]||d[4]||''))});break}}});return rows},
   go:function(parts){if(window.__prog)window.__prog.open(parts[1])}});
-window.__prog={status:status,doneOn:doneOn,openCurrent:openCurrent,tab:showJourneys,open:function(id){active=id||'joseph';render(true)},hub:hubPage,day:openDay,close:closePage};
+window.__prog={season:function(){var s=load();return inSeason(s).map(function(i){var p=PG()[i];return {id:i,title:p.title,short:p.short,icon:p.icon,day:syncDay(i),n:N(i)}})},openSeason:function(id){var d=syncDay(id);if(!PG()[id])return;active=id;render(true);if(d)openDay(d)},status:status,doneOn:doneOn,openCurrent:openCurrent,tab:showJourneys,open:function(id){active=id||'joseph';render(true)},hub:hubPage,day:openDay,close:closePage};
 })();
 
 /* ضبط تلقائي لنص الأزرار والشارات الملوّنة بحسب لون خلفيتها الفعلي (كل التصاميم) */

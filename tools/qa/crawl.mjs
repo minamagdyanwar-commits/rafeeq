@@ -19,4 +19,10 @@ export async function crawl(p, step = async () => {}) {
   await p.evaluate(() => __prog.hub('all')); await settle(600); await step('prog-hub');
   await p.evaluate(() => { __prog.close(); __prog.open('joseph'); }); await settle(600); await step('prog-path');
   await p.evaluate(() => document.querySelector('.nd.now').click()); await settle(800); await step('prog-day');
+  await p.evaluate(() => { try { __prog.close(); } catch (e) {} });
+  await p.evaluate(() => __hymLib.open()); await settle(500); await step('hymlib');
+  await p.evaluate(() => { __hymnsUI.open('emsek_ya_rab'); }); await settle(500); await step('hymn-ref');
+  await p.evaluate(() => { try { __hymnsUI.close(); __hymLib.close(); } catch (e) {} });
+  await p.evaluate(() => __churchDay.open()); await settle(700); await step('churchday'); await p.evaluate(() => { try { __churchDay.close(); } catch (e) {} });
+  await p.evaluate(() => __F.openBible(0, 22, 1)); await settle(1800); await p.evaluate(() => { const e = document.getElementById('chCtx'); e && e.scrollIntoView({ block: 'center' }); }); await settle(300); await step('bible-ctx');
 }

@@ -1343,6 +1343,9 @@
           var d, v, f, b;
         }
       }),
+      (n.cur = function () {
+        return "read" === o.view ? { b: o.b, c: o.c } : null;
+      }),
       (n.open = function (t, e, n) {
         ((o.b = t), (o.c = e), (o.view = "read"), (o.sel = {}), (o.hl = n || null));
       }),
@@ -4940,7 +4943,7 @@
         ),
         (i("uTitle").textContent = e[o]),
         (i("uSub").textContent = "home" === o ? "" : "الرفيق الروحي"),
-        ("read" !== o && "msg" !== o) || n || !window.__initReadings || ((n = !0), window.__initReadings()),
+        ("read" !== o && "msg" !== o) || n || !window.__initReadings || ((n = !0), window.__ensureReadings ? window.__ensureReadings() : window.__initReadings()),
         "msg" === o && window.__msgOpen && window.__msgOpen(),
         "fat" === o && window.__fatInit && window.__fatInit(),
         "cal" === o && window.__calInit && window.__calInit(),
