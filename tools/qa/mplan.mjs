@@ -20,6 +20,21 @@ for(const d of des)for(const mode of MODES){
   if(!/خطة قراءة الكتاب/.test(await p.evaluate(()=>document.getElementById('trkBody').innerText)))fail('tracker row');
   await p.evaluate(()=>{__F.setTrkTab('track')});await p.waitForTimeout(600);
   if(!await p.$('[data-tdo="bplan"]'))fail('track chip');
+  /* استرجاع الأيام: عمود «خطة الكتاب» */
+  await p.evaluate(()=>{__F.closeSheet();__rafeeq.show&&__rafeeq.show('trk');__F.setTrkTab('track')});await p.waitForTimeout(600);
+  await p.evaluate(()=>{const x=document.querySelector('[data-v70="backfill"]');x&&x.click()});await p.waitForTimeout(500);
+  if(!await p.$('[data-v70="bfc:bp"]'))fail('grid column missing');
+  else{
+    await p.click('[data-v70="bfplan"]').catch(()=>fail('bfplan button'));await p.waitForTimeout(300);
+    await p.click('[data-v70="bfc:bp"]');await p.waitForTimeout(800);
+    const r=await p.evaluate(()=>{const F=__F,o=[];for(let i=0;i<=3;i++)o.push(F.bpDone(F.dkey(F.addDays(F.parseKey(F.dkey()),-i))));return o});
+    if(!r.every(Boolean))fail('column select '+JSON.stringify(r));
+    const pos=await p.evaluate(()=>__F.prefs().mplan.tr.ot.pos);
+    if(pos!==1)fail('today pos '+pos);
+    await p.click('[data-v70="bfc:bp"]');await p.waitForTimeout(800);
+    const r2=await p.evaluate(()=>{const F=__F,o=[];for(let i=0;i<=3;i++)o.push(F.bpDone(F.dkey(F.addDays(F.parseKey(F.dkey()),-i))));return [o,F.prefs().mplan.tr.ot.pos]});
+    if(r2[0].some(Boolean)||r2[1]!==0)fail('column clear '+JSON.stringify(r2));
+  }
   if(errs.length)fail('errs '+errs[0]);await p.close();
 }
 await b.close();srv&&srv.close&&srv.close();console.log(bad?`FAIL ${bad}`:'PASS');process.exit(bad?1:0);

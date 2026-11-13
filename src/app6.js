@@ -2321,6 +2321,39 @@
       (n.setReadMany(list), t.closeSheet && t.closeSheet(), t.toast && t.toast(up ? "اتعلّمت أيام الخطة من ١ إلى " + t.ard(up) + " ✓" : "مفيش أيام اتعلّمت"), t.renderTrk && t.renderTrk());
     });
     t.bpSetDay = function (date, on, done) {
+      var P0 = t.prefs();
+      if (!(P0.plan && P0.plan.scope) && C()) {
+        /* «خطتي اليومية»: تعليم يوم (سجل الالتزام). اليوم الحالي يمرّ عبر نفس مسار زر الصفحة ليتقدّم الموضع */
+        var go = function () {
+          var pr = t.prefs(),
+            mm = pr.mplan;
+          mm.log = mm.log || {};
+          var today = date === t.dkey(),
+            o = (mm.log[date] = mm.log[date] || {});
+          Object.keys(mm.tr).forEach(function (k) {
+            if (!(mm.tr[k] && mm.tr[k].n > 0)) return;
+            if (today) {
+              var a = N(mm, k);
+              if (!a || a.done === !!on) return;
+              (on
+                ? (a.items.forEach(function (c) {
+                    n.setRead(c[0], c[1], !0);
+                  }),
+                  (o[k] = a.items.length),
+                  (mm.tr[k].pos = mm.tr[k].pos + a.items.length))
+                : (a.items.forEach(function (c) {
+                    n.setRead(c[0], c[1], !1);
+                  }),
+                  (mm.tr[k].pos = Math.max(0, mm.tr[k].pos - a.adv)),
+                  delete o[k]));
+            } else on ? (o[k] = mm.tr[k].n) : delete o[k];
+          });
+          Object.keys(o).length || delete mm.log[date];
+          on && mm.start && date < mm.start && (mm.start = date);
+          (t.savePrefs(pr), done && done(!0));
+        };
+        return void (n.data ? go() : n.load().then(go));
+      }
       var run = function () {
         var e = S();
         if (!e) return void (done && done(!1));
