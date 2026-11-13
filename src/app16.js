@@ -588,9 +588,14 @@
   function bfCols() {
     var v = RF.jget("rafeeq_bf_cols_v1", null);
     v = Array.isArray(v) ? v : BFDEF.concat(e.bplanInfo && e.prefs().plan ? ["bp"] : []);
-    return BFALL.filter(function (c) {
+    var L = BFALL.filter(function (c) {
       return v.indexOf(c[0]) > -1;
     });
+    /* عمود «خطة الكتاب» أول عمود (بجانب التاريخ) حتى لا يضيع خلف التمرير الأفقي */
+    var bi = L.findIndex(function (c) {
+      return "bp" === c[0];
+    });
+    return (bi > 0 && L.unshift(L.splice(bi, 1)[0]), L);
   }
   function bfOn(d, k) {
     return BFD[k] ? !!(e.day(d) || {})[k] : e.hourDone(d, k);
