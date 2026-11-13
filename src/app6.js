@@ -269,7 +269,13 @@
         if (!p || !p.scope || !p.start || !p.days) return null;
         e = e || t.dkey();
         var d = t.daysBetween(p.start, e) + 1;
-        if (d < 1 || d > p.days) return null;
+        if (d < 1) return null;
+        if (d > p.days) {
+          /* انتهت المدة: تفضل ظاهرة (زي صفحة الخطة) طالما فيها أيام لم تكتمل */
+          var last = t.dkey(t.addDays(t.parseKey(p.start), p.days - 1));
+          if (t.day(last).bp) return null;
+          return { day: p.days, days: p.days, name: p.name || "خطة قراءة", done: !!t.day(e).bp, over: 1 };
+        }
         return { day: d, days: p.days, name: p.name || "خطة قراءة", done: !!t.day(e).bp };
       } catch (x) {
         return null;
@@ -1806,7 +1812,7 @@
                         ((a +=
                           '<div class="u-card"><h3 class="u-h3">متابعة كل الأقسام</h3><div class="u-sub">آخر ٧ أيام لكل قسم، وعدد الأيام في آخر ٣٠ يوم.</div></div>'),
                           (function (A) {
-  t.prefs().plan && A.push(["خطة قراءة الكتاب", function (e) { return t.day(e).bp ? 4 : 0; }, "plan"]);
+  A.push(["خطة قراءة الكتاب", function (e) { return t.day(e).bp ? 4 : 0; }, "plan"]);
   return A;
 })([
                             [
