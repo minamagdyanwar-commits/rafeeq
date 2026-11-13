@@ -5,12 +5,12 @@ const { chromium }=await import(PW);
 import {serve} from './serve.mjs';
 const PORT=+process.env.PORT||8777;const srv=process.env.BASE?null:await serve(PORT);const BASE=process.env.BASE||`http://localhost:${PORT}`;
 const b=await chromium.launch({executablePath:process.env.CHROME||'/opt/pw-browsers/chromium'});
-const DES=['church','crown','classic','bearer'];
+const DES=['bearer','church','classic','cross','crown','glory','holy','lamp','qalaya','royal','shroud'];const MODES=process.argv[3]?[process.argv[3]]:['dark','light'];
 const des=process.argv[2]?process.argv[2].split(','):DES;let bad=0;const fail=m=>{bad++;console.log('  ✗',m)};
-for(const d of des){
-  console.log(d);
+for(const d of des)for(const mode of MODES){
+  console.log(d,mode);
   const p=await b.newPage({viewport:{width:390,height:844}});const errs=[];p.on('pageerror',e=>errs.push(String(e)));
-  await p.addInitScript(d=>{if(sessionStorage.__i)return;sessionStorage.__i='1';localStorage.setItem('rafeeq_v76_design',d)},d);
+  await p.addInitScript(([d,m])=>{if(sessionStorage.__i)return;sessionStorage.__i='1';localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}))},[d,mode]);
   await p.goto(BASE+'/index.html');await p.waitForTimeout(1500);
   /* خطة بدأت من ١٠ أيام */
   const info=await p.evaluate(async()=>{
@@ -50,7 +50,7 @@ for(const d of des){
   /* جدول «استرجاع سجل الأيام»: عمود «خطة الكتاب» وتعليم العمود كله */
   {
     const q=await b.newPage({viewport:{width:390,height:900}});const e2=[];q.on('pageerror',e=>e2.push(String(e)));
-    await q.addInitScript(d=>{if(sessionStorage.__i)return;sessionStorage.__i='1';localStorage.setItem('rafeeq_v76_design',d)},d);
+    await q.addInitScript(([d,m])=>{if(sessionStorage.__i)return;sessionStorage.__i='1';localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}))},[d,mode]);
     await q.goto(BASE+'/index.html');await q.waitForTimeout(1500);
     await q.evaluate(async()=>{const F=__F;await F.bible.load();F.closeSheet();const st=F.dkey(F.addDays(F.parseKey(F.dkey()),-10));const pr=F.prefs();pr.plan={scope:'gospels',days:30,start:st,name:'اختبار',from:0};F.savePrefs(pr);__rafeeq.show&&__rafeeq.show('trk');F.setTrkTab('track')});
     await q.waitForTimeout(800);

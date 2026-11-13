@@ -12,6 +12,8 @@ const p=await ctx.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.messag
 await p.addInitScript(([d,m])=>{localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}));localStorage.setItem('rafeeq_lines_hint_v2','1');window.__talkFast=1;if(NOFIX)localStorage.setItem('rafeeq_nofix','1')},[des,mode]);
 await p.goto(BASE+'/index.html');await p.waitForTimeout(2500);
 await p.evaluate(()=>{try{__F.closeSheet()}catch(e){}});
+/* خطة قراءة الكتاب بدأت قبل ١٠ أيام: لتظهر خطوتها في «يومي» وتبويب الخطة وزر «علّم الأيام السابقة» وعمود الجدول */
+await p.evaluate(async()=>{try{const F=__F;await F.bible.load();const st=F.dkey(F.addDays(F.parseKey(F.dkey()),-10));const pr=F.prefs();pr.plan={scope:'gospels',days:30,start:st,name:'خطة الأناجيل',from:0};F.savePrefs(pr)}catch(e){}});await p.waitForTimeout(400);
 const GATHER=()=>{const out=[];const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
  while(n=w.nextNode()){const tx=n.nodeValue.trim();if(tx.length<2)continue;const e=n.parentElement;if(!e||e.closest('script,style,noscript,#v302Bar'))continue;
   const cs=getComputedStyle(e);if(cs.visibility==='hidden'||cs.display==='none'||+cs.opacity<.1)continue;if(!/[\p{L}\p{N}]/u.test(tx))continue;/* إيموجي/رموز فقط: لونها لا يتبع لون الخط */
@@ -65,9 +67,11 @@ try{
  await p.evaluate(()=>__F.openBible(21,23,1));await p.waitForTimeout(2200);await scrollChk('bible-reader');
  await p.evaluate(()=>{document.querySelector('[data-bback="chapters"]')?.click()});await p.waitForTimeout(700);await scrollChk('bible-chapters');
  await p.evaluate(()=>__F.setTrkTab('plan'));await p.waitForTimeout(900);await scrollChk('plan');
+ await p.evaluate(()=>{const x=document.querySelector('[data-tback]');x&&x.click()});await p.waitForTimeout(600);await check('plan-backfill-sheet');await p.evaluate(()=>{try{__F.closeSheet()}catch(e){}});
  await p.evaluate(()=>__F.setTrkTab('dash'));await p.waitForTimeout(900);await scrollChk('dash');
  await p.evaluate(()=>__F.setTrkTab('memo'));await p.waitForTimeout(900);await scrollChk('memo');
  await p.evaluate(()=>__F.setTrkTab('track'));await p.waitForTimeout(900);await scrollChk('track');
+ await p.evaluate(()=>{const x=document.querySelector('[data-v70="backfill"]');x&&x.click()});await p.waitForTimeout(700);await check('bf-grid');await p.evaluate(()=>{try{__F.closeSheet()}catch(e){}});
  await p.evaluate(()=>document.querySelector('#uNavMore').click());await p.waitForTimeout(500);await check('more-sheet');await p.evaluate(()=>__F.closeSheet());
  await p.evaluate(()=>__prog.hub('all'));await p.waitForTimeout(500);await check('prog-all');
  await p.evaluate(()=>{__prog.close();__prog.open('joseph')});await p.waitForTimeout(500);await check('prog-path');
