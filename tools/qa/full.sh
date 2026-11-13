@@ -7,6 +7,7 @@ set -u
 fail=0
 node serve.mjs 8777 >/dev/null 2>&1 &
 SRV=$!; trap 'kill $SRV 2>/dev/null' EXIT; sleep 1
+export BASE=${BASE:-http://localhost:8777}   # كل الأدوات تستعمل هذا الخادم ولا تشغّل/تغلق خادمًا خاصًا بها
 step(){ echo; echo "=== $1"; shift; "$@" || { echo "FAIL: $*"; fail=1; }; }
 step "حارس الـCSS" node lint-css.mjs
 step "smoke (كل التصاميم والوضعين)" node smoke.mjs
