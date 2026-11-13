@@ -587,7 +587,7 @@
   var BFD = { read: 1, med: 1, gd: 1, exam: 1, prog: 1, bp: 1 };
   function bfCols() {
     var v = RF.jget("rafeeq_bf_cols_v1", null);
-    v = Array.isArray(v) ? v : BFDEF.concat(e.bplanInfo && e.prefs().plan ? ["bp"] : []);
+    v = Array.isArray(v) ? v : BFDEF.concat(e.bplanInfo && (e.prefs().plan || e.prefs().mplan) ? ["bp"] : []);
     var L = BFALL.filter(function (c) {
       return v.indexOf(c[0]) > -1;
     });
@@ -598,7 +598,7 @@
     return (bi > 0 && L.unshift(L.splice(bi, 1)[0]), L);
   }
   function bfOn(d, k) {
-    return BFD[k] ? !!(e.day(d) || {})[k] : e.hourDone(d, k);
+    return "bp" === k && e.bpDone ? !!e.bpDone(d) : BFD[k] ? !!(e.day(d) || {})[k] : e.hourDone(d, k);
   }
   function bfSet(d, k, on) {
     if ("bp" === k) return void (e.bpSetDay && e.bpSetDay(d, on, function () { bfPaint(); }));
@@ -663,7 +663,7 @@
     e.sheet(
       '<div class="v70sh bf"><h3 class="u-h3">استرجاع سجل الأيام</h3><p style="opacity:.8;margin:0 0 6px">اضغط على الخانة لتعليم الصلاة أو القراءة في اليوم ده. اضغط على اسم اليوم لتعليمه كله، أو على عنوان العمود لتعليمه في كل الأيام.</p><div id="bfg">' +
         bfGrid() +
-        '</div><div class="row-gap" style="margin-top:10px"><button type="button" class="u-btn" data-v70="bfmore">أيام أكتر (٣٠ يوم)</button>' + (e.prefs().plan ? '<button type="button" class="u-btn" data-v70="bfplan">من بداية الخطة</button>' : "") + '<button type="button" class="u-btn" onclick="__F.closeSheet()">تم</button></div></div>',
+        '</div><div class="row-gap" style="margin-top:10px"><button type="button" class="u-btn" data-v70="bfmore">أيام أكتر (٣٠ يوم)</button>' + ((e.prefs().plan || e.prefs().mplan) ? '<button type="button" class="u-btn" data-v70="bfplan">من بداية الخطة</button>' : "") + '<button type="button" class="u-btn" onclick="__F.closeSheet()">تم</button></div></div>',
     );
   }
   function bfPaint() {
@@ -797,7 +797,7 @@
         e.toast("تشرّفنا يا " + (u() || "حبيبي")));
     } else if ("backfill" === o) bfOpen();
     else if ("bfplan" === o) {
-      var bpl = e.prefs().plan;
+      var bpl = e.prefs().plan || e.prefs().mplan;
       ((bfN = bpl && bpl.start ? Math.min(400, Math.max(14, e.daysBetween(bpl.start, e.dkey()) + 1)) : 30), bfPaint());
       var bm2 = document.querySelector('[data-v70="bfplan"]');
       bm2 && bm2.remove();
