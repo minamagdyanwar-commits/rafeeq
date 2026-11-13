@@ -239,3 +239,9 @@ html[data-rf-theme="shroud/2/shroud"] #v14Khalwa{color:rgb(26,18,6)!important}
 html[data-rf-theme="shroud/2/shroud"] #variantTabs > button.variant-tab.active{color:rgb(26,18,6)!important}
 html[data-rf-theme="shroud/2/shroud"] #wakeChip{color:rgb(110,85,32)!important}
 html[data-rf-theme="shroud/2/shroud"] #weekStrip > button.week-chip.has-content.is-today.is-current{color:rgb(255,255,255)!important}
+/* أزرار أسفل نافذة «استرجاع سجل الأيام» (تصحيحات المُصلح مخبوزة لخمس تركيبات تصميم/وضع) */
+html[data-rf-theme="bearer/1/bearer-n"] #uSheetBody > div.v70sh.bf > div.row-gap > button.u-btn{color:rgb(26,18,6)!important}
+html[data-rf-theme="holy/2/holy"] #uSheetBody > div.v70sh.bf > div.row-gap > button.u-btn{color:rgb(26,18,6)!important}
+html[data-rf-theme="lamp/2/lamp"] #uSheetBody > div.v70sh.bf > div.row-gap > button.u-btn{color:rgb(26,18,6)!important}
+html[data-rf-theme="royal/1/royal-n"] #uSheetBody > div.v70sh.bf > div.row-gap > button.u-btn{color:rgb(26,18,6)!important}
+html[data-rf-theme="shroud/1/shroud-n"] #uSheetBody > div.v70sh.bf > div.row-gap > button.u-btn{color:rgb(26,18,6)!important}

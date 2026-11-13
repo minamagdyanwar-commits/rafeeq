@@ -55,7 +55,7 @@
     if (n.type === 'hour') a.act('hour', { dataset: { key: n.key } });
     else if (n.type === 'read') a.act('read'); else if (n.type === 'med') a.act('meditation');
     else if (n.type === 'gd') a.act('guided'); else if (n.type === 'exam') a.act('exam');
-    else if (n.type === 'memo') a.act('memo'); else if (n.type === 'prog' && window.__prog) window.__prog.openCurrent();
+    else if (n.type === 'memo') a.act('memo'); else if (n.type === 'bplan') a.act('plan'); else if (n.type === 'prog' && window.__prog) window.__prog.openCurrent();
   }, true);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

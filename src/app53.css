@@ -16,8 +16,11 @@
 .gs-t{margin:0;font-family:var(--read-font,"Amiri","Noto Naskh Arabic",serif);font-size:var(--fs-xl);line-height:calc(1.9 + var(--lh-d,0));color:var(--s-card-ink)}
 .gs-t sup{font-family:"Cairo",sans-serif;font-size:.62em;margin-inline-end:3px;opacity:.78}
 .gs-sep2{border:0;border-top:1px dashed var(--s-card-border);margin:10px 0}
-mark.gs-u{background:color-mix(in srgb,var(--s-accent) 30%,transparent);color:inherit;border-radius:4px;padding:0 2px}
+mark.gs-u{background:color-mix(in srgb,var(--s-accent) 16%,transparent);color:inherit;border-radius:4px;padding:0 2px}
 .st-nav{margin:10px 0 0}
 .st-nav .chip{flex:1 1 auto}
 #gsMe{margin-top:8px;resize:vertical}
 @media(min-width:720px){.st-cols{grid-template-columns:1fr 1fr;column-gap:12px}}
+
+/* عناوين الأقسام فوق خلفية الصفحة (لا داخل بطاقة): لون حبر الصفحة، فلا تظهر بلون بطاقات التصميم على خلفية مخالفة (تباين) */
+html #trkBody .st .h-sec,html #trkBody .st-atlas .h-sec{color:var(--s-page-ink)}

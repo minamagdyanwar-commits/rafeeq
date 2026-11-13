@@ -122,7 +122,7 @@
   function goItem(it) {
     var a = window.__rafeeq; if (!it || !a) return;
     try {
-      if (it.type === 'hour') a.act('hour', { dataset: { key: it.key || it.gid } }); else if (it.type === 'read') a.act('read'); else if (it.type === 'med') a.act('meditation'); else if (it.type === 'gd') a.act('guided'); else if (it.type === 'exam') a.act('exam'); else if (it.type === 'memo') a.act('memo'); else if (it.type === 'prog' && window.__prog) window.__prog.openCurrent();
+      if (it.type === 'hour') a.act('hour', { dataset: { key: it.key || it.gid } }); else if (it.type === 'read') a.act('read'); else if (it.type === 'med') a.act('meditation'); else if (it.type === 'gd') a.act('guided'); else if (it.type === 'exam') a.act('exam'); else if (it.type === 'memo') a.act('memo'); else if (it.type === 'bplan') a.act('plan'); else if (it.type === 'prog' && window.__prog) window.__prog.openCurrent();
     } catch (e) { }
   }
   function curPage() {

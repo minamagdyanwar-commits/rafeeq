@@ -62,7 +62,7 @@
       (fam ? '<div class="u-card"><h3 class="u-h3">الأسرة</h3><div class="chips">' + fam + '</div></div>' : '') +
       '<div class="u-card"><h3 class="u-h3">في الكتاب</h3><div class="chips">' + refBtns(p.r) + '</div></div>' +
       (lineBtns ? '<div class="u-card"><h3 class="u-h3">في الأنساب</h3><div class="chips">' + lineBtns + '</div></div>' : '') +
-      '<div class="u-note">نبذة مختصرة للتعريف، والمرجع هو نص الكتاب المقدس نفسه.</div>';
+      '<div class="u-note pn">نبذة مختصرة للتعريف، والمرجع هو نص الكتاب المقدس نفسه.</div>';
   }
 
   /* ---------- الأنساب ---------- */
