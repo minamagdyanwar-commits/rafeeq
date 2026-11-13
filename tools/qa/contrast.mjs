@@ -10,7 +10,7 @@ const UPD=process.argv.includes('--update'),res={};let fail=0;const only=process
 import {spawn} from 'node:child_process';
 const jobs=[];for(const d of only)for(const m of ['dark','light'])jobs.push([d,m]);
 const run1=([d,m])=>new Promise(r=>{const c=spawn('node',[path.join(here,'tc.mjs'),d,m],{env:{...process.env,OUT,BASE:`http://localhost:${PORT}`}});c.on('close',()=>r())});
-const CONC=+process.env.CONC||4;let qi=0;
+const CONC=+process.env.CONC||6; /* الانتظار الذكي يتحمّل الضغط، فنزيد التوازي */let qi=0;
 await Promise.all(Array.from({length:CONC},async()=>{while(qi<jobs.length)await run1(jobs[qi++])}));
 for(const [d,m] of jobs){
   let n=-1;try{n=JSON.parse(fs.readFileSync(`${OUT}/tc_${d}_${m}_390.json`,'utf8')).issues.length}catch(e){}
