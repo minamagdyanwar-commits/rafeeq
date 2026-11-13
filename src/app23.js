@@ -405,7 +405,9 @@
                             ? e.act("guided")
                             : "exam" === t.type
                               ? e.act("exam")
-                              : "memo" === t.type
+                              : "bplan" === t.type
+                                ? e.act("plan")
+                                : "memo" === t.type
                                 ? e.act("memo")
                                 : "prog" === t.type &&
                                   window.__prog &&

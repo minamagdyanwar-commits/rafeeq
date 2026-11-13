@@ -186,6 +186,14 @@
       get: function (d) { return t.gdDone(d); },
       set: function (d, _k, on) { t.setDay(d, function (r) { on ? (r.gd = 1) : delete r.gd; }); },
     }),
+    RF.act.define("bp", {
+      get: function (d) {
+        return !!t.day(d).bp;
+      },
+      set: function (d, k, on) {
+        t.bpSetDay && t.bpSetDay(d, on);
+      },
+    }),
     RF.act.define("prog", {
       get: function (d) { return !!(t.day(d).prog || (window.__prog && window.__prog.doneOn && window.__prog.doneOn(d))); },
       set: function (d, _k, on) { t.setDay(d, function (r) { on ? (r.prog = 1) : delete r.prog; }); },
@@ -203,6 +211,7 @@
       ["h:sadisa", "السادسة"],
       ["h:tasi3a", "التاسعة"],
       ["read", "قراءات اليوم"],
+      ["bplan", "خطة قراءة الكتاب"],
       ["med", "التأملات اليومية"],
       ["gd", "الخلوة الفردية"],
       ["prog", "رحلتي"],
@@ -254,6 +263,18 @@
         });
       return r.length ? r : e;
     }),
+    (t.bplanInfo = function (e) {
+      try {
+        var p = t.prefs().plan;
+        if (!p || !p.scope || !p.start || !p.days) return null;
+        e = e || t.dkey();
+        var d = t.daysBetween(p.start, e) + 1;
+        if (d < 1 || d > p.days) return null;
+        return { day: d, days: p.days, name: p.name || "خطة قراءة", done: !!t.day(e).bp };
+      } catch (x) {
+        return null;
+      }
+    }),
     (t.todayItems = function (e) {
       e = e || t.dkey();
       var n = t.prefs(),
@@ -265,6 +286,12 @@
             a.push({ id: "h:" + n, type: "hour", gid: n, label: "صلاة " + r.label, done: t.hourDone(e, n) });
         }),
         a.push({ id: "read", type: "read", label: "قراءات اليوم", done: t.readDone(e) }),
+        (function () {
+          var b = t.bplanInfo(e);
+          b &&
+            t.dayOrder().x.indexOf("bplan") < 0 &&
+            a.push({ id: "bplan", type: "bplan", label: "خطة قراءة الكتاب — اليوم " + t.ard(b.day), done: b.done });
+        })(),
         a.push({ id: "med", type: "med", label: "التأملات اليومية", done: t.medDone(e) }),
         t.dayOrder().x.indexOf("gd") < 0 &&
           a.push({ id: "gd", type: "gd", label: "الخلوة الفردية", done: t.gdDone(e) }),
@@ -707,7 +734,15 @@
       }),
       (n.setRead = function (e, a, r, s) {
         var o = n.readMap();
-        (r ? (o[e + ":" + a] = s || t.dkey()) : delete o[e + ":" + a], t.jset(i, o));
+        (r ? (o[e + ":" + a] = s || t.dkey()) : delete o[e + ":" + a], t.jset(i, o), t.bpSync && t.bpSync());
+      }),
+      (n.setReadMany = function (list) {
+        var o = n.readMap();
+        (list.forEach(function (x) {
+          o[x[0] + ":" + x[1]] = x[2];
+        }),
+          t.jset(i, o),
+          t.bpSync && t.bpSync());
       }));
     var o = { view: "books", b: 0, c: 1, sel: {} };
     function c(e, a) {
@@ -1512,6 +1547,13 @@
                     (window.__prog.status(n).done ? "✓ " : "") +
                     "رحلتي</button>"
                   : "") +
+                (t.bplanInfo && t.bplanInfo(n)
+                  ? '<button type="button" class="chip' +
+                    (t.day(n).bp ? " on" : "") +
+                    '" data-tdo="bplan">' +
+                    (t.day(n).bp ? "✓ " : "") +
+                    "خطة الكتاب</button>"
+                  : "") +
                 "</div></div>";
               for (var l = t.addDays(s, -s.getDay() - 77), u = "", d = 0; d < 12; d++)
                 for (var v = 0; v < 7; v++) {
@@ -1763,7 +1805,10 @@
                         } catch (t) {}
                         ((a +=
                           '<div class="u-card"><h3 class="u-h3">متابعة كل الأقسام</h3><div class="u-sub">آخر ٧ أيام لكل قسم، وعدد الأيام في آخر ٣٠ يوم.</div></div>'),
-                          [
+                          (function (A) {
+  t.prefs().plan && A.splice(2, 0, ["خطة قراءة الكتاب", function (e) { return t.day(e).bp ? 4 : 0; }, "plan"]);
+  return A;
+})([
                             [
                               "الصلوات (الأجبية)",
                               function (e) {
@@ -1800,7 +1845,7 @@
                               },
                               "exam",
                             ],
-                          ].forEach(function (e) {
+                          ]).forEach(function (e) {
                             for (var i = 0, s = 0; s < 30; s++) e[1](t.dkey(t.addDays(n, -s))) > 0 && i++;
                             for (var o = 0, c = 0; c < 7; c++) e[1](t.dkey(t.addDays(n, -c))) > 0 && o++;
                             a +=
@@ -2138,6 +2183,9 @@
           : o > 1
             ? '<div class="u-note ok">أنت ملتزم بالخطة حتى اليوم ✓</div>'
             : "") +
+        (o > 1
+          ? '<div class="row-gap"><button type="button" class="u-btn" data-tback="1">✓ علّم الأيام السابقة كمقروءة</button></div>'
+          : "") +
         '<div class="row-gap"><button type="button" class="u-btn" data-tpos="1">📍 حدّد موضعي (أنا وصلت إلى…)</button></div></div>';
       ((s +=
         '<div class="u-card"><div class="rd-head"><button type="button" data-tpd="' +
@@ -2179,6 +2227,84 @@
         (s += '<button type="button" class="u-link" data-tplanx="1">تغيير الخطة أو إلغاؤها</button>'),
         (t.innerHTML = s));
     }
+    t.bpSync = function () {
+      try {
+        var e = S();
+        if (!e) return;
+        for (var m = n.readMap(), cur = O(e), st = t.parseKey(e.q.start), ch = !1, d = 1; d <= cur; d++) {
+          var cs = E(e, d),
+            ok =
+              cs.length > 0 &&
+              cs.every(function (c) {
+                return !!m[c[0] + ":" + c[1]];
+              }),
+            key = t.dkey(t.addDays(st, d - 1));
+          !!t.day(key).bp !== ok &&
+            (t.setDay(key, function (r) {
+              ok ? (r.bp = 1) : delete r.bp;
+            }),
+            (ch = !0));
+        }
+        ch && RF.act.changed(t.dkey(), "bp");
+      } catch (x) {}
+    };
+    document.addEventListener("click", function (ev) {
+      var bk = ev.target.closest && ev.target.closest("[data-tback]");
+      if (bk) {
+        ev.preventDefault();
+                  var Eb = S();
+      if (!Eb) return;
+                  var cb = O(Eb),
+                    ab = 0;
+                  for (var db = 1; db < cb; db++) M(Eb, db) && ab++;
+                  t.sheet(
+                    '<div class="v67cp"><b>علّم الأيام السابقة كمقروءة</b><div class="u-sub">الخطة في يومها ' +
+                      r(cb) +
+                      " من " +
+                      r(Eb.days) +
+                      "، واكتمل منها " +
+                      r(ab) +
+                      " يومًا من " +
+                      r(Math.max(0, cb - 1)) +
+                      ' فاتت.</div><label class="u-sub" for="tbackN">علّم قراءة الأيام من ١ إلى اليوم رقم:</label><input id="tbackN" class="u-in" type="number" inputmode="numeric" min="1" max="' +
+                      cb +
+                      '" value="' +
+                      Math.max(1, cb - 1) +
+                      '"><button type="button" class="u-wide" data-tbackgo="1">علّم</button><div class="u-sub">هتتسجّل إصحاحات الأيام دي كمقروءة بتواريخها، وتظهر في «يومي» وفي المتابعة.</div></div>'
+      );
+                        return;
+      }
+      var b = ev.target.closest && ev.target.closest("[data-tbackgo]");
+      if (!b) return;
+      var e = S();
+      if (!e) return;
+      var inp = document.getElementById("tbackN"),
+        cur = O(e),
+        up = Math.max(0, Math.min(cur, Math.floor(+(inp && inp.value) || 0))),
+        list = [];
+      for (var d = 1; d <= up; d++) {
+        var date = t.dkey(t.addDays(t.parseKey(e.q.start), d - 1));
+        E(e, d).forEach(function (c) {
+          n.isRead(c[0], c[1]) || list.push([c[0], c[1], date]);
+        });
+      }
+      (n.setReadMany(list), t.closeSheet && t.closeSheet(), t.toast && t.toast(up ? "اتعلّمت أيام الخطة من ١ إلى " + t.ard(up) + " ✓" : "مفيش أيام اتعلّمت"), t.renderTrk && t.renderTrk());
+    });
+    t.bpSetDay = function (date, on, done) {
+      var run = function () {
+        var e = S();
+        if (!e) return void (done && done(!1));
+        var d = t.daysBetween(e.q.start, date) + 1;
+        if (d < 1 || d > e.days) return (t.toast && t.toast("التاريخ ده خارج أيام الخطة"), void (done && done(!1)));
+        var list = [];
+        (E(e, d).forEach(function (c) {
+          on ? n.isRead(c[0], c[1]) || list.push([c[0], c[1], date]) : n.setRead(c[0], c[1], !1);
+        }),
+          on && (list.length ? n.setReadMany(list) : t.bpSync()),
+          done && done(!0));
+      };
+      n.data ? run() : n.load().then(run);
+    };
     t.todayPlan = function () {
       var t = S();
       if (!t) return null;
@@ -3124,6 +3250,7 @@
                 window.__prog && window.__prog.openCurrent && window.__prog.openCurrent();
                 return;
               }
+              if ("bplan" === f) return void t.bpSetDay(d, !t.day(d).bp, h);
               ("read" !== f && "med" !== f && "exam" !== f && "gd" !== f) ||
                 (t.setDay(d, function (t) {
                   t[f] ? delete t[f] : (t[f] = 1);
@@ -7690,7 +7817,11 @@
               l("noum"),
               l("midnight"),
               l("setar"),
-            ]),
+            ].concat(
+              t.bplanInfo && t.bplanInfo(i)
+                ? [{ id: "bplan", label: "خطة قراءة الكتاب", sub: "اليوم " + t.ard(t.bplanInfo(i).day), open: "plan", done: t.bplanInfo(i).done }]
+                : []
+            )),
             d = e("hDate"),
             v = d && n("b", d),
             f = v ? v.textContent.trim() : "",
