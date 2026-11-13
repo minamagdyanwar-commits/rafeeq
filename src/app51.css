@@ -52,3 +52,6 @@ button.at-wm{cursor:pointer}
 .at-pc .at-p{margin:6px 0 10px}
 .at-st u{text-decoration:none;display:inline-grid;place-items:center;width:20px;height:20px;margin-inline-end:6px;border-radius:50%;background:var(--s-accent);color:var(--s-btn-ink);font-size:.7rem;font-weight:700}
 .at-st.on{border-color:var(--s-accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--s-accent) 45%,transparent)}
+
+/* ملاحظة في ذيل صفحة الشخصية تقع على خلفية الصفحة (لا داخل بطاقة) فتأخذ حبر الصفحة */
+html #trkBody .st-atlas .u-note.pn{color:var(--s-page-ink)}
