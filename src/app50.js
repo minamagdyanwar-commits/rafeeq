@@ -7,9 +7,28 @@
   function byId(id) { return all().filter(function (h) { return h.id === id; })[0]; }
   function esc(s) { return RF.esc(s); }
   /* مقطع مرتّل: لو للنص «مرد» (عمود يسار بلون مختلف) يُعرض في صفوف بعمودين: الجزء يمين والمرد شمال، وإلا فنص عادي */
+  /* نص بلا مرد: كل سطر يُقسم نصفين (يمين | شمال) على أقرب مسافة لمنتصفه، فيظهر المقطع كجدول بعمودين؛
+     ومقطع «القرار:» بلون المرد. بين المقاطع فاصل (✝) من app15.css. */
+  function halves(l) {
+    var w = String(l).trim().split(/\s+/);
+    if (w.length < 4) return [w.join(' '), ''];
+    var tot = w.join(' ').length, acc = 0, best = 1, bd = 1e9;
+    for (var i = 0; i < w.length - 1; i++) { acc += w[i].length + (i ? 1 : 0); var d = Math.abs(acc - tot / 2); if (d < bd) { bd = d; best = i + 1; } }
+    var a = w.slice(0, best).join(' '), b = w.slice(best).join(' ');
+    return /^[()\d٠-٩*+\s]+$/.test(b) ? [w.join(' '), ''] : [a, b];
+  }
+  function two(t) {
+    var ls = String(t).split('\n').map(function (x) { return x.trim(); }).filter(Boolean), ref = false;
+    if (ls.length && /^(القرار|قرار)\s*:?$/.test(ls[0])) { ref = true; ls.shift(); }
+    var c = ref ? 'hm-r' : 'hm-p';
+    return '<div class="hm-st">' + (ref ? '<span class="hm-lab">القرار</span>' : '') + ls.map(function (l) {
+      var h = halves(l);
+      return h[1] ? '<span class="' + c + '">' + esc(h[0]) + '</span><span class="' + c + '">' + esc(h[1]) + '</span>' : '<span class="' + c + ' hm-w">' + esc(h[0]) + '</span>';
+    }).join('') + '</div>';
+  }
   function stanza(h, t) {
     var rf = h && h.refrain;
-    if (!rf || !rf.length) return '<p>' + esc(t).replace(/\n/g, '<br>') + '</p>';
+    if (!rf || !rf.length) return two(t);
     var rows = [];
     String(t).split('\n').forEach(function (l) {
       var isR = rf.indexOf(l.trim()) > -1, last = rows[rows.length - 1];
