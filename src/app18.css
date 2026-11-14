@@ -271,7 +271,7 @@ html[data-design="2"] .bible-text .bv .erv-v {
   font:
     700 0.98em/1.7 "Cairo",
     sans-serif;
-  color: var(--s-accent, #8a6d1f);
+  color: var(--s-card-ink, #2e1d12);
   text-align: center;
 }
 .bv-head:first-child {

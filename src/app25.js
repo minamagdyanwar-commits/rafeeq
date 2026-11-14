@@ -3204,7 +3204,7 @@
             ic: "🌿",
             h: "صلِّ الكلمات واصمت في المواضع المحددة.",
           },
-          { k: "hm", w: 10, t: "تمجيد وإبصالية", ic: "🎼", h: "رتّل الأسطر أو اقرأها ببطء وبقلب حاضر، وقف عند السطر اللي يلمسك." },
+          { k: "hm", w: 10, t: "ترنيمة أو تمجيد", ic: "🎼", h: "رتّل الأسطر أو اقرأها ببطء وبقلب حاضر، وقف عند السطر اللي يلمسك." },
           { k: "th", w: 8, t: "دفتر الشكر", ic: "🌾", h: "راجع ما شكرت عليه وطلباتك، واكتب شكرًا جديدًا من قلبك." },
           { k: "ky", w: 6, t: "كيرياليسون", ic: "❖", h: "يا رب ارحم — بقلب منسحق." },
           { k: "ab", w: 4, t: "أبانا الذي", ic: "☩", h: "اختم بصلاة الرب." },
@@ -3326,7 +3326,7 @@
     function R(t) {
       var a = f
         .filter(function (a) {
-          return !t.off[a.k] && ("hm" !== a.k || (window.__hymns && window.__hymns.length));
+          return !t.off[a.k] && ("hm" !== a.k || ((window.__hymnsKhalwa ? window.__hymnsKhalwa() : window.__hymns) || []).length);
         })
         .map(function (t) {
           return t.k;
@@ -3638,7 +3638,7 @@
         }
         if (null != r.hm) {
           /* تمجيد/إبصالية من window.__hymns: يُختار نص لم يُستخدم حديثًا، ويُؤخذ منه عدد أسطر على قد وقت الفقرة */
-          var HM = window.__hymns || [],
+          var HM = (window.__hymnsKhalwa ? window.__hymnsKhalwa() : window.__hymns) || [],
             hist = J(),
             hp = HM.filter(function (x) {
               return hist.indexOf("hm" + x.id) < 0;
@@ -4427,7 +4427,7 @@
                 ? r.push(t.fp[e.fp].title)
                 : "ct" === a && null != e.ct
                   ? r.push("صلاة «" + t.ct[e.ct].t + "»")
-                  : "hm" === a && e.hm && r.push(((window.__hymns || []).filter(function (x) { return x.id === e.hm.id; })[0] || {}).title || "تمجيد");
+                  : "hm" === a && e.hm && r.push(((window.__hymns || []).filter(function (x) { return x.id === e.hm.id; })[0] || {}).title || "ترنيمة");
           }),
           r);
       a.innerHTML =

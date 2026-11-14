@@ -104,10 +104,20 @@ try{
  await step('study-life',()=>__studyUI.open('life'),500,true);
  await p.evaluate(()=>{try{__studyUI.close()}catch(e){}});
  await step('hymn',()=>__hymnsUI.open('afta7_fay'),500,true);await p.evaluate(()=>{try{__hymnsUI.close()}catch(e){}});
+ /* v6.16: مكتبة الألحان والترانيم + قارئ بشريط المفضلة + «يوم الكنيسة» + سياق الإصحاح */
+ await step('hymlib',()=>__hymLib.open(),500,true);
+ await step('hymlib-search',()=>{const i=document.getElementById('hlQ');i.value='سامحني';i.dispatchEvent(new Event('input',{bubbles:true}))},500);
+ await step('hymn-ref',()=>{document.getElementById('hlQ').value='';__hymnsUI.open('emsek_ya_rab')},500,true);await p.evaluate(()=>{try{__hymnsUI.close();__hymLib.close()}catch(e){}});
+ await step('churchday',()=>__churchDay.open(),700,true);await p.evaluate(()=>{try{__churchDay.close()}catch(e){}});
+ await step('bible-ctx',()=>__F.openBible(0,22,1),2000);await p.evaluate(()=>{const e=document.getElementById('chCtx');e&&e.scrollIntoView({block:'center'})});await settle(400);await check('bible-ctx@card');
+ await step('bible-ctx2',()=>__F.openBible(39,1,1),1800);await p.evaluate(()=>{const e=document.getElementById('chCtx');e&&e.scrollIntoView({block:'center'})});await settle(400);await check('bible-ctx2@card');
  for(const t of ['notes','khalwa','sects'])await step('trk-'+t,`(()=>{window.__rafeeq&&__rafeeq.show('trk',{top:1});__F.setTrkTab('${t}')})()`,800,true);
  await step('cal-next',()=>{window.__rafeeq&&__rafeeq.show('cal');[...document.querySelectorAll('#calBody .u-tabs button')].find(b=>/القادم/.test(b.textContent))?.click()},900,true);
  await step('day-dialog',()=>__F.dayDialog(),600);await p.evaluate(()=>{try{__F.closeSheet()}catch(e){}document.querySelectorAll('.on[role=dialog]').forEach(x=>x.classList.remove('on'))});
  await p.evaluate(()=>{const F=__F;F.setEntry(F.dkey(F.addDays(F.parseKey(F.realKey()),-1)),false);document.querySelector('#uNav [data-go="home"]')?.click()});await settle(1100);await check('home-offday');
+ /* موسم الصوم الكبير (وقت ثابت): بطاقتا الرئيسية و«يوم الكنيسة» برحلة الموسم */
+ try{await p.clock.setFixedTime(new Date('2026-03-10T10:00:00'));await p.evaluate(()=>{document.querySelector('#uNav [data-go="home"]')?.click();document.body.appendChild(document.createElement('i')).remove()});await settle(1200);await check('home-lent');
+  await step('churchday-lent',()=>__churchDay.open(),700,true);await p.evaluate(()=>{try{__churchDay.close()}catch(e){}});}catch(e){errs.push('lent: '+String(e.message).slice(0,60))}
 }catch(e){issues.push({page:'SCRIPT',t:e.message.slice(0,100)})}
 fs.writeFileSync(`${OUT}/tc_${des}_${mode}_${vw}.json`,JSON.stringify({issues,errs,items:__items},null,1));
 const by={};issues.forEach(i=>{const k=i.page.replace(/@\d/,'');by[k]=(by[k]||0)+1});

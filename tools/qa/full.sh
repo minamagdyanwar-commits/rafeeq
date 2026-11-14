@@ -19,6 +19,10 @@ for W in 360 768; do for d in ${DES//,/ }; do for m in dark light; do echo "$d $
 grep -v "issues 0 " "$OUT/wide.txt" | sed 's/^/  ⚠ مراجعة: /' || true
 step "تصحيحات مُصلح التباين وقت التشغيل (الهدف: صفر)" node fixlog.mjs "$DES"
 step "خطة قراءة الكتاب" node bplan.mjs "$DES"
+step "خطتي اليومية (mplan) وعمود الاسترجاع" node mplan.mjs "$DES"
+step "الألحان والترانيم" node hymns.mjs "$DES"
+step "رحلة الموسم ويوم الكنيسة" node season.mjs "$DES"
+step "سياق الإصحاح" node chctx.mjs "$DES"
 step "الرفيق" node companion.mjs "$DES"
 step "النشاط والمفضلة والبحث" node unified.mjs
 echo; [ $fail = 0 ] && echo "كل الفحوص نجحت" || echo "فيه فحوص فشلت (راجع الأعلى)"

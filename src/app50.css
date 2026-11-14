@@ -6,3 +6,6 @@
 .hm-st .hm-r{color:color-mix(in srgb,var(--nh-acc,var(--s-accent,#a8741a)) 62%,currentColor);font-weight:600}
 .gd-text .hm-st{font-size:inherit}
 #progDay .hm-text .hm-st{margin-inline-end:50px}
+.hm-st .hm-w{grid-column:1/-1}
+.hm-st .hm-lab{grid-column:1/-1;font-size:13px;font-weight:700;padding:0 0 2px}
+#progDay .hm-text .hm-st{font-size:16px;column-gap:10px;line-height:1.9}

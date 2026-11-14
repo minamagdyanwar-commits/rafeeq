@@ -1,0 +1,5 @@
+/* v6.16 — «سياق الإصحاح»: تخطيط فقط (الألوان من .u-card/.chip/.u-sub/.u-note الموجودة) */
+.cc-b .cc-r{margin:10px 0 0}
+.cc-b .cc-c{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px}
+.cc-b .cc-c .u-note{flex:1 0 100%}
+.cc-b .cc-pl{font-size:14px}

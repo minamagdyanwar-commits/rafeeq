@@ -10,6 +10,9 @@
 | الأنماط | `src/app*.css` |
 | الرحلات (نصوص، آيات، مراحل) | `content/journeys/<id>.json` ثم `node tools/build.mjs` |
 | ترتيب ظهور الرحلات | `content/journeys/_order.json` |
+| الألحان والترانيم (نصوص مرتّلة تظهر في مكتبة «الألحان والترانيم» وفي الخلوة) | `content/hymns/<id>.json` (الحقول: kind, title, sub, src, review, lines, refrain, tags[موضوعات], season[مواسم: jonah·lent·holy·pasc·apostles·virgin·adv], khalwa) و`_order.json` ثم `node tools/build.mjs`؛ الواجهة `src/app56.js` |
+| يوم الكنيسة ورحلة الموسم (يجمعان بيانات موجودة) | `src/app57.js` (يقرأ `window.__copCal` و`__prog.season()`) |
+| سياق الإصحاح تحت نص الإصحاح | `src/app58.js` |
 | أطلس الكتاب (شخصيات، أنساب، خرائط) | `content/atlas/*.json` ثم `node tools/build.mjs` (الواجهة في `src/app51.js`) |
 | الكتاب المقدس الدراسي (الأناجيل، الملوك والأخبار، نبوّة وتحقيق، الرمز والمرموز، المسيح بالموضوع، حياة المسيح) | `content/study/*.json` ثم `node tools/build.mjs` (الواجهة في `src/app53.js`) |
 | بيانات كبيرة جاهزة (الكتاب المقدس، الأجبية…) | `data-*.js` في الجذر (ناتج جاهز) |
