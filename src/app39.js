@@ -19,7 +19,7 @@ window.__hlMeta=function(x){try{if(!x||x.closest('#page-read,#view-meditation,#v
 (function(){
 "use strict";
 var K='rafeeq_prog_v1',AR='٠١٢٣٤٥٦٧٨٩';
-var CATS=[['person','شخصيات الكتاب','👤'],['topic','موضوعات روحية','🕊'],['church','من الكنيسة والتقليد','⛪'],['season','رحلات المواسم','📅'],['shenouda','رحلات قداسة البابا شنوده','📖'],['custom','رحلاتي الخاصة','✨']];
+var CATS=[['bible','أسفار الكتاب المقدس كاملة','📖'],['person','شخصيات الكتاب','👤'],['topic','موضوعات روحية','🕊'],['church','من الكنيسة والتقليد','⛪'],['season','رحلات المواسم','📅'],['shenouda','رحلات قداسة البابا شنوده','📖'],['custom','رحلاتي الخاصة','✨']];
 function ar(n){return RF.ar(n)}
 function esc(s){return RF.esc(s)}
 function F(){return window.__F||{}}
@@ -126,7 +126,7 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
   var Q=it[7],BK=Object.assign({},p.book||{},(it[7]&&it[7].b)||{});
   /* رحلات الكتب: الاقتباس من الكتاب أولًا (مع المصدر والصفحة)، ثم الآية للتأمل */
   function top(psalm){
-    if(!Q)return '<article class="pd-v">'+psalm+'</article>';
+    if(!Q)return p.fullText?'<article class="pd-v pd-full"><h4>نص الكتاب</h4>'+psalm+'</article>':'<article class="pd-v">'+psalm+'</article>';
     var src='من كتاب «'+esc(BK.title||p.short)+'»'+(BK.author?' — '+esc(BK.author):'')+(Q.c?' — '+esc(Q.c):'')+'<br>صفحة '+ar(Q.p)+(BK.part&&Q.f?' من '+esc(Q.f):'')+' · ترقيم الملف الأصلي';
     var bu=(BK.urls&&Q.f&&BK.urls[Q.f])||BK.url;
     var link=bu?'<a class="pd-open pd-book" href="'+esc(bu)+'" target="_blank" rel="noopener">افتح الكتاب كاملًا</a>':'';
@@ -141,6 +141,10 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
     el.className='prg-day on';el.scrollTop=0}
   function psalmHtml(){
     try{var r=b.parseRef(it[1]),txt=b.verses(r.bi,r.ch,r.v1,r.v2),lab=b.label(r.bi,r.ch,r.v1,r.v2);
+      if(p.fullText){/* رحلات الأسفار الكاملة: النص كله بالترتيب بأرقام الآيات وعناوين الفقرات */
+        var a=r.v1||1,out='';
+        txt.forEach(function(t,i){var v=a+i,hh=b.headsAt?b.headsAt(r.bi,r.ch,v):null;(hh||[]).forEach(function(h){out+='<div class="pd-h">'+esc(h)+'</div>'});out+='<p class="pd-ver"><sup>'+ar(b.vNum(r.bi,r.ch,v))+'</sup> '+esc(t)+'</p>'});
+        return out+'<b>'+esc(lab)+' · '+ar(txt.length)+(txt.length===1?' آية':' آيات')+'</b><button type="button" class="pd-open" data-pgopen="'+r.bi+':'+r.ch+':'+a+'">افتح الفصل في الكتاب المقدس</button>'}
       return '<p>'+esc(txt.slice(0,6).join(' '))+(txt.length>6?' …':'')+'</p><b>'+esc(lab)+'</b><button type="button" class="pd-open" data-pgopen="'+r.bi+':'+r.ch+':'+(r.v1||1)+'">افتح الفصل في الكتاب المقدس</button>'}catch(e){return '<b>'+esc(it[1])+'</b>'}}
   if(!it[1]){paint('');return}
   if(b&&b.load)b.load().then(function(){paint(psalmHtml())},function(){paint('<b>'+esc(it[1])+'</b>')});else paint('<b>'+esc(it[1])+'</b>')}
