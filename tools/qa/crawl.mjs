@@ -20,6 +20,7 @@ export async function crawl(p, step = async () => {}) {
   await p.evaluate(() => { __prog.close(); __prog.open('joseph'); }); await settle(600); await step('prog-path');
   await p.evaluate(() => document.querySelector('.nd.now').click()); await settle(800); await step('prog-day');
   await p.evaluate(() => { __prog.close(); __prog.open('bk_philippians'); }); await settle(600); await p.evaluate(() => __prog.day(1)); await settle(800); await step('prog-book-day');
+  await p.evaluate(() => { __prog.close(); __prog.open('bk_wars1'); }); await settle(600); await p.evaluate(() => __prog.day(1)); await settle(800); await step('prog-book-text');
   await p.evaluate(() => { try { __prog.close(); } catch (e) {} });
   await p.evaluate(() => __hymLib.open()); await settle(500); await step('hymlib');
   await p.evaluate(() => { __hymnsUI.open('emsek_ya_rab'); }); await settle(500); await step('hymn-ref');

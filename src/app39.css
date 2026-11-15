@@ -149,3 +149,8 @@ html[data-rf-theme="holy/2/holy"] .u-tabs button:not(.on){color:#1b1507!importan
 .pd-full .pd-ver{margin:0 0 10px;font-size:17px;line-height:2}
 .pd-full .pd-ver sup{font-size:11px;margin-inline-end:4px}
 .pd-full .pd-h{margin:14px 0 6px;text-align:center;font-weight:700;font-size:15px}
+.pd-bk .pd-pg{margin:14px 0 4px;font-size:12px;opacity:.8;text-align:center;border-top:1px dashed color-mix(in srgb,currentColor 25%,transparent);padding-top:6px}
+.pd-bk .pd-pg:first-of-type{margin-top:0;border-top:0;padding-top:0}
+.pd-bk .pd-bold{font-weight:700}
+.pd-bk b{display:block;margin-top:12px;font-size:12px;font-weight:600}
+@media (max-width:640px){.pd-bk .pd-ver{margin-inline-end:50px}}

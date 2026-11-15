@@ -4,7 +4,7 @@
    - لكل رحلة: id,title,short,icon,sub,cat,labels[3],stages,days[{title,ref,s1,s2,s3,question,task}], و(اختياري) sync/season/stageAt،
      و src (المصدر) و review {status: draft|needs-review|reviewed, note}.
    - التحقق: ٧ حقول لكل يوم، المراجع غير فارغة، ووجود المراحل. الفشل يوقف البناء. */
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -28,13 +28,30 @@ for (const id of order) {
   const st = (j.review && j.review.status) || 'draft'; stat[st] = (stat[st] || 0) + 1;
   const o = { id: j.id, title: j.title, short: j.short, icon: j.icon, sub: j.sub, cat: j.cat, labels: j.labels, stages: j.stages };
   for (const k of Object.keys(j)) if (!(k in o) && !['days', 'review'].includes(k)) o[k] = j[k];
-  o.days = j.days.map(d => { const a = [d.title, d.ref, d.s1 || '', d.s2 || '', d.s3 || '', d.question, d.task]; if (d.quote) a.push({ q: d.quote.text, p: d.quote.page, c: d.quote.chapter || '', f: d.quote.file || '', b: d.quote.book || null }); return a; });
+  o.days = j.days.map(d => { const a = [d.title, d.ref, d.s1 || '', d.s2 || '', d.s3 || '', d.question, d.task]; if (d.quote || d.bookPages) a.push(d.quote ? { q: d.quote.text, p: d.quote.page, c: d.quote.chapter || '', f: d.quote.file || '', b: d.quote.book || null } : null); if (d.bookPages) a.push({ id: d.bookPages.id, from: d.bookPages.from, to: d.bookPages.to }); return a; });
   { // ترتيب الاقتباسات: صفحات الكتاب الواحد تصاعدية (الرحلة تتبع ترتيب الكتاب)
     const last = {};
     const seenFile = {}; j.days.forEach((d, i) => { if (!d.quote) return; const bk = (d.quote.book && d.quote.book.title) || (j.book && j.book.title) || ''; const fk = bk + '|' + (d.quote.file || ''); if (d.quote.file && !seenFile[fk] && last[bk] != null) { seenFile[fk] = 1; last[bk] = null; } seenFile[fk] = 1; if (last[bk] != null && d.quote.page < last[bk]) errs.push(`${id} يوم ${i + 1}: الصفحة ${d.quote.page} أقدم من السابقة ${last[bk]} (ترتيب الكتاب)`); last[bk] = d.quote.page; });
   }
   if (j.book || j.days.some(d => d.quote)) { if (j.book && !j.book.title) errs.push(`${id}: book.title ناقص`); j.days.forEach((d, i) => { if (!d.quote || !d.quote.text || !d.quote.page) errs.push(`${id} يوم ${i + 1}: رحلة كتاب بلا اقتباس/صفحة`); }); }
   out[id] = o;
+}
+/* نصوص الكتب المنقولة (content/books/*.json) → src/data-books.js (window.__bookText)؛ ويُتحقق أن كل صفحة تشير إليها أيام الرحلات موجودة */
+{
+  const bd = join(root, 'content/books'), books = {};
+  if (existsSync(bd)) for (const f of readdirSync(bd)) {
+    if (!f.endsWith('.json')) continue;
+    const b = JSON.parse(readFileSync(join(bd, f), 'utf8'));
+    for (const k of ['id', 'title', 'pages']) if (b[k] == null) errs.push(`كتاب ${f}: حقل ناقص ${k}`);
+    books[b.id] = b;
+  }
+  for (const id of order) {
+    const j = JSON.parse(readFileSync(join(dir, id + '.json'), 'utf8'));
+    j.days.forEach((d, i) => { if (!d.bookPages) return; const b = books[d.bookPages.id]; if (!b) { errs.push(`${id} يوم ${i + 1}: كتاب غير موجود ${d.bookPages.id}`); return; } for (let p = d.bookPages.from; p <= d.bookPages.to; p++) if (!b.pages[String(p)]) errs.push(`${id} يوم ${i + 1}: صفحة ${p} غير منقولة في ${d.bookPages.id}`); });
+  }
+  const bb = `/* مُولَّد من content/books/*.json بواسطة tools/content-build.mjs — لا تعدّل هذا الملف يدويًا. */\n(function () {\n  "use strict";\n  window.__bookText = ${JSON.stringify(books)};\n})();\n`;
+  const bt = join(root, 'src/data-books.js');
+  if (!existsSync(bt) || readFileSync(bt, 'utf8') !== bb) writeFileSync(bt, bb);
 }
 if (errs.length) { console.error('أخطاء المحتوى:\n' + errs.join('\n')); process.exit(1); }
 const body = `/* مُولَّد من content/journeys/*.json بواسطة tools/content-build.mjs — لا تعدّل هذا الملف يدويًا. */

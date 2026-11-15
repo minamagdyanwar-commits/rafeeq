@@ -85,6 +85,7 @@ try{
  /* رحلات الأسفار الكاملة: المسار + يوم بنص كامل */
  await p.evaluate(()=>{__prog.close();__prog.open('bk_philippians')});await settle(500);await check('prog-book-path');
  await p.evaluate(()=>__prog.day(1));await settle(800);await scrollChk('prog-book-day');
+ await p.evaluate(()=>{__prog.close();__prog.open('bk_wars1')});await settle(500);await p.evaluate(()=>__prog.day(1));await settle(800);await scrollChk('prog-book-text');
  await p.evaluate(()=>{try{__prog.close()}catch(e){}});await settle(300);
  /* صفحات إضافية (كل خطوة تتخطّى بهدوء لو عنصرها غير موجود): الإعدادات، البحث، أطلس الكتاب، الألحان، يوم قديم، تبويبات المتابعة، نافذة اليوم */
  const step=async(name,fn,wait=700,scroll=false)=>{try{await p.evaluate(fn);await settle(wait);if(scroll)await scrollChk(name);else await check(name)}catch(e){errs.push(name+': '+String(e.message).slice(0,60))}};

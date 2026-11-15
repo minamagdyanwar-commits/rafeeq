@@ -125,7 +125,17 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
   function sec(lbl,txt){return txt?'<section class="pd-r"><h4>'+esc(lbl)+'</h4><p>'+esc(txt)+'</p></section>':''}
   var Q=it[7],BK=Object.assign({},p.book||{},(it[7]&&it[7].b)||{});
   /* رحلات الكتب: الاقتباس من الكتاب أولًا (مع المصدر والصفحة)، ثم الآية للتأمل */
+  /* رحلات الكتب الكاملة: نص صفحات الكتاب كما هو (من content/books) ثم المصدر والصفحات ثم الآية للتأمل */
+  function bookTop(psalm){
+    var B=it[8],bk=(window.__bookText||{})[B.id];if(!bk)return '<article class="pd-v">'+psalm+'</article>';
+    var off=bk.pageOffset||0,out='';
+    for(var pg=B.from;pg<=B.to;pg++){out+='<div class="pd-pg">صفحة '+ar(pg)+' من الملف'+(off?' · '+ar(pg+off)+' مطبوعة':'')+'</div>';
+      (bk.pages[String(pg)]||[]).forEach(function(x){out+=typeof x==='string'?'<p class="pd-ver">'+esc(x)+'</p>':'<p class="pd-ver pd-bold">'+esc(x.h)+'</p>'})}
+    var rng=B.from===B.to?'صفحة '+ar(B.from):'صفحات '+ar(B.from)+'–'+ar(B.to),src='من كتاب «'+esc(bk.title)+'» — '+esc(bk.author||'')+'<br>'+rng+' بترقيم الملف'+(off?' ('+ar(B.from+off)+(B.from===B.to?'':'–'+ar(B.to+off))+' مطبوعة)':'');
+    var link=bk.url?'<a class="pd-open pd-book" href="'+esc(bk.url)+'" target="_blank" rel="noopener">افتح الكتاب كاملًا</a>':'';
+    return '<article class="pd-v pd-full pd-bk"><h4>نص الكتاب</h4>'+out+'<b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
   function top(psalm){
+    if(it[8])return bookTop(psalm);
     if(!Q)return p.fullText?'<article class="pd-v pd-full"><h4>نص الكتاب</h4>'+psalm+'</article>':'<article class="pd-v">'+psalm+'</article>';
     var src='من كتاب «'+esc(BK.title||p.short)+'»'+(BK.author?' — '+esc(BK.author):'')+(Q.c?' — '+esc(Q.c):'')+'<br>صفحة '+ar(Q.p)+(BK.part&&Q.f?' من '+esc(Q.f):'')+' · ترقيم الملف الأصلي';
     var bu=(BK.urls&&Q.f&&BK.urls[Q.f])||BK.url;
