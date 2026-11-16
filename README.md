@@ -10,6 +10,8 @@
 | الأنماط | `src/app*.css` |
 | الرحلات (نصوص، آيات، مراحل) | `content/journeys/<id>.json` ثم `node tools/build.mjs` |
 | ترتيب ظهور الرحلات | `content/journeys/_order.json` |
+| نص كتاب منقول كاملًا بالصفحات (مثل «حروب الشياطين») + رحلة عليه | `content/books/<id>.json` (pages: فقرات وعناوين بإملاء الطباعة، transcribed:[من,إلى]) و`content/journeys/bk_*.json` بحقل `bookId` وأيام `bookPages:{id,from,to}`؛ يتحقق `bookcov.mjs` من اتصال الصفحات |
+| رحلات الأسفار الكاملة (نص السفر كله بالترتيب من فان دايك + تأمل وصلاة وتطبيق لكل مقطع) | `content/journeys/bk_*.json` بحقل `fullText:true` و`bookName`؛ كل يوم `ref` لمقطع متصل، والأيام معًا تغطي السفر بلا نقص (يتحقق `tools/qa/bookcov.mjs`) |
 | الألحان والترانيم (نصوص مرتّلة تظهر في مكتبة «الألحان والترانيم» وفي الخلوة) | `content/hymns/<id>.json` (الحقول: kind, title, sub, src, review, lines, refrain, tags[موضوعات], season[مواسم: jonah·lent·holy·pasc·apostles·virgin·adv], khalwa) و`_order.json` ثم `node tools/build.mjs`؛ الواجهة `src/app56.js` |
 | يوم الكنيسة ورحلة الموسم (يجمعان بيانات موجودة) | `src/app57.js` (يقرأ `window.__copCal` و`__prog.season()`) |
 | سياق الإصحاح تحت نص الإصحاح | `src/app58.js` |
