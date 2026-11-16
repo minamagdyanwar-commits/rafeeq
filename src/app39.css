@@ -159,3 +159,7 @@ html[data-rf-theme="holy/2/holy"] .u-tabs button:not(.on){color:#1b1507!importan
 .pd-bk b{display:block;margin:0;padding:10px 18px 14px;font-size:12px;font-weight:600}
 .pd-bk .pd-open{margin:0 18px 16px}
 @media (max-width:640px){.pd-bk .bk-page{padding-inline-end:54px}}
+
+.prg-day .pg-x.pg-set{inset-inline-start:auto;inset-inline-end:12px}
+.settings-backdrop.open{z-index:100100!important}
+.settings-panel.open{z-index:100101!important}
