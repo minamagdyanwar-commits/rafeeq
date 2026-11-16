@@ -129,11 +129,13 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
   function bookTop(psalm){
     var B=it[8],bk=(window.__bookText||{})[B.id];if(!bk)return '<article class="pd-v">'+psalm+'</article>';
     var off=bk.pageOffset||0,out='';
-    for(var pg=B.from;pg<=B.to;pg++){out+='<div class="pd-pg">صفحة '+ar(pg)+' من الملف'+(off?' · '+ar(pg+off)+' مطبوعة':'')+'</div>';
-      (bk.pages[String(pg)]||[]).forEach(function(x){out+=typeof x==='string'?'<p class="pd-ver">'+esc(x)+'</p>':'<p class="pd-ver pd-bold">'+esc(x.h)+'</p>'})}
+    for(var pg=B.from;pg<=B.to;pg++){out+='<section class="bk-page">';
+      (bk.pages[String(pg)]||[]).forEach(function(x){out+=typeof x==='string'?'<p class="pd-ver">'+esc(x)+'</p>':'<p class="pd-ver pd-bold">'+esc(x.h)+'</p>'});
+      out+='<footer class="bk-no">'+ar(pg+off)+'</footer></section>'}
+    var hd='<header class="bk-hd"><span>'+esc(bk.title)+'</span><span>'+esc(bk.author||'')+'</span></header>';
     var rng=B.from===B.to?'صفحة '+ar(B.from):'صفحات '+ar(B.from)+'–'+ar(B.to),src='من كتاب «'+esc(bk.title)+'» — '+esc(bk.author||'')+'<br>'+rng+' بترقيم الملف'+(off?' ('+ar(B.from+off)+(B.from===B.to?'':'–'+ar(B.to+off))+' مطبوعة)':'');
     var link=bk.url?'<a class="pd-open pd-book" href="'+esc(bk.url)+'" target="_blank" rel="noopener">افتح الكتاب كاملًا</a>':'';
-    return '<article class="pd-v pd-full pd-bk"><h4>نص الكتاب</h4>'+out+'<b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
+    return '<article class="pd-v pd-full pd-bk">'+hd+out+'<b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
   function top(psalm){
     if(it[8])return bookTop(psalm);
     if(!Q)return p.fullText?'<article class="pd-v pd-full"><h4>نص الكتاب</h4>'+psalm+'</article>':'<article class="pd-v">'+psalm+'</article>';
