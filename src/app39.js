@@ -144,7 +144,7 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
     var link=bu?'<a class="pd-open pd-book" href="'+esc(bu)+'" target="_blank" rel="noopener">افتح الكتاب كاملًا</a>':'';
     return '<article class="pd-v pd-quote"><p>'+esc(Q.q)+'</p><b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
   function paint(psalm){
-    el.innerHTML='<button type="button" class="pg-x" data-pgback="1" aria-label="رجوع">‹ الدرب</button><div class="pd-c"><small>'+st[2]+' اليوم '+ar(d)+' من '+ar(n)+' · '+esc(st[0])+'</small><h2>'+esc(it[0])+'</h2>'+
+    el.innerHTML='<button type="button" class="pg-x" data-pgback="1" aria-label="رجوع">‹ الدرب</button><button type="button" class="pg-x pg-set" data-pgset="1" aria-label="الإعدادات (الخط والتباعد)">⚙ الخط</button><div class="pd-c"><small>'+st[2]+' اليوم '+ar(d)+' من '+ar(n)+' · '+esc(st[0])+'</small><h2>'+esc(it[0])+'</h2>'+
       top(psalm)+
       sec(L[0],it[2])+sec(L[1],it[3])+sec(L[2],it[4])+
       '<section class="pd-q"><h4>سؤال اليوم</h4><p>'+esc(it[5])+'</p><textarea id="pdNote" rows="3" maxlength="500" placeholder="اكتب إجابتك — تتحفظ على جهازك فقط">'+esc(s[active].notes[d]||'')+'</textarea></section>'+
@@ -186,6 +186,7 @@ document.addEventListener('click',function(e){var t=e.target,b;if(!t.closest)ret
   if(b=t.closest('[data-prog]')){e.preventDefault();e.stopPropagation();var id=b.getAttribute('data-prog');try{F().closeSheet()}catch(x){};if(id==='cur'){openCurrent()}else if(id==='hub'||!PG()[id]){hubPage(started(load()).length?'mine':'all')}else{active=id;render(true)}return}
   if(b=t.closest('[data-pgtab]')){hubPage(b.getAttribute('data-pgtab'));return}
   if(b=t.closest('[data-pgclose]')){closePage();return}
+  if(b=t.closest('[data-pgset]')){var sp=document.getElementById('settingsPanel'),sb=document.getElementById('settingsBackdrop');if(sp)sp.classList.add('open');if(sb)sb.classList.add('open');setTimeout(function(){var L=document.getElementById('v300Look');if(!L)return;function op(h){if(h&&h.getAttribute('aria-expanded')!=='true')h.click()}var hs=L.querySelectorAll('[role=button]');op(hs[0]);setTimeout(function(){for(var k=0;k<hs.length;k++)if(/حجم النص/.test(hs[k].textContent)||/الخطوط/.test(hs[k].textContent)){op(hs[k])}setTimeout(function(){var f=document.getElementById('fontRange');try{f&&f.scrollIntoView({block:'center'})}catch(e){}},80)},80)},60);return}
   if(b=t.closest('[data-pgback]')){closeDay();render(false);return}
   if(b=t.closest('[data-pgd]')){openDay(+b.getAttribute('data-pgd'));return}
   if(b=t.closest('[data-pgopen]')){var a=b.getAttribute('data-pgopen').split(':');closeDay();closePage();try{F().openBible(+a[0],+a[1],+a[2])}catch(x){}return}
