@@ -163,3 +163,9 @@ html[data-rf-theme="holy/2/holy"] .u-tabs button:not(.on){color:#1b1507!importan
 .prg-day .pg-x.pg-set{inset-inline-start:auto;inset-inline-end:12px}
 .settings-backdrop.open{z-index:100100!important}
 .settings-panel.open{z-index:100101!important}
+.pd-bk[data-bkn] .bk-page{display:none;border-bottom:0;touch-action:pan-y}
+.pd-bk[data-bkn] .bk-page.on{display:block}
+.pd-bk:not([data-bkn]) .bk-page{display:block}
+.pd-bk .bk-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 14px;border-top:1px dashed color-mix(in srgb,currentColor 22%,transparent)}
+.pd-bk .bk-nav button{min-width:44px;min-height:44px;border-radius:12px;border:1px solid color-mix(in srgb,currentColor 35%,transparent);background:transparent;color:inherit;font:inherit;font-size:1.4rem;cursor:pointer}
+.pd-bk .bk-pos{font-size:.85rem;color:var(--pg-a,var(--nh-acc,#d2b98a))}

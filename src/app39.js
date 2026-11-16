@@ -129,13 +129,15 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
   function bookTop(psalm){
     var B=it[8],bk=(window.__bookText||{})[B.id];if(!bk)return '<article class="pd-v">'+psalm+'</article>';
     var off=bk.pageOffset||0,out='';
-    for(var pg=B.from;pg<=B.to;pg++){out+='<section class="bk-page">';
+    var cnt=B.to-B.from+1;
+    for(var pg=B.from;pg<=B.to;pg++){out+='<section class="bk-page'+(pg===B.from?' on':'')+'" data-bkp="'+(pg-B.from)+'" data-pn="'+ar(pg+off)+'">';
       (bk.pages[String(pg)]||[]).forEach(function(x){out+=typeof x==='string'?'<p class="pd-ver">'+esc(x)+'</p>':'<p class="pd-ver pd-bold">'+esc(x.h)+'</p>'});
       out+='<footer class="bk-no">'+ar(pg+off)+'</footer></section>'}
+    var nav=cnt>1?'<nav class="bk-nav" aria-label="تنقل بين الصفحات"><button type="button" data-bkgo="-1" aria-label="الصفحة السابقة">›</button><span class="bk-pos" aria-live="polite">صفحة '+ar(1)+' من '+ar(cnt)+' · ص '+ar(B.from+off)+'</span><button type="button" data-bkgo="1" aria-label="الصفحة التالية">‹</button></nav>':'';
     var hd='<header class="bk-hd"><span>'+esc(bk.title)+'</span><span>'+esc(bk.author||'')+'</span></header>';
     var rng=B.from===B.to?'صفحة '+ar(B.from):'صفحات '+ar(B.from)+'–'+ar(B.to),src='من كتاب «'+esc(bk.title)+'» — '+esc(bk.author||'')+'<br>'+rng+' بترقيم الملف'+(off?' ('+ar(B.from+off)+(B.from===B.to?'':'–'+ar(B.to+off))+' مطبوعة)':'');
     var link=bk.url?'<a class="pd-open pd-book" href="'+esc(bk.url)+'" target="_blank" rel="noopener">افتح الكتاب كاملًا</a>':'';
-    return '<article class="pd-v pd-full pd-bk">'+hd+out+'<b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
+    return '<article class="pd-v pd-full pd-bk" data-bkn="'+cnt+'">'+hd+out+nav+'<b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
   function top(psalm){
     if(it[8])return bookTop(psalm);
     if(!Q)return p.fullText?'<article class="pd-v pd-full"><h4>نص الكتاب</h4>'+psalm+'</article>':'<article class="pd-v">'+psalm+'</article>';
@@ -182,7 +184,12 @@ document.addEventListener('DOMContentLoaded',boot);setTimeout(boot,600);
 /* الرئيسية القديمة تُرسم قبل تحميل هذا الملف فلا يظهر سطر «رحلتي» حتى أول نشاط: أعِد الرسم مرة بعد التحميل */
 setTimeout(function(){try{if(window.RF&&RF.act&&F().dkey)RF.act.changed(F().dkey())}catch(e){}},700);
 /* ---------- الأحداث ---------- */
+function bkGo(art,delta){var n=+art.getAttribute('data-bkn')||1,ps=art.querySelectorAll('.bk-page'),cur=0;ps.forEach(function(x,i){if(x.classList.contains('on'))cur=i});var nx=Math.max(0,Math.min(n-1,cur+delta));if(nx===cur)return;ps[cur].classList.remove('on');ps[nx].classList.add('on');var pos=art.querySelector('.bk-pos');if(pos)pos.textContent='صفحة '+ar(nx+1)+' من '+ar(n)+' · ص '+ps[nx].getAttribute('data-pn');var day=document.getElementById('progDay');if(day){var r=art.getBoundingClientRect(),y=day.scrollTop+r.top-60;if(day.scrollTop>y)day.scrollTop=Math.max(0,y)}}
+var bkX=0,bkY=0,bkArt=null;
+document.addEventListener('touchstart',function(e){var a=e.target.closest&&e.target.closest('.pd-bk[data-bkn]');bkArt=a&&+a.getAttribute('data-bkn')>1?a:null;if(bkArt&&e.touches[0]){bkX=e.touches[0].clientX;bkY=e.touches[0].clientY}},{passive:true});
+document.addEventListener('touchend',function(e){if(!bkArt)return;var t=e.changedTouches[0],dx=t.clientX-bkX,dy=t.clientY-bkY,a=bkArt;bkArt=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)bkGo(a,dx>0?1:-1)},{passive:true});
 document.addEventListener('click',function(e){var t=e.target,b;if(!t.closest)return;
+  if(b=t.closest('[data-bkgo]')){var ar_=t.closest('.pd-bk');if(ar_)bkGo(ar_,+b.getAttribute('data-bkgo'));return}
   if(b=t.closest('[data-prog]')){e.preventDefault();e.stopPropagation();var id=b.getAttribute('data-prog');try{F().closeSheet()}catch(x){};if(id==='cur'){openCurrent()}else if(id==='hub'||!PG()[id]){hubPage(started(load()).length?'mine':'all')}else{active=id;render(true)}return}
   if(b=t.closest('[data-pgtab]')){hubPage(b.getAttribute('data-pgtab'));return}
   if(b=t.closest('[data-pgclose]')){closePage();return}
