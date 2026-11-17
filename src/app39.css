@@ -169,3 +169,26 @@ html[data-rf-theme="holy/2/holy"] .u-tabs button:not(.on){color:#1b1507!importan
 .pd-bk .bk-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 14px;border-top:1px dashed color-mix(in srgb,currentColor 22%,transparent)}
 .pd-bk .bk-nav button{min-width:44px;min-height:44px;border-radius:12px;border:1px solid color-mix(in srgb,currentColor 35%,transparent);background:transparent;color:inherit;font:inherit;font-size:1.4rem;cursor:pointer}
 .pd-bk .bk-pos{font-size:.85rem;color:var(--pg-a,var(--nh-acc,#d2b98a))}
+
+/* ===== شكل الدفتر (بايندر) لكل ما له مرجع من كتاب: سلك على الجنب + هامش + سطور يقف عليها الكلام ===== */
+.pd-bk,.pd-quote.pd-bind{--bk-rule:color-mix(in srgb,#7ea6c8 60%,transparent);--bk-mg:color-mix(in srgb,#d9605a 78%,transparent);position:relative;overflow:hidden;padding:0 16px 0 70px;padding-inline:70px 16px;border-width:1px;border-radius:10px 16px 16px 10px;box-shadow:0 10px 22px -10px rgba(0,0,0,.35);background-image:linear-gradient(rgba(255,238,200,.05),rgba(255,238,200,.05))}
+.pd-bk:before,.pd-quote.pd-bind:before{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:40px;pointer-events:none;z-index:1;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='36' viewBox='0 0 40 36'%3E%3Ccircle cx='20' cy='14' r='5' fill='%23000' fill-opacity='.45'/%3E%3Crect x='-2' y='10' width='34' height='9' rx='4.5' fill='%238d8a85'/%3E%3Crect x='-2' y='10' width='34' height='3.5' rx='1.75' fill='%23d4d0c8'/%3E%3C/svg%3E") 0 10px/40px 36px repeat-y,
+ linear-gradient(to left,rgba(0,0,0,.28),transparent 85%)}
+.pd-bk:after,.pd-quote.pd-bind:after{content:"";position:absolute;inset-block:0;inset-inline-start:50px;width:5px;border-inline:1px solid var(--bk-mg);pointer-events:none}
+[dir=rtl] .pd-bk:before,[dir=rtl] .pd-quote.pd-bind:before{background-position:100% 10px,0 0}
+.pd-bk .bk-hd{padding:0;border-bottom:0;min-height:34px;align-items:center;font-size:11.5px}
+.pd-bk .bk-page{--bk-lh:calc((1.95 + var(--lh-d,0)) * 1.13rem);padding:0;font-size:1.13rem;line-height:var(--bk-lh);
+ background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(var(--bk-lh) - 1.5px),var(--bk-rule) calc(var(--bk-lh) - 1.5px),var(--bk-rule) var(--bk-lh))}
+.pd-bk .bk-page .pd-ver{margin:0;padding:0;font-size:1.13rem;line-height:var(--bk-lh);text-align:start;text-indent:1.2em}
+.pd-bk .bk-page .pd-bold{margin:0;font-size:1.13rem;font-weight:800;text-align:center;text-indent:0;line-height:var(--bk-lh)}
+.pd-bk .bk-no{margin:0;line-height:var(--bk-lh);font-size:11.5px}
+.pd-bk .bk-nav{padding:8px 0;border-top:0}
+.pd-bk b{padding:6px 0 14px}
+.pd-bk .pd-open{margin:0 0 16px}
+.pd-quote.pd-bind{padding-block:0 0}
+.pd-quote.pd-bind p{--bk-lh:calc((2.05 + var(--lh-d,0)) * 1.165rem);margin:0;padding:0;line-height:var(--bk-lh);text-align:start;
+ background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(var(--bk-lh) - 1.5px),var(--bk-rule) calc(var(--bk-lh) - 1.5px),var(--bk-rule) var(--bk-lh))}
+.pd-quote.pd-bind b{display:block;padding:10px 0 4px;font-size:12px}
+.pd-quote.pd-bind .pd-book{margin:4px 0 16px}
+@media (max-width:640px){.pd-bk .bk-page{padding-inline-end:0}}
