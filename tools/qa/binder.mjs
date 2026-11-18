@@ -18,13 +18,15 @@ for(const d of DES)for(const m of MODES)for(const [w,h,fp] of CASES){
   await p.addInitScript(([d,m,fp])=>{localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}));if(fp)localStorage.setItem('rafeeq_fontpct',fp)},[d,m,fp]);
   await p.goto(BASE+'/index.html');await p.waitForTimeout(1500);
   const R=async(id)=>{await p.evaluate(i=>{try{__prog.close()}catch(e){};__prog.open(i)},id);await p.waitForTimeout(500);await p.evaluate(()=>__prog.day(1));await p.waitForTimeout(700);
-    return p.evaluate(()=>{const a=document.querySelector('.pd-bk'),q=document.querySelector('.pd-quote.pd-bind');const el=a||q;const out={bk:!!a,quote:!!q,hov:document.documentElement.scrollWidth>innerWidth+1,fix:Object.keys(window.__rfFixLog||{}).filter(k=>/pd-bk|bk-|pd-quote/.test(k))};
+    return p.evaluate(()=>{const a=document.querySelector('.pd-bk'),q=document.querySelector('.pd-quote.pd-bind');const el=a||q;const lum=(c)=>{const m=(c||'').match(/[\d.]+/g);return m?(0.2126*+m[0]+0.7152*+m[1]+0.0722*+m[2])/255:null};const pg=document.querySelector('.prg-page.on,.prg-day.on');const out={pgLum:lum(pg&&getComputedStyle(pg).backgroundColor),bk:!!a,quote:!!q,hov:document.documentElement.scrollWidth>innerWidth+1,fix:Object.keys(window.__rfFixLog||{}).filter(k=>/pd-bk|bk-|pd-quote/.test(k))};
       if(el){const cs=getComputedStyle(el),bf=getComputedStyle(el,'::before'),af=getComputedStyle(el,'::after');out.rings=bf.content!=='none'&&bf.backgroundImage.includes('svg');out.margin=af.content!=='none'&&parseFloat(af.width)>0;
         const t=el.querySelector(a?'.bk-page.on .pd-ver':'p');const pc=getComputedStyle(a?el.querySelector('.bk-page.on'):t);out.lh=parseFloat(getComputedStyle(t).lineHeight);
         const gp=pc.backgroundImage.match(/(\d+(\.\d+)?)px\)/g)||[];out.grad=gp.length?parseFloat(gp[gp.length-1]):null;
         const bx=el.getBoundingClientRect();out.inView=bx.left>=-1&&bx.right<=innerWidth+1}
       return out})};
   const a=await R('bk_spiritual_vigil');
+  const modeOk=m==='light'?a.pgLum>0.6:a.pgLum<0.4;
+  say(modeOk,`${d}/${m}/${w} الرحلات تتبع وضع الشاشة (إضاءة الخلفية ${a.pgLum&&a.pgLum.toFixed(2)})`);
   say(!errs.length&&a.bk&&a.rings&&a.margin&&!a.hov&&a.inView&&!a.fix.length&&a.grad&&Math.abs(a.grad-a.lh)<1.2,`${d}/${m}/${w}${fp?'/font'+fp:''} book ${JSON.stringify(a)} ${errs.join('|')}`);
   if(SHOTS)await p.screenshot({path:`${OUT}/${d}-${m}-${w}${fp?'-f'+fp:''}.png`});
   if(!fp&&w===390){const n=await R('bk_dedication');say(n.bk&&n.rings,`${d}/${m} dedication binder`);
