@@ -206,3 +206,9 @@ html[data-nh=""][data-rf-theme^="classic/2"] :is(.rd-drive,#progHub),html[data-n
 /* الورقة تظهر ورقة لا إطارًا: تباين خفيف بينها وبين لون الصفحة (كلاهما فاتح أو كلاهما داكن) */
 html[data-theme="light"] .pd-bk,html[data-theme="light"] .pd-quote.pd-bind{background-color:color-mix(in srgb,var(--nh-bg,#f4efe4) 12%,#fffef8);border-color:color-mix(in srgb,var(--nh-ink,#2a1b10) 24%,transparent);box-shadow:0 16px 28px -14px rgba(40,25,5,.55),0 2px 4px rgba(40,25,5,.18)}
 html[data-theme="dark"] .pd-bk,html[data-theme="dark"] .pd-quote.pd-bind{background-color:color-mix(in srgb,var(--nh-bg,#0f1318) 86%,#f6ecd4);border-color:color-mix(in srgb,var(--nh-ink,#efe6d2) 26%,transparent);box-shadow:0 16px 28px -14px rgba(0,0,0,.85),0 2px 4px rgba(0,0,0,.5)}
+
+/* أجزاء اليوم التي تحت الورقة (تأمل/صلاة/تطبيق/سؤال/آية): بطاقات بلون ثالث مختلف عن الصفحة وعن الورقة */
+.pd-c:has(.pd-bk) :is(.pd-r,.pd-q,.pd-bible){background-color:color-mix(in srgb,var(--nh-acc,#a8791a) 11%,var(--nh-bg,#f4efe4));border:1px solid var(--nh-line,rgba(0,0,0,.2));border-radius:14px;padding:12px 14px;margin-bottom:14px}
+.pd-c:has(.pd-bk) .pd-bible{background-color:color-mix(in srgb,var(--nh-acc,#a8791a) 11%,var(--nh-bg,#f4efe4))}
+html[data-theme="dark"] .pd-c:has(.pd-bk) :is(.pd-r,.pd-q,.pd-bible){background-color:color-mix(in srgb,var(--nh-acc,#d2b98a) 13%,var(--nh-bg,#0f1318))}
+.pd-c:has(.pd-bk) .pd-t{background-color:color-mix(in srgb,var(--nh-acc,#a8791a) 18%,var(--nh-bg,#f4efe4));background-image:none}
