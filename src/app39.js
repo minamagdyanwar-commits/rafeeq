@@ -126,12 +126,14 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
   var Q=it[7],BK=Object.assign({},p.book||{},(it[7]&&it[7].b)||{});
   /* رحلات الكتب: الاقتباس من الكتاب أولًا (مع المصدر والصفحة)، ثم الآية للتأمل */
   /* رحلات الكتب الكاملة: نص صفحات الكتاب كما هو (من content/books) ثم المصدر والصفحات ثم الآية للتأمل */
+  /* تنظيف علامات الترقيم العربية للعرض (الأصل الممسوح فيه مسافة قبل الفاصلة والنقطة): لا فاصلة في أول السطر ولا مسافات داخل الأقواس */
+  function arFix(t){return String(t).replace(/\s+([،؛؟!.:])/g,'$1').replace(/([\[\(«])\s+/g,'$1').replace(/\s+([\]\)»])/g,'$1').replace(/([،؛؟!:])(?=[^\s،؛؟!.:\])»\d])/g,'$1 ')}
   function bookTop(psalm){
     var B=it[8],bk=(window.__bookText||{})[B.id];if(!bk)return '<article class="pd-v">'+psalm+'</article>';
     var off=bk.pageOffset||0,out='';
     var cnt=B.to-B.from+1;
     for(var pg=B.from;pg<=B.to;pg++){out+='<section class="bk-page'+(pg===B.from?' on':'')+'" data-bkp="'+(pg-B.from)+'" data-pn="'+ar(pg+off)+'">';
-      (bk.pages[String(pg)]||[]).forEach(function(x){out+=typeof x==='string'?'<p class="pd-ver">'+esc(x)+'</p>':'<p class="pd-ver pd-bold">'+esc(x.h)+'</p>'});
+      (bk.pages[String(pg)]||[]).forEach(function(x){out+=typeof x==='string'?'<p class="pd-ver">'+esc(arFix(x))+'</p>':'<p class="pd-ver pd-bold'+(arFix(x.h).length>46?' pd-long':'')+'">'+esc(arFix(x.h))+'</p>'});
       out+='<footer class="bk-no">'+ar(pg+off)+'</footer></section>'}
     var nav=cnt>1?'<nav class="bk-nav" aria-label="تنقل بين الصفحات"><button type="button" data-bkgo="-1" aria-label="الصفحة السابقة"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 16 12 9 19"/></svg></button><span class="bk-pos" aria-live="polite">صفحة '+ar(1)+' من '+ar(cnt)+' · ص '+ar(B.from+off)+'</span><button type="button" data-bkgo="1" aria-label="الصفحة التالية"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 5 8 12 15 19"/></svg></button></nav>':'';
     var hd='<header class="bk-hd"><span>'+esc(bk.title)+'</span><span>'+esc(bk.author||'')+'</span></header>';

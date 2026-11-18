@@ -215,3 +215,9 @@ html[data-theme="dark"] .pd-c:has(.pd-bk) :is(.pd-r,.pd-q,.pd-bible){background-
 
 /* الداكن: نصوص التمييز فوق الورقة الأفتح تُمزج مع لون النص لضمان التباين */
 html[data-theme="dark"] .pd-bk :is(.bk-hd,.bk-no,.bk-pos,b,.pd-open){color:color-mix(in srgb,var(--pg-a,var(--nh-acc,#d2b98a)) 45%,var(--nh-ink,#efe6d2))}
+
+/* تحسين الكتابة داخل الورقة: ضبط الأطراف، والسطر تحت الكلام مباشرة، وعناوين طويلة تبدأ من اليمين */
+.pd-bk .bk-page{background-position:0 calc(var(--bk-lh) * -.2)}
+.pd-bk .bk-page .pd-ver{text-align:justify;text-align-last:start;text-justify:inter-word;word-spacing:-.01em}
+.pd-bk .bk-page .pd-bold{text-align:center;text-align-last:center}
+.pd-bk .bk-page .pd-bold.pd-long{text-align:start;text-align-last:start;text-indent:0}
