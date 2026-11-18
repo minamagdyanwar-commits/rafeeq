@@ -144,7 +144,7 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
     var src='من كتاب «'+esc(BK.title||p.short)+'»'+(BK.author?' — '+esc(BK.author):'')+(Q.c?' — '+esc(Q.c):'')+'<br>صفحة '+ar(Q.p)+(BK.part&&Q.f?' من '+esc(Q.f):'')+' · ترقيم الملف الأصلي';
     var bu=(BK.urls&&Q.f&&BK.urls[Q.f])||BK.url;
     var link=bu?'<a class="pd-open pd-book" href="'+esc(bu)+'" target="_blank" rel="noopener">افتح الكتاب كاملًا</a>':'';
-    return '<article class="pd-v pd-quote"><p>'+esc(Q.q)+'</p><b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
+    return '<article class="pd-v pd-quote pd-bind"><p>'+esc(Q.q)+'</p><b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
   function paint(psalm){
     el.innerHTML='<button type="button" class="pg-x" data-pgback="1" aria-label="رجوع">‹ الدرب</button><button type="button" class="pg-x pg-set" data-pgset="1" aria-label="الإعدادات (الخط والتباعد)">⚙ الخط</button><div class="pd-c"><small>'+st[2]+' اليوم '+ar(d)+' من '+ar(n)+' · '+esc(st[0])+'</small><h2>'+esc(it[0])+'</h2>'+
       top(psalm)+
