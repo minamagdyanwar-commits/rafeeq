@@ -196,6 +196,9 @@ html[data-rf-theme="holy/2/holy"] .u-tabs button:not(.on){color:#1b1507!importan
 .pd-c:has(.pd-bk,.pd-quote.pd-bind){max-width:680px}
 
 /* الرحلات تتبع وضع الشاشة في التصميمات التي لا تعرّف ألوان --nh (classic/church/qalaya/cross): الفاتح فاتح فعلًا */
-html[data-nh=""][data-rf-theme^="classic/2"] :is(#progPage,#progDay,#progHub,#progProbe,.rd-drive,.prg-page,.prg-day){--nh-bg:#f1e6cf;--nh-card:#fffbf2;--nh-ink:#2e1d12;--nh-acc:#7a5210;--nh-acc2:#5e3f0c;--nh-line:rgba(122,82,16,.38);--nh-soft:rgba(46,29,18,.66)}
-html[data-nh=""][data-rf-theme^="church/2"] :is(#progPage,#progDay,#progHub,#progProbe,.rd-drive,.prg-page,.prg-day){--nh-bg:#e9e2cf;--nh-card:#f8f0dc;--nh-ink:#2a1b10;--nh-acc:#1e2b4f;--nh-acc2:#33457a;--nh-line:rgba(30,43,79,.35);--nh-soft:rgba(42,27,16,.66)}
-html[data-nh=""][data-rf-theme^="cross/2"] :is(#progPage,#progDay,#progHub,#progProbe,.rd-drive,.prg-page,.prg-day){--nh-bg:#f6f6f4;--nh-card:#ffffff;--nh-ink:#161616;--nh-acc:#7a5c0f;--nh-acc2:#5b440a;--nh-line:rgba(22,22,22,.28);--nh-soft:rgba(22,22,22,.66)}
+html[data-nh=""][data-rf-theme^="classic/2"] :is(#progPage,#progDay,#progProbe,.prg-page,.prg-day){--nh-bg:#f1e6cf;--nh-card:#fffbf2;--nh-ink:#2e1d12;--nh-acc:#7a5210;--nh-acc2:#5e3f0c;--nh-line:rgba(122,82,16,.38);--nh-soft:rgba(46,29,18,.66)}
+html[data-nh=""][data-rf-theme^="church/2"] :is(#progPage,#progDay,#progProbe,.prg-page,.prg-day){--nh-bg:#e9e2cf;--nh-card:#f8f0dc;--nh-ink:#2a1b10;--nh-acc:#1e2b4f;--nh-acc2:#33457a;--nh-line:rgba(30,43,79,.35);--nh-soft:rgba(42,27,16,.66)}
+html[data-nh=""][data-rf-theme^="cross/2"] :is(#progPage,#progDay,#progHub,#progProbe,.prg-page,.prg-day){--nh-bg:#f6f6f4;--nh-card:#ffffff;--nh-ink:#161616;--nh-acc:#7a5c0f;--nh-acc2:#5b440a;--nh-line:rgba(22,22,22,.28);--nh-soft:rgba(22,22,22,.66)}
+
+/* صفحة الدرب داخل التطبيق (rd-drive) تبقى على خلفية التصميم الداكنة حتى في الفاتح لـclassic وchurch */
+html[data-nh=""][data-rf-theme^="classic/2"] :is(.rd-drive,#progHub),html[data-nh=""][data-rf-theme^="church/2"] :is(.rd-drive,#progHub){--pg-a:#d2b98a;--pg-on:#1a1206;--nh-bg:#0f1318;--nh-card:rgba(255,255,255,.07);--nh-ink:#efe6d2;--nh-soft:rgba(239,230,210,.72);--nh-acc:#d2b98a;--nh-line:rgba(210,185,138,.38)}
