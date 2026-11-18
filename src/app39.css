@@ -202,3 +202,7 @@ html[data-nh=""][data-rf-theme^="cross/2"] :is(#progPage,#progDay,#progHub,#prog
 
 /* صفحة الدرب داخل التطبيق (rd-drive) تبقى على خلفية التصميم الداكنة حتى في الفاتح لـclassic وchurch */
 html[data-nh=""][data-rf-theme^="classic/2"] :is(.rd-drive,#progHub),html[data-nh=""][data-rf-theme^="church/2"] :is(.rd-drive,#progHub){--pg-a:#d2b98a;--pg-on:#1a1206;--nh-bg:#0f1318;--nh-card:rgba(255,255,255,.07);--nh-ink:#efe6d2;--nh-soft:rgba(239,230,210,.72);--nh-acc:#d2b98a;--nh-line:rgba(210,185,138,.38)}
+
+/* الورقة تظهر ورقة لا إطارًا: تباين خفيف بينها وبين لون الصفحة (كلاهما فاتح أو كلاهما داكن) */
+html[data-theme="light"] .pd-bk,html[data-theme="light"] .pd-quote.pd-bind{background-color:color-mix(in srgb,var(--nh-bg,#f4efe4) 12%,#fffef8);border-color:color-mix(in srgb,var(--nh-ink,#2a1b10) 24%,transparent);box-shadow:0 16px 28px -14px rgba(40,25,5,.55),0 2px 4px rgba(40,25,5,.18)}
+html[data-theme="dark"] .pd-bk,html[data-theme="dark"] .pd-quote.pd-bind{background-color:color-mix(in srgb,var(--nh-bg,#0f1318) 86%,#f6ecd4);border-color:color-mix(in srgb,var(--nh-ink,#efe6d2) 26%,transparent);box-shadow:0 16px 28px -14px rgba(0,0,0,.85),0 2px 4px rgba(0,0,0,.5)}
