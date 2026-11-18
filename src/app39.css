@@ -95,7 +95,7 @@ html[data-nh=""][data-design="2"] :is(#progPage,#progDay,#progHub,#progProbe,.rd
 html[data-nh=""] body #mod-k .app-switcher .app-tab.active{background:linear-gradient(135deg,#d2b98a,#b9965a)!important;color:#1a1206!important;border-color:#e8d3a2!important}
 html[data-nh=""][data-design="2"] body #mod-k .app-switcher .app-tab.active{background:#7a4e0f!important;color:#fff!important;border-color:#7a4e0f!important}
 /* classic وchurch: صفحاتهما داكنة في الوضعين، فنثبّت ألوانًا داكنة وننقذ نص التبويبات */
-html[data-nh=""][data-rf-theme^="classic/"] :is(#progPage,#progDay,#progHub,#progProbe,.rd-drive),html[data-nh=""][data-rf-theme^="church/"] :is(#progPage,#progDay,#progHub,#progProbe,.rd-drive){--nh-bg:#0f1318;--nh-card:rgba(255,255,255,.07);--nh-ink:#efe6d2;--nh-soft:rgba(239,230,210,.72);--nh-acc:#d2b98a;--nh-line:rgba(210,185,138,.38)}
+html[data-nh=""][data-rf-theme^="classic/1"] :is(#progPage,#progDay,#progHub,#progProbe,.rd-drive),html[data-nh=""][data-rf-theme^="church/1"] :is(#progPage,#progDay,#progHub,#progProbe,.rd-drive){--nh-bg:#0f1318;--nh-card:rgba(255,255,255,.07);--nh-ink:#efe6d2;--nh-soft:rgba(239,230,210,.72);--nh-acc:#d2b98a;--nh-line:rgba(210,185,138,.38)}
 html[data-nh=""][data-rf-theme^="classic/"] body #mod-k .app-switcher .app-tab:not(.active),html[data-nh=""][data-rf-theme^="church/"] body #mod-k .app-switcher .app-tab:not(.active){color:#efe6d2!important;background:rgba(255,255,255,.07)!important}
 html[data-nh=""][data-rf-theme^="classic/"] body #mod-k .app-switcher .app-tab.active,html[data-nh=""][data-rf-theme^="church/"] body #mod-k .app-switcher .app-tab.active{background:linear-gradient(135deg,#d2b98a,#b9965a)!important;color:#1a1206!important;border-color:#e8d3a2!important}
 /* التصاميم الجديدة في الوضع الفاتح: أقراص تبويبات فاتحة بنص داكن مهما كان لون الشريط */
@@ -194,3 +194,8 @@ html[data-rf-theme="holy/2/holy"] .u-tabs button:not(.on){color:#1b1507!importan
 @media (max-width:640px){.pd-bk .bk-page{padding-inline-end:0}}
 
 .pd-c:has(.pd-bk,.pd-quote.pd-bind){max-width:680px}
+
+/* الرحلات تتبع وضع الشاشة في التصميمات التي لا تعرّف ألوان --nh (classic/church/qalaya/cross): الفاتح فاتح فعلًا */
+html[data-nh=""][data-rf-theme^="classic/2"] :is(#progPage,#progDay,#progHub,#progProbe,.rd-drive,.prg-page,.prg-day){--nh-bg:#f1e6cf;--nh-card:#fffbf2;--nh-ink:#2e1d12;--nh-acc:#7a5210;--nh-acc2:#5e3f0c;--nh-line:rgba(122,82,16,.38);--nh-soft:rgba(46,29,18,.66)}
+html[data-nh=""][data-rf-theme^="church/2"] :is(#progPage,#progDay,#progHub,#progProbe,.rd-drive,.prg-page,.prg-day){--nh-bg:#e9e2cf;--nh-card:#f8f0dc;--nh-ink:#2a1b10;--nh-acc:#1e2b4f;--nh-acc2:#33457a;--nh-line:rgba(30,43,79,.35);--nh-soft:rgba(42,27,16,.66)}
+html[data-nh=""][data-rf-theme^="cross/2"] :is(#progPage,#progDay,#progHub,#progProbe,.rd-drive,.prg-page,.prg-day){--nh-bg:#f6f6f4;--nh-card:#ffffff;--nh-ink:#161616;--nh-acc:#7a5c0f;--nh-acc2:#5b440a;--nh-line:rgba(22,22,22,.28);--nh-soft:rgba(22,22,22,.66)}
