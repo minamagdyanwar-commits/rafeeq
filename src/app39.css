@@ -212,3 +212,6 @@ html[data-theme="dark"] .pd-bk,html[data-theme="dark"] .pd-quote.pd-bind{backgro
 .pd-c:has(.pd-bk) .pd-bible{background-color:color-mix(in srgb,var(--nh-acc,#a8791a) 11%,var(--nh-bg,#f4efe4))}
 html[data-theme="dark"] .pd-c:has(.pd-bk) :is(.pd-r,.pd-q,.pd-bible){background-color:color-mix(in srgb,var(--nh-acc,#d2b98a) 13%,var(--nh-bg,#0f1318))}
 .pd-c:has(.pd-bk) .pd-t{background-color:color-mix(in srgb,var(--nh-acc,#a8791a) 18%,var(--nh-bg,#f4efe4));background-image:none}
+
+/* الداكن: نصوص التمييز فوق الورقة الأفتح تُمزج مع لون النص لضمان التباين */
+html[data-theme="dark"] .pd-bk :is(.bk-hd,.bk-no,.bk-pos,b,.pd-open){color:color-mix(in srgb,var(--pg-a,var(--nh-acc,#d2b98a)) 45%,var(--nh-ink,#efe6d2))}
