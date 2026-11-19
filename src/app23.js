@@ -1032,6 +1032,7 @@
       a =
         "#view-meditation .verse-text, #view-meditation .reflect-text, #view-meditation .deep-text, #view-meditation .prayer-text",
       r = n + ", " + a + ", #view-guided .gd-text" + (window.__hlSel ? ", " + window.__hlSel : ""),
+      HS = r,
       i = [
         ["verse-text", "آية"],
         ["reflect-text", "تأمل"],
@@ -1046,6 +1047,11 @@
         ["subtitle", "القراءة"],
         ["book-info-summary", "عن السفر"],
       ];
+    /* نطاق التظليل: داخل الرحلات يمتد عبر عدة فقرات (ورقة الكتاب أو محتوى اليوم)، وفي غيرها العنصر نفسه */
+    function SC(x) {
+      var q = x && x.closest && x.closest("#progDay .bk-page, #progDay .pd-c");
+      return q || x;
+    }
     function o(t) {
       return document.getElementById(t);
     }
@@ -1164,17 +1170,29 @@
         (T < 80
           ? (e = -Math.min(16, (80 - T) / 4 + 3))
           : T > t - 100 && (e = Math.min(16, (T - (t - 100)) / 4 + 3)),
-          e && (window.scrollBy(0, e), N(_, T), (O = requestAnimationFrame(q))));
+          e &&
+            ((function () {
+              var pd = document.getElementById("progDay");
+              pd && pd.classList.contains("on") ? pd.scrollBy(0, e) : window.scrollBy(0, e);
+            })(),
+            N(_, T),
+            (O = requestAnimationFrame(q))));
       }
     }
     function N(t, e) {
       if (L) {
-        var n = y(t, e, x);
+        var SX = SC(x),
+          n = y(t, e, SX);
+        n && n.startContainer.parentElement && !n.startContainer.parentElement.closest(HS) && (n = null);
         if (!n) {
           for (
             var a,
-              r = x.getBoundingClientRect(),
-              i = document.createTreeWalker(x, NodeFilter.SHOW_TEXT),
+              r = SX.getBoundingClientRect(),
+              i = document.createTreeWalker(SX, NodeFilter.SHOW_TEXT, {
+                acceptNode: function (q) {
+                  return q.parentElement && q.parentElement.closest(HS) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+                },
+              }),
               o = null,
               s = null;
             (a = i.nextNode());
@@ -1200,6 +1218,19 @@
           A());
       }
     }
+    function RG(f, sg) {
+      var e = f.i.indexOf(sg);
+      if (e < 0) return null;
+      for (var n = e + sg.length, r = document.createRange(), o = 0, q = 0; q < f.a.length; q++) {
+        var c = f.a[q],
+          l = c.st + c.n.nodeValue.length;
+        if ((!o && e >= c.st && e < l && (r.setStart(c.n, e - c.st), (o = 1)), o && n > c.st && n <= l)) {
+          r.setEnd(c.n, n - c.st);
+          return r;
+        }
+      }
+      return null;
+    }
     function D() {
       if (m) {
         w.forEach(function (t) {
@@ -1208,40 +1239,58 @@
         var t = l().filter(function (t) {
           return t.raw;
         });
-        t.length &&
-          document.querySelectorAll(r).forEach(function (e) {
-            if (e.offsetParent || 0 !== e.getClientRects().length) {
-              for (
-                var n, a = [], r = document.createTreeWalker(e, NodeFilter.SHOW_TEXT), i = "";
-                (n = r.nextNode());
-              )
-                (a.push({ n: n, st: i.length }), (i += n.nodeValue));
-              t.forEach(function (t) {
-                var e = i.indexOf(t.raw);
-                if (!(e < 0)) {
-                  for (
-                    var n = e + t.raw.length, r = document.createRange(), o = 0, s = 0;
-                    s < a.length;
-                    s++
-                  ) {
-                    var c = a[s],
-                      l = c.st + c.n.nodeValue.length;
-                    if (
-                      (!o && e >= c.st && e < l && (r.setStart(c.n, e - c.st), (o = 1)),
-                      o && n > c.st && n <= l)
-                    ) {
-                      r.setEnd(c.n, n - c.st);
-                      break;
-                    }
-                  }
-                  if (o)
-                    try {
-                      w[t.col >= 0 && t.col < 3 ? t.col : 0].add(r);
-                    } catch (l) {}
+        if (!t.length) return;
+        var infos = [];
+        document.querySelectorAll(r).forEach(function (e) {
+          if (e.offsetParent || 0 !== e.getClientRects().length) {
+            for (
+              var n, a = [], r2 = document.createTreeWalker(e, NodeFilter.SHOW_TEXT), i = "";
+              (n = r2.nextNode());
+            )
+              (a.push({ n: n, st: i.length }), (i += n.nodeValue));
+            infos.push({ a: a, i: i });
+          }
+        });
+        function put(it, rg) {
+          try {
+            w[it.col >= 0 && it.col < 3 ? it.col : 0].add(rg);
+          } catch (q) {}
+        }
+        t.forEach(function (it) {
+          var segs = String(it.raw).split("\u2029").filter(Boolean);
+          if (segs.length < 2) {
+            infos.forEach(function (f) {
+              var rg = RG(f, it.raw);
+              rg && put(it, rg);
+            });
+            return;
+          }
+          for (var s0 = 0; s0 < infos.length; s0++) {
+            var first = RG(infos[s0], segs[0]);
+            if (!first) continue;
+            var got = [first],
+              pos = s0,
+              ok = true;
+            for (var k2 = 1; k2 < segs.length && ok; k2++) {
+              var hit = null;
+              for (var q2 = pos + 1; q2 < infos.length; q2++) {
+                var rg2 = RG(infos[q2], segs[k2]);
+                if (rg2) {
+                  hit = rg2;
+                  pos = q2;
+                  break;
                 }
-              });
+              }
+              hit ? got.push(hit) : (ok = false);
             }
-          });
+            if (ok) {
+              got.forEach(function (rg) {
+                put(it, rg);
+              });
+              break;
+            }
+          }
+        });
       }
     }
     var M = 0;
@@ -1482,10 +1531,36 @@
           t.classList.toggle("on", +t.getAttribute("data-c") === E);
         }));
     }
+    /* نص التظليل عبر عدة عناصر: كل عنصر بجزئه، مفصولة بـ U+2029 (يقرؤها D لتظليل كل جزء في عنصره) */
+    function RW(rg) {
+      var S = SC(x),
+        parts = [];
+      if (!S || S === x) {
+        var one = rg.toString();
+        return { raw: one, t: one };
+      }
+      var els = [].slice.call(S.querySelectorAll(HS));
+      S.matches && S.matches(HS) && els.unshift(S);
+      els.forEach(function (el) {
+        if (!rg.intersectsNode(el) || el.querySelector(HS)) return;
+        var er = document.createRange();
+        er.selectNodeContents(el);
+        rg.compareBoundaryPoints(Range.START_TO_START, er) > 0 && er.setStart(rg.startContainer, rg.startOffset);
+        rg.compareBoundaryPoints(Range.END_TO_END, er) < 0 && er.setEnd(rg.endContainer, rg.endOffset);
+        var tx = er.toString();
+        tx.trim() && parts.push(tx);
+      });
+      if (!parts.length) {
+        var o2 = rg.toString();
+        return { raw: o2, t: o2 };
+      }
+      return { raw: parts.join("\u2029"), t: parts.join(" ") };
+    }
     function j() {
       if (!k || !x) return null;
-      var t = k.toString(),
-        e = d(t);
+      var PW_ = RW(k),
+        t = PW_.raw,
+        e = d(PW_.t);
       if (e.length < 2) return null;
       var n = (function (t) {
         for (

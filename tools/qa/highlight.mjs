@@ -36,11 +36,18 @@ for(const d of DES)for(const m of MODES)for(const w of [390,768]){
   const b1=await hl('.bk-page.on p.pd-ver:not(.pd-bold)');
   const pos1=await p.evaluate(()=>document.querySelector('.bk-pos').textContent);
   const b2=await hl('.pd-r p');
+  /* تظليل يمتد عبر عدة فقرات: سحب رأسي من فقرة إلى ما بعدها */
+  await p.evaluate(()=>{document.querySelector('.bk-page.on').scrollIntoView({block:'start'})});await p.waitForTimeout(300);
+  const mp=await p.evaluate(()=>{const ps=[...document.querySelectorAll('.bk-page.on p.pd-ver:not(.pd-bold)')];const r=ps[0].getBoundingClientRect();const last=ps[Math.min(3,ps.length-1)].getBoundingClientRect();return {x:r.right-40,y:r.top+12,ex:r.left+120,ey:last.bottom-10,np:ps.length}});
+  await T('touchStart',mp.x,mp.y);await p.waitForTimeout(600);const steps=12;for(let i=1;i<=steps;i++){await T('touchMove',mp.x+(mp.ex-mp.x)*i/steps,mp.y+(mp.ey-mp.y)*i/steps);await p.waitForTimeout(40)}await T('touchEnd',0,0);await p.waitForTimeout(500);
+  const b3=await p.evaluate(()=>{const e=document.querySelector('#v302Bar');return !!e&&!e.hidden});
+  if(b3)await p.evaluate(()=>document.querySelector('#v302Bar [data-a=save]').click());await p.waitForTimeout(500);
+  const multi=await p.evaluate(()=>Object.values(localStorage).some(v=>v.includes('\u2029')));
   const n=await p.evaluate(()=>(CSS.highlights.get('rf-saved-0')||{size:0}).size);
   const meta=await p.evaluate(()=>Object.values(localStorage).some(v=>v.includes('من كتاب «')&&v.includes('رحلتي')));
   await p.reload();await p.waitForTimeout(1800);await open();
   const n2=await p.evaluate(()=>(CSS.highlights.get('rf-saved-0')||{size:0}).size);
-  say(b1&&b2&&pos0===pos1&&n>=2&&meta&&n2>=2&&!errs.length,`${d}/${m}/${w} شريط:${b1}/${b2} الصفحة ثابتة:${pos0===pos1} محفوظ:${n} مصدر:${meta} بعد التحميل:${n2} ${errs.join('|')}`);
+  say(b1&&b2&&b3&&multi&&pos0===pos1&&n>=5&&meta&&n2>=5&&!errs.length,`${d}/${m}/${w} شريط:${b1}/${b2}/${b3} عدة فقرات:${multi} الصفحة ثابتة:${pos0===pos1} نطاقات محفوظة:${n} مصدر:${meta} بعد التحميل:${n2} ${errs.join('|')}`);
   await ctx.close();
 }
 await b.close();if(srv)srv.close();process.exit(fail?1:0);
