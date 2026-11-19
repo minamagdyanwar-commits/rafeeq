@@ -131,6 +131,8 @@ html[data-hdr50][data-nh=""] #uTop,html[data-hdr50]:not([data-nh=""]):not([data-
 html[data-nh="lamp"] #uNav button,html[data-nh="lamp"] #uNav button span,html[data-nh="lamp"] #uNav button svg{color:#f3deb7!important}
 html[data-nh="lamp"] #uNav button.on,html[data-nh="lamp"] #uNav button.on span,html[data-nh="lamp"] #uNav button.on svg{color:#ffd27a!important}
 html[data-nh="lamp"] #uTop .dchip,html[data-nh="lamp"] #uTop button{color:#f3deb7!important}
+/* المصباح فاتح: خارج الرئيسية الشريط شفاف فوق خلفية كريمية، فأزرار الإعدادات والبحث والخلوة بلون النص وحدّ أوضح (كانت كريمية على كريمي) */
+html[data-nh="lamp"][data-design="2"]:not([data-pg="home"]) #uTop :is(.dchip,button){color:var(--nh-ink,#3b2511)!important;border-color:color-mix(in srgb,var(--nh-acc2,#9a540a) 75%,transparent)!important}
 html[data-nh="lamp"][data-design="2"] .u-tabs button:not(.on){color:#1a1206!important}
 
 /* تسميات أيقونات الرئيسية (الأجبية/الكتاب/…) تقع تحت البطاقات الفاتحة على خلفية الصفحة الداكنة: لونها فاتح (كانت داكنة على داكن) */
