@@ -223,3 +223,34 @@ html[data-theme="dark"] .pd-bk :is(.bk-hd,.bk-no,.bk-pos,b,.pd-open){color:color
 .pd-bk .bk-page .pd-ver{text-align:justify;text-align-last:start;text-justify:inter-word;word-spacing:-.01em}
 .pd-bk .bk-page .pd-bold{text-align:center;text-align-last:center}
 .pd-bk .bk-page .pd-bold.pd-long{text-align:start;text-align-last:start;text-indent:0}
+
+/* ===== رسالة التوست في الوضع الفاتح: حبّة داكنة بنص فاتح (كانت داكنة على داكنة في الإكليل وحامل الصليب وغيرهما) ===== */
+html[data-theme="light"] body #uToast{background:#2a2118;color:#fbf5e6;border-color:#d8b560}
+html[data-theme="light"] body #uToast *{color:inherit}
+html[data-theme="light"] body #uToast button{color:#ffd27a}
+
+/* ===== نافذة «الجملة اللي وقفتني» (حفظ الجملة بملاحظة): ورقة سفلية فوق كل الصفحات، تُغلق ولا تبقى أسفل أي صفحة ===== */
+#v299Sheet{position:fixed;inset:0}
+#v299Sheet[hidden]{display:none!important}
+#v299Sheet .v299-bd{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .18s}
+#v299Sheet.on .v299-bd{opacity:1}
+#v299Sheet .v299-box{position:absolute;left:0;right:0;bottom:0;margin:0 auto;max-width:560px;background:#fffbf2;color:#2e1d12;border-radius:24px 24px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px));transform:translateY(100%);transition:transform .2s ease;max-height:88vh;overflow:auto;direction:rtl;box-shadow:0 -10px 40px rgba(0,0,0,.4);border-top:3px solid var(--nh-acc,#c9a24a)}
+#v299Sheet.on .v299-box{transform:none}
+#v299Sheet .v299-h{font-weight:700;font-size:18px;margin-bottom:8px;color:#7a5210}
+#v299Sheet .v299-q{margin:0 0 4px;padding:10px 14px;border-inline-start:4px solid #c9a24a;background:rgba(201,162,74,.14);border-radius:10px;font-size:19px;line-height:1.9;color:#2e1d12}
+#v299Sheet .v299-s{font-size:13px;color:#5d4a2c;margin-bottom:10px}
+#v299Sheet .v299-l{display:block;font-size:15px;margin:6px 0;color:#2e1d12}
+#v299Sheet #v299N{box-sizing:border-box;width:100%;font:inherit;font-size:17px;padding:10px 12px;border-radius:12px;border:1.5px solid rgba(150,120,60,.6);background:#fff;color:#2e1d12;resize:none;direction:rtl}
+#v299Sheet .v299-a{display:flex;gap:10px;margin-top:12px}
+#v299Sheet .v299-a button{font:inherit;font-size:17px;padding:11px 18px;border-radius:26px;border:1.5px solid #7a5210;background:transparent;color:#2e1d12;min-height:44px}
+#v299Sheet .v299-a .v299-ok{background:#7a1f1f;border-color:#7a1f1f;color:#fff;flex:1}
+#v299Sheet .v299-a .v299-rm{color:#a02b24;border-color:#a02b24}
+html[data-theme="dark"] #v299Sheet .v299-box{background:#1d1a2c;color:#f3ebd8;border-top-color:#e2b857}
+html[data-theme="dark"] #v299Sheet .v299-h{color:#e2b857}
+html[data-theme="dark"] #v299Sheet .v299-q{color:#f3ebd8;background:rgba(226,184,87,.14);border-inline-start-color:#e2b857}
+html[data-theme="dark"] #v299Sheet .v299-s{color:#c9bfa6}
+html[data-theme="dark"] #v299Sheet .v299-l{color:#f3ebd8}
+html[data-theme="dark"] #v299Sheet #v299N{background:rgba(255,255,255,.08);border-color:rgba(226,184,87,.55);color:#f3ebd8}
+html[data-theme="dark"] #v299Sheet .v299-a button{color:#f3ebd8;border-color:#e2b857}
+html[data-theme="dark"] #v299Sheet .v299-a .v299-ok{background:#e2b857;border-color:#e2b857;color:#1a1206}
+html[data-theme="dark"] #v299Sheet .v299-a .v299-rm{color:#ff9a90;border-color:#ff9a90}

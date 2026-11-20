@@ -32,6 +32,21 @@ for(const d of DES)for(const m of MODES)for(const w of [390,768]){
    await T('touchStart',q2.x,q2.y);for(let i=1;i<=5;i++){await T('touchMove',q2.x+i*30,q2.y);await p.waitForTimeout(15)}await T('touchEnd',0,0);await p.waitForTimeout(300);
    const pb=await p.evaluate(()=>document.querySelector('.bk-pos').textContent);say(pa!==pb,`${d}/${m}/${w} السحب السريع يغيّر الصفحة (${pa.slice(0,12)} → ${pb.slice(0,12)})`);
    await open();}
+  /* نافذة «الجملة اللي وقفتني»: ورقة سفلية ثابتة بنص مقروء، وتختفي تمامًا بعد الإغلاق (لا تبقى أسفل أي صفحة) */
+  {await p.evaluate(()=>document.querySelector('.bk-page.on').scrollIntoView({block:'start'}));await p.waitForTimeout(300);
+   const q=await p.evaluate(()=>{const e=document.querySelector('.bk-page.on p.pd-ver:not(.pd-bold)');const r=e.getBoundingClientRect();return {x:r.right-50,y:r.top+14}});
+   await T('touchStart',q.x,q.y);await p.waitForTimeout(600);for(let i=1;i<=6;i++){await T('touchMove',q.x-i*20,q.y);await p.waitForTimeout(40)}await T('touchEnd',0,0);await p.waitForTimeout(400);
+   await p.evaluate(()=>document.querySelector('#v302Bar [data-a=note]').click());await p.waitForTimeout(700);
+   const sh=await p.evaluate(()=>{const s=document.getElementById('v299Sheet'),bx=s&&s.querySelector('.v299-box');if(!bx)return null;const cs=getComputedStyle(s),bc=getComputedStyle(bx),r=bx.getBoundingClientRect();const pc=c=>(c.match(/[\d.]+/g)||[0,0,0]).map(Number);
+     const lum=c=>{const f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(c[0])+.7152*f(c[1])+.0722*f(c[2])};const rt=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+     const h=getComputedStyle(s.querySelector('.v299-h')).color,q=getComputedStyle(s.querySelector('.v299-q')).color,sub=getComputedStyle(s.querySelector('.v299-s')).color;
+     return {pos:cs.position,hidden:s.hidden,bottom:Math.round(r.bottom),vh:innerHeight,ratioText:rt(pc(bc.color),pc(bc.backgroundColor)),ratioH:rt(pc(h),pc(bc.backgroundColor)),ratioS:rt(pc(sub),pc(bc.backgroundColor))}});
+   const okSheet=!!sh&&sh.pos==='fixed'&&!sh.hidden&&Math.abs(sh.bottom-sh.vh)<3&&sh.ratioText>=4.5&&sh.ratioH>=4.5&&sh.ratioS>=4.5;
+   await p.evaluate(()=>document.getElementById('v299X').click());await p.waitForTimeout(500);
+   await p.evaluate(()=>{try{__prog.close()}catch(e){};document.querySelector('#uNav [data-go="home"]').click()});await p.waitForTimeout(600);
+   const gone=await p.evaluate(()=>{const s=document.getElementById('v299Sheet');if(!s)return true;const r=s.getBoundingClientRect();return getComputedStyle(s).display==='none'&&r.height===0});
+   say(okSheet&&gone,`${d}/${m}/${w} نافذة الملاحظة: ثابتة ومقروءة ${okSheet} ${sh?JSON.stringify({t:+sh.ratioText.toFixed(1),h:+sh.ratioH.toFixed(1),s:+sh.ratioS.toFixed(1)}):'لا نافذة'} — تختفي بعد الإغلاق ${gone}`);
+   await open();}
   const pos0=await p.evaluate(()=>document.querySelector('.bk-pos').textContent);
   const b1=await hl('.bk-page.on p.pd-ver:not(.pd-bold)');
   const pos1=await p.evaluate(()=>document.querySelector('.bk-pos').textContent);
