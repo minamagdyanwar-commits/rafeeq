@@ -224,10 +224,10 @@ html[data-theme="dark"] .pd-bk :is(.bk-hd,.bk-no,.bk-pos,b,.pd-open){color:color
 .pd-bk .bk-page .pd-bold{text-align:center;text-align-last:center}
 .pd-bk .bk-page .pd-bold.pd-long{text-align:start;text-align-last:start;text-indent:0}
 
-/* ===== رسالة التوست في الوضع الفاتح: حبّة داكنة بنص فاتح (كانت داكنة على داكنة في الإكليل وحامل الصليب وغيرهما) ===== */
-html[data-theme="light"] body #uToast{background:#2a2118;color:#fbf5e6;border-color:#d8b560}
-html[data-theme="light"] body #uToast *{color:inherit}
-html[data-theme="light"] body #uToast button{color:#ffd27a}
+/* ===== رسالة التوست في الوضع الفاتح (وصفحة القراءة التي لا تحمل data-theme): حبّة داكنة بنص فاتح (كانت داكنة على داكنة في الإكليل وحامل الصليب وغيرهما) ===== */
+html:not([data-theme="dark"]) body #uToast{background:#2a2118;color:#fbf5e6;border-color:#d8b560}
+html:not([data-theme="dark"]) body #uToast *{color:inherit}
+html:not([data-theme="dark"]) body #uToast button{color:#ffd27a}
 
 /* ===== نافذة «الجملة اللي وقفتني» (حفظ الجملة بملاحظة): ورقة سفلية فوق كل الصفحات، تُغلق ولا تبقى أسفل أي صفحة ===== */
 #v299Sheet{position:fixed;inset:0}
@@ -254,3 +254,5 @@ html[data-theme="dark"] #v299Sheet #v299N{background:rgba(255,255,255,.08);borde
 html[data-theme="dark"] #v299Sheet .v299-a button{color:#f3ebd8;border-color:#e2b857}
 html[data-theme="dark"] #v299Sheet .v299-a .v299-ok{background:#e2b857;border-color:#e2b857;color:#1a1206}
 html[data-theme="dark"] #v299Sheet .v299-a .v299-rm{color:#ff9a90;border-color:#ff9a90}
+/* الأزرار العائمة تختفي أثناء فتح نافذة حفظ الجملة حتى لا تغطي الحقول */
+html:root:not(#z) body:has(#v299Sheet:not([hidden])) :is(#uFab,#uDrv,#uThx,.nh-grab){visibility:hidden!important}

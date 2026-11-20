@@ -40,8 +40,8 @@ for(const d of DES)for(const m of MODES)for(const w of [390,768]){
    const sh=await p.evaluate(()=>{const s=document.getElementById('v299Sheet'),bx=s&&s.querySelector('.v299-box');if(!bx)return null;const cs=getComputedStyle(s),bc=getComputedStyle(bx),r=bx.getBoundingClientRect();const pc=c=>(c.match(/[\d.]+/g)||[0,0,0]).map(Number);
      const lum=c=>{const f=v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(c[0])+.7152*f(c[1])+.0722*f(c[2])};const rt=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
      const h=getComputedStyle(s.querySelector('.v299-h')).color,q=getComputedStyle(s.querySelector('.v299-q')).color,sub=getComputedStyle(s.querySelector('.v299-s')).color;
-     return {pos:cs.position,hidden:s.hidden,bottom:Math.round(r.bottom),vh:innerHeight,ratioText:rt(pc(bc.color),pc(bc.backgroundColor)),ratioH:rt(pc(h),pc(bc.backgroundColor)),ratioS:rt(pc(sub),pc(bc.backgroundColor))}});
-   const okSheet=!!sh&&sh.pos==='fixed'&&!sh.hidden&&Math.abs(sh.bottom-sh.vh)<3&&sh.ratioText>=4.5&&sh.ratioH>=4.5&&sh.ratioS>=4.5;
+     return {fab:['uFab','uDrv','uThx'].every(i=>{const e=document.getElementById(i);return !e||getComputedStyle(e).visibility==='hidden'}),pos:cs.position,hidden:s.hidden,bottom:Math.round(r.bottom),vh:innerHeight,ratioText:rt(pc(bc.color),pc(bc.backgroundColor)),ratioH:rt(pc(h),pc(bc.backgroundColor)),ratioS:rt(pc(sub),pc(bc.backgroundColor))}});
+   const okSheet=!!sh&&sh.fab&&sh.pos==='fixed'&&!sh.hidden&&Math.abs(sh.bottom-sh.vh)<3&&sh.ratioText>=4.5&&sh.ratioH>=4.5&&sh.ratioS>=4.5;
    await p.evaluate(()=>document.getElementById('v299X').click());await p.waitForTimeout(500);
    await p.evaluate(()=>{try{__prog.close()}catch(e){};document.querySelector('#uNav [data-go="home"]').click()});await p.waitForTimeout(600);
    const gone=await p.evaluate(()=>{const s=document.getElementById('v299Sheet');if(!s)return true;const r=s.getBoundingClientRect();return getComputedStyle(s).display==='none'&&r.height===0});
