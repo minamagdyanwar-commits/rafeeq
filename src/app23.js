@@ -1632,6 +1632,30 @@
         (I = null),
         (C = !1));
     }
+    /* تظليل من تحديد نص قائم (كيبورد/ماوس/قارئ شاشة): يُظهر الشريط ويضع التركيز على «حفظ» */
+    window.__hlFromSelection = function () {
+      try {
+        var sl = getSelection();
+        if (!sl || !sl.rangeCount || sl.isCollapsed) return false;
+        var rg = sl.getRangeAt(0),
+          nd = rg.startContainer,
+          el = nd.nodeType === 1 ? nd : nd.parentElement;
+        el = el && el.closest && el.closest(HS);
+        if (!el) return false;
+        ((x = el), (L = rg.cloneRange()), (k = rg.cloneRange()));
+        sl.removeAllRanges();
+        (A(), z());
+        var bb = B && !B.hidden && B.querySelector("button[data-a=save]");
+        bb && bb.focus({ preventScroll: true });
+        return true;
+      } catch (q) {
+        return false;
+      }
+    };
+    document.addEventListener("keydown", function (e) {
+      var sh = document.getElementById("v299Sheet");
+      "Escape" === e.key && B && !B.hidden && (!sh || sh.hidden) && V();
+    });
     var Y = null;
     function U() {
       var t = o("v299Sheet");

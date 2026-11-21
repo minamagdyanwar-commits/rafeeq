@@ -140,7 +140,7 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
     var hd='<header class="bk-hd"><span>'+esc(bk.title)+'</span><span>'+esc(bk.author||'')+'</span></header>';
     var rng=B.from===B.to?'صفحة '+ar(B.from):'صفحات '+ar(B.from)+'–'+ar(B.to),src='من كتاب «'+esc(bk.title)+'» — '+esc(bk.author||'')+'<br>'+rng+' بترقيم الملف'+(off?' ('+ar(B.from+off)+(B.from===B.to?'':'–'+ar(B.to+off))+' مطبوعة)':'');
     var link=bk.url?'<a class="pd-open pd-book" href="'+esc(bk.url)+'" target="_blank" rel="noopener">افتح الكتاب كاملًا</a>':'';
-    return '<article class="pd-v pd-full pd-bk" data-bkn="'+cnt+'">'+hd+out+nav+'<b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
+    return '<article class="pd-v pd-full pd-bk" data-bkn="'+cnt+'" tabindex="0" role="group" aria-label="صفحات الكتاب: ← للتالية و→ للسابقة">'+hd+out+nav+'<b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
   function top(psalm){
     if(it[8])return bookTop(psalm);
     if(!Q)return p.fullText?'<article class="pd-v pd-full"><h4>نص الكتاب</h4>'+psalm+'</article>':'<article class="pd-v">'+psalm+'</article>';
@@ -149,10 +149,10 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
     var link=bu?'<a class="pd-open pd-book" href="'+esc(bu)+'" target="_blank" rel="noopener">افتح الكتاب كاملًا</a>':'';
     return '<article class="pd-v pd-quote pd-bind"><p>'+esc(Q.q)+'</p><b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
   function paint(psalm){
-    el.innerHTML='<button type="button" class="pg-x" data-pgback="1" aria-label="رجوع">‹ الدرب</button><button type="button" class="pg-x pg-set" data-pgset="1" aria-label="الإعدادات (الخط والتباعد)">⚙ الخط</button><div class="pd-c"><small>'+st[2]+' اليوم '+ar(d)+' من '+ar(n)+' · '+esc(st[0])+'</small><h2>'+esc(it[0])+'</h2>'+
+    el.innerHTML='<button type="button" class="pg-x" data-pgback="1" aria-label="رجوع">‹ الدرب</button><button type="button" class="pg-x pg-set" data-pgset="1" aria-label="الإعدادات (الخط والتباعد)">⚙ الخط</button><button type="button" class="pg-x pg-hl" id="pgHl" hidden aria-label="تظليل النص المحدد">🖍 تظليل</button><div class="pd-c"><small>'+st[2]+' اليوم '+ar(d)+' من '+ar(n)+' · '+esc(st[0])+'</small><h2>'+esc(it[0])+'</h2>'+
       top(psalm)+
       sec(L[0],it[2])+sec(L[1],it[3])+sec(L[2],it[4])+
-      '<section class="pd-q"><h4>سؤال اليوم</h4><p>'+esc(it[5])+'</p><textarea id="pdNote" rows="3" maxlength="500" placeholder="اكتب إجابتك — تتحفظ على جهازك فقط">'+esc(s[active].notes[d]||'')+'</textarea></section>'+
+      '<section class="pd-q"><h4>سؤال اليوم</h4><p>'+esc(it[5])+'</p><textarea id="pdNote" rows="3" maxlength="500" aria-label="إجابتك على سؤال اليوم" placeholder="اكتب إجابتك — تتحفظ على جهازك فقط">'+esc(s[active].notes[d]||'')+'</textarea></section>'+
       '<section class="pd-t"><i>✦</i><div><h4>مهمة اليوم</h4><p>'+esc(it[6])+'</p></div></section>'+
       '<button type="button" class="pd-ok'+(done?' on':'')+'" data-pgok="'+d+'">'+(done?'✓ أكملت هذا اليوم (اضغط للتراجع)':'أكملت هذا اليوم ✓')+'</button></div>';
     el.className='prg-day on';el.scrollTop=0}
@@ -192,6 +192,7 @@ var bkX=0,bkY=0,bkArt=null,bkHold=false,bkT=0;
 /* الضغط المطوّل (٤٢٠ms بلا حركة) = تظليل جملة (محرك app23)، فلا يُحسب سحب تنقّل بين الصفحات */
 document.addEventListener('touchstart',function(e){var a=e.target.closest&&e.target.closest('.pd-bk[data-bkn]');bkArt=a&&+a.getAttribute('data-bkn')>1?a:null;clearTimeout(bkT);bkHold=false;if(bkArt&&e.touches[0]){bkX=e.touches[0].clientX;bkY=e.touches[0].clientY;bkT=setTimeout(function(){bkHold=true},400)}},{passive:true});
 document.addEventListener('touchmove',function(e){if(bkT&&!bkHold&&e.touches[0]&&(Math.abs(e.touches[0].clientX-bkX)>10||Math.abs(e.touches[0].clientY-bkY)>10)){clearTimeout(bkT);bkT=0}},{passive:true});
+document.addEventListener('keydown',function(e){if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;var t=e.target;if(t&&t.closest&&t.closest('textarea,input,select,[contenteditable]'))return;var d=document.getElementById('progDay');if(!d||!d.classList.contains('on')||!(t&&d.contains(t)))return;var a=d.querySelector('.pd-bk[data-bkn]');if(!a||+a.getAttribute('data-bkn')<2)return;e.preventDefault();bkGo(a,e.key==='ArrowLeft'?1:-1)});
 document.addEventListener('touchend',function(e){clearTimeout(bkT);if(!bkArt)return;var t=e.changedTouches[0],dx=t.clientX-bkX,dy=t.clientY-bkY,a=bkArt,held=bkHold;bkArt=null;bkHold=false;if(held)return;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)bkGo(a,dx>0?1:-1)},{passive:true});
 document.addEventListener('click',function(e){var t=e.target,b;if(!t.closest)return;
   if(b=t.closest('[data-bkgo]')){var ar_=t.closest('.pd-bk');if(ar_)bkGo(ar_,+b.getAttribute('data-bkgo'));return}
@@ -278,4 +279,48 @@ function run(){var h=document.documentElement,t=document.getElementById('uTop');
 var tm=0;function sch(){clearTimeout(tm);tm=setTimeout(run,120)}
 new MutationObserver(sch).observe(document.documentElement,{attributes:true,attributeFilter:['data-rf-theme','data-design','data-nh','style']});
 document.addEventListener('DOMContentLoaded',sch);setTimeout(run,900);setTimeout(run,2600);
+})();
+
+/* ---------- إتاحة الرحلات: التركيز والإغلاق بـEsc وإظهار زر التظليل للتحديد ---------- */
+(function(){
+var stack=[];
+function topO(){var d=document.getElementById('progDay'),p=document.getElementById('progPage');return d&&d.classList.contains('on')?d:(p&&p.classList.contains('on')?p:null)}
+function first(t){return t.querySelector('[data-pgback],[data-pgclose],.pg-x')}
+var cur=null;
+function sync(){var t=topO();if(t===cur)return;var prev=cur;cur=t;
+  if(t){stack.push(document.activeElement);setTimeout(function(){var f=first(t);f&&f.focus({preventScroll:true})},80)}
+  else if(prev){var lf=stack.shift();stack.length=0;if(lf&&document.contains(lf)&&lf.offsetParent!==null){try{lf.focus({preventScroll:true})}catch(e){}}}
+  else{stack.length=0}
+  if(t&&prev&&t!==prev){/* انتقال بين يوم ومسار: لا نخسر مكان الرجوع */}
+  if(!t&&!prev){}
+}
+function watch(){['progDay','progPage'].forEach(function(id){var e=document.getElementById(id);if(e&&!e.__a11y){e.__a11y=1;new MutationObserver(sync).observe(e,{attributes:true,attributeFilter:['class']})}})}
+new MutationObserver(watch).observe(document.body,{childList:true});watch();
+function popup(a){return a&&a.closest&&a.closest('[role=dialog],[role=toolbar],#settingsPanel,.settings-panel,#uFab,#uDrv,#uThx,#v299Sheet,#v302Bar')}
+document.addEventListener('focusin',function(e){var t=topO();if(!t)return;var a=e.target;if(t.contains(a)||(popup(a)&&!(a===t)))return;var f=first(t);f&&f.focus({preventScroll:true})});
+document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var t=topO();if(!t)return;
+  var sh=document.getElementById('v299Sheet'),bar=document.getElementById('v302Bar');
+  if((sh&&!sh.hidden)||(bar&&!bar.hidden)||document.querySelector('.settings-panel.open'))return;
+  var f=first(t);if(f){e.preventDefault();f.click()}});
+/* حبس Tab داخل الرحلة (لا يخرج للصفحة الخلفية ولا لواجهة المتصفح) */
+document.addEventListener('keydown',function(e){if(e.key!=='Tab')return;var t=topO();if(!t)return;var sh=document.getElementById('v299Sheet'),bar=document.getElementById('v302Bar');if((sh&&!sh.hidden)||(bar&&!bar.hidden)||document.querySelector('.settings-panel.open'))return;
+  var f=[].filter.call(t.querySelectorAll('button,textarea,a[href],input,select,[tabindex]:not([tabindex="-1"])'),function(x){return !x.disabled&&!x.hidden&&x.offsetParent!==null});if(!f.length)return;
+  var a=document.activeElement,i=f.indexOf(a);
+  if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&(i===-1||i===f.length-1)){e.preventDefault();f[0].focus()}});
+/* نافذة حفظ الجملة: تركيز داخلها، وحبس Tab، وإرجاع التركيز عند الإغلاق */
+var shFocus=null;
+function shSync(s){var open=!s.hidden&&s.classList.contains('on');
+  if(open&&!s.__open){s.__open=1;shFocus=document.activeElement;setTimeout(function(){var n=document.getElementById('v299N');n&&n.focus({preventScroll:true})},120)}
+  else if(!open&&s.__open&&(s.hidden||!s.classList.contains('on'))){s.__open=0;var f=shFocus;shFocus=null;setTimeout(function(){if(f&&document.contains(f)&&f.offsetParent!==null){try{f.focus({preventScroll:true})}catch(e){}}},200)}}
+function watchSheet(){var s=document.getElementById('v299Sheet');if(s&&!s.__a11y){s.__a11y=1;new MutationObserver(function(){shSync(s)}).observe(s,{attributes:true,attributeFilter:['class','hidden']})}}
+new MutationObserver(watchSheet).observe(document.body,{childList:true});watchSheet();
+document.addEventListener('keydown',function(e){if(e.key!=='Tab')return;var s=document.getElementById('v299Sheet');if(!s||s.hidden)return;
+  var f=[].filter.call(s.querySelectorAll('button,textarea,[href],input,select,[tabindex]:not([tabindex="-1"])'),function(x){return !x.disabled&&x.offsetParent!==null});if(!f.length)return;
+  var a=document.activeElement,i=f.indexOf(a);
+  if(e.shiftKey&&(i<=0)){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&(i===-1||i===f.length-1)){e.preventDefault();f[0].focus()}});
+/* زر «تظليل» يظهر عند وجود تحديد نص داخل اليوم (كيبورد أو ماوس) */
+function selOK(){var d=document.getElementById('progDay');if(!d||!d.classList.contains('on'))return false;var s=getSelection();if(!s||!s.rangeCount||s.isCollapsed)return false;var n=s.getRangeAt(0).startContainer,el=n.nodeType===1?n:n.parentElement;return !!(el&&d.contains(el)&&el.closest('#progDay p,#progDay li,#progDay blockquote')&&!el.closest('textarea,button,a'))}
+document.addEventListener('selectionchange',function(){var b=document.getElementById('pgHl');if(!b)return;b.hidden=!selOK()});
+document.addEventListener('mousedown',function(e){if(e.target.closest&&e.target.closest('#pgHl'))e.preventDefault()});
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('#pgHl');if(!b)return;e.preventDefault();if(window.__hlFromSelection&&window.__hlFromSelection())b.hidden=true});
 })();
