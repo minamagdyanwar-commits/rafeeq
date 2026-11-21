@@ -256,3 +256,8 @@ html[data-theme="dark"] #v299Sheet .v299-a .v299-ok{background:#e2b857;border-co
 html[data-theme="dark"] #v299Sheet .v299-a .v299-rm{color:#ff9a90;border-color:#ff9a90}
 /* الأزرار العائمة تختفي أثناء فتح نافذة حفظ الجملة حتى لا تغطي الحقول */
 html:root:not(#z) body:has(#v299Sheet:not([hidden])) :is(#uFab,#uDrv,#uThx,.nh-grab){visibility:hidden!important}
+
+/* إتاحة: أهداف لمس ≥٤٤ للروابط، وزر التظليل بجوار زر الخط */
+.pd-open{display:flex;align-items:center;min-height:44px}
+.prg-day .pg-x.pg-hl{inset-inline-start:auto;inset-inline-end:104px}
+.prg-day .pg-x.pg-hl[hidden]{display:none}
