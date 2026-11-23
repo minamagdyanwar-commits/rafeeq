@@ -34,12 +34,12 @@
     var h = '';
     (n.c || []).forEach(function (it) {
       var t = verseText(b, c, it.v); if (!t) return;
-      h += '<div class="bn-it bn-it-c"><div class="bn-k">' + (it.d ? 'وصية (مستنتجة من الإصحاح)' : 'وصية') + '</div><div class="bn-q">«' + esc(t) + '»</div><div class="bn-refs">' + chip(b, c, it.v) + '</div><div class="bn-line"><b>أعملها اليوم:</b> ' + esc(it['do']) + '</div></div>';
+      h += '<div class="bn-it bn-it-c"><div class="bn-k">' + (it.d ? 'وصية (مستنتجة من الإصحاح)' : 'وصية') + '</div><div class="bn-q">' + esc(t) + '</div><div class="bn-refs">' + chip(b, c, it.v) + '</div><div class="bn-line"><b>أعملها اليوم:</b> ' + esc(it['do']) + '</div></div>';
     });
     var hc = h; h = '';
     (n.p || []).forEach(function (it) {
       var t = verseText(b, c, it.v); if (!t) return;
-      h += '<div class="bn-it bn-it-p"><div class="bn-k">وعد</div><div class="bn-q">«' + esc(t) + '»</div><div class="bn-refs">' + chip(b, c, it.v) + '</div><div class="bn-line"><b>في المقابل:</b> ' + esc(it.back) + '</div></div>';
+      h += '<div class="bn-it bn-it-p"><div class="bn-k">وعد</div><div class="bn-q">' + esc(t) + '</div><div class="bn-refs">' + chip(b, c, it.v) + '</div><div class="bn-line"><b>في المقابل:</b> ' + esc(it.back) + '</div></div>';
     });
     var hp = h;
     if (!hc && !hp) return '';
