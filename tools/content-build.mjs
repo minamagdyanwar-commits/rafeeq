@@ -179,7 +179,7 @@ console.log(`المحتوى: ${order.length} رحلة · مراجَع ${stat.rev
 {
   const bd = join(root, 'content/bible-notes'), errs = [], out = {};
   let nc = 0, np = 0;
-  if (existsSync(bd)) for (const f of readdirSync(bd).filter(x => x.endsWith('.json')).sort()) {
+  if (existsSync(bd)) for (const f of readdirSync(bd).filter(x => x.endsWith('.json') && !x.startsWith('_')).sort()) {
     const j = JSON.parse(readFileSync(join(bd, f), 'utf8'));
     if (!Number.isInteger(j.book) || j.book < 0 || j.book > 75) { errs.push(`${f}: فهرس السفر غير صالح`); continue; }
     if (out[j.book]) errs.push(`${f}: السفر ${j.book} مكرر`);
