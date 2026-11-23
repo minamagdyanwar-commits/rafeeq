@@ -168,3 +168,36 @@ console.log(`المحتوى: ${order.length} رحلة · مراجَع ${stat.rev
   const cnt = secs.map(j => j.kind === 'parallel' ? j.events.length : j.kind === 'collection' ? j.collections.length : j.order.length);
   console.log(`الدراسة: ${secs.length} أقسام (${secs.map((j, i) => j.id + ' ' + cnt[i]).join(' · ')})`);
 }
+
+/* ---------- وصايا ووعود الإصحاحات: content/bible-notes/*.json → src/data-bibleNotes.js (window.__bibleNotes) ----------
+   الشكل: { book: فهرس السفر, chapters: { "رقم الإصحاح": { c:[{v:[من,إلى], do, d?}], p:[{v:[من,إلى], back}] } } }
+   نص الآية يُؤخذ وقت العرض من نص الكتاب نفسه (لا يُكرَّر هنا)؛ d:1 = وصية مستنتجة لا نصًّا مباشرًا.
+   التحقق هنا من البنية؛ وجود أرقام الآيات في السفر يتحقق منه tools/qa/bible-notes.mjs. */
+{
+  const bd = join(root, 'content/bible-notes'), errs = [], out = {};
+  let nc = 0, np = 0;
+  if (existsSync(bd)) for (const f of readdirSync(bd).filter(x => x.endsWith('.json')).sort()) {
+    const j = JSON.parse(readFileSync(join(bd, f), 'utf8'));
+    if (!Number.isInteger(j.book) || j.book < 0 || j.book > 75) { errs.push(`${f}: فهرس السفر غير صالح`); continue; }
+    if (out[j.book]) errs.push(`${f}: السفر ${j.book} مكرر`);
+    const o = out[j.book] = {};
+    for (const [ch, e] of Object.entries(j.chapters || {})) {
+      if (!/^[1-9]\d*$/.test(ch)) { errs.push(`${f}: إصحاح غير صالح ${ch}`); continue; }
+      const rng = (it, k, tag) => {
+        const v = it.v;
+        if (!Array.isArray(v) || v.length !== 2 || !v.every(Number.isInteger) || v[0] < 1 || v[1] < v[0]) errs.push(`${f} ${ch}/${tag}: مدى آيات غير صالح`);
+        if (typeof it[k] !== 'string' || it[k].trim().length < 12) errs.push(`${f} ${ch}/${tag}: حقل ${k} ناقص`);
+      };
+      const rec = {};
+      for (const it of e.c || []) { rng(it, 'do', 'c' + it.v); nc++; (rec.c = rec.c || []).push(it.d ? { v: it.v, do: it.do, d: 1 } : { v: it.v, do: it.do }); }
+      for (const it of e.p || []) { rng(it, 'back', 'p' + it.v); np++; (rec.p = rec.p || []).push({ v: it.v, back: it.back }); }
+      if (!rec.c && !rec.p) errs.push(`${f} ${ch}: إصحاح فارغ`);
+      o[ch] = rec;
+    }
+  }
+  if (errs.length) { console.error('أخطاء وصايا ووعود الإصحاحات:\n' + errs.join('\n')); process.exit(1); }
+  const nb = `/* مُولَّد من content/bible-notes/*.json بواسطة tools/content-build.mjs — لا تعدّل هذا الملف يدويًا. */\n(function () {\n  "use strict";\n  window.__bibleNotes = ${JSON.stringify(out)};\n})();\n`;
+  const nt = join(root, 'src/data-bibleNotes.js');
+  if (!existsSync(nt) || readFileSync(nt, 'utf8') !== nb) writeFileSync(nt, nb);
+  console.log(`وصايا ووعود الإصحاحات: ${Object.keys(out).length} سفر · ${nc} وصية · ${np} وعد`);
+}
