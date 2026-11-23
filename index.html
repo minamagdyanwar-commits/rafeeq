@@ -816,6 +816,13 @@ body.v14-khalwa #v14Strip{display:block}
     <div class="settings-reminder-note">تُطبَّق على كل التأملات معًا. وتقدر تفتح أو تطوي أي تأمل بنفسك من داخل الصفحة.</div>
     <div class="settings-moderow"><button class="settings-mbtn" id="uMedClosed">مطويّة افتراضيًا</button><button class="settings-mbtn" id="uMedOpen">مفتوحة افتراضيًا</button></div>
   </div>
+  <div class="settings-section" id="bnSection">
+    <div class="settings-label">وصايا ووعود الكتاب المقدس</div>
+    <div class="settings-reminder-note">تعليم الوصايا والوعود داخل نص الإصحاح وفي بطاقة «وصية ووعد» تحته. تُحفظ على جهازك.</div>
+    <div class="settings-reminder-row"><span class="settings-reminder-text">إظهار الوصايا</span><button class="settings-toggle" id="bnTgC" role="switch" aria-checked="true" aria-label="إظهار الوصايا"><span class="settings-toggle-knob"></span></button></div>
+    <div class="settings-reminder-row"><span class="settings-reminder-text">إظهار الوعود</span><button class="settings-toggle" id="bnTgP" role="switch" aria-checked="true" aria-label="إظهار الوعود"><span class="settings-toggle-knob"></span></button></div>
+    <div class="settings-moderow"><button class="settings-mbtn" id="bnMBoth">النص والحاشية</button><button class="settings-mbtn" id="bnMCard">الحاشية فقط</button><button class="settings-mbtn" id="bnMText">النص فقط</button></div>
+  </div>
   <div class="settings-section">
     <div class="settings-label">صوت الله</div>
     <div class="settings-reminder-note">إيموجي صغيرة في ردود المحادثة (تسبق الآيات ولا تدخل في نصها).</div>
@@ -975,7 +982,7 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
 <script src="data-bgData.8b050226a6.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="app6.4ecbf08d65.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v6.27.1';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v6.28.0';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" href="app7.dff7520e62.css"><script src="app8.7fd92ebc24.js"></script><link rel="stylesheet" href="app9.99cbd5490a.css"><script src="app10.5e406585a9.js"></script>
@@ -1636,6 +1643,6 @@ html[data-theme="light"] body #mod-k .meditation .mtitle,html[data-theme="light"
 <link rel="stylesheet" href="app33.7266e275e0.css">
 <link rel="stylesheet" href="app34.30f33ec62d.css">
 <link rel="stylesheet" href="app36.5fb1737c05.css"><script src="app36.ebea89d2d5.js"></script><script src="data-ervHeads.6e154af5e5.js"></script><script src="data-ervData.7063836d9e.js"></script><script>(function(){var s=document.createElement('script');s.id="ervData";s.type='text/plain';s.textContent=__RF_DATA["ervData"];delete __RF_DATA["ervData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
-<link rel="stylesheet" href="app35.e5b7a954ef.css"><script src="data-synData.3c9e0cb56a.js"></script><script>(function(){var s=document.createElement('script');s.id="synData";s.type='text/plain';s.textContent=__RF_DATA["synData"];delete __RF_DATA["synData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script src="app35.d890b75435.js"></script><link rel="stylesheet" href="app54.f765e9236f.css"><script src="app54.d5e0cd4563.js"></script><script src="app55.b450e0c6e4.js"></script><link rel="stylesheet" href="app56.b4f201f31a.css"><script src="app56.6e4c600acf.js"></script><link rel="stylesheet" href="app57.5ef863ab08.css"><script src="app57.193256e413.js"></script><link rel="stylesheet" href="app58.d85decf596.css"><script src="app58.c4b56a9bbc.js"></script>
+<link rel="stylesheet" href="app35.e5b7a954ef.css"><script src="data-synData.3c9e0cb56a.js"></script><script>(function(){var s=document.createElement('script');s.id="synData";s.type='text/plain';s.textContent=__RF_DATA["synData"];delete __RF_DATA["synData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script><script src="app35.d890b75435.js"></script><link rel="stylesheet" href="app54.f765e9236f.css"><script src="app54.d5e0cd4563.js"></script><script src="app55.b450e0c6e4.js"></script><link rel="stylesheet" href="app56.b4f201f31a.css"><script src="app56.6e4c600acf.js"></script><link rel="stylesheet" href="app57.5ef863ab08.css"><script src="app57.193256e413.js"></script><link rel="stylesheet" href="app58.d85decf596.css"><script src="app58.c4b56a9bbc.js"></script><script src="data-bibleNotes.d37ee21756.js"></script><link rel="stylesheet" href="app59.9bb5a9fd28.css"><script src="app59.9f5a27dd5d.js"></script>
 </body>
 </html>
