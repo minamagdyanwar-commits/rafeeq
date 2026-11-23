@@ -20,7 +20,7 @@ window.__hlMeta=function(x){try{if(!x||x.closest('#page-read,#view-meditation,#v
 (function(){
 "use strict";
 var K='rafeeq_prog_v1',AR='٠١٢٣٤٥٦٧٨٩';
-var CATS=[['bible','أسفار الكتاب المقدس كاملة','📖'],['person','شخصيات الكتاب','👤'],['topic','موضوعات روحية','🕊'],['church','من الكنيسة والتقليد','⛪'],['season','رحلات المواسم','📅'],['shenouda','رحلات قداسة البابا شنوده','📖'],['custom','رحلاتي الخاصة','✨']];
+var CATS=[['bible','أسفار الكتاب المقدس كاملة','📖'],['person','شخصيات الكتاب','👤'],['topic','موضوعات روحية','🕊'],['bntopic','وصايا ووعود حسب الموضوع','🧭'],['bnbook','وصايا ووعود حسب الأسفار','📜'],['church','من الكنيسة والتقليد','⛪'],['season','رحلات المواسم','📅'],['shenouda','رحلات قداسة البابا شنوده','📖'],['custom','رحلاتي الخاصة','✨']];
 function ar(n){return RF.ar(n)}
 function esc(s){return RF.esc(s)}
 function F(){return window.__F||{}}

@@ -7,6 +7,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { bibleJourneys } from './bible-journeys.mjs';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dir = join(root, 'content/journeys');
 const order = JSON.parse(readFileSync(join(dir, '_order.json'), 'utf8'));
@@ -36,6 +37,8 @@ for (const id of order) {
   if (j.book || j.days.some(d => d.quote)) { if (j.book && !j.book.title) errs.push(`${id}: book.title ناقص`); j.days.forEach((d, i) => { if (!d.quote || !d.quote.text || !d.quote.page) errs.push(`${id} يوم ${i + 1}: رحلة كتاب بلا اقتباس/صفحة`); }); }
   out[id] = o;
 }
+/* رحلات «محطات الوصايا والوعود» (حسب الأسفار وحسب الموضوعات) تُولَّد من content/bible-notes — انظر tools/bible-journeys.mjs */
+{ const gen = bibleJourneys(root, errs); let n = 0; for (const [id, j] of Object.entries(gen)) { if (out[id]) errs.push(`${id}: معرّف رحلة مكرر`); delete j.review; out[id] = j; n++; stat.draft++; } console.log(`رحلات المحطات المولّدة: ${n}`); }
 /* نصوص الكتب المنقولة (content/books/*.json) → src/data-books.js (window.__bookText)؛ ويُتحقق أن كل صفحة تشير إليها أيام الرحلات موجودة */
 {
   const bd = join(root, 'content/books'), books = {};
