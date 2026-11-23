@@ -261,3 +261,6 @@ html:root:not(#z) body:has(#v299Sheet:not([hidden])) :is(#uFab,#uDrv,#uThx,.nh-g
 .pd-open{display:flex;align-items:center;min-height:44px}
 .prg-day .pg-x.pg-hl{inset-inline-start:auto;inset-inline-end:104px}
 .prg-day .pg-x.pg-hl[hidden]{display:none}
+
+/* v6.31 — محطات الوصايا والوعود: كل وصية/وعد في سطر مستقل داخل قسم اليوم */
+#progDay .pd-r p { white-space: pre-line; }
