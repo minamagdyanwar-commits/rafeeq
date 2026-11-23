@@ -24,6 +24,7 @@ step "الألحان والترانيم" node hymns.mjs "$DES"
 step "رحلة الموسم ويوم الكنيسة" node season.mjs "$DES"
 step "سياق الإصحاح" node chctx.mjs "$DES"
 step "تغطية رحلات الأسفار الكاملة" node bookcov.mjs
+step "سلامة محتوى الكتب (نطاقات/فجوات/تكرار/أيام الرحلات)" node content-audit.mjs --top 12
 step "الرفيق" node companion.mjs "$DES"
 step "النشاط والمفضلة والبحث" node unified.mjs
 echo; [ $fail = 0 ] && echo "كل الفحوص نجحت" || echo "فيه فحوص فشلت (راجع الأعلى)"

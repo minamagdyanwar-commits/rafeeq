@@ -7892,8 +7892,8 @@
             v = d && n("b", d),
             f = v ? v.textContent.trim() : "",
             b = d ? ct(d.textContent.replace(f, "")) : "",
-            h = n("#hExtra .votd .vt"),
-            p = a("#hExtra .votd .u-sub"),
+            h = n("#hExtra .votd:not(.fat-day) .vt"),
+            p = a("#hExtra .votd:not(.fat-day) .u-sub"),
             m = p.length ? p[p.length - 1].textContent.replace(/[()]/g, "").trim() : "",
             g = (r && r.HOURS && r.HOURS[o]) || { label: c.label, sub: "" },
             y = u.filter(function (t) {
