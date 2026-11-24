@@ -8,7 +8,7 @@ const DES=['bearer','church','classic','cross','crown','glory','holy','lamp','qa
 const des=process.argv[2]?process.argv[2].split(','):DES;let bad=0;const fail=m=>{bad++;console.log('  ✗',m)};
 /* القيامة (الكنيسة القبطية): تواريخ معروفة */
 const EASTER={2024:'2024-05-05',2025:'2025-04-20',2026:'2026-04-12',2027:'2027-05-02',2028:'2028-04-16',2029:'2029-04-08',2030:'2030-04-28'};
-const CASES=[['lent','2026-03-10T10:00:00',/الصوم الكبير/,'lent40',16],['adv','2026-12-05T10:00:00',/صوم الميلاد/,null,12],['pasc','2026-05-01T10:00:00',/الخمسون/,'pasc',null]];
+const CASES=[['lent','2026-03-10T10:00:00',/الصوم الكبير/,'lent40',16],['adv','2026-12-05T10:00:00',/صوم الميلاد/,'advfast',11],['pasc','2026-05-01T10:00:00',/الخمسون/,'pasc',null],['adv-first','2026-11-25T10:00:00',/صوم الميلاد/,'advfast',1],['adv-jan','2027-01-05T10:00:00',/صوم الميلاد/,'advfast',42]];
 for(const d of des)for(const mode of MODES){
   console.log(d,mode);
   for(const [lab,date,re,jid,day] of CASES){
