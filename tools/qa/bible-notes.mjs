@@ -47,10 +47,10 @@ for(const d of DES)for(const m of MODES)for(const w of [390,360,768]){
    const tagBg=[pe&&bgOf(pe),pp&&bgOf(pp)];
    const ov=document.documentElement.scrollWidth>innerWidth+1;
    return {has:!!cd,order:!!(cd&&t&&(prev===t||prev.id==='chCtx')),marks,out,tags,tagBg,ov,
-    heading:cd&&cd.querySelector('h3').textContent,nc:cd?cd.querySelectorAll('.bn-it-c').length:0,np:cd?cd.querySelectorAll('.bn-it-p').length:0,
+    heading:cd&&cd.querySelector('h3').textContent,en:{c:(__bibleNotes[49][6].c||[]).length,p:(__bibleNotes[49][6].p||[]).length},nc:cd?cd.querySelectorAll('.bn-it-c').length:0,np:cd?cd.querySelectorAll('.bn-it-p').length:0,
     bgb:!!g('.bg-card')}});
   say(r.has&&r.order,`${tag} البطاقة موجودة وفي مكانها`);
-  say(r.nc===4&&r.np===3,`${tag} عدد البنود ${r.nc}/${r.np}`);
+  say(r.nc===r.en.c&&r.np===r.en.p&&r.nc>0&&r.np>0,`${tag} عدد البنود ${r.nc}/${r.np} (المتوقع ${r.en.c}/${r.en.p} من الداتا)`);
   say(/bn-p/.test(r.marks[0]||'')&&/bn-p/.test(r.marks[1]||''),`${tag} تعليم الآيات ${r.marks}`);
   say(!r.ov,`${tag} لا تمرير أفقي`);
   r.out.forEach(([s,f,bg])=>{const c=cr(f,bg);say(c>=4.5,`${tag} تباين ${s} = ${c.toFixed(2)}`)});
