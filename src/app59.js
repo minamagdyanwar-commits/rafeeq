@@ -29,17 +29,19 @@
   function verseText(b, c, r) { try { return B().verses(b, c, r[0], r[1]).join(' '); } catch (e) { return ''; } }
   function chip(b, c, r) { return '<button type="button" class="chip bn-ref" data-bngo="' + b + ':' + c + ':' + r[0] + '" aria-label="اذهب إلى الآية ' + rangeLabel(r) + '">' + (r[0] === r[1] ? 'آية ' : 'آيات ') + rangeLabel(r) + '</button>'; }
 
+  function why(it) { return it.why ? '<details class="bn-why"><summary>لماذا قيل؟</summary><p>' + esc(it.why) + '</p></details>' : ''; }
+
   function html(b, c) {
     var n = notes(b, c); if (!n) return '';
     var h = '';
     (n.c || []).forEach(function (it) {
       var t = verseText(b, c, it.v); if (!t) return;
-      h += '<div class="bn-it bn-it-c"><div class="bn-k">' + (it.d ? 'وصية (مستنتجة من الإصحاح)' : 'وصية') + '</div><div class="bn-q">' + esc(t) + '</div><div class="bn-refs">' + chip(b, c, it.v) + '</div><div class="bn-line"><b>أعملها اليوم:</b> ' + esc(it['do']) + '</div></div>';
+      h += '<div class="bn-it bn-it-c"><div class="bn-k">' + (it.d ? 'وصية (مستنتجة من الإصحاح)' : 'وصية') + '</div><div class="bn-q">' + esc(t) + '</div><div class="bn-refs">' + chip(b, c, it.v) + '</div><div class="bn-line"><b>أعملها اليوم:</b> ' + esc(it['do']) + '</div>' + why(it) + '</div>';
     });
     var hc = h; h = '';
     (n.p || []).forEach(function (it) {
       var t = verseText(b, c, it.v); if (!t) return;
-      h += '<div class="bn-it bn-it-p"><div class="bn-k">وعد</div><div class="bn-q">' + esc(t) + '</div><div class="bn-refs">' + chip(b, c, it.v) + '</div><div class="bn-line"><b>في المقابل:</b> ' + esc(it.back) + '</div></div>';
+      h += '<div class="bn-it bn-it-p"><div class="bn-k">وعد</div><div class="bn-q">' + esc(t) + '</div><div class="bn-refs">' + chip(b, c, it.v) + '</div><div class="bn-line"><b>في المقابل:</b> ' + esc(it.back) + '</div>' + why(it) + '</div>';
     });
     var hp = h;
     if (!hc && !hp) return '';

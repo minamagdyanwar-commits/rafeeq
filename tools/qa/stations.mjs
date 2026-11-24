@@ -38,6 +38,7 @@ for(const d of DES)for(const m of MODES)for(const w of [390,360,768]){
      return {on:!!(pg&&pg.classList.contains('on')),hs,txt:secs.map(s=>s.querySelector('p').textContent.length),c,bgL,ov:document.documentElement.scrollWidth>innerWidth+1,hasW:/وصية|وعد/.test(pg?pg.innerText:''),runtimeFix:document.querySelectorAll('[data-cfix]').length}});
     say(r.on&&r.hs.length>=3&&r.txt.every(x=>x>20),`${tag} ${id} اليوم الأول: أقسام ${r.hs.length} ${r.txt}`);
     say(r.hasW,`${tag} ${id} يظهر نص الوصية/الوعد`);
+    say(r.txt[1]>=60,`${tag} ${id} قسم «لماذا قيل؟» غير فارغ (${r.txt[1]} حرفًا)`);
     say(r.c.every(([f,bg])=>cr(f,bg)>=4.5),`${tag} ${id} تباين الأقسام (أدنى ${Math.min(...r.c.map(([f,bg])=>cr(f,bg))).toFixed(2)})`);
     say(m==='light'?r.bgL>0.6:r.bgL<0.4,`${tag} ${id} يتبع وضع الشاشة (${r.bgL&&r.bgL.toFixed(2)})`);
     say(!r.ov,`${tag} ${id} بلا تمرير أفقي`);

@@ -26,3 +26,8 @@ html[data-bn-c="0"] #bnCard .bn-sec-c, html[data-bn-p="0"] #bnCard .bn-sec-p { d
 #bnCard .bn-line { margin-top: 6px; font-size: .95em; line-height: 1.8; }
 #bnCard .bn-line b { color: var(--bn-c); }
 #bnCard .bn-it-p .bn-line b { color: var(--bn-p); }
+
+#bnCard .bn-why { margin-top: 8px; font-size: .92em; }
+#bnCard .bn-why summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 700; color: var(--bn-c); }
+#bnCard .bn-it-p .bn-why summary { color: var(--bn-p); }
+#bnCard .bn-why p { margin: 4px 0 0; line-height: 1.85; }

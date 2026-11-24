@@ -15,8 +15,8 @@ export function loadAtoms(root) {
   for (const f of readdirSync(bd).filter(x => x.endsWith('.json') && !x.startsWith('_')).sort()) {
     const j = JSON.parse(readFileSync(join(bd, f), 'utf8'));
     for (const [ch, e] of Object.entries(j.chapters || {})) {
-      for (const it of e.c || []) atoms.push({ b: j.book, ch: +ch, v: it.v, k: 'c', text: it.do, ref: refOf(j.book, +ch, it.v), key: `${j.book}:${ch}:${it.v[0]}` });
-      for (const it of e.p || []) atoms.push({ b: j.book, ch: +ch, v: it.v, k: 'p', text: it.back, ref: refOf(j.book, +ch, it.v), key: `${j.book}:${ch}:${it.v[0]}` });
+      for (const it of e.c || []) atoms.push({ b: j.book, ch: +ch, v: it.v, k: 'c', text: it.do, why: it.why || '', ref: refOf(j.book, +ch, it.v), key: `${j.book}:${ch}:${it.v[0]}` });
+      for (const it of e.p || []) atoms.push({ b: j.book, ch: +ch, v: it.v, k: 'p', text: it.back, why: it.why || '', ref: refOf(j.book, +ch, it.v), key: `${j.book}:${ch}:${it.v[0]}` });
     }
   }
   return atoms.sort((a, z) => a.b - z.b || a.ch - z.ch || a.v[0] - z.v[0] || (a.k === 'c' ? -1 : 1));
@@ -43,7 +43,9 @@ export function bibleJourneys(root, errs) {
     const days = groups.map((g, i) => {
       const part = as.filter(x => g.includes(x.ch));
       const t = `المحطة ${i + 1}: ${NAMES[b]} ${g[0]}${g.length > 1 ? '–' + g[g.length - 1] : ''}`;
-      return day(t, part, `هذه المحطة تجمع ${part.filter(x => x.k === 'c').length} وصية و${part.filter(x => x.k === 'p').length} وعدًا من ${NAMES[b]} ${g[0]}${g.length > 1 ? '–' + g[g.length - 1] : ''}. اقرأ الإصحاح أولًا لتعرف من يتكلم ولمن، ثم عُد إلى الوصية أو الوعد.`);
+      const whys = []; const seen = new Set(); for (const a of part) { if (a.why && !seen.has(a.ref + a.why)) { seen.add(a.ref + a.why); whys.push(a.ref + ': ' + a.why); } }
+      const generic = `هذه المحطة تجمع ${part.filter(x => x.k === 'c').length} وصية و${part.filter(x => x.k === 'p').length} وعدًا من ${NAMES[b]} ${g[0]}${g.length > 1 ? '–' + g[g.length - 1] : ''}. اقرأ الإصحاح أولًا لتعرف من يتكلم ولمن، ثم عُد إلى الوصية أو الوعد.`;
+      return day(t, part, whys.length ? whys.join('\n') : generic);
     });
     const nc = as.filter(x => x.k === 'c').length, np = as.length - nc;
     out['bb_' + b] = { id: 'bb_' + b, title: 'وصايا ووعود ' + NAMES[b], short: NAMES[b], icon: '📜', sub: `${nc} وصية · ${np} وعد في ${days.length === 1 ? 'محطة' : days.length + ' محطات'}`, cat: 'bnbook', labels: LABELS, stages: STAGES, days, review };
