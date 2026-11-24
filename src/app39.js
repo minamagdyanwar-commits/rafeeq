@@ -177,8 +177,21 @@ function doneOnId(id,dk){return doneDayOn(id,dk)>0}
 /* آخر يوم من الرحلة أُتمّ في التاريخ dk (٠ = لا شيء) */
 function doneDayOn(id,dk){var s=load(),f=F().dkey,m=0;if(!f||!s[id])return 0;for(var k in s[id].done){try{if(f(new Date(s[id].done[k]))===dk)m=Math.max(m,+k)}catch(e){}}return m}
 /* سطر «رحلتي» في ترتيب اليوم: إن أُتمّ يوم من الرحلة اليوم يظهر هذا اليوم مشطوبًا، وإلا يظهر اليوم التالي غير مشطوب */
-function status(dk){var s=load(),id=activeId(s);if(!id)return null;var p=PG()[id],dn=doneDayOn(id,dk);return {id:id,day:dn||cur(s,id),label:'رحلتي: '+p.short+' — '+UD(p)+ar(dn||cur(s,id)),done:dn>0}}
-function openCurrent(){var s=load(),id=activeId(s);if(!id){hubPage('all');return}active=id;render(true);var td=doneDayOn(id,F().dkey&&F().dkey());if(td){openDay(td);return}var sd=syncDay(id);openDay(sd&&!s[id].done[sd]?sd:Math.min(cur(s,id),N(id)))}
+/* رحلات اليوم: كل رحلة مفتوحة (بدأتها ولم تنتهِ) + أي رحلة أتممتَ يومًا منها اليوم؛ يكفي إنجاز رحلة واحدة ليُشطب «رحلتي» */
+function todayIds(s,dk){var out=started(s).filter(function(i){return !finished(s,i)||doneDayOn(i,dk)>0});var se=out.filter(function(i){return syncDay(i)>0&&!finished(s,i)});return se.concat(out.filter(function(i){return se.indexOf(i)<0}))}
+function status(dk){var s=load(),ids=todayIds(s,dk);if(!ids.length)return null;var X=ids.filter(function(i){return doneDayOn(i,dk)>0}).length,Y=ids.length;
+  if(Y===1){var id=ids[0],p=PG()[id],dn=doneDayOn(id,dk);return {id:id,day:dn||cur(s,id),label:'رحلتي: '+p.short+' — '+UD(p)+ar(dn||cur(s,id)),done:dn>0,x:X,y:Y,ids:ids}}
+  return {id:ids[0],day:0,label:'رحلاتي: '+ar(X)+' من '+ar(Y)+' اليوم',done:X>=1,x:X,y:Y,ids:ids}}
+/* فتح رحلة محددة على يومها الحالي (أو اليوم الذي أُتمّ اليوم) */
+function openJourney(id){var s=load();if(!PG()[id])return;active=id;render(true);var td=doneDayOn(id,F().dkey&&F().dkey());if(td){openDay(td);return}var sd=syncDay(id);openDay(sd&&!s[id].done[sd]?sd:Math.min(cur(s,id),N(id)))}
+/* صفحة «رحلاتي اليوم»: كل الرحلات المفتوحة مع حالة اليوم لكل واحدة، وفتح أي منها مباشرة */
+function todayPage(){calib();var s=load(),dk=F().dkey&&F().dkey(),ids=todayIds(s,dk),X=ids.filter(function(i){return doneDayOn(i,dk)>0}).length;
+  var body='<p class="pg-em">'+(X?'✓ أنجزتَ '+ar(X)+' من '+ar(ids.length)+' اليوم. يكفي رحلة واحدة في اليوم، وتقدر تكمل الباقي.':'لم تُنجز رحلة اليوم بعد: أتمّ يومًا واحدًا على الأقل من أي رحلة.')+'</p>';
+  body+=ids.map(function(i){var done=doneDayOn(i,dk)>0,p=PG()[i];var c=card(s,i).replace('data-prog="'+i+'"','data-pgtd="'+i+'"');
+    return c.replace('<em>','<em>'+(done?'✓ أنجزتَ اليوم — ':'○ لم تُنجز اليوم — '))}).join('');
+  body+='<button type="button" class="pg-make" data-pgtab-all="1">كل الرحلات <small>ابدأ رحلة جديدة</small></button>';
+  var e=pgBox();e.innerHTML='<button type="button" class="pg-x" data-pgclose="1" aria-label="إغلاق">✕</button><div class="pg-hubp"><h2>📅 رحلاتي اليوم</h2>'+body+'</div>';e.className='prg-page on';document.body.classList.add('nh-lock');e.scrollTop=0}
+function openCurrent(){var s=load(),dk=F().dkey&&F().dkey(),ids=todayIds(s,dk);if(!ids.length){hubPage('all');return}if(ids.length>1){todayPage();return}openJourney(ids[0])}
 /* ---------- قائمة «المزيد» والرئيسية ---------- */
 function injectMore(){var box=q('#uSheet .v14-more');if(!box||q('[data-prog="hub"]',box))return;
   var h4=document.createElement('h4');h4.textContent='رحلات';var b=document.createElement('button');b.type='button';b.setAttribute('data-prog','hub');
@@ -200,6 +213,8 @@ document.addEventListener('keydown',function(e){if(e.key!=='ArrowLeft'&&e.key!==
 document.addEventListener('touchend',function(e){clearTimeout(bkT);if(!bkArt)return;var t=e.changedTouches[0],dx=t.clientX-bkX,dy=t.clientY-bkY,a=bkArt,held=bkHold;bkArt=null;bkHold=false;if(held)return;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)bkGo(a,dx>0?1:-1)},{passive:true});
 document.addEventListener('click',function(e){var t=e.target,b;if(!t.closest)return;
   if(b=t.closest('[data-bkgo]')){var ar_=t.closest('.pd-bk');if(ar_)bkGo(ar_,+b.getAttribute('data-bkgo'));return}
+  if(b=t.closest('[data-pgtd]')){e.preventDefault();e.stopPropagation();openJourney(b.getAttribute('data-pgtd'));return}
+  if(b=t.closest('[data-pgtab-all]')){e.preventDefault();e.stopPropagation();hubPage('all');return}
   if(b=t.closest('[data-prog]')){e.preventDefault();e.stopPropagation();var id=b.getAttribute('data-prog');try{F().closeSheet()}catch(x){};if(id==='cur'){openCurrent()}else if(id==='hub'||!PG()[id]){hubPage(started(load()).length?'mine':'all')}else{active=id;render(true)}return}
   if(b=t.closest('[data-pgtab]')){hubPage(b.getAttribute('data-pgtab'));return}
   if(b=t.closest('[data-pgclose]')){closePage();return}
@@ -226,7 +241,7 @@ RF.search.register({id:'prog',title:'الرحلات',order:60,
     if(nm(p.title+' '+p.short+' '+(p.sub||'')).indexOf(nq)>-1){rows.push({go:'prog:'+id,title:p.title,sub:p.sub||''});return}
     for(var i=0;i<p.days.length&&rows.length<8;i++){var d=p.days[i];if(nm(d[0]+' '+d[1]+' '+d[2]+' '+d[4]).indexOf(nq)>-1){rows.push({go:'prog:'+id,title:p.short+' — يوم '+ar(i+1)+': '+d[0],sub:ctx.snip(String(d[2]||d[4]||''))});break}}});return rows},
   go:function(parts){if(window.__prog)window.__prog.open(parts[1])}});
-window.__prog={season:function(){var s=load();return inSeason(s).map(function(i){var p=PG()[i];return {id:i,title:p.title,short:p.short,icon:p.icon,day:syncDay(i),n:N(i)}})},openSeason:function(id){var d=syncDay(id);if(!PG()[id])return;active=id;render(true);if(d)openDay(d)},status:status,doneOn:doneOn,openCurrent:openCurrent,tab:showJourneys,open:function(id){active=id||'joseph';render(true)},hub:hubPage,day:openDay,close:closePage};
+window.__prog={today:todayPage,todayIds:function(){var s=load();return todayIds(s,F().dkey&&F().dkey())},open1:openJourney,season:function(){var s=load();return inSeason(s).map(function(i){var p=PG()[i];return {id:i,title:p.title,short:p.short,icon:p.icon,day:syncDay(i),n:N(i)}})},openSeason:function(id){var d=syncDay(id);if(!PG()[id])return;active=id;render(true);if(d)openDay(d)},status:status,doneOn:doneOn,openCurrent:openCurrent,tab:showJourneys,open:function(id){active=id||'joseph';render(true)},hub:hubPage,day:openDay,close:closePage};
 })();
 
 /* ضبط تلقائي لنص الأزرار والشارات الملوّنة بحسب لون خلفيتها الفعلي (كل التصاميم) */
