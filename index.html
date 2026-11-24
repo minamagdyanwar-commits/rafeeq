@@ -982,7 +982,7 @@ var k=rk(new Date());p.entry={auto:false,date:k};localStorage.setItem('rafeeq_pr
 <script src="data-bgData.8b050226a6.js"></script><script>(function(){var s=document.createElement('script');s.id="bgData";s.type='text/plain';s.textContent=__RF_DATA["bgData"];delete __RF_DATA["bgData"];var c=document.currentScript;c.parentNode.insertBefore(s,c)})()</script>
 <script src="app6.4ecbf08d65.js"></script>
 <style id="v61ver">#rfVer{display:block;margin:22px 0 10px;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);text-align:center;font-weight:200;font-size:11.5px;letter-spacing:.04em;opacity:.62;direction:rtl;font-family:inherit}#rfVer b{font-weight:300;direction:ltr;unicode-bidi:isolate}</style>
-<script id="v61ver-js">(function(){var V='v6.33.0';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
+<script id="v61ver-js">(function(){var V='v6.34.0';window.__RF_VER=V;function put(){var p=document.getElementById('settingsPanel');if(!p)return;var e=document.getElementById('rfVer');if(!e){e=document.createElement('div');e.id='rfVer';e.innerHTML='الإصدار <b>'+V+'</b>';}if(p.lastElementChild!==e)p.appendChild(e);}
 function init(){put();var p=document.getElementById('settingsPanel');if(p&&window.MutationObserver){var busy=false;new MutationObserver(function(){if(busy)return;busy=true;put();busy=false}).observe(p,{childList:true});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.addEventListener('load',put);})();</script>
 <link rel="stylesheet" href="app7.dff7520e62.css"><script src="app8.7fd92ebc24.js"></script><link rel="stylesheet" href="app9.99cbd5490a.css"><script src="app10.5e406585a9.js"></script>
@@ -1325,14 +1325,16 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
     mov('lent','الصوم الكبير',-55,-1,'fast','٥٥ يومًا تبدأ بأسبوع الاستعداد وتنتهي بأسبوع الآلام');
     mov('holy','أسبوع الآلام',-7,-1,'holy','من أحد الشعانين إلى سبت الفرح');
     mov('pasc','الخمسون المقدسة (الخماسين)',0,49,'joy','من القيامة إلى العنصرة؛ لا صوم ولا سجود');
-    S.push({id:'apostles',name:'صوم الرسل',from:addDays(E,50),to:D(y,6,11),kind:'fast',note:'من الاثنين بعد العنصرة إلى ٥ أبيب (عيد الرسل)'});
+    /* نهاية صوم الرسل = اليوم السابق لـ٥ أبيب (عيد الرسل) بالتاريخ القبطي: ١١ أو ١٢ يوليو بحسب السنة */
+    var ap=D(y,6,12); if(coptic(ap).m!==11||coptic(ap).d!==5) ap=D(y,6,11);
+    S.push({id:'apostles',name:'صوم الرسل',from:addDays(E,50),to:addDays(ap,-1),kind:'fast',note:'من الاثنين بعد العنصرة إلى ٤ أبيب (ويليه عيد الرسل ٥ أبيب)'});
     /* الصيامان الثابتان يبدآن بالتاريخ القبطي لا بتاريخ ميلادي ثابت (يتحرك يومًا بين السنوات) */
     function cStart(m,mm,dd,cm,cd){ var a=D(y,m-1,dd), b=D(y,m-1,dd+1); return (coptic(a).m===cm&&coptic(a).d===cd)?[mm,dd]:[mm,dd+1]; }
-    var vs=cStart(8,8,7,12,1), ve=cStart(8,8,21,12,15), as=cStart(11,11,24,3,15);
+    var vs=cStart(8,8,7,12,1), ve=cStart(8,8,21,12,15), as=cStart(11,11,25,3,16);
     fix('virgin','صوم السيدة العذراء',8,vs[1],8,ve[1],'fast','١–١٥ مسرى');
-    fix('advA','صوم الميلاد',11,as[1],12,31,'fast','١٥ هاتور–٢٨ كيهك، ويستمر إلى ٦ يناير');
-    S.push({id:'advB',name:'صوم الميلاد',from:D(y,0,1),to:D(y,0,6),kind:'fast',note:'١٥ هاتور–٢٨ كيهك'});
-    if(S[S.length-1].to < S[S.length-1].from) S.pop();
+    /* صوم الميلاد: ٤٣ يومًا من ١٦ هاتور إلى ٢٨ كيهك (٦ يناير) — موسم واحد متصل يعبر رأس السنة الميلادية */
+    var ae=coptic(D(y+1,0,6)).d===28?6:7;   /* ٢٨ كيهك: ٦ يناير، أو ٧ يناير في السنوات التي يتحرك فيها التقويم يومًا */
+    fix('advA','صوم الميلاد',11,as[1],1,ae,'fast','١٦ هاتور–٢٨ كيهك (٤٣ يومًا)، وعيد الميلاد ٢٩ كيهك',y+1);
     return (_s[y]=S);
   }
   /* الأعياد المتحركة (بالنسبة للقيامة) */
@@ -1371,7 +1373,7 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
     var y=dt.getFullYear(), c=coptic(dt), n=dnum(dt), out={date:dt,c:c,wd:dt.getDay(),fasts:[],feasts:[],seasons:[]};
     [y-1,y,y+1].forEach(function(yy){ if(yy<1900||yy>2099) return;
       seasons(yy).forEach(function(s){ if(dnum(s.from)<=n&&n<=dnum(s.to)){
-        var k=s.id==='advA'||s.id==='advB'?'adv':s.id;
+        var k=s.id==='advA'?'adv':s.id;
         if(!out.seasons.some(function(z){return z.k===k})) out.seasons.push({k:k,name:s.name,kind:s.kind,day:n-dnum(s.from)+1,len:dnum(s.to)-dnum(s.from)+1,note:s.note});
       }});
     });
@@ -1442,9 +1444,9 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
     var opts=''; for(var yy=1900;yy<=2099;yy++) opts+='<option value="'+yy+'"'+(yy===y?' selected':'')+'>'+ard(yy)+' م — '+ard(coptic(D(yy,8,12)).y-1)+'/'+ard(coptic(D(yy,8,12)).y)+' ش</option>';
     h+='<label class="cal-sel">اختر السنة <select id="calYearSel" aria-label="اختيار السنة">'+opts+'</select></label>';
     var order=[];
-    S.forEach(function(s){ if(s.id==='advB') return; order.push(s); });
-    var jan=S.filter(function(s){return s.id==='advB'})[0];
-    if(jan) order.unshift({id:'advB',name:'صوم الميلاد (يستمر من السنة السابقة)',from:jan.from,to:jan.to,kind:'fast',note:jan.note});
+    S.forEach(function(s){ order.push(s); });
+    var prev=y>1900?seasons(y-1).filter(function(s){return s.id==='advA'})[0]:null;
+    if(prev) order.unshift({id:'advP',name:'صوم الميلاد (يستمر من السنة السابقة)',from:prev.from,to:prev.to,kind:'fast',note:prev.note});
     order.sort(function(a,b){return a.from-b.from});
     h+='<div class="cal-list">'+order.map(function(s){ var days=dnum(s.to)-dnum(s.from)+1;
       return '<button type="button" class="cal-row '+s.kind+'" data-cgo="'+s.from.getFullYear()+'-'+s.from.getMonth()+'-'+s.from.getDate()+'"><b>'+esc(s.name)+'</b><span>'+r(s.from,s.to)+' · '+ard(days)+' يومًا</span>'+(s.note?'<small>'+esc(s.note)+'</small>':'')+'</button>'; }).join('')+'</div>';
@@ -1467,9 +1469,9 @@ html[data-design="2"] #page-fat .fat-chips button.on{background:var(--tc-d9ae4e,
       inf.feasts.forEach(function(f){ out.push({d:dt,c:inf.c,n:f.n,t:f.t==='minor'?'minor':'major',k:'feast'}); });
     }
     [t0.getFullYear(),t0.getFullYear()+1].forEach(function(y){ if(y>2099) return; seasons(y).forEach(function(s){
-      if(s.kind!=='fast'||s.id==='advB') return;
+      if(s.kind!=='fast') return;
       var dd=dnum(s.from)-dnum(t0);
-      if(dd>=0&&dd<n) out.push({d:s.from,c:coptic(s.from),n:'بدء '+s.name,t:'fast',k:'fast',len:dnum(s.to)-dnum(s.from)+1+(s.id==='advA'?6:0)});
+      if(dd>=0&&dd<n) out.push({d:s.from,c:coptic(s.from),n:'بدء '+s.name,t:'fast',k:'fast',len:dnum(s.to)-dnum(s.from)+1});
     }); });
     out.sort(function(a,b){ return dnum(a.d)-dnum(b.d)||(a.k==='fast'?-1:1); });
     return out;
