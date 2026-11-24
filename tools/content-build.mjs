@@ -7,6 +7,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { bibleJourneys } from './bible-journeys.mjs';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dir = join(root, 'content/journeys');
 const order = JSON.parse(readFileSync(join(dir, '_order.json'), 'utf8'));
@@ -36,6 +37,8 @@ for (const id of order) {
   if (j.book || j.days.some(d => d.quote)) { if (j.book && !j.book.title) errs.push(`${id}: book.title ناقص`); j.days.forEach((d, i) => { if (!d.quote || !d.quote.text || !d.quote.page) errs.push(`${id} يوم ${i + 1}: رحلة كتاب بلا اقتباس/صفحة`); }); }
   out[id] = o;
 }
+/* رحلات «محطات الوصايا والوعود» (حسب الأسفار وحسب الموضوعات) تُولَّد من content/bible-notes — انظر tools/bible-journeys.mjs */
+{ const gen = bibleJourneys(root, errs); let n = 0; for (const [id, j] of Object.entries(gen)) { if (out[id]) errs.push(`${id}: معرّف رحلة مكرر`); delete j.review; out[id] = j; n++; stat.draft++; } console.log(`رحلات المحطات المولّدة: ${n}`); }
 /* نصوص الكتب المنقولة (content/books/*.json) → src/data-books.js (window.__bookText)؛ ويُتحقق أن كل صفحة تشير إليها أيام الرحلات موجودة */
 {
   const bd = join(root, 'content/books'), books = {};
@@ -175,8 +178,8 @@ console.log(`المحتوى: ${order.length} رحلة · مراجَع ${stat.rev
    التحقق هنا من البنية؛ وجود أرقام الآيات في السفر يتحقق منه tools/qa/bible-notes.mjs. */
 {
   const bd = join(root, 'content/bible-notes'), errs = [], out = {};
-  let nc = 0, np = 0;
-  if (existsSync(bd)) for (const f of readdirSync(bd).filter(x => x.endsWith('.json')).sort()) {
+  let nc = 0, np = 0, missWhy = 0;
+  if (existsSync(bd)) for (const f of readdirSync(bd).filter(x => x.endsWith('.json') && !x.startsWith('_')).sort()) {
     const j = JSON.parse(readFileSync(join(bd, f), 'utf8'));
     if (!Number.isInteger(j.book) || j.book < 0 || j.book > 75) { errs.push(`${f}: فهرس السفر غير صالح`); continue; }
     if (out[j.book]) errs.push(`${f}: السفر ${j.book} مكرر`);
@@ -187,10 +190,12 @@ console.log(`المحتوى: ${order.length} رحلة · مراجَع ${stat.rev
         const v = it.v;
         if (!Array.isArray(v) || v.length !== 2 || !v.every(Number.isInteger) || v[0] < 1 || v[1] < v[0]) errs.push(`${f} ${ch}/${tag}: مدى آيات غير صالح`);
         if (typeof it[k] !== 'string' || it[k].trim().length < 12) errs.push(`${f} ${ch}/${tag}: حقل ${k} ناقص`);
+        if (it.why != null && (typeof it.why !== 'string' || it.why.trim().length < 20)) errs.push(`${f} ${ch}/${tag}: why قصير أو غير نصي`);
+        if (it.why == null) missWhy++;
       };
       const rec = {};
-      for (const it of e.c || []) { rng(it, 'do', 'c' + it.v); nc++; (rec.c = rec.c || []).push(it.d ? { v: it.v, do: it.do, d: 1 } : { v: it.v, do: it.do }); }
-      for (const it of e.p || []) { rng(it, 'back', 'p' + it.v); np++; (rec.p = rec.p || []).push({ v: it.v, back: it.back }); }
+      for (const it of e.c || []) { rng(it, 'do', 'c' + it.v); nc++; const o2 = it.d ? { v: it.v, do: it.do, d: 1 } : { v: it.v, do: it.do }; if (it.why) o2.why = it.why; (rec.c = rec.c || []).push(o2); }
+      for (const it of e.p || []) { rng(it, 'back', 'p' + it.v); np++; const o2 = { v: it.v, back: it.back }; if (it.why) o2.why = it.why; (rec.p = rec.p || []).push(o2); }
       if (!rec.c && !rec.p) errs.push(`${f} ${ch}: إصحاح فارغ`);
       o[ch] = rec;
     }
@@ -199,5 +204,5 @@ console.log(`المحتوى: ${order.length} رحلة · مراجَع ${stat.rev
   const nb = `/* مُولَّد من content/bible-notes/*.json بواسطة tools/content-build.mjs — لا تعدّل هذا الملف يدويًا. */\n(function () {\n  "use strict";\n  window.__bibleNotes = ${JSON.stringify(out)};\n})();\n`;
   const nt = join(root, 'src/data-bibleNotes.js');
   if (!existsSync(nt) || readFileSync(nt, 'utf8') !== nb) writeFileSync(nt, nb);
-  console.log(`وصايا ووعود الإصحاحات: ${Object.keys(out).length} سفر · ${nc} وصية · ${np} وعد`);
+  console.log(`وصايا ووعود الإصحاحات: ${Object.keys(out).length} سفر · ${nc} وصية · ${np} وعد · بلا «لماذا قيل؟»: ${missWhy}`);
 }
