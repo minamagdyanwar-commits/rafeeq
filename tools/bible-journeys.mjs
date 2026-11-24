@@ -4,8 +4,8 @@
    يعيد { id: رحلة } بنفس شكل data-journeys (days = محطات). النص الظاهر مبني من حقول do/back الموجودة + why المكتوبة في الموضوعات. */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-const NAMES = { 6:'القضاة',10:'الملوك الأول',11:'الملوك الثاني',12:'أخبار الأيام الأول',14:'عزرا',15:'نحميا',16:'طوبيا',27:'يشوع بن سيراخ',45:'زكريا',72:'يوحنا الثانية', 0:'التكوين',1:'الخروج',2:'اللاويين',3:'العدد',4:'التثنية',5:'يشوع',8:'صموئيل الأول',13:'أخبار الأيام الثاني',20:'أيوب',21:'المزامير',23:'الأمثال',24:'الجامعة',28:'إشعياء',29:'إرميا',30:'مراثي إرميا',32:'حزقيال',33:'دانيال',35:'هوشع',36:'يوئيل',37:'عاموس',40:'ميخا',41:'ناحوم',42:'حبقوق',43:'صفنيا',44:'حجي',46:'ملاخي', 49: 'متى', 50: 'مرقس', 51: 'لوقا', 52: 'يوحنا', 53: 'أعمال الرسل', 54: 'رومية', 55: 'كورنثوس الأولى', 56: 'كورنثوس الثانية', 57: 'غلاطية', 58: 'أفسس', 59: 'فيلبي', 60: 'كولوسي', 61: 'تسالونيكي الأولى', 62: 'تسالونيكي الثانية', 63: 'تيموثاوس الأولى', 64: 'تيموثاوس الثانية', 65: 'تيطس', 66: 'فليمون', 67: 'العبرانيين', 68: 'يعقوب', 69: 'بطرس الأولى', 70: 'بطرس الثانية', 71: 'يوحنا الأولى', 72: 'يوحنا الثانية', 73: 'يوحنا الثالثة', 74: 'يهوذا', 75: 'رؤيا' };
-const STAGES = [['البداية', 'أول الخطوات', '🌱'], ['الطريق', 'في السير', '🚶'], ['الثبات', 'مع التعب', '⛰'], ['الثمر', 'نهاية الرحلة', '🍇']];
+const NAMES = { 7:'راعوث',9:'صموئيل الثاني',26:'الحكمة',31:'باروخ',39:'يونان',66:'فليمون',37:'عاموس',35:'هوشع',36:'يوئيل',46:'ملاخي',44:'حجي',43:'صفنيا',42:'حبقوق',41:'ناحوم',40:'ميخا',33:'دانيال',32:'حزقيال',30:'مراثي إرميا', 6:'القضاة',10:'الملوك الأول',11:'الملوك الثاني',12:'أخبار الأيام الأول',14:'عزرا',15:'نحميا',16:'طوبيا',27:'يشوع بن سيراخ',45:'زكريا',72:'يوحنا الثانية', 0:'التكوين',1:'الخروج',2:'اللاويين',3:'العدد',4:'التثنية',5:'يشوع',8:'صموئيل الأول',13:'أخبار الأيام الثاني',20:'أيوب',21:'المزامير',23:'الأمثال',24:'الجامعة',28:'إشعياء',29:'إرميا',30:'مراثي إرميا',32:'حزقيال',33:'دانيال',35:'هوشع',36:'يوئيل',37:'عاموس',40:'ميخا',41:'ناحوم',42:'حبقوق',43:'صفنيا',44:'حجي',46:'ملاخي', 49: 'متى', 50: 'مرقس', 51: 'لوقا', 52: 'يوحنا', 53: 'أعمال الرسل', 54: 'رومية', 55: 'كورنثوس الأولى', 56: 'كورنثوس الثانية', 57: 'غلاطية', 58: 'أفسس', 59: 'فيلبي', 60: 'كولوسي', 61: 'تسالونيكي الأولى', 62: 'تسالونيكي الثانية', 63: 'تيموثاوس الأولى', 64: 'تيموثاوس الثانية', 65: 'تيطس', 66: 'فليمون', 67: 'العبرانيين', 68: 'يعقوب', 69: 'بطرس الأولى', 70: 'بطرس الثانية', 71: 'يوحنا الأولى', 72: 'يوحنا الثانية', 73: 'يوحنا الثالثة', 74: 'يهوذا', 75: 'رؤيا' };
+const STAGES = [['الشريعة والتاريخ', 'من التكوين إلى أستير', '📜'], ['الحكمة والأنبياء', 'من أيوب إلى ملاخي', '🕊'], ['العهد الجديد', 'من متى إلى الرؤيا', '✝'], ['محطات الموضوعات', 'سلام · محبة · رجاء · صلاة · غفران', '🧭']];
 const LABELS = ['ماذا نعمل وماذا نأخذ', 'الخلفية: لماذا قيل؟', 'الآيات في هذه المحطة'];
 const refOf = (b, ch, v) => `${NAMES[b] || ('سفر' + b)} ${ch}:${v[0]}${v[1] !== v[0] ? '-' + v[1] : ''}`;
 const line = a => (a.k === 'c' ? 'وصية' : 'وعد') + ' — ' + a.ref + ': ' + a.text;
@@ -29,38 +29,39 @@ function day(title, a, why, q, t) {
   return [title, lead.ref, a.map(line).join('\n'), why, 'اقرأ كل آية في سياق إصحاحها: ' + refs, q || question(a), t || task(a)];
 }
 export function bibleJourneys(root, errs) {
-  const atoms = loadAtoms(root), out = {}, review = { status: 'draft', note: 'مولّدة من content/bible-notes؛ تحتاج مراجعة لاهوتية' };
-  /* ١) حسب الأسفار */
+  const atoms = loadAtoms(root), review = { status: 'draft', note: 'مولّدة من content/bible-notes؛ تحتاج مراجعة لاهوتية' };
+  const days = [], stageAt = [];
+  /* المرحلة بحسب موضع السفر في الكتاب: ٠ الشريعة والتاريخ (٠–١٩)، ١ الحكمة والأنبياء (٢٠–٤٨)، ٢ العهد الجديد (٤٩–٧٥)، ٣ موضوعات */
+  const stageOf = b => b < 20 ? 0 : b < 49 ? 1 : 2;
+  let nc = 0, np = 0;
+  /* ١) حسب الأسفار: كل سفر فيه بنود يعطي من ١ إلى ٤ محطات بحسب عدد بنوده، بترتيب الكتاب */
   const byBook = {};
   for (const a of atoms) (byBook[a.b] = byBook[a.b] || []).push(a);
-  for (const [b, as] of Object.entries(byBook)) {
-    if (as.length < 3) continue;
-    const k = as.length <= 6 ? 1 : as.length <= 12 ? 2 : as.length <= 20 ? 3 : 4;
+  for (const b of Object.keys(byBook).map(Number).sort((x, y) => x - y)) {
+    const as = byBook[b], k = as.length <= 6 ? 1 : as.length <= 12 ? 2 : as.length <= 20 ? 3 : 4;
     const chs = [...new Set(as.map(x => x.ch))], groups = [];
-    let per = Math.ceil(as.length / k), cur = [];
+    const per = Math.ceil(as.length / k); let cur = [];
     for (const ch of chs) { cur.push(ch); if (cur.reduce((s, c) => s + as.filter(x => x.ch === c).length, 0) >= per && groups.length < k - 1) { groups.push(cur); cur = []; } }
     if (cur.length) groups.push(cur);
-    const days = groups.map((g, i) => {
-      const part = as.filter(x => g.includes(x.ch));
-      const t = `المحطة ${i + 1}: ${NAMES[b]} ${g[0]}${g.length > 1 ? '–' + g[g.length - 1] : ''}`;
-      const whys = []; const seen = new Set(); for (const a of part) { if (a.why && !seen.has(a.ref + a.why)) { seen.add(a.ref + a.why); whys.push(a.ref + ': ' + a.why); } }
-      const generic = `هذه المحطة تجمع ${part.filter(x => x.k === 'c').length} وصية و${part.filter(x => x.k === 'p').length} وعدًا من ${NAMES[b]} ${g[0]}${g.length > 1 ? '–' + g[g.length - 1] : ''}. اقرأ الإصحاح أولًا لتعرف من يتكلم ولمن، ثم عُد إلى الوصية أو الوعد.`;
-      return day(t, part, whys.length ? whys.join('\n') : generic);
-    });
-    const nc = as.filter(x => x.k === 'c').length, np = as.length - nc;
-    out['bb_' + b] = { id: 'bb_' + b, title: 'وصايا ووعود ' + NAMES[b], short: NAMES[b], icon: '📜', sub: `${nc} وصية · ${np} وعد في ${days.length === 1 ? 'محطة' : days.length + ' محطات'}`, cat: 'bnbook', labels: LABELS, stages: STAGES, days, review };
+    for (const g of groups) {
+      const part = as.filter(x => g.includes(x.ch)), span = `${g[0]}${g.length > 1 ? '–' + g[g.length - 1] : ''}`;
+      const whys = [], seen = new Set();
+      for (const a of part) if (a.why && !seen.has(a.ref + a.why)) { seen.add(a.ref + a.why); whys.push(a.ref + ': ' + a.why); }
+      const generic = `هذه المحطة تجمع ${part.filter(x => x.k === 'c').length} وصية و${part.filter(x => x.k === 'p').length} وعدًا من ${NAMES[b] || b} ${span}. اقرأ الإصحاح أولًا لتعرف من يتكلم ولمن، ثم عُد إلى الوصية أو الوعد.`;
+      days.push(day(`${NAMES[b] || b} ${span}`, part, whys.length ? whys.join('\n') : generic)); stageAt.push(stageOf(b));
+      nc += part.filter(x => x.k === 'c').length; np += part.filter(x => x.k === 'p').length;
+    }
   }
-  /* ٢) حسب الموضوعات */
+  /* ٢) محطات الموضوعات (سلام، محبة…) في آخر الرحلة: نفس البنود مجمّعة بالموضوع */
   const tf = join(root, 'content/bible-notes/_topics.json');
   if (existsSync(tf)) for (const t of JSON.parse(readFileSync(tf, 'utf8'))) {
-    const days = [];
     for (const st of t.stations) {
       const part = [];
       for (const key of st.refs) { const f = atoms.filter(a => a.key === key); if (!f.length) errs.push(`موضوع ${t.id}/${st.title}: لا ذرة بالمفتاح ${key}`); part.push(...f); }
       for (const f of ['title', 'why', 'question', 'task']) if (!st[f]) errs.push(`موضوع ${t.id}/${st.title}: حقل ناقص ${f}`);
-      if (part.length) days.push(day(st.title, part, st.why, st.question, st.task));
+      if (part.length) { days.push(day(`${t.short}: ${st.title}`, part, st.why, st.question, st.task)); stageAt.push(3); }
     }
-    out['bt_' + t.id] = { id: 'bt_' + t.id, title: t.title, short: t.short, icon: t.icon, sub: t.sub, cat: 'bntopic', labels: LABELS, stages: STAGES, days, review };
   }
-  return out;
+  const j = { id: 'bnotes', title: 'وصايا ووعود الكتاب المقدس', short: 'وصايا ووعود', icon: '📜', sub: `${days.length} محطة عبر الكتاب المقدس كله`, cat: 'bnotes', unit: 'محطة', labels: LABELS, stages: STAGES, stageAt, days, review };
+  return { bnotes: j };
 }

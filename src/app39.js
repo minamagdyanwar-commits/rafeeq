@@ -20,18 +20,22 @@ window.__hlMeta=function(x){try{if(!x||x.closest('#page-read,#view-meditation,#v
 (function(){
 "use strict";
 var K='rafeeq_prog_v1',AR='٠١٢٣٤٥٦٧٨٩';
-var CATS=[['bible','أسفار الكتاب المقدس كاملة','📖'],['person','شخصيات الكتاب','👤'],['topic','موضوعات روحية','🕊'],['bntopic','وصايا ووعود حسب الموضوع','🧭'],['bnbook','وصايا ووعود حسب الأسفار','📜'],['church','من الكنيسة والتقليد','⛪'],['season','رحلات المواسم','📅'],['shenouda','رحلات قداسة البابا شنوده','📖'],['custom','رحلاتي الخاصة','✨']];
+var CATS=[['bnotes','وصايا ووعود الكتاب المقدس','📜'],['bible','أسفار الكتاب المقدس كاملة','📖'],['person','شخصيات الكتاب','👤'],['topic','موضوعات روحية','🕊'],['church','من الكنيسة والتقليد','⛪'],['season','رحلات المواسم','📅'],['shenouda','رحلات قداسة البابا شنوده','📖'],['custom','رحلاتي الخاصة','✨']];
 function ar(n){return RF.ar(n)}
 function esc(s){return RF.esc(s)}
 function F(){return window.__F||{}}
 function q(s,r){return (r||document).querySelector(s)}
 function PG(){return window.__progData||{}}
+/* رحلات «المحطات» (unit:'محطة'): تسمّي الوحدة «المحطة» بدل «اليوم» */
+function UW(p){return !!(p&&p.unit==='محطة')}
+function UD(p){return UW(p)?'المحطة ':'اليوم '}
 function IDS(){return Object.keys(PG())}
 function N(id){return (PG()[id]&&PG()[id].days.length)||40}
 function load(){var v;try{v=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}v=v||{};IDS().forEach(function(i){v[i]=v[i]||{done:{},notes:{}};v[i].done=v[i].done||{};v[i].notes=v[i].notes||{}});return v}
 function save(s){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}if(window.RF&&RF.act)RF.act.changed(F().dkey&&F().dkey(),'prog')}
 var MN=['المحطة الأولى','منتصف الرحلة','قرب القمة','القمة'];
-function mileOf(id,d){var n=N(id);for(var k=1;k<=4;k++)if(d===Math.ceil(n*k/4))return MN[k-1];return ''}
+var MN2=['ربع الرحلة','منتصف الرحلة','ثلاثة أرباع الرحلة','ختام الرحلة'];
+function mileOf(id,d){var n=N(id),M=UW(PG()[id])?MN2:MN;for(var k=1;k<=4;k++)if(d===Math.ceil(n*k/4))return M[k-1];return ''}
 function stIdx(p,d){return p.stageAt?p.stageAt[d-1]:Math.min(3,Math.floor((d-1)*4/p.days.length))} function stageOf(p,d){return p.stages[stIdx(p,d)]}
 function cur(s,id){var n=N(id);for(var i=1;i<=n;i++)if(!s[id].done[i])return i;return n+1}
 function doneCount(s,id){var n=0,m=N(id);for(var i=1;i<=m;i++)if(s[id].done[i])n++;return n}
@@ -56,12 +60,12 @@ function calib(){try{var d=document.documentElement,pr=document.createElement('d
   var w={r:255,g:255,b:255},k={r:26,g:18,b:6};d.style.setProperty('--pg-on',cr(w,acc)>=cr(k,acc)?'#fff':'#1a1206')}catch(e){}}
 /* ---------- بطاقات ---------- */
 function card(s,id){var p=PG()[id];if(!p)return'';var n=N(id),c=cur(s,id),dn=doneCount(s,id),pct=Math.round(dn*100/n);
-  return '<button type="button" class="pg-card'+(finished(s,id)?' fin':'')+'" data-prog="'+id+'"><i>'+p.icon+'</i><span><b>'+esc(p.title)+'</b><small>'+esc(p.sub)+'</small>'+(dn?'<u><s style="width:'+pct+'%"></s></u>':'')+'<em>'+(syncDay(id)&&!finished(s,id)?'🔔 الآن: اليوم '+ar(syncDay(id))+' من '+ar(n):(dn===0?ar(n)+' يومًا'+(p.season?' · '+esc(p.season):''):(finished(s,id)?'🏅 أتممتَ الرحلة':'اليوم '+ar(c)+' من '+ar(n))))+'</em></span><strong>‹</strong></button>'}
+  return '<button type="button" class="pg-card'+(finished(s,id)?' fin':'')+'" data-prog="'+id+'"><i>'+p.icon+'</i><span><b>'+esc(p.title)+'</b><small>'+esc(p.sub)+'</small>'+(dn?'<u><s style="width:'+pct+'%"></s></u>':'')+'<em>'+(syncDay(id)&&!finished(s,id)?'🔔 الآن: اليوم '+ar(syncDay(id))+' من '+ar(n):(dn===0?ar(n)+(UW(p)?' محطة':' يومًا')+(p.season?' · '+esc(p.season):''):(finished(s,id)?'🏅 أتممتَ الرحلة':UD(p)+ar(c)+' من '+ar(n))))+'</em></span><strong>‹</strong></button>'}
 function started(s){return IDS().filter(function(i){return doneCount(s,i)>0}).sort(function(a,b){return lastTs(s,b)-lastTs(s,a)})}
 window.__progCard=function(){var s=load(),st=started(s),id=st.filter(function(i){return !finished(s,i)})[0]||st[0],p=PG()[id];
   if(!id||!p)return '<button type="button" class="pg-home" data-prog="hub"><i>🏔</i><span><b>رحلات ٤٠ يومًا وأكثر</b><small>شخصيات · موضوعات · مواسم</small></span><em>‹</em></button>';
   var c=cur(s,id),n=N(id);
-  return '<button type="button" class="pg-home" data-prog="hub"><i>'+p.icon+'</i><span><b>رحلاتي</b><small>'+esc(p.short)+' — '+(c>n?'أتممتها 🏅':'اليوم '+ar(c)+' من '+ar(n))+'</small></span><em>‹</em></button>'};
+  return '<button type="button" class="pg-home" data-prog="hub"><i>'+p.icon+'</i><span><b>رحلاتي</b><small>'+esc(p.short)+' — '+(c>n?'أتممتها 🏅':UD(p)+ar(c)+' من '+ar(n))+'</small></span><em>‹</em></button>'};
 /* ---------- المركز داخل الأجبية ---------- */
 function paintHub(){var h=document.getElementById('progHub');if(!h)return;calib();var s=load(),st=started(s).filter(function(i){return !finished(s,i)}).slice(0,3);
   var ins=inSeason(s);ins.slice().reverse().forEach(function(i){var k=st.indexOf(i);if(k>-1)st.splice(k,1);st.unshift(i)});st=st.slice(0,3);
@@ -89,14 +93,14 @@ function render(open){calib();
   for(var j=1;j<pts.length;j++){var a=pts[j-1],b=pts[j],my=(a[1]+b[1])/2;path+=' C'+a[0].toFixed(1)+' '+my.toFixed(1)+' '+b[0].toFixed(1)+' '+my.toFixed(1)+' '+b[0].toFixed(1)+' '+b[1].toFixed(1)}
   var nodes='',labels='',stPrev=-1,sdy=syncDay(active);
   for(var d=1;d<=n;d++){var pt=pts[d-1],state=s[active].done[d]?'done':(d===c?'now':(d<c?'done':(d<=sdy?'open':'lock'))),mil=mileOf(active,d),sIdx=stIdx(p,d);
-    nodes+='<button type="button" class="nd '+state+(mil?' mil':'')+(sdy&&d===sdy?' td':'')+'" style="left:'+pt[0].toFixed(1)+'px;top:'+pt[1].toFixed(1)+'px" data-pgd="'+d+'" aria-label="اليوم '+d+'"><i>'+(state==='done'?'✓':ar(d))+'</i>'+(state==='now'?'<u></u>':'')+'</button>';
+    nodes+='<button type="button" class="nd '+state+(mil?' mil':'')+(sdy&&d===sdy?' td':'')+'" style="left:'+pt[0].toFixed(1)+'px;top:'+pt[1].toFixed(1)+'px" data-pgd="'+d+'" aria-label="'+UD(p)+d+'"><i>'+(state==='done'?'✓':ar(d))+'</i>'+(state==='now'?'<u></u>':'')+'</button>';
     var st=p.stages[sIdx];
     if(sIdx!==stPrev){labels+='<div class="'+(d===1?'lb':'sg')+'" style="top:'+(pt[1]-(d===1?66:62))+'px">'+(d===1?'<span>'+st[2]+' '+esc(st[0])+'</span>':st[2]+' '+esc(st[0])+' — '+esc(st[1]))+'</div>';stPrev=sIdx}
     else if(mil){labels+='<div class="lb" style="top:'+(pt[1]-64)+'px"><span>'+st[2]+' '+mil+'</span></div>'}}
   var r=34,C=2*Math.PI*r,off=C*(1-pct/100);
   var h='<button type="button" class="pg-x" data-pgclose="1" aria-label="إغلاق">✕</button>'+
    '<header class="pg-hd"><div class="pg-ring"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="'+r+'" class="t"/><circle cx="40" cy="40" r="'+r+'" class="p" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg><b>'+ar(pct)+'٪</b></div>'+
-   '<div class="pg-tt"><small>رحلة</small><h2>'+esc(p.title)+'</h2><p>'+(c>n?'أتممتَ الرحلة كلها 🏅':'اليوم '+ar(c)+' · '+esc(stageOf(p,c)[0])+' · '+esc(stageOf(p,c)[1]))+'</p></div></header>'+
+   '<div class="pg-tt"><small>رحلة</small><h2>'+esc(p.title)+'</h2><p>'+(c>n?'أتممتَ الرحلة كلها 🏅':UD(p)+ar(c)+' · '+esc(stageOf(p,c)[0])+' · '+esc(stageOf(p,c)[1]))+'</p></div></header>'+
    '<div class="pg-path" style="height:'+totalH+'px"><svg class="pg-line" viewBox="0 0 '+W+' '+totalH+'" width="'+W+'" height="'+totalH+'" preserveAspectRatio="xMidYMin meet"><path d="'+path+'" class="bg"/><path d="'+path+'" class="fg" pathLength="1" stroke-dasharray="1" stroke-dashoffset="'+(1-Math.min(1,Math.max(0,(Math.min(dn,n))/Math.max(1,n-1)))).toFixed(3)+'"/></svg>'+labels+nodes+'<div class="pg-top">'+p.icon+' القمة</div></div>'+
    (dn>0?'<button type="button" class="pg-rs" data-pgreset="1">إعادة الرحلة من البداية</button>':'<div style="height:110px"></div>');
   var pgEl=pgBox();var sc=pgEl.scrollTop;pgEl.innerHTML=h;pgEl.className='prg-page on';document.body.classList.add('nh-lock');
@@ -120,7 +124,7 @@ function hubPage(t){calib();if(t)tab=t;var s=load(),all=IDS(),st=started(s),run=
   var e=pgBox();e.innerHTML='<button type="button" class="pg-x" data-pgclose="1" aria-label="إغلاق">✕</button><div class="pg-hubp"><h2>🏔 رحلات الكتاب المقدس</h2><div class="pg-tabs">'+tabs+'</div>'+body+'</div>';e.className='prg-page on';document.body.classList.add('nh-lock');e.scrollTop=0}
 function closePage(){var p=document.getElementById('progPage');if(p)p.classList.remove('on');var d=document.getElementById('progDay');if(d)d.classList.remove('on');if(!document.querySelector('#nhPage.on'))document.body.classList.remove('nh-lock');paintHub()}
 /* ---------- بطاقة اليوم ---------- */
-function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(active);if(d>c&&d>syncDay(active)){var t=F().toast;t&&t('كمّل اليوم '+ar(c)+' الأول');return}
+function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(active);if(d>c&&d>syncDay(active)){var t=F().toast;t&&t(UW(p)?'كمّل المحطة '+ar(c)+' الأولى':'كمّل اليوم '+ar(c)+' الأول');return}
   var it=p.days[d-1],b=F().bible,done=!!s[active].done[d],st=stageOf(p,d),L=p.labels;
   var el=document.getElementById('progDay');if(!el){el=document.createElement('div');el.id='progDay';el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');document.body.appendChild(el)}
   function sec(lbl,txt){return txt?'<section class="pd-r"><h4>'+esc(lbl)+'</h4><p>'+esc(txt)+'</p></section>':''}
@@ -149,12 +153,12 @@ function openDay(d){calib();var p=PG()[active],s=load(),c=cur(s,active),n=N(acti
     var link=bu?'<a class="pd-open pd-book" href="'+esc(bu)+'" target="_blank" rel="noopener">افتح الكتاب كاملًا</a>':'';
     return '<article class="pd-v pd-quote pd-bind"><p>'+esc(Q.q)+'</p><b>'+src+'</b>'+link+'</article>'+(psalm?'<section class="pd-v pd-bible"><h4>آية للتأمل</h4>'+psalm+'</section>':'')}
   function paint(psalm){
-    el.innerHTML='<button type="button" class="pg-x" data-pgback="1" aria-label="رجوع">‹ الدرب</button><button type="button" class="pg-x pg-set" data-pgset="1" aria-label="الإعدادات (الخط والتباعد)">⚙ الخط</button><button type="button" class="pg-x pg-hl" id="pgHl" hidden aria-label="تظليل النص المحدد">🖍 تظليل</button><div class="pd-c"><small>'+st[2]+' اليوم '+ar(d)+' من '+ar(n)+' · '+esc(st[0])+'</small><h2>'+esc(it[0])+'</h2>'+
+    el.innerHTML='<button type="button" class="pg-x" data-pgback="1" aria-label="رجوع">‹ الدرب</button><button type="button" class="pg-x pg-set" data-pgset="1" aria-label="الإعدادات (الخط والتباعد)">⚙ الخط</button><button type="button" class="pg-x pg-hl" id="pgHl" hidden aria-label="تظليل النص المحدد">🖍 تظليل</button><div class="pd-c"><small>'+st[2]+' '+UD(p)+ar(d)+' من '+ar(n)+' · '+esc(st[0])+'</small><h2>'+esc(it[0])+'</h2>'+
       top(psalm)+
       sec(L[0],it[2])+sec(L[1],it[3])+sec(L[2],it[4])+
       '<section class="pd-q"><h4>سؤال اليوم</h4><p>'+esc(it[5])+'</p><textarea id="pdNote" rows="3" maxlength="500" aria-label="إجابتك على سؤال اليوم" placeholder="اكتب إجابتك — تتحفظ على جهازك فقط">'+esc(s[active].notes[d]||'')+'</textarea></section>'+
       '<section class="pd-t"><i>✦</i><div><h4>مهمة اليوم</h4><p>'+esc(it[6])+'</p></div></section>'+
-      '<button type="button" class="pd-ok'+(done?' on':'')+'" data-pgok="'+d+'">'+(done?'✓ أكملت هذا اليوم (اضغط للتراجع)':'أكملت هذا اليوم ✓')+'</button></div>';
+      '<button type="button" class="pd-ok'+(done?' on':'')+'" data-pgok="'+d+'">'+(done?(UW(p)?'✓ أكملت هذه المحطة (اضغط للتراجع)':'✓ أكملت هذا اليوم (اضغط للتراجع)'):(UW(p)?'أكملت هذه المحطة ✓':'أكملت هذا اليوم ✓'))+'</button></div>';
     el.className='prg-day on';el.scrollTop=0}
   function psalmHtml(){
     try{var r=b.parseRef(it[1]),txt=b.verses(r.bi,r.ch,r.v1,r.v2),lab=b.label(r.bi,r.ch,r.v1,r.v2);
@@ -173,7 +177,7 @@ function doneOnId(id,dk){return doneDayOn(id,dk)>0}
 /* آخر يوم من الرحلة أُتمّ في التاريخ dk (٠ = لا شيء) */
 function doneDayOn(id,dk){var s=load(),f=F().dkey,m=0;if(!f||!s[id])return 0;for(var k in s[id].done){try{if(f(new Date(s[id].done[k]))===dk)m=Math.max(m,+k)}catch(e){}}return m}
 /* سطر «رحلتي» في ترتيب اليوم: إن أُتمّ يوم من الرحلة اليوم يظهر هذا اليوم مشطوبًا، وإلا يظهر اليوم التالي غير مشطوب */
-function status(dk){var s=load(),id=activeId(s);if(!id)return null;var p=PG()[id],dn=doneDayOn(id,dk);return {id:id,day:dn||cur(s,id),label:'رحلتي: '+p.short+' — اليوم '+ar(dn||cur(s,id)),done:dn>0}}
+function status(dk){var s=load(),id=activeId(s);if(!id)return null;var p=PG()[id],dn=doneDayOn(id,dk);return {id:id,day:dn||cur(s,id),label:'رحلتي: '+p.short+' — '+UD(p)+ar(dn||cur(s,id)),done:dn>0}}
 function openCurrent(){var s=load(),id=activeId(s);if(!id){hubPage('all');return}active=id;render(true);var td=doneDayOn(id,F().dkey&&F().dkey());if(td){openDay(td);return}var sd=syncDay(id);openDay(sd&&!s[id].done[sd]?sd:Math.min(cur(s,id),N(id)))}
 /* ---------- قائمة «المزيد» والرئيسية ---------- */
 function injectMore(){var box=q('#uSheet .v14-more');if(!box||q('[data-prog="hub"]',box))return;
@@ -206,7 +210,7 @@ document.addEventListener('click',function(e){var t=e.target,b;if(!t.closest)ret
   if(b=t.closest('[data-pgok]')){var d=+b.getAttribute('data-pgok'),s=load(),n=N(active),note=(q('#pdNote')||{}).value;if(note!=null)s[active].notes[d]=note;
     var tt=F().toast;
     if(s[active].done[d]){delete s[active].done[d]}else{s[active].done[d]=Date.now();
-      if(cur(s,active)>n)tt&&tt('🏅 أتممتَ «'+PG()[active].short+'» — مبروك الشارة!');else if(mileOf(active,d))tt&&tt('🎉 '+mileOf(active,d)+' — أحسنت!');else tt&&tt('✓ اليوم '+ar(d)+' اكتمل')}
+      if(cur(s,active)>n)tt&&tt('🏅 أتممتَ «'+PG()[active].short+'» — مبروك الشارة!');else if(mileOf(active,d))tt&&tt('🎉 '+mileOf(active,d)+' — أحسنت!');else tt&&tt(UW(PG()[active])?'✓ المحطة '+ar(d)+' اكتملت':'✓ اليوم '+ar(d)+' اكتمل')}
     save(s);closeDay();render(false);var pe=document.getElementById('progPage');if(pe){var nx=Math.min(n,cur(s,active)),y=pos(nx,Math.min(window.innerWidth,520),n)[1];pe.scrollTo({top:Math.max(0,y-pe.clientHeight*.55),behavior:'smooth'})}
     try{window.__nh&&window.__nh.paint()}catch(x){};return}
   if(b=t.closest('[data-pgreset]')){if(confirm('هتبدأ الرحلة من اليوم الأول وتتمسح إجاباتك. متأكد؟')){var s2=load();s2[active]={done:{},notes:{}};save(s2);render(true)}return}
