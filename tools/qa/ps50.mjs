@@ -29,9 +29,14 @@ for(const d of DES)for(const m of MODES)for(const w of [390,360,768]){
    const el=[...document.querySelectorAll('p,div,span')].find(x=>x.children.length===0&&norm(x.textContent)===norm(EXP[0]));
    function bgOf(e){const L=[];for(let x=e;x;x=x.parentElement){const c=getComputedStyle(x).backgroundColor,mm=c.match(/[\d.]+/g);if(mm&&(mm[3]===undefined||+mm[3]>0)){L.push(mm.map(Number));if(mm[3]===undefined||+mm[3]===1)break}}let base=[255,255,255];if(!L.length||(L[L.length-1].length===4&&L[L.length-1][3]<1)){const s=getComputedStyle(document.body).backgroundColor.match(/[\d.]+/g);if(s)base=s.slice(0,3).map(Number)}L.reverse().forEach(l=>{const a=l.length===4?l[3]:1;base=[0,1,2].map(i=>base[i]*(1-a)+l[i]*a)});return base}
    const old=/تَمحُ مَأثَمَتي|مأثمتي/.test(body);
-   return {found,total:EXP.length,old,fg:el?getComputedStyle(el).color.match(/[\d.]+/g).slice(0,3).map(Number):null,bg:el?bgOf(el):null,ov:document.documentElement.scrollWidth>innerWidth+1,found0:!!el}},EXP);
+   const stz=[...document.querySelectorAll('#openingArea .scripture .stz')],ps=stz.map(z=>z.querySelectorAll('p').length),tops=stz.map(z=>z.getBoundingClientRect().top),pl=stz[0]?[...stz[0].querySelectorAll('p')].map(p=>p.getBoundingClientRect()):[],gapIn=pl.length>1?pl[1].top-pl[0].bottom:null,last=pl.length?pl[pl.length-1].bottom:0,gapBetween=stz[1]?stz[1].getBoundingClientRect().top-last:null,lh=pl.map(r=>r.height),fs=pl.length?parseFloat(getComputedStyle(stz[0].querySelector('p')).lineHeight):0,maxLines=pl.length&&fs?Math.max(...document.querySelectorAll('#openingArea .scripture .stz p').length?[...document.querySelectorAll('#openingArea .scripture .stz p')].map(p=>Math.round(p.getBoundingClientRect().height/fs)):[0]):0,order=[...document.querySelectorAll('#openingArea .scripture p')].map(p=>p.textContent.trim());
+   return {stz:ps,gapIn,gapBetween,maxLines,order,found,total:EXP.length,old,fg:el?getComputedStyle(el).color.match(/[\d.]+/g).slice(0,3).map(Number):null,bg:el?bgOf(el):null,ov:document.documentElement.scrollWidth>innerWidth+1,found0:!!el}},EXP);
   say(r.found===r.total,`${tag} سطور المزمور الظاهرة ${r.found}/${r.total}`);
   say(!r.old,`${tag} لا بقايا من النص القديم`);
+  say(JSON.stringify(r.stz)==='[8,6,5]',`${tag} المقاطع الثلاثة (١–٨ · ٩–١٤ · ١٥–١٩) ${JSON.stringify(r.stz)}`);
+  say(r.order.length===19&&r.order.every((l,i)=>l.replace(/\s+/g,' ')===EXP[i].replace(/\s+/g,' ')),`${tag} ١٩ سطرًا بترتيبها (آية لكل سطر) ${r.order.length}`);
+  say(r.gapBetween!=null&&r.gapIn!=null&&r.gapBetween>r.gapIn+8,`${tag} فاصل المقاطع (${r.gapBetween&&r.gapBetween.toFixed(1)}) أكبر من تقارب السطور (${r.gapIn&&r.gapIn.toFixed(1)})`);
+  say(r.maxLines<=(w===768?3:4),`${tag} أطول سطر ${r.maxLines} أسطر مرئية`);
   if(r.fg)say(cr(r.fg,r.bg)>=4.5,`${tag} تباين نص المزمور ${cr(r.fg,r.bg).toFixed(2)}`);
   say(!r.ov,`${tag} بلا تمرير أفقي`);say(!errs.length,`${tag} أخطاء ${errs.join('|')}`);
   if(SHOTS&&w===390){await p.evaluate(()=>{const n=document.body.innerText;const e=document.getElementById('openingArea');e&&e.scrollIntoView({block:'start'})});await p.waitForTimeout(300);await p.screenshot({path:`tools/qa/reports/ps50/${d}-${m}.png`})}

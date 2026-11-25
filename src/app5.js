@@ -1,3 +1,10 @@
+/* نص الصلاة/المزمور: مصفوفة سطور؛ ولو للعنصر stanzas:[أعداد] تُجمَّع السطور في مقاطع (.stz) بفاصل أوضح بين المقاطع */
+window.__scrHtml = function (o) {
+  const t = (o && o.text) || [], n = o && o.stanzas;
+  if (!n || !n.length) return t.map((e) => `<p>${e}</p>`).join("");
+  let i = 0;
+  return n.map((c) => { const g = t.slice(i, i + c); i += c; return `<div class="stz">${g.map((e) => `<p>${e}</p>`).join("")}</div>`; }).join("") + (i < t.length ? t.slice(i).map((e) => `<p>${e}</p>`).join("") : "");
+};
 ((window.__medOpen = function () {
   try {
     return "open" === localStorage.getItem("rafeeq_meddef");
@@ -1497,23 +1504,24 @@
             "ارْحَمنِى يَا الله كَعَظيمِ رَحْمتِكَ، ومِثْل كَثْرةِ رَأفتِكَ تَمْحُو إثْمِى.",
             "تَغْسلُنِى كَثيراً مِنْ إثْمِى، ومِنْ خَطيَّتِى تُطَهِّرنِى.",
             "لأنِّى عارفٌ بإثْمِى، وخَطيَّتِى أمَامِى فى كلِّ حينٍ.",
-            "لَكَ وحْدَك أخْطأْتُ، والشَّرُّ قدامَكَ صَنعْتُ.",
-            "لِكىْ تَتَبرَّرَ فى أقْوالِكَ.",
-            "وتَغْلبَ إذَا حَاكمْت.",
+            "لَكَ وحْدَك أخْطأْتُ، والشَّرُّ قدامَكَ صَنعْتُ. لِكىْ تَتَبرَّرَ فى أقْوالِكَ. وتَغْلبَ إذَا حَاكمْت.",
             "لأنِّى هَاأنَذَا بِالآثَامِ حُبلَ بِى، وبِالخَطَايَا وَلَدتْنِى أمِّى.",
             "لأنَّكَ هَكَذا قَدْ أحْبَبتَ الحقَّ، إذْ أوْضَحتَ لِى غَوامِضَ حِكْمتِكَ ومَسْتورَاتِها.",
-            "تَنضَحُ عَلىَّ بِزُوفَاكَ فأطهُر، تَغْسلُنِى فَأبْيضُّ أكْثَر مِنَ الثَّلجِ، تُسْمعُنِى سُرُوراً وفَرحاً، فتَبْتهجُ عِظامِى المنْسَحقةُ.",
+            "تَنضَحُ عَلىَّ بِزُوفَاكَ فأطهُر، تَغْسلُنِى فَأبْيضُّ أكْثَر مِنَ الثَّلجِ،",
+            "تُسْمعُنِى سُرُوراً وفَرحاً، فتَبْتهجُ عِظامِى المنْسَحقةُ.",
             "اصْرِفْ وجْهَكَ عَنْ خَطايَاىَ، وامْحُ كلَّ أثَامِى.",
             "قَلبِاً نَقياً اخْلقْ فىَّ يَا الله، ورُوحاً مُسْتَقيماً جدِّدهُ فى أحْشَائِى.",
             "لا تَطْرحْنِى مِنْ قُدَّامَ وجْهكَ، ورُوحكَ القُدُّوسِ لا تَنْزعْهُ مِنِّى.",
-            "امْنَحْنِى بَهْجةَ خَلاصِكَ، وبرُوحِ مُدبِّرٍ عَضِّدنِى فأعْلمِ الأثَمَةَ طُرُقكَ، والمنَافِقونَ إليْكَ يَرجعونَ، نَجِّنِى مِنَ الدِّماءِ يا الله إلَهَ خَلاصِى، فيَبتهجُ لِسانِى ببرِّكَ.",
+            "امْنَحْنِى بَهْجةَ خَلاصِكَ، وبرُوحِ مُدبِّرٍ عَضِّدنِى",
+            "فأعْلمِ الأثَمَةَ طُرُقكَ، والمنَافِقونَ إليْكَ يَرجعونَ،",
+            "نَجِّنِى مِنَ الدِّماءِ يا الله إلَهَ خَلاصِى، فيَبتهجُ لِسانِى ببرِّكَ.",
             "يَا ربُّ افْتَح شَفتَىَّ فَيُخبرُ فَمِى بِتَسْبِيحِكَ.",
-            "لأنَّكَ لَوْ أثَرتَ الذَّبيحةَ، لَكُنْتُ الآنَ أعْطِى.",
-            "ولَكنَّكَ لا تُسرُّ بِالمَحْرقَاتِ، فالذَبيحَةُ للهِ رُوح مُنْسحق.",
-            "القَلْبُ المنْكسِرُ والمتَواضِعُ لا يُرْذلهُ الله، انْعمْ يَا ربّ بِمَسرتكَ عَلى صِهْيون، ولْتَبنِ أسْوَارَ أورْشَلِيم.",
-            "حِينَئذٍ تُسرُّ بذَبائِح البَرِّ قرباناً ومُحْرقَات ويُقَرِّبون عَلى مَذابِحكَ العُجُول.",
-            "هَلِّلُويَا.",
+            "لأنَّكَ لَوْ أثَرتَ الذَّبيحةَ، لَكُنْتُ الآنَ أعْطِى. ولَكنَّكَ لا تُسرُّ بِالمَحْرقَاتِ،",
+            "فالذَبيحَةُ للهِ رُوح مُنْسحق. القَلْبُ المنْكسِرُ والمتَواضِعُ لا يُرْذلهُ الله،",
+            "انْعمْ يَا ربّ بِمَسرتكَ عَلى صِهْيون، ولْتَبنِ أسْوَارَ أورْشَلِيم.",
+            "حِينَئذٍ تُسرُّ بذَبائِح البَرِّ قرباناً ومُحْرقَات ويُقَرِّبون عَلى مَذابِحكَ العُجُول. هَلِّلُويَا.",
           ],
+          stanzas: [8, 6, 5],
           meditation: [
             "تُختَتم مقدمة كل ساعة بهذا المزمور، الذي صلّاه داود بعد سقوطه، سبع مرات كل يوم، كتدريب يومي على الاتضاع الصادق قبل أي عمل روحي آخر. تكرار «طهّرني، اغسلني، امحُ» يُظهر أن التوبة الحقيقية ليست شعورًا عابرًا بالذنب، بل طلبًا إلحاحيًا متكررًا للتطهير الكامل.",
             "المزمور لا يتوقف عند الاعتراف بل يتجاوزه إلى رجاء التجديد: «قلبًا نقيًا اخلق فيّ» — التوبة هنا ليست جلدًا للذات بل طلب خلقة جديدة كاملة، لا مجرد إصلاح جزئي.",
@@ -7755,13 +7763,13 @@
                 n.length > 1 &&
                   (s = `<div class="sub-scroll" style="display:flex;">\n      ${n.map((e, a) => `<div class="sub-chip${t.subIndex === a ? " active" : ""}" data-idx="${a}">${e.subtitle}</div>`).join("")}\n    </div>`);
                 const o = n[Math.min(t.subIndex, n.length - 1)];
-                return `\n    <div class="parts-row">${a}</div>\n    ${s}\n    \n    <div class="content-card">\n      <div class="content-head">\n        ${i(e.hourKeyMap ? e.hourKeyMap[t.part] : e.hourKey, "hicon")}\n        <span class="tag">${e.parts[t.part].label}</span>\n        <h2>${o.title}${o.subtitle ? " — " + o.subtitle : ""}</h2>\n        ${o.ref ? `<div class="ref">${o.ref}</div>` : ""}\n      </div>\n      <div class="scripture">${(o.text || []).map((e) => `<p>${e}</p>`).join("")}</div>\n      ${E(o)}\n    </div>\n  \n  `;
+                return `\n    <div class="parts-row">${a}</div>\n    ${s}\n    \n    <div class="content-card">\n      <div class="content-head">\n        ${i(e.hourKeyMap ? e.hourKeyMap[t.part] : e.hourKey, "hicon")}\n        <span class="tag">${e.parts[t.part].label}</span>\n        <h2>${o.title}${o.subtitle ? " — " + o.subtitle : ""}</h2>\n        ${o.ref ? `<div class="ref">${o.ref}</div>` : ""}\n      </div>\n      <div class="scripture">${window.__scrHtml(o)}</div>\n      ${E(o)}\n    </div>\n  \n  `;
               })(e)
             : "chips" === e.type
               ? (function (e) {
                   const t = Math.min(h.mergedClosingIdx, e.items.length - 1),
                     a = e.items[t];
-                  return `\n    ${e.note ? `<p class="opening-note">${e.note}</p>` : ""}\n    <div class="opening-chips">\n      ${e.items.map((e, a) => `<div class="opening-chip${t === a ? " active" : ""}" data-idx="${a}">${e.title}</div>`).join("")}\n    </div>\n    <div class="content-card">\n      <div class="content-head">\n        ${i(e.hourKey, "hicon")}\n        <span class="tag">${e.title}</span>\n        <h2>${a.title}${a.subtitle ? " — " + a.subtitle : ""}</h2>\n        <div class="ref">${a.ref}</div>\n      </div>\n      <div class="scripture">${a.text.map((e) => `<p>${e}</p>`).join("")}</div>\n      ${E(a)}\n    </div>\n  `;
+                  return `\n    ${e.note ? `<p class="opening-note">${e.note}</p>` : ""}\n    <div class="opening-chips">\n      ${e.items.map((e, a) => `<div class="opening-chip${t === a ? " active" : ""}" data-idx="${a}">${e.title}</div>`).join("")}\n    </div>\n    <div class="content-card">\n      <div class="content-head">\n        ${i(e.hourKey, "hicon")}\n        <span class="tag">${e.title}</span>\n        <h2>${a.title}${a.subtitle ? " — " + a.subtitle : ""}</h2>\n        <div class="ref">${a.ref}</div>\n      </div>\n      <div class="scripture">${window.__scrHtml(a)}</div>\n      ${E(a)}\n    </div>\n  `;
                 })(e)
               : "reflectionFixed" === e.type
                 ? (function (e) {
@@ -7774,7 +7782,7 @@
                         (s = t),
                         (n = (e.tags && e.tags[a]) || e.title),
                         s
-                          ? `\n    <div class="content-card">\n      <div class="content-head">\n        <span class="tag">${n}</span>\n        <h2>${s.title}${s.subtitle ? " — " + s.subtitle : ""}</h2>\n        <div class="ref">${s.ref}</div>\n      </div>\n      <div class="scripture">${s.text.map((e) => `<p>${e}</p>`).join("")}</div>\n      ${s.meditation && s.meditation.length ? `\n      <details class="merged-meditation-toggle"${window.__medOpen() ? " open" : ""}>\n        <summary>✦ تأمل روحي</summary>\n        <div class="meditation">\n          ${s.meditation.map((e) => `<p>${e}</p>`).join("")}\n          ${s.footnotes && s.footnotes.length ? `<div class="footnotes"><span class="fn-title">مراجع وحواشٍ:</span><ol>${L(s.footnotes)}</ol></div>` : ""}\n        </div>\n      </details>` : ""}\n    </div>\n  `
+                          ? `\n    <div class="content-card">\n      <div class="content-head">\n        <span class="tag">${n}</span>\n        <h2>${s.title}${s.subtitle ? " — " + s.subtitle : ""}</h2>\n        <div class="ref">${s.ref}</div>\n      </div>\n      <div class="scripture">${window.__scrHtml(s)}</div>\n      ${s.meditation && s.meditation.length ? `\n      <details class="merged-meditation-toggle"${window.__medOpen() ? " open" : ""}>\n        <summary>✦ تأمل روحي</summary>\n        <div class="meditation">\n          ${s.meditation.map((e) => `<p>${e}</p>`).join("")}\n          ${s.footnotes && s.footnotes.length ? `<div class="footnotes"><span class="fn-title">مراجع وحواشٍ:</span><ol>${L(s.footnotes)}</ol></div>` : ""}\n        </div>\n      </details>` : ""}\n    </div>\n  `
                           : ""
                       );
                       var s, n;
@@ -8707,7 +8715,7 @@
         h.part)
       ) {
         const e = n[h.subIndex] || n[0];
-        o = `\n      <div class="content-card">\n        <div class="content-head">\n          ${i(h.hour, "hicon")}\n          <span class="tag">${t[h.part].label}</span>\n          <h2>${e.title}${e.subtitle ? " — " + e.subtitle : ""}</h2>\n          <div class="ref">${e.ref}</div>\n        </div>\n        <div class="scripture">${e.text.map((e) => `<p>${e}</p>`).join("")}</div>\n        ${E(e)}\n      </div>\n    `;
+        o = `\n      <div class="content-card">\n        <div class="content-head">\n          ${i(h.hour, "hicon")}\n          <span class="tag">${t[h.part].label}</span>\n          <h2>${e.title}${e.subtitle ? " — " + e.subtitle : ""}</h2>\n          <div class="ref">${e.ref}</div>\n        </div>\n        <div class="scripture">${window.__scrHtml(e)}</div>\n        ${E(e)}\n      </div>\n    `;
       } else
         o =
           '<div class="placeholder">اختر جزء الصلاة أعلاه (المزمور / الإنجيل / القطعة / التحليل) لعرض النص والتأمل.</div>';
@@ -8788,7 +8796,7 @@
                   .map(({ p: e, idx: t, topic: a }) => {
                     const s = a.key + "::" + t,
                       n = h.favOpenKey === s;
-                    return `\n          <div class="pb-prayer-item${n ? " open" : ""}" data-topic="${a.key}" data-idx="${t}" data-favkey="${s}">\n            <button class="pb-prayer-toggle" data-topic="${a.key}" data-idx="${t}" data-favkey="${s}">\n              <span class="pb-fav-star active" data-topic="${a.key}" data-idx="${t}" title="إزالة من المفضلة" role="button" tabindex="0">★</span>\n              <span class="pb-prayer-toggle-text">\n                <span class="pb-prayer-title">${e.title}</span>\n                <span class="pb-prayer-source"><strong>${a.label}</strong>${e.author ? ` — ${e.author}` : ""} — ${e.source}</span>\n              </span>\n              <span class="pb-prayer-caret">▾</span>\n            </button>\n            ${n ? `\n              <div class="content-card pb-prayer-body">\n                <div class="scripture">${e.text.map((e) => `<p>${e}</p>`).join("")}</div>\n                <div class="footnotes">\n                  <span class="fn-title">مراجع وحواشٍ:</span>\n                  <ol>${L(e.footnotes)}</ol>\n                </div>\n              </div>\n            ` : ""}\n          </div>\n        `;
+                    return `\n          <div class="pb-prayer-item${n ? " open" : ""}" data-topic="${a.key}" data-idx="${t}" data-favkey="${s}">\n            <button class="pb-prayer-toggle" data-topic="${a.key}" data-idx="${t}" data-favkey="${s}">\n              <span class="pb-fav-star active" data-topic="${a.key}" data-idx="${t}" title="إزالة من المفضلة" role="button" tabindex="0">★</span>\n              <span class="pb-prayer-toggle-text">\n                <span class="pb-prayer-title">${e.title}</span>\n                <span class="pb-prayer-source"><strong>${a.label}</strong>${e.author ? ` — ${e.author}` : ""} — ${e.source}</span>\n              </span>\n              <span class="pb-prayer-caret">▾</span>\n            </button>\n            ${n ? `\n              <div class="content-card pb-prayer-body">\n                <div class="scripture">${window.__scrHtml(e)}</div>\n                <div class="footnotes">\n                  <span class="fn-title">مراجع وحواشٍ:</span>\n                  <ol>${L(e.footnotes)}</ol>\n                </div>\n              </div>\n            ` : ""}\n          </div>\n        `;
                   })
                   .join("") +
                 "</div>"),
@@ -8858,7 +8866,7 @@
                   s = (function (e, t) {
                     return _e().has(e + "::" + t);
                   })(n.key, t);
-                return `\n        <div class="pb-prayer-item${a ? " open" : ""}" data-idx="${t}">\n          <button class="pb-prayer-toggle" data-idx="${t}">\n            <span class="pb-fav-star${s ? " active" : ""}" data-topic="${n.key}" data-idx="${t}" title="${s ? "إزالة من المفضلة" : "أضف إلى المفضلة"}" role="button" tabindex="0">★</span>\n            <span class="pb-prayer-toggle-text">\n              <span class="pb-prayer-title">${e.title}</span>\n              <span class="pb-prayer-source">${e.author ? `<strong>${e.author}</strong> — ` : ""}${e.source}</span>\n            </span>\n            <span class="pb-prayer-caret">▾</span>\n          </button>\n          ${a ? `\n            <div class="content-card pb-prayer-body">\n              <div class="scripture">${e.text.map((e) => `<p>${e}</p>`).join("")}</div>\n              <div class="footnotes">\n                <span class="fn-title">مراجع وحواشٍ:</span>\n                <ol>${L(e.footnotes)}</ol>\n              </div>\n            </div>\n          ` : ""}\n        </div>\n      `;
+                return `\n        <div class="pb-prayer-item${a ? " open" : ""}" data-idx="${t}">\n          <button class="pb-prayer-toggle" data-idx="${t}">\n            <span class="pb-fav-star${s ? " active" : ""}" data-topic="${n.key}" data-idx="${t}" title="${s ? "إزالة من المفضلة" : "أضف إلى المفضلة"}" role="button" tabindex="0">★</span>\n            <span class="pb-prayer-toggle-text">\n              <span class="pb-prayer-title">${e.title}</span>\n              <span class="pb-prayer-source">${e.author ? `<strong>${e.author}</strong> — ` : ""}${e.source}</span>\n            </span>\n            <span class="pb-prayer-caret">▾</span>\n          </button>\n          ${a ? `\n            <div class="content-card pb-prayer-body">\n              <div class="scripture">${window.__scrHtml(e)}</div>\n              <div class="footnotes">\n                <span class="fn-title">مراجع وحواشٍ:</span>\n                <ol>${L(e.footnotes)}</ol>\n              </div>\n            </div>\n          ` : ""}\n        </div>\n      `;
               })
               .join("") +
             "</div>"),
@@ -8992,7 +9000,7 @@
           const t = y[h.hour];
           if (!t.opening) return void (e.innerHTML = "");
           const a = t.opening.items[h.openIndex];
-          ((e.innerHTML = `\n    <details class="acc-card">\n      <summary>\n        <span class="acc-num">٣</span>\n        <span class="acc-title">مقدمة الصلاة<span class="acc-sub">أبانا الذي، فلنشكر، المزمور الخمسون</span></span>\n        <span class="acc-caret">▾</span>\n      </summary>\n      <div class="acc-body">\n        <p class="opening-note">${t.opening.note}</p>\n        <div class="opening-chips">\n          ${t.opening.items.map((e, t) => `<div class="opening-chip${h.openIndex === t ? " active" : ""}" data-idx="${t}">${e.title}</div>`).join("")}\n        </div>\n        <div class="content-card">\n          <div class="content-head">\n            ${i(h.hour, "hicon")}\n            <span class="tag">مقدمة</span>\n            <h2>${a.title}${a.subtitle ? " — " + a.subtitle : ""}</h2>\n            <div class="ref">${a.ref}</div>\n          </div>\n          <div class="scripture">${a.text.map((e) => `<p>${e}</p>`).join("")}</div>\n          ${E(a)}\n        </div>\n      </div>\n    </details>\n  `),
+          ((e.innerHTML = `\n    <details class="acc-card">\n      <summary>\n        <span class="acc-num">٣</span>\n        <span class="acc-title">مقدمة الصلاة<span class="acc-sub">أبانا الذي، فلنشكر، المزمور الخمسون</span></span>\n        <span class="acc-caret">▾</span>\n      </summary>\n      <div class="acc-body">\n        <p class="opening-note">${t.opening.note}</p>\n        <div class="opening-chips">\n          ${t.opening.items.map((e, t) => `<div class="opening-chip${h.openIndex === t ? " active" : ""}" data-idx="${t}">${e.title}</div>`).join("")}\n        </div>\n        <div class="content-card">\n          <div class="content-head">\n            ${i(h.hour, "hicon")}\n            <span class="tag">مقدمة</span>\n            <h2>${a.title}${a.subtitle ? " — " + a.subtitle : ""}</h2>\n            <div class="ref">${a.ref}</div>\n          </div>\n          <div class="scripture">${window.__scrHtml(a)}</div>\n          ${E(a)}\n        </div>\n      </div>\n    </details>\n  `),
             $(e, ".opening-chip.active"),
             e.querySelectorAll(".opening-chip").forEach((t) => {
               t.onclick = (a) => {
@@ -9009,7 +9017,7 @@
           const t = y[h.hour];
           if (!t.recurring) return void (e.innerHTML = "");
           const a = t.recurring.items[h.closeIndex];
-          ((e.innerHTML = `\n    <details class="acc-card">\n      <summary>\n        <span class="acc-num">٤</span>\n        <span class="acc-title">الصلوات الثابتة<span class="acc-sub">${t.recurring.items.length} أجزاء — تُصلَّى بعد القطع وقبل التحليل</span></span>\n        <span class="acc-caret">▾</span>\n      </summary>\n      <div class="acc-body">\n        <p class="opening-note">${t.recurring.note}</p>\n        <div class="opening-chips">\n          ${t.recurring.items.map((e, t) => `<div class="opening-chip${h.closeIndex === t ? " active" : ""}" data-idx="${t}">${e.title}</div>`).join("")}\n        </div>\n        <div class="content-card">\n          <div class="content-head">\n            ${i(h.hour, "hicon")}\n            <span class="tag">ثابتة</span>\n            <h2>${a.title}${a.subtitle ? " — " + a.subtitle : ""}</h2>\n            <div class="ref">${a.ref}</div>\n          </div>\n          <div class="scripture">${a.text.map((e) => `<p>${e}</p>`).join("")}</div>\n          ${E(a)}\n        </div>\n      </div>\n    </details>\n  `),
+          ((e.innerHTML = `\n    <details class="acc-card">\n      <summary>\n        <span class="acc-num">٤</span>\n        <span class="acc-title">الصلوات الثابتة<span class="acc-sub">${t.recurring.items.length} أجزاء — تُصلَّى بعد القطع وقبل التحليل</span></span>\n        <span class="acc-caret">▾</span>\n      </summary>\n      <div class="acc-body">\n        <p class="opening-note">${t.recurring.note}</p>\n        <div class="opening-chips">\n          ${t.recurring.items.map((e, t) => `<div class="opening-chip${h.closeIndex === t ? " active" : ""}" data-idx="${t}">${e.title}</div>`).join("")}\n        </div>\n        <div class="content-card">\n          <div class="content-head">\n            ${i(h.hour, "hicon")}\n            <span class="tag">ثابتة</span>\n            <h2>${a.title}${a.subtitle ? " — " + a.subtitle : ""}</h2>\n            <div class="ref">${a.ref}</div>\n          </div>\n          <div class="scripture">${window.__scrHtml(a)}</div>\n          ${E(a)}\n        </div>\n      </div>\n    </details>\n  `),
             $(e, ".opening-chip.active"),
             e.querySelectorAll(".opening-chip").forEach((t) => {
               t.onclick = (a) => {
