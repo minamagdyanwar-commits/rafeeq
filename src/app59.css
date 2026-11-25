@@ -1,7 +1,9 @@
 /* v6.28 — وصايا ووعود الإصحاح. وصية = وردي/عنابي بخط سفلي متصل + شريط جانبي؛ وعد = أخضر بخط سفلي منقّط.
    الألوان لا تعتمد على لون خلفية التصميم: كل تصميم فاتح/داكن بحسب data-theme، والعلامات خطوط وشارات (لا خلفيات تغطي النص). */
 :root { --bn-c: #8e2a3a; --bn-p: #1f6b4a; --bn-c-bg: rgba(142,42,58,.10); --bn-p-bg: rgba(31,107,74,.10); }
-html[data-theme="dark"] { --bn-c: #f0a3af; --bn-p: #8ed6ae; --bn-c-bg: rgba(240,163,175,.14); --bn-p-bg: rgba(142,214,174,.14); }
+/* الداكن: data-theme="dark" أو (حين لا تُضبط السمة) data-rf-theme=".../1/..." — الرقم ١ = داكن */
+html[data-theme="dark"], html[data-rf-theme*="/1/"] { --bn-c: #f0a3af; --bn-p: #8ed6ae; --bn-c-bg: rgba(240,163,175,.14); --bn-p-bg: rgba(142,214,174,.14); }
+html[data-theme="light"] { --bn-c: #8e2a3a; --bn-p: #1f6b4a; --bn-c-bg: rgba(142,42,58,.10); --bn-p-bg: rgba(31,107,74,.10); }
 
 /* في النص */
 html:not([data-bn-c="0"]):not([data-bn-m="card"]) p.bv.bn-c { text-decoration: underline solid var(--bn-c); text-decoration-thickness: 2px; text-underline-offset: 5px; box-shadow: inset -3px 0 0 var(--bn-c); }
