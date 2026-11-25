@@ -18,6 +18,7 @@ const cr=(a,c)=>{const x=lum(a),y=lum(c);return (Math.max(x,y)+.05)/(Math.min(x,
 for(const d of DES)for(const m of MODES)for(const w of [390,360,768]){
   const ctx=await b.newContext({viewport:{width:w,height:w===768?1024:844}});const p=await ctx.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message.slice(0,90)));
   await p.clock.install({time:new Date('2026-11-24T10:00:00')});
+  await p.addInitScript(fp=>{if(fp)localStorage.setItem('rafeeq_fontpct',fp)},process.env.FP||'');
   await p.addInitScript(([d,m])=>{if(sessionStorage.__i)return;sessionStorage.__i='1';localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}));localStorage.setItem('rafeeq_onboarded','1')},[d,m]);
   await p.goto(BASE+'/index.html');await p.waitForTimeout(1500);const tag=`${d}/${m}/${w}`;
   await p.evaluate(()=>{__rafeeq.show('cal');});await p.waitForTimeout(700);

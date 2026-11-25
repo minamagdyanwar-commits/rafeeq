@@ -15,6 +15,7 @@ const SHOTS=process.argv.includes('--shots');if(SHOTS)mkdirSync('tools/qa/report
 let fail=0;const say=(ok,m)=>{if(!ok)fail++;if(!ok||process.env.V)console.log((ok?'ok   ':'FAIL ')+m)};
 async function open(d,m,w){
   const p=await b.newPage({viewport:{width:w,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message.slice(0,90)));
+  await p.addInitScript(fp=>{if(fp)localStorage.setItem('rafeeq_fontpct',fp)},process.env.FP||'');
   await p.addInitScript(([d,m])=>{if(sessionStorage.__i)return;sessionStorage.__i='1';localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}));localStorage.setItem('rafeeq_onboarded','1')},[d,m]);
   await p.goto(BASE+'/index.html');await p.waitForTimeout(1500);return {p,errs};
 }

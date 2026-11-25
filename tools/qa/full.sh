@@ -27,5 +27,16 @@ step "تغطية رحلات الأسفار الكاملة" node bookcov.mjs
 step "سلامة محتوى الكتب (نطاقات/فجوات/تكرار/أيام الرحلات)" node content-audit.mjs --top 12
 step "الرفيق" node companion.mjs "$DES"
 step "النشاط والمفضلة والبحث" node unified.mjs
+step "وصايا ووعود الإصحاح (بطاقة + تعليم + إعدادات)" node bible-notes.mjs "$DES"
+step "رحلة وصايا ووعود الكتاب المقدس (المحطات)" node stations.mjs "$DES"
+step "رحلاتي اليوم (عدّاد يومي وصفحة الرحلات المفتوحة)" node today.mjs "$DES"
+step "التقويم: ضبط بدايات الأصوام" node calset.mjs "$DES"
+step "التقويم: بدايات الأصوام ١٩٠٠–٢٠٩٩" node fasts.mjs
+step "التقويم مقابل السنكسار" node fasts-syn.mjs
+step "المزمور الخمسون" node ps50.mjs "$DES"
+step "مزامير الأجبية (بيانات + عرض)" node psalms.mjs "$DES"
+# الخط الكبير ١٣٠٪ للشاشات الجديدة (ثلاثة تصاميم تمثّل الفاتح والداكن والمزخرف)
+FPD="classic,crown,shroud"
+for t in bible-notes stations today calset ps50 psalms; do step "خط ١٣٠٪ — $t" env FP=130 node $t.mjs "$FPD"; done
 echo; [ $fail = 0 ] && echo "كل الفحوص نجحت" || echo "فيه فحوص فشلت (راجع الأعلى)"
 exit $fail
