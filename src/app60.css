@@ -1,6 +1,5 @@
-/* v6.38 — المزمور الخمسون: ١٩ سطرًا = ١٩ آية في ٣ مقاطع (١–٨ · ٩–١٤ · ١٥–١٩)؛ فاصل أوضح بين المقاطع وتقارب بين سطور المقطع الواحد */
-#mod-k .scripture .stz { margin: 0 0 16px; }
-#mod-k .scripture .stz:last-child { margin-bottom: 0; }
-#mod-k .scripture .stz p,
-html[data-design="2"] #mod-k .scripture .stz p { margin: 0 0 7px !important; line-height: 1.75 !important; text-wrap: pretty; }
-#mod-k .scripture .stz + .stz { padding-top: 14px; border-top: 1px dotted rgba(var(--tc-c9a44c-rgb, 201, 164, 76), 0.35); }
+/* v6.40 — المزامير: نص متصل في فقرة واحدة بلا فواصل بين الجمل (لا أسطر يتيمة)، و«هلليلويا» سطر ختامي مستقل */
+#mod-k .scripture p.flow,
+html[data-design="2"] #mod-k .scripture p.flow { margin: 0 0 6px !important; line-height: 1.85 !important; text-wrap: pretty; }
+#mod-k .scripture p.flow-end,
+html[data-design="2"] #mod-k .scripture p.flow-end { margin: 0 !important; line-height: 1.85 !important; }
