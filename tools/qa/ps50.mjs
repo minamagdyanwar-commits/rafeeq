@@ -18,6 +18,7 @@ const lum=c=>{const f=x=>{x/=255;return x<=.03928?x/12.92:Math.pow((x+.055)/1.05
 const cr=(a,c)=>{const x=lum(a),y=lum(c);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
 for(const d of DES)for(const m of MODES)for(const w of [390,360,768]){
   const p=await b.newPage({viewport:{width:w,height:w===768?1024:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message.slice(0,90)));
+  await p.addInitScript(fp=>{if(fp)localStorage.setItem('rafeeq_fontpct',fp)},process.env.FP||'');
   await p.addInitScript(([d,m])=>{if(sessionStorage.__i)return;sessionStorage.__i='1';localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}));localStorage.setItem('rafeeq_onboarded','1')},[d,m]);
   await p.goto(BASE+'/index.html');await p.waitForTimeout(1500);const tag=`${d}/${m}/${w}`;
   await p.evaluate(()=>{window.__rafeeq.show('pray');});await p.waitForTimeout(600);

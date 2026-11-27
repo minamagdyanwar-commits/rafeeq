@@ -1,0 +1,44 @@
+name: فحوص الجودة
+# يعمل على كل Pull Request قبل الدمج: بناء يفشل بوضوح، حارس CSS، فحوص بيانات (مزامير، تقويم/سنكسار)، وفحوص متصفح سريعة على تصميم واحد.
+# الفحص الشامل (كل التصاميم × الوضعين × العروض) يبقى يدويًا: tools/qa/full.sh
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: تثبيت الأدوات (terser/esbuild) وPlaywright
+        run: |
+          npm install --no-audit --no-fund
+          npm install --no-save --no-audit --no-fund playwright@1.49.1
+          npx playwright install --with-deps chromium
+      - name: بيئة الفحص
+        run: |
+          echo "PW=$GITHUB_WORKSPACE/node_modules/playwright/index.mjs" >> "$GITHUB_ENV"
+          echo "CHROME=$(node -e "console.log(require('playwright').chromium.executablePath())")" >> "$GITHUB_ENV"
+      - name: البناء (يفشل برسالة واضحة عند أي خطأ تصغير أو محتوى)
+        run: node tools/build.mjs
+      - name: حارس الـCSS
+        run: node tools/qa/lint-css.mjs
+      - name: سلامة نصوص المزامير (بيانات)
+        run: node tools/qa/psalms.mjs --data
+      - name: التقويم: بدايات الأصوام (١٩٠٠–٢٠٩٩) ومطابقة السنكسار
+        run: |
+          node tools/qa/fasts.mjs
+          node tools/qa/fasts-syn.mjs
+      - name: smoke (كل التصاميم والوضعين + مراجع الرحلات)
+        run: node tools/qa/smoke.mjs
+      - name: فحوص الميزات (تصميم واحد)
+        run: |
+          node tools/qa/bible-notes.mjs classic light
+          node tools/qa/stations.mjs classic light
+          node tools/qa/today.mjs classic light
+          node tools/qa/calset.mjs classic light
+          node tools/qa/ps50.mjs classic light
+          node tools/qa/psalms.mjs classic light

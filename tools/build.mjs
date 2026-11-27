@@ -27,6 +27,7 @@ const tryReq = m => { try { return req(req.resolve(m, { paths: [root, process.en
 const terser = tryReq('terser'), esbuild = tryReq('esbuild');
 const SRCDIR = p('src');
 let compiled = 0;
+const buildErrors = [];
 if (existsSync(SRCDIR)) {
   const rootFiles = readdirSync(root);
   for (const f of readdirSync(SRCDIR)) {
@@ -34,12 +35,20 @@ if (existsSync(SRCDIR)) {
     if (!m) continue;
     const src = readFileSync(join(SRCDIR, f), 'utf8');
     let out = src;
-    if (m[2] === 'js' && terser) {
-      const r = await terser.minify(src, { ecma: 2020, compress: true, mangle: true, format: { comments: false } });
-      if (r.error) throw r.error;
-      out = r.code;
-    } else if (m[2] === 'css' && esbuild) {
-      out = esbuild.transformSync(src, { loader: 'css', minify: true }).code;
+    try {
+      if (m[2] === 'js' && terser) {
+        const r = await terser.minify(src, { ecma: 2020, compress: true, mangle: true, format: { comments: false } });
+        if (r.error) throw r.error;
+        out = r.code;
+      } else if (m[2] === 'css' && esbuild) {
+        out = esbuild.transformSync(src, { loader: 'css', minify: true }).code;
+      }
+    } catch (e) {
+      /* خطأ تصغير: اسم الملف والسطر والعمود بوضوح، ويتوقف البناء (لا يُترك ناتج قديم يبدو سليمًا) */
+      const where = e && e.line != null ? ` (سطر ${e.line}، عمود ${e.col})` : '';
+      const ctx = e && e.line != null ? '\n    ' + src.split('\n')[e.line - 1].slice(Math.max(0, (e.col || 0) - 60), (e.col || 0) + 60) : '';
+      buildErrors.push(`❌ فشل تصغير src/${f}${where}: ${(e && (e.message || e.text)) || e}${ctx}`);
+      continue;
     }
     const cur = rootFiles.find(x => new RegExp(`^${m[1]}\\.[0-9a-f]{10}\\.${m[2]}$`).test(x));
     const target = cur || `${m[1]}.0000000000.${m[2]}`;
@@ -47,6 +56,7 @@ if (existsSync(SRCDIR)) {
   }
 }
 
+if (buildErrors.length) { console.error('\n' + buildErrors.join('\n') + '\n\nتوقّف البناء: لم يُحدَّث index.html ولا sw.js.'); process.exit(1); }
 let html = readFileSync(p('index.html'), 'utf8');
 const renames = new Map();
 for (const f of readdirSync(root)) {

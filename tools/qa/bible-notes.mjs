@@ -15,6 +15,7 @@ const SHOTS=process.argv.includes('--shots');if(SHOTS)mkdirSync('tools/qa/report
 let fail=0;const say=(ok,m)=>{if(!ok)fail++;if(!ok||process.env.V)console.log((ok?'ok   ':'FAIL ')+m)};
 async function open(d,m,w){
   const p=await b.newPage({viewport:{width:w,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message.slice(0,90)));
+  await p.addInitScript(fp=>{if(fp)localStorage.setItem('rafeeq_fontpct',fp)},process.env.FP||'');
   await p.addInitScript(([d,m])=>{if(sessionStorage.__i)return;sessionStorage.__i='1';localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}));localStorage.setItem('rafeeq_onboarded','1')},[d,m]);
   await p.goto(BASE+'/index.html');await p.waitForTimeout(1500);return {p,errs};
 }
@@ -52,6 +53,15 @@ for(const d of DES)for(const m of MODES)for(const w of [390,360,768]){
   say(r.has&&r.order,`${tag} البطاقة موجودة وفي مكانها`);
   say(r.nc===r.en.c&&r.np===r.en.p&&r.nc>0&&r.np>0,`${tag} عدد البنود ${r.nc}/${r.np} (المتوقع ${r.en.c}/${r.en.p} من الداتا)`);
   say(/bn-p/.test(r.marks[0]||'')&&/bn-p/.test(r.marks[1]||''),`${tag} تعليم الآيات ${r.marks}`);
+  if(m==='dark'&&w===390){
+   /* انحدار: في بعض المسارات تغيب سمة data-theme والصفحة داكنة (data-rf-theme=".../1/...") فيجب أن تبقى ألوان الوصية/الوعد داكنة القراءة */
+   const nd=await p.evaluate(()=>{document.documentElement.removeAttribute('data-theme');const cd=document.querySelector('#bnCard');
+    function bgOf(el){const L=[];for(let e=el;e;e=e.parentElement){const c=getComputedStyle(e).backgroundColor,mm=c.match(/[\d.]+/g);if(mm&&(mm[3]===undefined||+mm[3]>0)){L.push(mm.map(Number));if(mm[3]===undefined||+mm[3]===1)break}}let base=[255,255,255];if(!L.length||(L[L.length-1].length===4&&L[L.length-1][3]<1)){const cs=getComputedStyle(document.body).backgroundColor.match(/[\d.]+/g);if(cs)base=cs.slice(0,3).map(Number)}L.reverse().forEach(l=>{const a=l.length===4?l[3]:1;base=[0,1,2].map(i=>base[i]*(1-a)+l[i]*a)});return base}
+    const fg=el=>getComputedStyle(el).color.match(/[\d.]+/g).slice(0,3).map(Number);const o=[];
+    ['.bn-it-c .bn-k','.bn-it-p .bn-k','.bn-it-c .bn-line b','.bn-it-p .bn-line b','.bn-why summary'].forEach(s=>{const e=cd&&cd.querySelector(s);if(e)o.push([s,fg(e),bgOf(e)])});
+    const rf=document.documentElement.getAttribute('data-rf-theme');return {o,rf}});
+   nd.o.forEach(([s,f,bg])=>{const c=cr(f,bg);say(c>=4.5,`${tag} بلا data-theme (${nd.rf}) تباين ${s} = ${c.toFixed(2)}`)});
+  }
   say(r.whys===r.items&&r.items>0,`${tag} «لماذا قيل؟» لكل بند (${r.whys}/${r.items})`);
   say(!r.ov,`${tag} لا تمرير أفقي`);
   r.out.forEach(([s,f,bg])=>{const c=cr(f,bg);say(c>=4.5,`${tag} تباين ${s} = ${c.toFixed(2)}`)});

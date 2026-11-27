@@ -18,6 +18,7 @@ const cr=(a,c)=>{const x=lum(a),y=lum(c);return (Math.max(x,y)+.05)/(Math.min(x,
 const OLD=Date.now()-3*864e5;
 async function open(d,m,w,store){
   const p=await b.newPage({viewport:{width:w,height:w===768?1024:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message.slice(0,90)));
+  await p.addInitScript(fp=>{if(fp)localStorage.setItem('rafeeq_fontpct',fp)},process.env.FP||'');
   await p.addInitScript(([d,m,st])=>{if(sessionStorage.__i)return;sessionStorage.__i='1';localStorage.setItem('rafeeq_v76_design',d);localStorage.setItem('khalwa_settings_v80',JSON.stringify({themeMode:m}));localStorage.setItem('rafeeq_onboarded','1');if(st)localStorage.setItem('rafeeq_prog_v1',JSON.stringify(st))},[d,m,store]);
   await p.goto(BASE+'/index.html');await p.waitForTimeout(1500);return {p,errs};
 }
